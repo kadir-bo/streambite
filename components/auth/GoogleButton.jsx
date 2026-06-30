@@ -40,7 +40,7 @@ export default function GoogleButton({
       await onClick();
     } catch (err) {
       if (err?.code !== "auth/popup-closed-by-user") {
-        setError("Google-Anmeldung fehlgeschlagen. Bitte versuche es erneut.");
+        setError(`Google-Anmeldung fehlgeschlagen (${err?.code || err?.message || 'unbekannter Fehler'})`);
       }
     } finally {
       setLoading(false);
