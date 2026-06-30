@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { X } from "@phosphor-icons/react";
+import { IconBtn } from "@/components";
 import { modal, backdrop } from "@/lib";
 
 export default function Modal({
@@ -59,13 +60,13 @@ export default function Modal({
                 <h2 className="text-(--text-xl) font-(--weight-semibold) text-(--text-primary) leading-[1.2]">
                   {title}
                 </h2>
-                <motion.button
-                  whileTap={{ scale: 0.88 }}
+                <IconBtn
+                  icon={X}
                   onClick={onClose}
-                  className="size-7 max-sm:size-10 rounded-(--radius-base) flex items-center justify-center bg-transparent border-none text-(--text-muted) cursor-pointer shrink-0 mt-0.5 hover:bg-(--state-hover) hover:text-(--text-secondary)"
-                >
-                  <X className="text-xl md:text-lg" />
-                </motion.button>
+                  title="Schließen"
+                  size="sm"
+                  className="mt-0.5"
+                />
               </div>
             )}
 

@@ -1,9 +1,10 @@
 "use client";
 import { useState } from "react";
-import { DotsThreeVertical, Shield, UserMinus } from "@phosphor-icons/react";
+import { Shield, UserMinus } from "@phosphor-icons/react";
 import { setMemberRoles, kickMember } from "@/lib";
 import Avatar from "@/components/layout/Avatar";
 import ContextMenu from "@/components/ui/ContextMenu";
+import DotMenu from "@/components/ui/DotMenu";
 import ConfirmModal from "@/components/modals/ConfirmModal";
 
 function RoleBadge({ roles }) {
@@ -87,12 +88,7 @@ export default function MemberRow({ member, isOffline, serverId, canManage }) {
         </span>
         <RoleBadge roles={member.roles} />
         {canManage && !isOwner && (
-          <button
-            onClick={openMenu}
-            className="flex shrink-0 size-6 items-center justify-center rounded-(--radius-sm) border-none bg-transparent text-(--text-muted) opacity-0 group-hover:opacity-100 hover:bg-(--state-active) hover:text-(--text-secondary) cursor-pointer text-sm md:text-base"
-          >
-            <DotsThreeVertical weight="bold" />
-          </button>
+          <DotMenu onClick={openMenu} />
         )}
       </div>
 

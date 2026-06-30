@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation";
 import {
   UsersThree,
   ChatCircleText,
-  DotsThreeVertical,
   MagnifyingGlass,
 } from "@phosphor-icons/react";
+import IconBtn from "@/components/ui/IconBtn";
+import DotMenu from "@/components/ui/DotMenu";
 import { useAuth, useLayout } from "@/context";
 import { useFriends, useFriendActions } from "@/hooks";
 import { ensureDm } from "@/lib";
@@ -93,22 +94,15 @@ function FriendRow({ user }) {
         </div>
 
         <div className="flex items-center gap-1.5 shrink-0">
-          <button
+          <IconBtn
+            icon={ChatCircleText}
             onClick={openDm}
-            disabled={opening}
             title="Nachricht senden"
-            className="size-8 max-sm:size-10 rounded-full border-none bg-(--surface-overlay) text-(--text-secondary) flex items-center justify-center cursor-pointer hover:text-(--text-primary)"
-          >
-            <ChatCircleText weight="fill" className="text-xl md:text-lg" />
-          </button>
+            rounded="full"
+            className="bg-(--surface-overlay) text-(--text-secondary) hover:text-(--text-primary)"
+          />
 
-          <button
-            onClick={openMenu}
-            title="Mehr"
-            className={`size-8 max-sm:size-10 rounded-full border-none flex items-center justify-center cursor-pointer hover:text-(--text-primary) ${menuOpen ? "bg-(--surface-raised) text-(--text-primary)" : "bg-(--surface-overlay) text-(--text-secondary)"}`}
-          >
-            <DotsThreeVertical weight="bold" className="text-sm md:text-base" />
-          </button>
+          <DotMenu onClick={openMenu} />
         </div>
       </div>
 

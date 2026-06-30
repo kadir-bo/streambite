@@ -76,6 +76,9 @@ export { default as UsernamePromptModal } from "./user/UsernamePromptModal";
 
 // UI
 export { default as Button } from "./ui/Button";
+export { default as IconBtn } from "./ui/IconBtn";
+export { default as DotMenu } from "./ui/DotMenu";
+export { default as Badge } from "./ui/Badge";
 export { default as Input } from "./ui/Input";
 export { default as Modal } from "./ui/Modal";
 export { default as ContextMenu } from "./ui/ContextMenu";

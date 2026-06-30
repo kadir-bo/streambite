@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
   ChatsCircle,
-  DotsThreeVertical,
   ChatCircleText,
   XCircle,
 } from "@phosphor-icons/react";
@@ -13,6 +12,7 @@ import { useUnread, useFriendActions } from "@/hooks";
 import NavRow from "@/components/layout/NavRow";
 import Avatar from "@/components/layout/Avatar";
 import ContextMenu from "@/components/ui/ContextMenu";
+import DotMenu from "@/components/ui/DotMenu";
 
 export default function DmRow({ dm, otherUid, active }) {
   const { firebaseUser } = useAuth();
@@ -98,13 +98,7 @@ export default function DmRow({ dm, otherUid, active }) {
             )}
           </span>
 
-          <button
-            onClick={openMenu}
-            title="Mehr"
-            className="size-5 flex items-center justify-center rounded-sm border-none bg-transparent text-(--text-muted) group-hover:opacity-100 hover:bg-(--state-active) hover:text-(--text-secondary) cursor-pointer shrink-0 max-sm:size-10 max-sm:opacity-100 text-sm md:text-base"
-          >
-            <DotsThreeVertical weight="bold" />
-          </button>
+          <DotMenu onClick={openMenu} />
         </div>
       </NavRow>
 

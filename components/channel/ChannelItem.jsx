@@ -6,7 +6,6 @@ import { motion } from "motion/react";
 import {
   Hash,
   SpeakerHigh,
-  DotsThreeVertical,
   PencilSimple,
   Trash,
   CheckCircle,
@@ -15,6 +14,7 @@ import { useAuth, useServer, useVoice, useLayout } from "@/context";
 import { useUnread, useIsDesktop } from "@/hooks";
 import { markRead, deleteChannel } from "@/lib";
 import ContextMenu from "@/components/ui/ContextMenu";
+import DotMenu from "@/components/ui/DotMenu";
 import ConfirmModal from "@/components/modals/ConfirmModal";
 import RenameChannelModal from "@/components/channel/RenameChannelModal";
 import Avatar from "@/components/layout/Avatar";
@@ -167,12 +167,7 @@ export default function ChannelItem({ channel, serverId, isActive, isOwner }) {
         </Link>
 
         {menuItems.length > 0 && (
-          <button
-            onClick={openMenu}
-            className="flex shrink-0 size-6  items-center justify-center rounded-(--radius-sm) border-none bg-transparent text-(--text-muted) opacity-100 group-hover:opacity-100 hover:bg-(--state-active) hover:text-(--text-secondary) cursor-pointer max-sm:size-10 max-sm:opacity-100 text-base"
-          >
-            <DotsThreeVertical weight="bold" className="text-sm md:text-base" />
-          </button>
+          <DotMenu onClick={openMenu} />
         )}
       </div>
 

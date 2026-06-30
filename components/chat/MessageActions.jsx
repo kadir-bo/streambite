@@ -12,20 +12,17 @@ import {
 } from "@phosphor-icons/react";
 import { messageActions, toggleReaction } from "@/lib";
 import EmojiPicker from "@/components/chat/EmojiPicker";
+import IconBtn from "@/components/ui/IconBtn";
 
-function ActionBtn({ icon: Icon, title, onClick, danger }) {
+function ActionBtn({ icon, title, onClick, danger }) {
   return (
-    <button
-      title={title}
+    <IconBtn
+      icon={icon}
       onClick={onClick}
-className={`size-8 max-sm:size-10 rounded-(--radius-base) flex items-center justify-center transition-colors duration-100 ${
-          danger
-            ? "text-(--danger) hover:bg-(--danger-subtle)"
-            : "text-(--text-muted) hover:bg-(--state-hover) hover:text-(--text-primary)"
-        }`}
-      >
-        <Icon weight="bold" className="text-xl md:text-lg" />
-    </button>
+      title={title}
+      variant={danger ? "danger" : "ghost"}
+      className={danger ? "" : "hover:text-(--text-primary)"}
+    />
   );
 }
 

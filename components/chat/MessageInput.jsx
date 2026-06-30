@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { AnimatePresence } from "motion/react";
 import {
   Paperclip,
   Smiley,
@@ -20,6 +20,7 @@ import {
 } from "@/lib";
 import EmojiPicker from "@/components/chat/EmojiPicker";
 import ReplyPreview from "@/components/chat/ReplyPreview";
+import IconBtn from "@/components/ui/IconBtn";
 
 const MAX_FILE_SIZE = 8 * 1024 * 1024; // 8MB
 
@@ -255,13 +256,13 @@ export default function MessageInput({
         className={`flex items-end gap-2 p-1 mt-5 border border-(--border-subtle) bg-(--surface-raised) ${replyTarget || attachments.length > 0 ? "rounded-b-(--radius-base)" : "rounded-(--radius-base)"}`}
       >
         {/* Attach */}
-        <button
-          title="Datei anh\u00e4ngen"
+        <IconBtn
+          icon={Paperclip}
           onClick={() => fileInputRef.current?.click()}
-          className="flex size-8 max-sm:size-10 shrink-0 items-center justify-center rounded-sm text-(--text-muted) transition-colors duration-100 hover:text-(--text-primary)"
-        >
-          <Paperclip weight="bold" className="text-xl md:text-lg" />
-        </button>
+          title="Datei anh\u00e4ngen"
+          rounded="sm"
+          className="hover:text-(--text-primary)"
+        />
         <input
           ref={fileInputRef}
           type="file"
@@ -292,13 +293,13 @@ export default function MessageInput({
 
         {/* Emoji */}
         <div className="relative shrink-0">
-          <button
-            title="Emoji"
+          <IconBtn
+            icon={Smiley}
             onClick={() => setEmojiOpen((v) => !v)}
-            className="flex size-8 max-sm:size-10 items-center justify-center rounded-sm text-(--text-muted) transition-colors duration-100 hover:text-(--text-primary)"
-          >
-            <Smiley weight="bold" className="text-xl md:text-lg" />
-          </button>
+            title="Emoji"
+            rounded="sm"
+            className="hover:text-(--text-primary)"
+          />
           <AnimatePresence>
             {emojiOpen && (
               <EmojiPicker
@@ -312,21 +313,19 @@ export default function MessageInput({
         {/* Send */}
         <AnimatePresence>
           {hasContent && (
-            <motion.button
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              whileTap={{ scale: 0.9 }}
+            <IconBtn
+              icon={PaperPlaneTilt}
               onClick={handleSend}
+              title="Senden"
+              rounded="sm"
+              variant="primary"
               disabled={pending}
-              className={`flex size-8 max-sm:size-10 shrink-0 items-center justify-center rounded-sm bg-(--text-primary) text-(--surface-deepest) ${pending ? "opacity-60" : "opacity-100"}`}
+              iconWeight="fill"
             >
-              {pending ? (
+              {pending && (
                 <span className="block size-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" />
-              ) : (
-                <PaperPlaneTilt weight="fill" className="text-xl md:text-lg" />
               )}
-            </motion.button>
+            </IconBtn>
           )}
         </AnimatePresence>
       </div>

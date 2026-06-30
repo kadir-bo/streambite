@@ -8,6 +8,7 @@ import { useMediaQuery } from "@/hooks";
 import { subscribeToServerMembers } from "@/lib";
 import SectionLabel from "@/components/ui/SectionLabel";
 import MemberRow from "@/components/layout/MemberRow";
+import IconBtn from "@/components/ui/IconBtn";
 
 export default function MemberSidebar() {
   const { servers, activeServerId, showMembers, toggleMembers } = useServer();
@@ -70,13 +71,7 @@ export default function MemberSidebar() {
                 <span className="text-sm font-semibold text-(--text-primary)">
                   Mitglieder
                 </span>
-                <button
-                  onClick={toggleMembers}
-                  title="Schließen"
-                  className="flex size-8 max-sm:size-10 items-center justify-center rounded-(--radius-base) border-none bg-transparent text-(--text-muted) cursor-pointer hover:bg-(--state-hover) hover:text-(--text-secondary)"
-                >
-                  <X className="text-xl md:text-lg" />
-                </button>
+                <IconBtn icon={X} onClick={toggleMembers} title="Schließen" />
               </div>
             )}
 

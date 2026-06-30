@@ -10,6 +10,7 @@ import {
   PhoneDisconnect,
 } from "@phosphor-icons/react";
 import { useVoice } from "@/context";
+import IconBtn from "@/components/ui/IconBtn";
 
 // On desktop the persistent voice controls live in UserPanel, always visible
 // in the sidebar. On mobile the sidebar is hidden while viewing the content
@@ -38,31 +39,27 @@ export default function MobileVoiceStatusBar() {
         </span>
       </Link>
 
-      <button
+      <IconBtn
+        icon={muted ? MicrophoneSlash : Microphone}
         onClick={toggleMute}
         title={muted ? "Stummschaltung aufheben" : "Stummschalten"}
-        className={`flex size-9 max-sm:size-10 shrink-0 items-center justify-center rounded-(--radius-base) border-none bg-transparent cursor-pointer text-lg ${
-          muted ? "text-(--danger)" : "text-(--text-secondary)"
-        }`}
-      >
-        {muted ? <MicrophoneSlash /> : <Microphone />}
-      </button>
-      <button
+        size="lg"
+        variant={muted ? "danger" : "ghost"}
+      />
+      <IconBtn
+        icon={Headphones}
         onClick={toggleDeafen}
         title={deafened ? "Hörgerät aktivieren" : "Tauben schalten"}
-        className={`flex size-9 max-sm:size-10 shrink-0 items-center justify-center rounded-(--radius-base) border-none bg-transparent cursor-pointer text-lg ${
-          deafened ? "text-(--danger)" : "text-(--text-secondary)"
-        }`}
-      >
-        <Headphones />
-      </button>
-      <button
+        size="lg"
+        variant={deafened ? "danger" : "ghost"}
+      />
+      <IconBtn
+        icon={PhoneDisconnect}
         onClick={disconnect}
         title="Sprachkanal verlassen"
-        className="flex size-9 max-sm:size-10 shrink-0 items-center justify-center rounded-(--radius-base) border-none bg-transparent text-(--danger) cursor-pointer text-lg"
-      >
-        <PhoneDisconnect />
-      </button>
+        size="lg"
+        variant="danger"
+      />
     </div>
   );
 }

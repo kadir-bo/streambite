@@ -3,13 +3,13 @@
 import { useState } from "react";
 import {
   MicrophoneSlash,
-  DotsThreeVertical,
   UserMinus,
 } from "@phosphor-icons/react";
 import { useVoice } from "@/context";
 import Avatar from "../layout/Avatar";
 import ContextMenu from "@/components/ui/ContextMenu";
 import ConfirmModal from "@/components/modals/ConfirmModal";
+import DotMenu from "@/components/ui/DotMenu";
 
 export default function ParticipantTile({ participant, isOwner }) {
   const { removeFromVoice } = useVoice();
@@ -44,12 +44,10 @@ export default function ParticipantTile({ participant, isOwner }) {
   return (
     <div className="group relative flex select-none flex-col items-center gap-3 rounded-(--radius-base) bg-(--surface-raised) border border-(--border-subtle) aspect-video p-4 w-full min-w-0 justify-center">
       {canManage && (
-        <button
+        <DotMenu
           onClick={openMenu}
-          className="absolute right-1.5 top-1.5 flex size-6 items-center justify-center rounded-(--radius-sm) border-none bg-transparent text-(--text-muted) opacity-0 group-hover:opacity-100 hover:bg-(--state-hover) hover:text-(--text-secondary) cursor-pointer max-sm:size-10 max-sm:opacity-100 text-sm md:text-base"
-          >
-            <DotsThreeVertical weight="bold" />
-        </button>
+          className="absolute right-1.5 top-1.5"
+        />
       )}
 
       <div

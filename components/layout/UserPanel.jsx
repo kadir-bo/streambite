@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { motion } from "motion/react";
+import IconBtn from "@/components/ui/IconBtn";
 import {
   Gear,
   SignOut,
@@ -242,18 +242,13 @@ export default function UserPanel() {
             </div>
           </button>
           <div className="flex items-center shrink-0 max-sm:gap-2">
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              title={muted ? "Stummschaltung aufheben" : "Stummschalten"}
+            <IconBtn
+              icon={muted ? MicrophoneSlash : Microphone}
               onClick={toggleMute}
-              className={`flex size-8 shrink-0 items-center justify-center border-none cursor-pointer text-xl md:text-lg transition-all duration-100 max-sm:size-10 max-sm:rounded-full ${
-                muted
-                  ? "text-white bg-(--danger)"
-                  : "text-(--text-muted) bg-transparent hover:bg-(--state-hover) hover:text-(--text-secondary)"
-              }`}
-            >
-              {muted ? <MicrophoneSlash /> : <Microphone />}
-            </motion.button>
+              title={muted ? "Stummschaltung aufheben" : "Stummschalten"}
+              variant={muted ? "danger" : "ghost"}
+              className={`max-sm:rounded-full max-sm:size-10 ${muted ? "!bg-(--danger) !text-white" : ""}`}
+            />
 
             <button
               onClick={openInputMenu}
@@ -264,18 +259,12 @@ export default function UserPanel() {
             </button>
           </div>
           <div className="hidden sm:flex items-center rounded-(--radius-base) overflow-hidden shrink-0 group">
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              title={deafened ? "Hörgerät aktivieren" : "Tauben schalten"}
+            <IconBtn
+              icon={Headphones}
               onClick={toggleDeafen}
-              className={`flex size-8 items-center justify-center border-none bg-transparent transition-[background] duration-100 cursor-pointer text-xl md:text-lg h-full group-hover:bg-(--state-hover)/50 ${
-                deafened
-                  ? "text-(--danger)"
-                  : "text-(--text-muted) hover:bg-(--state-hover) hover:text-(--text-secondary)"
-              }`}
-            >
-              <Headphones />
-            </motion.button>
+              title={deafened ? "Hörgerät aktivieren" : "Tauben schalten"}
+              variant={deafened ? "danger" : "ghost"}
+            />
 
             <button
               onClick={openOutputMenu}
@@ -287,14 +276,12 @@ export default function UserPanel() {
           </div>
 
           {inVoice && (
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              title="Sprachkanal verlassen"
+            <IconBtn
+              icon={PhoneDisconnect}
               onClick={disconnect}
-              className="flex size-8 max-sm:size-10 shrink-0 cursor-pointer items-center justify-center rounded-(--radius-base) border-none bg-transparent text-(--danger) transition-[background] duration-100 hover:bg-(--state-hover) text-xl md:text-lg"
-            >
-              <PhoneDisconnect />
-            </motion.button>
+              title="Sprachkanal verlassen"
+              variant="danger"
+            />
           )}
         </div>
       </div>

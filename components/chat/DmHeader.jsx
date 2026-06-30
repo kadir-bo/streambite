@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { DotsThreeVertical, XCircle, CaretLeft } from "@phosphor-icons/react";
+import { XCircle, CaretLeft } from "@phosphor-icons/react";
 import { useAuth, useLayout } from "@/context";
 import { useFriendActions } from "@/hooks";
 import { closeDm } from "@/lib";
 import Avatar from "@/components/layout/Avatar";
 import ContextMenu from "@/components/ui/ContextMenu";
+import IconBtn from "@/components/ui/IconBtn";
+import DotMenu from "@/components/ui/DotMenu";
 
 const STATUS_LABELS = {
   online: "Online",
@@ -48,13 +50,13 @@ export default function DmHeader({ user, dmId }) {
 
   return (
     <header className="flex shrink-0 items-center gap-2.5 border-b border-(--border-subtle) bg-(--surface-base) px-4 h-(--header-channel)">
-      <button
+      <IconBtn
+        icon={CaretLeft}
         onClick={showList}
         title="Zurück"
-className="flex size-7 max-sm:size-10 shrink-0 items-center justify-center rounded-(--radius-base) border-none bg-transparent text-(--text-muted) cursor-pointer md:hidden hover:bg-(--state-hover) hover:text-(--text-secondary) text-xl md:text-lg"
-        >
-          <CaretLeft />
-        </button>
+        size="sm"
+        mobileOnly
+      />
 
         <Avatar
           src={user?.avatarUrl}
@@ -72,13 +74,7 @@ className="flex size-7 max-sm:size-10 shrink-0 items-center justify-center round
         </div>
 
         {user && (
-          <button
-            onClick={openMenu}
-            title="Mehr"
-            className="flex size-7 max-sm:size-10 shrink-0 items-center justify-center rounded-(--radius-base) border-none bg-transparent text-(--text-muted) cursor-pointer hover:bg-(--state-hover) hover:text-(--text-secondary) text-sm md:text-base"
-        >
-          <DotsThreeVertical weight="bold" />
-        </button>
+          <DotMenu onClick={openMenu} />
       )}
 
       <ContextMenu

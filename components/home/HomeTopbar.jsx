@@ -14,6 +14,8 @@ import AddFriendModal from "@/components/home/AddFriendModal";
 import IncomingRequestsPopover from "@/components/home/IncomingRequestsPopover";
 import { motion } from "framer-motion";
 import { useLayout } from "@/context";
+import IconBtn from "@/components/ui/IconBtn";
+import Badge from "@/components/ui/Badge";
 
 export default function HomeTopbar() {
   const { incomingRequests } = useFriends();
@@ -40,13 +42,13 @@ export default function HomeTopbar() {
     <>
       <header className="flex shrink-0 items-center justify-between gap-2 border-b border-(--border-subtle) bg-(--surface-base) px-2 sm:px-4 py-2 md:h-(--header-channel)">
         <div className="flex min-w-0 items-center gap-2 sm:gap-3.5">
-          <button
+          <IconBtn
+            icon={CaretLeft}
             onClick={showList}
             title="Zurück"
-            className="flex size-10 shrink-0 items-center justify-center rounded-(--radius-base) border-none bg-transparent text-(--text-muted) cursor-pointer md:hidden hover:bg-(--state-hover) hover:text-(--text-secondary) text-xl md:text-lg"
-          >
-            <CaretLeft />
-          </button>
+            size="xl"
+            mobileOnly
+          />
 
           <div className="hidden items-center gap-2 sm:flex">
             <UsersThree
@@ -70,29 +72,24 @@ export default function HomeTopbar() {
         </div>
 
         <div className="flex items-center gap-2">
-          <button
-            ref={inboxBtnRef}
-            onClick={(e) => {
-              e.stopPropagation();
-              toggleInbox();
-            }}
-            title="Posteingang"
-            className={`relative flex size-12 text-xl md:text-lg cursor-pointer items-center justify-center rounded-(--radius-base) border-none ${inboxOpen ? "bg-(--state-active) text-(--text-primary)" : "bg-transparent text-(--text-muted) hover:bg-(--state-hover)"}`}
-          >
-            <BellSimple weight={totalNotifications > 0 ? "fill" : "regular"} />
-            {totalNotifications > 0 && (
-              <span className="absolute -right-1 -top-0.5 flex min-w-[20px] items-center justify-center rounded-full border-2 border-(--surface-base) bg-(--danger) px-1 py-0.5 text-[10px] font-(--weight-bold) leading-none text-white">
-                {totalNotifications}
-              </span>
-            )}
-          </button>
-          <button
+          <div ref={inboxBtnRef} className="relative">
+            <IconBtn
+              icon={BellSimple}
+              onClick={(e) => { e.stopPropagation(); toggleInbox(); }}
+              title="Posteingang"
+              size="xl"
+              variant={inboxOpen ? "active" : "ghost"}
+              iconWeight={totalNotifications > 0 ? "fill" : "regular"}
+            />
+            <Badge count={totalNotifications} />
+          </div>
+          <IconBtn
+            icon={UsersThreeIcon}
             onClick={toggleActiveNow}
             title="Aktive Freunde"
-            className={`relative hidden md:flex size-8 cursor-pointer items-center justify-center rounded-(--radius-base) border-none text-xl md:text-lg ${activeNowSidebar ? "bg-(--state-active) text-(--text-primary)" : "bg-transparent text-(--text-muted) hover:bg-(--state-hover)"}`}
-          >
-            <UsersThreeIcon weight={activeNowSidebar ? "fill" : "regular"} />
-          </button>
+            variant={activeNowSidebar ? "active" : "ghost"}
+            desktopOnly
+          />
         </div>
       </header>
 

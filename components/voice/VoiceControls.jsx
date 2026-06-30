@@ -8,6 +8,7 @@ import {
   MonitorPlay,
 } from "@phosphor-icons/react";
 import { useVoice } from "@/context";
+import IconBtn from "@/components/ui/IconBtn";
 
 export default function VoiceControls() {
   const { muted, deafened, screenShare, toggleMute, toggleDeafen, toggleScreenShare, disconnect } =
@@ -15,49 +16,41 @@ export default function VoiceControls() {
 
   return (
     <div className="flex items-center gap-2.5">
-      <button
+      <IconBtn
+        icon={muted ? MicrophoneSlash : Microphone}
         onClick={toggleMute}
         title={muted ? "Stummschaltung aufheben" : "Stummschalten"}
-        className={`flex size-10 items-center justify-center rounded-full border-none cursor-pointer ${
-          muted
-            ? "bg-(--danger) text-white"
-            : "bg-(--surface-raised) text-(--text-secondary) hover:bg-(--state-hover)"
-        }`}
-      >
-        {muted ? <MicrophoneSlash className="text-xl md:text-lg" /> : <Microphone className="text-xl md:text-lg" />}
-      </button>
+        size="xl"
+        rounded="full"
+        variant={muted ? "danger-solid" : "ghost"}
+      />
 
-      <button
+      <IconBtn
+        icon={Headphones}
         onClick={toggleDeafen}
         title={deafened ? "Hörgerät aktivieren" : "Tauben schalten"}
-        className={`flex size-10 items-center justify-center rounded-full border-none cursor-pointer ${
-          deafened
-            ? "bg-(--danger) text-white"
-            : "bg-(--surface-raised) text-(--text-secondary) hover:bg-(--state-hover)"
-        }`}
-      >
-        <Headphones className="text-xl md:text-lg" />
-      </button>
+        size="xl"
+        rounded="full"
+        variant={deafened ? "danger-solid" : "ghost"}
+      />
 
-      <button
+      <IconBtn
+        icon={MonitorPlay}
         onClick={toggleScreenShare}
         title={screenShare ? "Bildschirmfreigabe beenden" : "Bildschirm teilen"}
-        className={`flex size-10 items-center justify-center rounded-full border-none cursor-pointer ${
-          screenShare
-            ? "bg-(--accent) text-white"
-            : "bg-(--surface-raised) text-(--text-secondary) hover:bg-(--state-hover)"
-        }`}
-      >
-        <MonitorPlay className="text-xl md:text-lg" />
-      </button>
+        size="xl"
+        rounded="full"
+        className={screenShare ? "bg-(--accent) text-white hover:opacity-90" : "bg-(--surface-raised) text-(--text-secondary) hover:bg-(--state-hover)"}
+      />
 
-      <button
+      <IconBtn
+        icon={PhoneDisconnect}
         onClick={disconnect}
         title="Sprachkanal verlassen"
-        className="flex size-10 items-center justify-center rounded-full border-none bg-(--danger) text-white cursor-pointer hover:opacity-90"
-      >
-        <PhoneDisconnect className="text-xl md:text-lg" />
-      </button>
+        size="xl"
+        rounded="full"
+        variant="danger-solid"
+      />
     </div>
   );
 }

@@ -9,6 +9,7 @@ import { useFriends } from "@/hooks";
 import { useAuth } from "@/context";
 import RequestRow from "@/components/layout/RequestRow";
 import ServerIcon from "@/components/server/ServerIcon";
+import IconBtn from "@/components/ui/IconBtn";
 
 export default function IncomingRequestsPopover({ open, onClose, anchorRect, pendingInvites = [] }) {
   const { incomingRequests } = useFriends();
@@ -146,30 +147,8 @@ function ServerInviteRow({ invite, uid }) {
         </p>
       </div>
       <div className="flex shrink-0 gap-1">
-        <button
-          onClick={handleAccept}
-          disabled={!!loading}
-          title="Beitreten"
-          className={`flex size-7 max-sm:size-10 cursor-pointer items-center justify-center rounded-full border border-(--border-subtle) text-(--status-online) ${
-            loading === "accept"
-              ? "bg-(--state-active)"
-              : "bg-(--surface-raised) hover:bg-(--state-hover)"
-          }`}
-        >
-            <Check weight="bold" className="text-xl md:text-lg" />
-        </button>
-        <button
-          onClick={handleDecline}
-          disabled={!!loading}
-          title="Ablehnen"
-          className={`flex size-7 max-sm:size-10 cursor-pointer items-center justify-center rounded-full border border-(--border-subtle) text-(--danger) ${
-            loading === "decline"
-              ? "bg-(--state-active)"
-              : "bg-(--surface-raised) hover:bg-(--state-hover)"
-          }`}
-        >
-            <X weight="bold" className="text-xl md:text-lg" />
-        </button>
+        <IconBtn icon={Check} onClick={handleAccept} title="Annehmen" variant="primary" disabled={!!loading} rounded="full" />
+        <IconBtn icon={X} onClick={handleDecline} title="Ablehnen" variant="danger" disabled={!!loading} rounded="full" />
       </div>
     </div>
   );

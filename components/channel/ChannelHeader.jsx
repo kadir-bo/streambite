@@ -6,27 +6,10 @@ import {
   UsersThree,
   CaretLeft,
 } from "@phosphor-icons/react";
-import { motion } from "motion/react";
+import { IconBtn } from "@/components";
 import { useLayout } from "@/context";
 
 const TYPE_ICON = { text: Hash, voice: SpeakerHigh };
-
-function HeaderIconBtn({ icon, title, onClick, active }) {
-  return (
-    <motion.button
-      whileTap={{ scale: 0.9 }}
-      title={title}
-      onClick={onClick}
-      className={`size-7 max-sm:size-10 rounded-(--radius-base) flex items-center justify-center border-none cursor-pointer text-xl md:text-lg ${
-        active
-          ? "text-(--text-primary) bg-(--state-active)"
-          : "text-(--text-muted) bg-transparent hover:text-(--text-secondary) hover:bg-(--state-hover)"
-      }`}
-    >
-      {icon}
-    </motion.button>
-  );
-}
 
 export default function ChannelHeader({
   channel,
@@ -38,13 +21,13 @@ export default function ChannelHeader({
 
   return (
     <header className="h-(--header-channel) bg-(--surface-base) border-b border-(--border-subtle) flex items-center px-4 gap-2 shrink-0">
-      <button
+      <IconBtn
+        icon={CaretLeft}
         onClick={showList}
         title="Zurück"
-        className="flex size-7 max-sm:size-10 shrink-0 items-center justify-center rounded-(--radius-base) border-none bg-transparent text-(--text-muted) cursor-pointer md:hidden hover:bg-(--state-hover) hover:text-(--text-secondary) text-xl md:text-lg"
-      >
-        <CaretLeft />
-      </button>
+        size="sm"
+        mobileOnly
+      />
 
       <div className="flex items-center gap-1.5 flex-1 min-w-0">
         <Icon
@@ -65,11 +48,11 @@ export default function ChannelHeader({
       </div>
 
       <div className="flex items-center gap-0.5 shrink-0">
-        <HeaderIconBtn
-          icon={<UsersThree />}
-          title="Mitglieder"
+        <IconBtn
+          icon={UsersThree}
           onClick={onToggleMembers}
-          active={showMembers}
+          title="Mitglieder"
+          variant={showMembers ? "active" : "ghost"}
         />
       </div>
     </header>

@@ -6,6 +6,7 @@ import Modal from "@/components/ui/Modal";
 import Select from "@/components/ui/Select";
 import ProfileSettings from "@/components/user/ProfileSettings";
 import VoiceVideoSettings from "@/components/user/VoiceVideoSettings";
+import IconBtn from "@/components/ui/IconBtn";
 
 const TABS = [
   { id: "profile", label: "Mein Profil", icon: User },
@@ -48,12 +49,7 @@ export default function UserSettingsModal({ open, onClose }) {
 
         {/* Tab-Dropdown Mobile */}
         <div className="sm:hidden flex items-center gap-3 border-b border-(--border-subtle) px-2 py-2">
-          <button
-            onClick={onClose}
-            className="flex size-8 max-sm:size-10 shrink-0 items-center justify-center rounded-(--radius-base) border-none bg-transparent text-(--text-muted) cursor-pointer hover:bg-(--state-hover) hover:text-(--text-secondary)"
-          >
-            <CaretLeft className="text-xl" />
-          </button>
+          <IconBtn icon={CaretLeft} onClick={onClose} title="Zurück" size="sm" mobileOnly />
           <div className="flex-1">
             <Select
               value={tab}
