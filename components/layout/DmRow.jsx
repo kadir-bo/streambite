@@ -50,7 +50,7 @@ export default function DmRow({ dm, otherUid, active }) {
 
   const menuItems = [
     {
-      icon: <ChatCircleText size={14} />,
+      icon: <ChatCircleText />,
       label: "Nachricht senden",
       onClick: openDm,
     },
@@ -58,7 +58,7 @@ export default function DmRow({ dm, otherUid, active }) {
     ...friendActions.items,
     { divider: true },
     {
-      icon: <XCircle size={14} />,
+      icon: <XCircle />,
       label: "Unterhaltung schließen",
       onClick: handleCloseConversation,
     },
@@ -101,9 +101,9 @@ export default function DmRow({ dm, otherUid, active }) {
           <button
             onClick={openMenu}
             title="Mehr"
-            className="size-5 flex items-center justify-center rounded-sm border-none bg-transparent text-(--text-muted) group-hover:opacity-100 hover:bg-(--state-active) hover:text-(--text-secondary) cursor-pointer shrink-0"
+            className="size-5 flex items-center justify-center rounded-sm border-none bg-transparent text-(--text-muted) group-hover:opacity-100 hover:bg-(--state-active) hover:text-(--text-secondary) cursor-pointer shrink-0 max-sm:size-10 max-sm:opacity-100 text-sm md:text-base"
           >
-            <DotsThreeVertical size={13} weight="bold" />
+            <DotsThreeVertical weight="bold" />
           </button>
         </div>
       </NavRow>

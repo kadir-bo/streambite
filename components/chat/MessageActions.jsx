@@ -18,13 +18,13 @@ function ActionBtn({ icon: Icon, title, onClick, danger }) {
     <button
       title={title}
       onClick={onClick}
-      className={`size-8 rounded-(--radius-base) flex items-center justify-center transition-colors duration-100 ${
-        danger
-          ? "text-(--danger) hover:bg-(--danger-subtle)"
-          : "text-(--text-muted) hover:bg-(--state-hover) hover:text-(--text-primary)"
-      }`}
-    >
-      <Icon size={16} weight="bold" />
+className={`size-8 max-sm:size-10 rounded-(--radius-base) flex items-center justify-center transition-colors duration-100 ${
+          danger
+            ? "text-(--danger) hover:bg-(--danger-subtle)"
+            : "text-(--text-muted) hover:bg-(--state-hover) hover:text-(--text-primary)"
+        }`}
+      >
+        <Icon weight="bold" className="text-xl md:text-lg" />
     </button>
   );
 }
@@ -39,7 +39,7 @@ function DropdownItem({ icon: Icon, label, onClick, danger }) {
           : "text-(--text-secondary) hover:bg-(--state-hover) hover:text-(--text-primary)"
       }`}
     >
-      <Icon size={14} weight="bold" />
+      <Icon weight="bold" className="text-xl md:text-lg" />
       {label}
     </button>
   );

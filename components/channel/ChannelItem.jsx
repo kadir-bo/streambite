@@ -11,7 +11,7 @@ import {
   Trash,
   CheckCircle,
 } from "@phosphor-icons/react";
-import { useAuth, useServer, useVoice } from "@/context";
+import { useAuth, useServer, useVoice, useLayout } from "@/context";
 import { useUnread, useIsDesktop } from "@/hooks";
 import { markRead, deleteChannel } from "@/lib";
 import ContextMenu from "@/components/ui/ContextMenu";
@@ -28,17 +28,20 @@ export default function ChannelItem({ channel, serverId, isActive, isOwner }) {
   const { firebaseUser } = useAuth();
   const { voicePresence, channels } = useServer();
   const { participants: liveParticipants, connection, connect } = useVoice();
+  const { showContent } = useLayout();
+  const isDesktop = useIsDesktop();
   const isLastOfType =
     channels.filter((ch) => ch.type === channel.type).length <= 1;
-  const isDesktop = useIsDesktop();
 
-  // Desktop convenience: a single click joins the voice channel immediately
-  // instead of requiring an extra click on "beitreten" once the channel view
-  // loads. On touch devices, a click just navigates so the explicit join
-  // button stays the (more discoverable, less accidental) way in.
+  // Single click:
+  // - Mobile: sidebar schließen → Content anzeigen für Text + Voice
+  // - Desktop: Voice sofort joinen (kein extra Tap)
+  // - Mobile Voice: nur navigieren, JOIN-Button im Channel-Screen
   function handleClick() {
-    if (channel.type !== "voice" || !isDesktop) return;
-    connect(serverId, channel.id, channel.name);
+    if (!isDesktop) showContent(); // Mobile: Sidebar schließen
+    if (isDesktop && channel.type === "voice") {
+      connect(serverId, channel.id, channel.name); // Desktop: Auto-Join
+    }
   }
   const Icon = TYPE_ICON[channel.type] ?? Hash;
   const { isUnread } = useUnread();
@@ -94,7 +97,7 @@ export default function ChannelItem({ channel, serverId, isActive, isOwner }) {
     ...(channel.type === "text"
       ? [
           {
-            icon: <CheckCircle size={14} />,
+            icon: <CheckCircle />,
             label: "Als gelesen markieren",
             onClick: () =>
               firebaseUser && markRead(firebaseUser.uid, channel.id),
@@ -105,12 +108,12 @@ export default function ChannelItem({ channel, serverId, isActive, isOwner }) {
     ...(isOwner
       ? [
           {
-            icon: <PencilSimple size={14} />,
+            icon: <PencilSimple />,
             label: "Kanal umbenennen",
             onClick: () => setShowRename(true),
           },
           {
-            icon: <Trash size={14} />,
+            icon: <Trash />,
             label: "Kanal löschen",
             danger: true,
             disabled: isLastOfType,
@@ -130,7 +133,7 @@ export default function ChannelItem({ channel, serverId, isActive, isOwner }) {
       transition={{ duration: 0.15 }}
     >
       <div
-        className={`group flex select-none items-center gap-1.5 pl-4 pr-2 py-1.5 mx-2 my-px rounded-(--radius-base) transition-colors duration-100 ${
+        className={`group flex select-none items-center gap-1.5 pl-4 pr-2 py-1.5 mx-2 my-px rounded-(--radius-base) transition-colors duration-100 max-sm:py-2.5 max-sm:min-h-11 max-sm:pl-3 ${
           isActive
             ? "bg-(--state-active)"
             : "bg-transparent hover:bg-(--state-hover)"
@@ -142,9 +145,8 @@ export default function ChannelItem({ channel, serverId, isActive, isOwner }) {
           className="flex select-none items-center gap-1.5 flex-1 min-w-0 no-underline"
         >
           <Icon
-            size={16}
             weight={isActive ? "fill" : "regular"}
-            className={`shrink-0 transition-colors duration-100 ${
+            className={`shrink-0 text-base transition-colors duration-100 ${
               isActive || unread
                 ? "text-(--text-primary)"
                 : "text-(--text-muted) group-hover:text-(--text-secondary)"
@@ -167,19 +169,21 @@ export default function ChannelItem({ channel, serverId, isActive, isOwner }) {
         {menuItems.length > 0 && (
           <button
             onClick={openMenu}
-            className="flex shrink-0 size-6 items-center justify-center rounded-(--radius-sm) border-none bg-transparent text-(--text-muted) opacity-0 group-hover:opacity-100 hover:bg-(--state-active) hover:text-(--text-secondary) cursor-pointer"
+            className="flex shrink-0 size-6  items-center justify-center rounded-(--radius-sm) border-none bg-transparent text-(--text-muted) opacity-100 group-hover:opacity-100 hover:bg-(--state-active) hover:text-(--text-secondary) cursor-pointer max-sm:size-10 max-sm:opacity-100 text-base"
           >
-            <DotsThreeVertical size={16} weight="bold" />
+            <DotsThreeVertical weight="bold" className="text-sm md:text-base" />
           </button>
         )}
       </div>
 
       {channel.type === "voice" && voiceMembers.length > 0 && (
-        <div className="flex flex-col gap-1 pl-9 pr-2 pb-1.5">
+        <div className="flex flex-col gap-4 pl-5 pr-2">
           {voiceMembers.map((m) => (
             <div key={m.uid} className="flex items-center gap-1.5 min-w-0">
               <Avatar src={m.avatarUrl} name={m.name} size="xs" />
-              <span className="truncate text-xs text-(--text-muted)">{m.name}</span>
+              <span className="truncate text-xs text-(--text-muted)">
+                {m.name}
+              </span>
             </div>
           ))}
         </div>

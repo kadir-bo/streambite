@@ -62,9 +62,9 @@ export default function Modal({
                 <motion.button
                   whileTap={{ scale: 0.88 }}
                   onClick={onClose}
-                  className="size-7 rounded-(--radius-base) flex items-center justify-center bg-transparent border-none text-(--text-muted) cursor-pointer shrink-0 mt-0.5 hover:bg-(--state-hover) hover:text-(--text-secondary)"
+                  className="size-7 max-sm:size-10 rounded-(--radius-base) flex items-center justify-center bg-transparent border-none text-(--text-muted) cursor-pointer shrink-0 mt-0.5 hover:bg-(--state-hover) hover:text-(--text-secondary)"
                 >
-                  <X size={16} />
+                  <X className="text-xl md:text-lg" />
                 </motion.button>
               </div>
             )}

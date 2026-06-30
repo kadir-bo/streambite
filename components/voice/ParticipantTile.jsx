@@ -1,7 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { MicrophoneSlash, DotsThreeVertical, UserMinus } from "@phosphor-icons/react";
+import {
+  MicrophoneSlash,
+  DotsThreeVertical,
+  UserMinus,
+} from "@phosphor-icons/react";
 import { useVoice } from "@/context";
 import Avatar from "../layout/Avatar";
 import ContextMenu from "@/components/ui/ContextMenu";
@@ -38,13 +42,13 @@ export default function ParticipantTile({ participant, isOwner }) {
   }
 
   return (
-    <div className="group relative flex select-none flex-col items-center gap-3 rounded-(--radius-base) bg-(--surface-raised) border border-(--border-subtle) p-4 w-full min-w-0">
+    <div className="group relative flex select-none flex-col items-center gap-3 rounded-(--radius-base) bg-(--surface-raised) border border-(--border-subtle) aspect-video p-4 w-full min-w-0 justify-center">
       {canManage && (
         <button
           onClick={openMenu}
-          className="absolute right-1.5 top-1.5 flex size-6 items-center justify-center rounded-(--radius-sm) border-none bg-transparent text-(--text-muted) opacity-0 group-hover:opacity-100 hover:bg-(--state-hover) hover:text-(--text-secondary) cursor-pointer"
-        >
-          <DotsThreeVertical size={16} weight="bold" />
+          className="absolute right-1.5 top-1.5 flex size-6 items-center justify-center rounded-(--radius-sm) border-none bg-transparent text-(--text-muted) opacity-0 group-hover:opacity-100 hover:bg-(--state-hover) hover:text-(--text-secondary) cursor-pointer max-sm:size-10 max-sm:opacity-100 text-sm md:text-base"
+          >
+            <DotsThreeVertical weight="bold" />
         </button>
       )}
 
@@ -61,7 +65,7 @@ export default function ParticipantTile({ participant, isOwner }) {
           {participant.isLocal ? " (Du)" : ""}
         </span>
         {participant.isMicMuted && (
-          <MicrophoneSlash size={14} className="text-(--text-muted) shrink-0" />
+          <MicrophoneSlash className="text-(--text-muted) shrink-0 text-xl md:text-lg" />
         )}
       </div>
 
@@ -74,7 +78,7 @@ export default function ParticipantTile({ participant, isOwner }) {
             width={180}
             items={[
               {
-                icon: <UserMinus size={14} />,
+                icon: <UserMinus />,
                 label: "Vom Sprachkanal entfernen",
                 danger: true,
                 onClick: () => setConfirmRemove(true),

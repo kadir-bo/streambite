@@ -14,7 +14,7 @@ import { useLayout } from "@/context";
 export default function ActiveNowPanel() {
   const { friends } = useFriends();
   const { activeNowSidebar, setActiveNowSidebar } = useLayout();
-  const minSidebarWidth = 48;
+  const minSidebarWidth = 0;
   const maxSidebarWidth = 300;
 
   const activeFriends = friends.filter(
@@ -27,7 +27,7 @@ export default function ActiveNowPanel() {
   };
   return (
     <motion.aside
-      className="hidden md:flex md:flex-col w-75 bg-(--surface-deep) border-l border-(--border-subtle) shrink-0 px-2 py-2.5 overflow-y-auto overflow-x-hidden"
+      className="hidden md:flex md:flex-col w-75 bg-(--surface-deep) border-l border-(--border-subtle) shrink-0 py-2.5 overflow-y-auto overflow-x-hidden"
       animate={{
         width: activeNowSidebar
           ? `${maxSidebarWidth}px`
@@ -46,13 +46,13 @@ export default function ActiveNowPanel() {
             exit={{
               opacity: 0,
             }}
-            className="px-2"
+            className="px-4"
           >
             {/* Jetzt aktiv (Online-Freunde) */}
-            <p className="text-base font-bold text-(--text-primary) mb-2">
+            <p className="text-base font-bold text-(--text-primary) mb-3">
               Jetzt aktiv
             </p>
-
+            <div className="w-full h-px bg-(--border-subtle) my-2" />
             {activeFriends.length === 0 ? (
               <div className="bg-(--surface-raised) border border-(--border-subtle) rounded-lg px-4.5 py-6 text-center mb-4">
                 <Sparkle

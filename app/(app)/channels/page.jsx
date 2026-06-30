@@ -56,7 +56,7 @@ function FriendRow({ user }) {
 
   const menuItems = [
     {
-      icon: <ChatCircleText size={14} />,
+      icon: <ChatCircleText className="text-xl md:text-lg" />,
       label: "Nachricht senden",
       onClick: openDm,
     },
@@ -97,17 +97,17 @@ function FriendRow({ user }) {
             onClick={openDm}
             disabled={opening}
             title="Nachricht senden"
-            className="size-8 rounded-full border-none bg-(--surface-overlay) text-(--text-secondary) flex items-center justify-center cursor-pointer hover:text-(--text-primary)"
+            className="size-8 max-sm:size-10 rounded-full border-none bg-(--surface-overlay) text-(--text-secondary) flex items-center justify-center cursor-pointer hover:text-(--text-primary)"
           >
-            <ChatCircleText size={16} weight="fill" />
+            <ChatCircleText weight="fill" className="text-xl md:text-lg" />
           </button>
 
           <button
             onClick={openMenu}
             title="Mehr"
-            className={`size-8 rounded-full border-none flex items-center justify-center cursor-pointer hover:text-(--text-primary) ${menuOpen ? "bg-(--surface-raised) text-(--text-primary)" : "bg-(--surface-overlay) text-(--text-secondary)"}`}
+            className={`size-8 max-sm:size-10 rounded-full border-none flex items-center justify-center cursor-pointer hover:text-(--text-primary) ${menuOpen ? "bg-(--surface-raised) text-(--text-primary)" : "bg-(--surface-overlay) text-(--text-secondary)"}`}
           >
-            <DotsThreeVertical size={18} weight="bold" />
+            <DotsThreeVertical weight="bold" className="text-sm md:text-base" />
           </button>
         </div>
       </div>
@@ -176,8 +176,7 @@ export default function ChannelsHomePage() {
             <div className="px-4 pb-3">
               <div className="flex items-center gap-2 bg-(--surface-deep) border border-(--border-subtle) rounded-(--radius-base) px-3">
                 <MagnifyingGlass
-                  size={14}
-                  className="text-(--text-muted) shrink-0"
+                  className="text-(--text-muted) shrink-0 text-xl md:text-lg"
                 />
                 <input
                   value={search}

@@ -24,7 +24,7 @@ export default function VoiceControls() {
             : "bg-(--surface-raised) text-(--text-secondary) hover:bg-(--state-hover)"
         }`}
       >
-        {muted ? <MicrophoneSlash size={18} /> : <Microphone size={18} />}
+        {muted ? <MicrophoneSlash className="text-xl md:text-lg" /> : <Microphone className="text-xl md:text-lg" />}
       </button>
 
       <button
@@ -36,7 +36,7 @@ export default function VoiceControls() {
             : "bg-(--surface-raised) text-(--text-secondary) hover:bg-(--state-hover)"
         }`}
       >
-        <Headphones size={18} />
+        <Headphones className="text-xl md:text-lg" />
       </button>
 
       <button
@@ -48,7 +48,7 @@ export default function VoiceControls() {
             : "bg-(--surface-raised) text-(--text-secondary) hover:bg-(--state-hover)"
         }`}
       >
-        <MonitorPlay size={18} />
+        <MonitorPlay className="text-xl md:text-lg" />
       </button>
 
       <button
@@ -56,7 +56,7 @@ export default function VoiceControls() {
         title="Sprachkanal verlassen"
         className="flex size-10 items-center justify-center rounded-full border-none bg-(--danger) text-white cursor-pointer hover:opacity-90"
       >
-        <PhoneDisconnect size={18} />
+        <PhoneDisconnect className="text-xl md:text-lg" />
       </button>
     </div>
   );

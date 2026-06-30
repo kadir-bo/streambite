@@ -2,7 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { usePathname, useParams, useRouter } from "next/navigation";
-import { UsersThree, MagnifyingGlass, Plus, ChatCircleText } from "@phosphor-icons/react";
+import {
+  UsersThree,
+  MagnifyingGlass,
+  Plus,
+  ChatCircleText,
+} from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import { useFriends } from "@/hooks";
 import { subscribeToUserDms, ensureDm } from "@/lib";
@@ -52,7 +57,7 @@ export default function DmSidebar() {
           onClick={() => setSwitcherOpen(true)}
           className="w-full flex items-center gap-2 py-1.75 px-2.5 rounded-(--radius-base) border-none bg-(--surface-deepest) text-(--text-muted) text-xs cursor-pointer text-left truncate hover:text-(--text-secondary) "
         >
-          <MagnifyingGlass size={13} className="shrink-0" />
+          <MagnifyingGlass className="shrink-0 text-xl md:text-lg" />
           <span className="truncate text-sm">
             Finde oder starte ein Gespräch
           </span>
@@ -63,52 +68,14 @@ export default function DmSidebar() {
         href="/channels"
         active={isHome}
         icon={
-          <UsersThree
-            size={20}
-            weight={isHome ? "fill" : "regular"}
-            className={`shrink-0 ${isHome ? "text-(--text-primary)" : "text-(--text-muted)"}`}
-          />
+            <UsersThree
+              weight={isHome ? "fill" : "regular"}
+              className={`shrink-0 text-xl md:text-lg ${isHome ? "text-(--text-primary)" : "text-(--text-muted)"}`}
+            />
         }
         textClassName="flex items-center"
         label="Freunde"
       />
-
-      {/* Online-Freunde */}
-      {onlineFriends.length > 0 && (
-        <div className="px-2 pt-1 pb-1">
-          <p className="px-1 py-1 text-2xs font-semibold uppercase tracking-wider text-(--text-muted)">
-            Online — {onlineFriends.length}
-          </p>
-          <div className="flex flex-col gap-0.5">
-            {onlineFriends.map((friend) => (
-              <button
-                key={friend.id}
-                onClick={() => openDm(friend)}
-                disabled={!!opening}
-                className={`flex items-center gap-2.5 px-2 py-1.5 rounded-(--radius-base) border-none bg-transparent cursor-pointer text-left w-full ${
-                  opening && opening !== friend.id
-                    ? "opacity-50"
-                    : "opacity-100"
-                } hover:bg-(--state-hover)`}
-              >
-                <Avatar
-                  src={friend.avatarUrl}
-                  name={friend.displayName}
-                  size="sm"
-                  status={friend.status}
-                />
-                <span className="flex-1 text-sm font-medium text-(--text-primary) truncate">
-                  {friend.displayName}
-                </span>
-                <ChatCircleText
-                  size={14}
-                  className="text-(--text-muted) shrink-0"
-                />
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
 
       <div className="p-2">
         <button
@@ -117,7 +84,7 @@ export default function DmSidebar() {
           className="p-2 text-xs flex w-full items-center justify-between border-none bg-transparent text-(--text-muted) cursor-pointer rounded-sm hover:text-(--text-secondary)"
         >
           Direktnachrichten
-          <Plus size={12} weight="bold" />
+          <Plus weight="bold" className="text-sm md:text-base" />
         </button>
       </div>
 

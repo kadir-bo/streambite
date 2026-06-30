@@ -2,7 +2,13 @@
 
 import { useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Paperclip, Smiley, PaperPlaneTilt, X, Prohibit } from "@phosphor-icons/react";
+import {
+  Paperclip,
+  Smiley,
+  PaperPlaneTilt,
+  X,
+  Prohibit,
+} from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import {
   sendMessage,
@@ -27,7 +33,11 @@ export default function MessageInput({
 }) {
   const { firebaseUser, userDoc } = useAuth();
   const iBlockedThem = !!(dmUser && userDoc?.blockedUsers?.includes(dmUser.id));
-  const theyBlockedMe = !!(dmUser && firebaseUser && dmUser.blockedUsers?.includes(firebaseUser.uid));
+  const theyBlockedMe = !!(
+    dmUser &&
+    firebaseUser &&
+    dmUser.blockedUsers?.includes(firebaseUser.uid)
+  );
   const blocked = iBlockedThem || theyBlockedMe;
   const [content, setContent] = useState("");
   const [pending, setPending] = useState(false);
@@ -185,7 +195,7 @@ export default function MessageInput({
     return (
       <div className="shrink-0 px-4 pb-5">
         <div className="flex items-center gap-2.5 rounded-(--radius-base) border border-(--border-subtle) bg-(--surface-raised) px-4 py-3 text-sm text-(--text-muted)">
-          <Prohibit size={16} className="shrink-0" />
+          <Prohibit className="shrink-0 text-xl md:text-lg" />
           {iBlockedThem
             ? "Du hast diese Person blockiert. Entblocke sie, um wieder Nachrichten zu senden."
             : "Du kannst dieser Person keine Nachrichten senden."}
@@ -220,7 +230,7 @@ export default function MessageInput({
                 />
               ) : (
                 <div className="flex size-20 flex-col items-center justify-center gap-1 p-2">
-                  <Paperclip size={15} className="text-(--text-muted)" />
+                  <Paperclip className="text-(--text-muted) text-xl md:text-lg" />
                   <span className="break-all text-center text-2xs leading-[1.2] text-(--text-muted)">
                     {att.file.name}
                   </span>
@@ -233,7 +243,7 @@ export default function MessageInput({
                 onClick={() => removeAttachment(i)}
                 className="absolute right-1 top-1 flex size-5 items-center justify-center rounded-full bg-black/70 text-white"
               >
-                <X size={12} />
+                <X className="text-xl md:text-lg" />
               </button>
             </div>
           ))}
@@ -242,15 +252,15 @@ export default function MessageInput({
 
       {/* Input container */}
       <div
-        className={`flex items-end gap-2 p-1 border border-(--border-subtle) bg-(--surface-raised) ${replyTarget || attachments.length > 0 ? "rounded-b-(--radius-base)" : "rounded-(--radius-base)"}`}
+        className={`flex items-end gap-2 p-1 mt-5 border border-(--border-subtle) bg-(--surface-raised) ${replyTarget || attachments.length > 0 ? "rounded-b-(--radius-base)" : "rounded-(--radius-base)"}`}
       >
         {/* Attach */}
         <button
           title="Datei anh\u00e4ngen"
           onClick={() => fileInputRef.current?.click()}
-          className="flex size-8 shrink-0 items-center justify-center rounded-sm text-(--text-muted) transition-colors duration-100 hover:text-(--text-primary)"
+          className="flex size-8 max-sm:size-10 shrink-0 items-center justify-center rounded-sm text-(--text-muted) transition-colors duration-100 hover:text-(--text-primary)"
         >
-          <Paperclip size={15} weight="bold" />
+          <Paperclip weight="bold" className="text-xl md:text-lg" />
         </button>
         <input
           ref={fileInputRef}
@@ -285,9 +295,9 @@ export default function MessageInput({
           <button
             title="Emoji"
             onClick={() => setEmojiOpen((v) => !v)}
-            className="flex size-8 items-center justify-center rounded-sm text-(--text-muted) transition-colors duration-100 hover:text-(--text-primary)"
+            className="flex size-8 max-sm:size-10 items-center justify-center rounded-sm text-(--text-muted) transition-colors duration-100 hover:text-(--text-primary)"
           >
-            <Smiley size={20} weight="bold" />
+            <Smiley weight="bold" className="text-xl md:text-lg" />
           </button>
           <AnimatePresence>
             {emojiOpen && (
@@ -309,12 +319,12 @@ export default function MessageInput({
               whileTap={{ scale: 0.9 }}
               onClick={handleSend}
               disabled={pending}
-              className={`flex size-8 shrink-0 items-center justify-center rounded-sm bg-(--text-primary) text-(--surface-deepest) ${pending ? "opacity-60" : "opacity-100"}`}
+              className={`flex size-8 max-sm:size-10 shrink-0 items-center justify-center rounded-sm bg-(--text-primary) text-(--surface-deepest) ${pending ? "opacity-60" : "opacity-100"}`}
             >
               {pending ? (
                 <span className="block size-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" />
               ) : (
-                <PaperPlaneTilt size={16} weight="fill" />
+                <PaperPlaneTilt weight="fill" className="text-xl md:text-lg" />
               )}
             </motion.button>
           )}

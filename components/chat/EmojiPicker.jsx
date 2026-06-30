@@ -97,7 +97,7 @@ export default function EmojiPicker({ onSelect, onClose }) {
     >
       <div className="px-2.5 py-2 border-b border-(--border-subtle)">
         <div className="flex items-center gap-1.5 bg-(--surface-deep) rounded-(--radius-base) p-2">
-          <MagnifyingGlass size={14} className="text-(--text-muted) shrink-0" />
+          <MagnifyingGlass className="text-(--text-muted) shrink-0 text-xl md:text-lg" />
           <input
             autoFocus
             value={search}

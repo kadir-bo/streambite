@@ -128,7 +128,7 @@ export default function AddFriendModal({ open, onClose }) {
               <span className="text-xs text-(--text-muted)">Das bist du</span>
             ) : (
               <Button onClick={handleSend} loading={sending} className="shrink-0">
-                <UserPlus size={15} weight="bold" />
+                <UserPlus weight="bold" className="text-xl md:text-lg" />
                 Anfrage senden
               </Button>
             )}

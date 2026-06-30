@@ -21,7 +21,7 @@ export default function ContextMenuItem({
       disabled={disabled}
       title={title}
       className={
-        "w-full text-left px-3 py-2 rounded-(--radius-base) border-none bg-transparent flex items-center gap-2 text-sm font-medium " +
+        "w-full text-left px-3 py-2 rounded-(--radius-base) border-none bg-transparent flex items-center gap-2 text-sm font-medium max-sm:py-2.5 " +
         (disabled
           ? "text-(--text-muted) opacity-40 cursor-not-allowed"
           : danger
@@ -42,7 +42,7 @@ export default function ContextMenuItem({
       ) : (
         <span className="min-w-0 flex-1 truncate">{label}</span>
       )}
-      {chevron && <CaretRight size={14} className="shrink-0" />}
+      {chevron && <CaretRight className="shrink-0" />}
     </button>
   );
 }

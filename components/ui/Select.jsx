@@ -22,8 +22,7 @@ export default function Select({ label, className, children, ...props }) {
           {children}
         </select>
         <CaretDown
-          size={14}
-          className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-(--text-muted)"
+          className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-(--text-muted) text-sm md:text-base"
         />
       </div>
     </div>

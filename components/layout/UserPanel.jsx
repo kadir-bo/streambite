@@ -134,13 +134,13 @@ export default function UserPanel() {
     })),
     { divider: true },
     {
-      icon: <Gear size={14} />,
+      icon: <Gear />,
       label: "Profileinstellungen",
       onClick: () => setShowSettings(true),
     },
     { divider: true },
     {
-      icon: <SignOut size={14} />,
+      icon: <SignOut />,
       label: "Abmelden",
       danger: true,
       onClick: () => logoutUser(),
@@ -148,9 +148,11 @@ export default function UserPanel() {
   ];
 
   const activeInputLabel =
-    audioInputs.find((d) => d.deviceId === activeAudioInputId)?.label ?? "Standard";
+    audioInputs.find((d) => d.deviceId === activeAudioInputId)?.label ??
+    "Standard";
   const activeOutputLabel =
-    audioOutputs.find((d) => d.deviceId === activeAudioOutputId)?.label ?? "Standard";
+    audioOutputs.find((d) => d.deviceId === activeAudioOutputId)?.label ??
+    "Standard";
 
   const inputMenuItems = [
     {
@@ -165,7 +167,11 @@ export default function UserPanel() {
     { divider: true },
     {
       custom: (
-        <VolumeSlider label="Eingabelautstärke" value={inputVolume} onChange={setInputVolume} />
+        <VolumeSlider
+          label="Eingabelautstärke"
+          value={inputVolume}
+          onChange={setInputVolume}
+        />
       ),
     },
     { divider: true },
@@ -193,7 +199,11 @@ export default function UserPanel() {
     { divider: true },
     {
       custom: (
-        <VolumeSlider label="Ausgabelautstärke" value={outputVolume} onChange={setOutputVolume} />
+        <VolumeSlider
+          label="Ausgabelautstärke"
+          value={outputVolume}
+          onChange={setOutputVolume}
+        />
       ),
     },
   ];
@@ -202,100 +212,91 @@ export default function UserPanel() {
     <>
       <div
         data-user-panel
-        className="flex shrink-0 items-center gap-1.5 border-t border-(--border-subtle) bg-(--surface-deep) p-2"
+        className="flex flex-col shrink-0 items-center gap-1.5 border-t border-(--border-subtle) bg-(--surface-deep) p-2 max-sm:p-3 max-sm:gap-2"
       >
-        <button
-          onClick={openMenu}
-          className="flex min-w-0 flex-1 cursor-pointer items-center gap-2 rounded-(--radius-base) bg-transparent p-1 text-left transition-[background] duration-100 hover:bg-(--state-hover)"
-        >
-          <Avatar
-            src={userDoc?.avatarUrl}
-            name={displayName}
-            size="sm"
-            status={status}
-          />
-          <div className="min-w-0">
-            <p className="truncate text-sm font-semibold text-(--text-primary)">
-              {displayName}
-            </p>
-            {inVoice ? (
-              <p className="flex items-center gap-1 truncate text-xs font-medium text-(--accent)">
-                <WifiHigh size={12} className="shrink-0" />
-                Sprachverbunden
+        <div className="flex w-full justify-end gap-4">
+          <button
+            onClick={openMenu}
+            className="flex min-w-0 flex-1 cursor-pointer items-center gap-2 rounded-(--radius-base) bg-transparent p-1 text-left transition-[background] duration-100 hover:bg-(--state-hover) max-sm:min-h-10"
+          >
+            <Avatar
+              src={userDoc?.avatarUrl}
+              name={displayName}
+              size="sm"
+              status={status}
+            />
+            <div className="min-w-0">
+              <p className="truncate text-sm font-semibold text-(--text-primary)">
+                {displayName}
               </p>
-            ) : (
-              <p className="truncate text-xs text-(--text-muted)">
-                {STATUS_LABELS[status] ?? "Online"}
-              </p>
-            )}
+              {inVoice ? (
+                <p className="flex items-center gap-1 truncate text-xs font-medium text-(--accent)">
+                  <WifiHigh size={12} className="shrink-0" />
+                  Sprachverbunden
+                </p>
+              ) : (
+                <p className="truncate text-xs text-(--text-muted)">
+                  {STATUS_LABELS[status] ?? "Online"}
+                </p>
+              )}
+            </div>
+          </button>
+          <div className="flex items-center shrink-0 max-sm:gap-2">
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              title={muted ? "Stummschaltung aufheben" : "Stummschalten"}
+              onClick={toggleMute}
+              className={`flex size-8 shrink-0 items-center justify-center border-none cursor-pointer text-xl md:text-lg transition-all duration-100 max-sm:size-10 max-sm:rounded-full ${
+                muted
+                  ? "text-white bg-(--danger)"
+                  : "text-(--text-muted) bg-transparent hover:bg-(--state-hover) hover:text-(--text-secondary)"
+              }`}
+            >
+              {muted ? <MicrophoneSlash /> : <Microphone />}
+            </motion.button>
+
+            <button
+              onClick={openInputMenu}
+              title="Eingabegerät & Lautstärke"
+              className="hidden sm:flex size-5 shrink-0 cursor-pointer items-center justify-center border-none bg-transparent text-(--text-muted) hover:bg-(--state-hover) hover:text-(--text-secondary)"
+            >
+              <CaretUp weight="bold" className="text-sm" />
+            </button>
           </div>
-        </button>
+          <div className="hidden sm:flex items-center rounded-(--radius-base) overflow-hidden shrink-0 group">
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              title={deafened ? "Hörgerät aktivieren" : "Tauben schalten"}
+              onClick={toggleDeafen}
+              className={`flex size-8 items-center justify-center border-none bg-transparent transition-[background] duration-100 cursor-pointer text-xl md:text-lg h-full group-hover:bg-(--state-hover)/50 ${
+                deafened
+                  ? "text-(--danger)"
+                  : "text-(--text-muted) hover:bg-(--state-hover) hover:text-(--text-secondary)"
+              }`}
+            >
+              <Headphones />
+            </motion.button>
 
-        <div className="flex items-center rounded-(--radius-base) overflow-hidden shrink-0">
-          <motion.button
-            whileTap={{ scale: 0.9 }}
-            title={muted ? "Stummschaltung aufheben" : "Stummschalten"}
-            onClick={toggleMute}
-            className={`flex size-8 items-center justify-center border-none bg-transparent transition-[background] duration-100 cursor-pointer ${
-              muted
-                ? "text-(--danger)"
-                : "text-(--text-muted) hover:bg-(--state-hover) hover:text-(--text-secondary)"
-            }`}
-          >
-            {muted ? <MicrophoneSlash size={17} /> : <Microphone size={17} />}
-          </motion.button>
+            <button
+              onClick={openOutputMenu}
+              title="Ausgabegerät & Lautstärke"
+              className="flex size-5 shrink-0 cursor-pointer items-center justify-center border-none bg-transparent text-(--text-muted) hover:bg-(--state-hover) hover:text-(--text-secondary) text-sm md:text-base group-hover:bg-(--state-hover)/50 h-full"
+            >
+              <CaretUp weight="bold" className="text-sm" />
+            </button>
+          </div>
 
-          <button
-            onClick={openInputMenu}
-            title="Eingabegerät & Lautstärke"
-            className="flex size-5 shrink-0 cursor-pointer items-center justify-center border-none bg-transparent text-(--text-muted) hover:bg-(--state-hover) hover:text-(--text-secondary)"
-          >
-            <CaretUp size={10} weight="bold" />
-          </button>
+          {inVoice && (
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              title="Sprachkanal verlassen"
+              onClick={disconnect}
+              className="flex size-8 max-sm:size-10 shrink-0 cursor-pointer items-center justify-center rounded-(--radius-base) border-none bg-transparent text-(--danger) transition-[background] duration-100 hover:bg-(--state-hover) text-xl md:text-lg"
+            >
+              <PhoneDisconnect />
+            </motion.button>
+          )}
         </div>
-
-        <div className="flex items-center rounded-(--radius-base) overflow-hidden shrink-0">
-          <motion.button
-            whileTap={{ scale: 0.9 }}
-            title={deafened ? "Hörgerät aktivieren" : "Tauben schalten"}
-            onClick={toggleDeafen}
-            className={`flex size-8 items-center justify-center border-none bg-transparent transition-[background] duration-100 cursor-pointer ${
-              deafened
-                ? "text-(--danger)"
-                : "text-(--text-muted) hover:bg-(--state-hover) hover:text-(--text-secondary)"
-            }`}
-          >
-            <Headphones size={17} />
-          </motion.button>
-
-          <button
-            onClick={openOutputMenu}
-            title="Ausgabegerät & Lautstärke"
-            className="flex size-5 shrink-0 cursor-pointer items-center justify-center border-none bg-transparent text-(--text-muted) hover:bg-(--state-hover) hover:text-(--text-secondary)"
-          >
-            <CaretUp size={10} weight="bold" />
-          </button>
-        </div>
-
-        {inVoice && (
-          <motion.button
-            whileTap={{ scale: 0.9 }}
-            title="Sprachkanal verlassen"
-            onClick={disconnect}
-            className="flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-(--radius-base) border-none bg-transparent text-(--danger) transition-[background] duration-100 hover:bg-(--state-hover)"
-          >
-            <PhoneDisconnect size={17} />
-          </motion.button>
-        )}
-
-        <motion.button
-          whileTap={{ scale: 0.9 }}
-          title="Profileinstellungen"
-          onClick={() => setShowSettings(true)}
-          className="flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-(--radius-base) border-none bg-transparent text-(--text-muted) transition-[background] duration-100 hover:bg-(--state-hover) hover:text-(--text-secondary)"
-        >
-          <Gear size={17} />
-        </motion.button>
       </div>
 
       <ContextMenu
@@ -325,7 +326,10 @@ export default function UserPanel() {
         items={outputMenuItems}
       />
 
-      <UserSettingsModal open={showSettings} onClose={() => setShowSettings(false)} />
+      <UserSettingsModal
+        open={showSettings}
+        onClose={() => setShowSettings(false)}
+      />
     </>
   );
 }

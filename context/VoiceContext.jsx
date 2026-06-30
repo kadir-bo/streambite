@@ -26,6 +26,7 @@ export function VoiceProvider({ children }) {
     error: null,
   });
   const [screenShare, setScreenShare] = useState(false);
+  const [screenShareHasAudio, setScreenShareHasAudio] = useState(false);
   const [participants, setParticipants] = useState([]);
   const localSpeakingRef = useRef(false); // manual RMS-based speaking detection for local participant
 
@@ -53,6 +54,7 @@ export function VoiceProvider({ children }) {
   const outputVolumeRef = useRef(100);
   const micSensitivityRef = useRef(50);
   const audioPipelineRef = useRef(null); // { audioContext, gainNode, analyser, rafId }
+  const unlockCtxRef = useRef(null); // iOS AudioContext-Unlock, bleibt für Session offen
 
   // Mic processing pipeline: raw mic source → AnalyserNode (RMS speaking
   // detection) → GainNode (input volume / noise gate) → published track.
@@ -64,13 +66,117 @@ export function VoiceProvider({ children }) {
   function stopMicPipeline() {
     const pipeline = audioPipelineRef.current;
     if (!pipeline) return;
-    audioPipelineRef.current = null;
     cancelAnimationFrame(pipeline.rafId);
-    pipeline.audioContext.close().catch(() => {});
+    pipeline.rafId = null;
+    pipeline.active = false;
+    // Source trennen, aber AudioContext OFFEN lassen — beim nächsten
+    // unmute wird nur die Quelle neu verbunden (kein neuer AudioContext
+    // nötig, was iOS-spezifische Suspension-Probleme vermeidet).
+    if (pipeline.source) {
+      pipeline.source.disconnect();
+      pipeline.source = null;
+    }
+  }
+
+  // Erzeugt einen neuen Source-Knoten im bestehenden AudioContext,
+  // der an den aktuellen Mikrofon-Track von LiveKit angebunden wird.
+  // Wird beim erstmaligen Aufbau und nach mute/unmute benötigt,
+  // da LiveKit den MediaStreamTrack nach setMicrophoneEnabled neu anlegt.
+  function connectPipelineSource(room) {
+    const pipeline = audioPipelineRef.current;
+    if (!pipeline) return null;
+
+    const publication = room.localParticipant.getTrackPublication(Track.Source.Microphone);
+    const track = publication?.track;
+    const mediaTrack = track?.mediaStreamTrack;
+    if (!track || !mediaTrack) return null;
+
+    // Alten Source trennen, falls vorhanden
+    if (pipeline.source) {
+      pipeline.source.disconnect();
+      pipeline.source = null;
+    }
+
+    try {
+      const source = pipeline.audioContext.createMediaStreamSource(new MediaStream([mediaTrack]));
+      source.connect(pipeline.analyser);
+      source.connect(pipeline.gainNode);
+      pipeline.source = source;
+
+      track.replaceTrack(pipeline.destination.stream.getAudioTracks()[0], true).catch((err) => {
+        console.warn("[voice] mic pipeline replaceTrack failed:", err);
+      });
+      return source;
+    } catch (err) {
+      console.warn("[voice] connectPipelineSource failed:", err);
+      return null;
+    }
+  }
+
+  // Wartet, bis LiveKit einen gültigen Mikrofon-Track bereitstellt.
+  // Nach setMicrophoneEnabled(true) kann es auf iOS kurz dauern,
+  // bis der Track tatsächlich verfügbar ist (Race-Condition).
+  async function waitForMicTrack(room, maxRetries = 15, delay = 50) {
+    for (let i = 0; i < maxRetries; i++) {
+      const pub = room.localParticipant.getTrackPublication(Track.Source.Microphone);
+      if (pub?.track?.mediaStreamTrack) return pub.track;
+      await new Promise((r) => setTimeout(r, delay));
+    }
+    return null;
+  }
+
+  // Tick-Funktion für die Mic-Pipeline — liest analyzer/gainNode/data aus
+  // audioPipelineRef.current, damit sie AUßERHALB des try-Blocks aufrufbar ist
+  // (wird sowohl beim ersten Aufbau als auch beim Reaktivieren einer pausierten
+  // Pipeline benötigt; der frühe Exist-Zweig in startMicPipeline hat sonst keine
+  // Referenz auf micTick).
+  function runMicTick(room) {
+    const pipeline = audioPipelineRef.current;
+    if (!pipeline || !pipeline.active) return;
+    if (!room.localParticipant.isMicrophoneEnabled) {
+      pipeline.rafId = requestAnimationFrame(() => runMicTick(room));
+      return;
+    }
+    pipeline.analyser.getByteTimeDomainData(pipeline.data);
+    let sumSquares = 0;
+    for (let i = 0; i < pipeline.data.length; i++) {
+      const normalized = (pipeline.data[i] - 128) / 128;
+      sumSquares += normalized * normalized;
+    }
+    const rms = Math.sqrt(sumSquares / pipeline.data.length);
+    const threshold = 0.05 * (1 - micSensitivityRef.current / 100);
+    const isCurrentlySpeaking = rms > threshold;
+
+    // Weicher Gate: statt hartem 0/1-Übergang (klingt choppy) verwenden wir
+    // eine Hüllkurve mit schnellem Attack (0.5) und langsamem Release (0.04).
+    // - Sprache beginnt → Gain öffnet sich innerhalb weniger Frames
+    // - Sprache endet → Gain schließt langsam, verschluckt keine Satzenden
+    const targetGain = isCurrentlySpeaking ? inputVolumeRef.current / 100 : 0;
+    const smoothFactor = isCurrentlySpeaking ? 0.5 : 0.04;
+    pipeline.gainNode.gain.value += (targetGain - pipeline.gainNode.gain.value) * smoothFactor;
+
+    if (isCurrentlySpeaking !== localSpeakingRef.current) {
+      localSpeakingRef.current = isCurrentlySpeaking;
+      snapshotParticipants(roomRef.current);
+    }
+
+    pipeline.rafId = requestAnimationFrame(() => runMicTick(room));
   }
 
   function startMicPipeline(room) {
-    stopMicPipeline();
+    const existing = audioPipelineRef.current;
+
+    // Wenn bereits eine Pipeline existiert, nur die Quelle neu verbinden
+    if (existing && existing.audioContext) {
+      connectPipelineSource(room);
+      if (!existing.active) {
+        existing.active = true;
+        existing.rafId = requestAnimationFrame(() => runMicTick(room));
+      }
+      return;
+    }
+
+    // Erster Aufbau: alles neu anlegen
     const publication = room.localParticipant.getTrackPublication(Track.Source.Microphone);
     const track = publication?.track;
     const mediaTrack = track?.mediaStreamTrack;
@@ -78,6 +184,11 @@ export function VoiceProvider({ children }) {
 
     try {
       const audioContext = new AudioContext();
+      // iOS: AudioContext ist oft "suspended" nach async gap → explizit resume
+      if (audioContext.state === "suspended") {
+        audioContext.resume().catch(() => {});
+      }
+
       const source = audioContext.createMediaStreamSource(new MediaStream([mediaTrack]));
       const data = new Uint8Array(512);
 
@@ -97,42 +208,15 @@ export function VoiceProvider({ children }) {
         console.warn("[voice] mic pipeline replaceTrack failed:", err);
       });
 
-      function tick() {
-        if (!room.localParticipant.isMicrophoneEnabled) {
-          audioPipelineRef.current.rafId = requestAnimationFrame(tick);
-          return;
-        }
-        analyser.getByteTimeDomainData(data);
-        let sumSquares = 0;
-        for (let i = 0; i < data.length; i++) {
-          const normalized = (data[i] - 128) / 128;
-          sumSquares += normalized * normalized;
-        }
-        const rms = Math.sqrt(sumSquares / data.length);
-        // sensitivity 0 → only loud sound passes; 100 → almost anything passes
-        const threshold = 0.05 * (1 - micSensitivityRef.current / 100);
-        const isCurrentlySpeaking = rms > threshold;
-
-        // Gain as noise gate: 0 when silent keeps the track alive (LiveKit
-        // sees isSpeaking) but no audio reaches the published destination.
-        gainNode.gain.value = isCurrentlySpeaking
-          ? inputVolumeRef.current / 100
-          : 0;
-
-        // Trigger snapshot only on transition to avoid excessive re-renders.
-        if (isCurrentlySpeaking !== localSpeakingRef.current) {
-          localSpeakingRef.current = isCurrentlySpeaking;
-          snapshotParticipants(roomRef.current);
-        }
-
-        audioPipelineRef.current.rafId = requestAnimationFrame(tick);
-      }
-
       audioPipelineRef.current = {
         audioContext,
         gainNode,
         analyser,
-        rafId: requestAnimationFrame(tick),
+        destination,
+        source,
+        data,
+        rafId: requestAnimationFrame(() => runMicTick(room)),
+        active: true,
       };
     } catch (err) {
       console.warn("[voice] startMicPipeline failed:", err);
@@ -141,12 +225,22 @@ export function VoiceProvider({ children }) {
 
   function applyOutputVolume(room) {
     if (!room) return;
+    const vol = outputVolumeRef.current / 100;
     room.remoteParticipants.forEach((p) => {
-      p.audioTrackPublications.forEach((pub) => {
-        pub.track?.attachedElements.forEach((el) => {
-          el.volume = outputVolumeRef.current / 100;
+      // LiveKit bietet setVolume() pro Quelle — nutzen statt manuellem
+      // element.volume, da es sowohl Mikrofon- als auch Screen-Share-Audio
+      // zuverlässiger steuert (auch auf iOS).
+      if (typeof p.setVolume === "function") {
+        p.setVolume(vol, Track.Source.Microphone);
+        p.setVolume(vol, Track.Source.ScreenShareAudio);
+      } else {
+        // Fallback für ältere LiveKit-Versionen
+        p.audioTrackPublications.forEach((pub) => {
+          pub.track?.attachedElements.forEach((el) => {
+            el.volume = vol;
+          });
         });
-      });
+      }
     });
   }
 
@@ -191,6 +285,8 @@ export function VoiceProvider({ children }) {
         isScreenSharing: p.isScreenShareEnabled,
         screenShareTrack:
           p.getTrackPublication?.(Track.Source.ScreenShare)?.track ?? null,
+        screenShareAudioTrack:
+          p.getTrackPublication?.(Track.Source.ScreenShareAudio)?.track ?? null,
       })),
     );
   }
@@ -199,6 +295,36 @@ export function VoiceProvider({ children }) {
     async (serverId, channelId, channelName) => {
       if (!firebaseUser) return;
       if (roomRef.current) await disconnect();
+
+      // ===== iOS Audio + Mic Unlock (vor await!) =====
+      // Auf iOS verfällt die user gesture nach dem ersten await (fetch oder
+      // room.connect()). Da connect() mehrere async-Stufen durchläuft, wären
+      // room.startAudio() und setMicrophoneEnabled() ohne gesture → stumm.
+      // Daher unlocken wir beides SOFORT vor jedem await:
+      //
+      // 1. AudioContext → Silence → Seite ist "audio unlocked" für Session.
+      //    Wichtig: Den Context NICHT schließen — iOS Safari verliert sonst
+      //    den Unlock-Status bei Navigation/Route-Change.
+      // 2. getUserMedia → Berechtigungsdialog wird getriggert (oder bereits
+      //    erteilte Berechtigung bestätigt) → mic ist später nutzbar
+      try {
+        unlockCtxRef.current = new (window.AudioContext || window.webkitAudioContext)();
+        if (unlockCtxRef.current.state === "suspended") unlockCtxRef.current.resume();
+        const _buf = unlockCtxRef.current.createBuffer(1, 1, 22050);
+        const _src = unlockCtxRef.current.createBufferSource();
+        _src.buffer = _buf;
+        _src.connect(unlockCtxRef.current.destination);
+        _src.start(0);
+
+        // getUserMedia nur triggern (nicht awaiten) — iOS zeigt dann sofort
+        // den Berechtigungsdialog, und setMicrophoneEnabled später funktioniert.
+        navigator.mediaDevices
+          .getUserMedia({ audio: true })
+          .then((_s) => _s.getTracks().forEach((t) => t.stop()))
+          .catch(() => {});
+      } catch (_e) {
+        /* non-critical — Desktop/Android brauchen das nicht */
+      }
 
       setConnection({
         status: "connecting",
@@ -258,17 +384,41 @@ export function VoiceProvider({ children }) {
         room.on(RoomEvent.TrackUnmuted, () => snapshotParticipants(room));
         room.on(RoomEvent.TrackPublished, () => snapshotParticipants(room));
         room.on(RoomEvent.TrackUnpublished, () => snapshotParticipants(room));
-        room.on(RoomEvent.TrackSubscribed, () => {
+        room.on(RoomEvent.TrackSubscribed, (track) => {
+          // Auf iOS müssen wir Audio-Tracks explizit an <audio>-Elemente
+          // binden, da LiveKit's interne Auto-Attachment dort nicht zuverlässig
+          // funktioniert (Autoplay-Policy blockiert die Wiedergabe).
+          // Screen-Share-Audio wird von LiveKit als eigener Track mit
+          // source=screen_share_audio publiziert — hier ebenfalls abfangen.
+          if (track && track.kind === "audio") {
+            try {
+              const el = track.attach();
+              el.setAttribute("playsinline", "");
+              el.play().catch(() => {});
+              console.log(`[voice] audio track subscribed: source=${track.source ?? "unknown"}, kind=${track.kind}`);
+            } catch (err) {
+              console.warn("[voice] track.attach failed:", err);
+            }
+          }
           applyOutputVolume(room);
           snapshotParticipants(room);
         });
-        room.on(RoomEvent.LocalTrackPublished, () => {
-          setScreenShare(room.localParticipant.isScreenShareEnabled);
+        room.on(RoomEvent.LocalTrackPublished, (pub) => {
+          const isEnabled = room.localParticipant.isScreenShareEnabled;
+          setScreenShare(isEnabled);
+          // Prüfen, ob Screen-Share-Audio-Track vorhanden ist
+          const audioPub = room.localParticipant.getTrackPublication(Track.Source.ScreenShareAudio);
+          setScreenShareHasAudio(isEnabled && !!audioPub?.track);
+          if (isEnabled && !audioPub?.track) {
+            console.warn("[voice] Screen-Share gestartet, aber KEIN Audio-Track erkannt. Der Nutzer muss beim Teilen eines Browser-Tabs 'Tab-Audio teilen' aktivieren.");
+          }
           snapshotParticipants(room);
         });
         room.on(RoomEvent.LocalTrackUnpublished, () => {
           // Catches the browser's native "Stop sharing" button, not just our own toggle.
-          setScreenShare(room.localParticipant.isScreenShareEnabled);
+          const isEnabled = room.localParticipant.isScreenShareEnabled;
+          setScreenShare(isEnabled);
+          if (!isEnabled) setScreenShareHasAudio(false);
           snapshotParticipants(room);
         });
         room.on(RoomEvent.Disconnected, () => {
@@ -277,6 +427,7 @@ export function VoiceProvider({ children }) {
           clearPresence();
           setParticipants([]);
           setScreenShare(false);
+          setScreenShareHasAudio(false);
           setConnection({
             status: "idle",
             serverId: null,
@@ -287,6 +438,39 @@ export function VoiceProvider({ children }) {
         });
 
         await room.connect(data.url, data.token);
+
+        // Audio-Tracks von Teilnehmern, die bereits vor uns im Raum waren,
+        // wurden vor unserem on(TrackSubscribed)-Listener subscribt — also
+        // hängen wir sie hier nachträglich an. WICHTIG: Vor startAudio(),
+        // denn startAudio() resumt die bereits attached-en <audio>-Elemente.
+        room.remoteParticipants.forEach((p) => {
+          p.audioTrackPublications.forEach((pub) => {
+            if (pub.track && pub.track.kind === "audio") {
+              try {
+                const el = pub.track.attach();
+                el.setAttribute("playsinline", "");
+                el.play().catch(() => {});
+              } catch (err) {
+                /* bereits attached, ignorieren */
+              }
+            }
+          });
+        });
+
+        // iOS erzwingt eine explizite Freigabe der Audiowiedergabe, da der
+        // Browser Autoplay blockiert. startAudio() nach dem Attachment aller
+        // bestehenden Tracks aufrufen, damit sie alle erfasst werden.
+        // Bei Bedarf mehrfach versuchen (iOS braucht manchmal zwei Anläufe).
+        for (let i = 0; i < 3; i++) {
+          try { await room.startAudio(); break; } catch { /* retry */ }
+          await new Promise((r) => setTimeout(r, 100));
+        }
+        applyOutputVolume(room);
+
+        // Den unlock AudioContext NICHT schließen — auf iOS Safari kann
+        // der Unlock-Status bei Navigation/Route-Change verloren gehen,
+        // wenn kein aktiver AudioContext mehr existiert. Ein minimaler,
+        // stummer Context hält die Seite für die gesamte Session entsperrt.
 
         presenceRef.current = { serverId, channelId, uid: firebaseUser.uid };
         joinVoicePresence(serverId, channelId, firebaseUser.uid, {
@@ -339,6 +523,9 @@ export function VoiceProvider({ children }) {
         });
       } catch (err) {
         console.error("[voice] connect failed:", err);
+        if (_unlockCtx && _unlockCtx.state !== "closed") {
+          _unlockCtx.close().catch(() => {});
+        }
         setConnection({
           status: "error",
           serverId,
@@ -367,6 +554,11 @@ export function VoiceProvider({ children }) {
       channelName: null,
       error: null,
     });
+    // iOS unlock AudioContext freigeben (wird beim nächsten connect() neu angelegt)
+    if (unlockCtxRef.current && unlockCtxRef.current.state !== "closed") {
+      unlockCtxRef.current.close().catch(() => {});
+      unlockCtxRef.current = null;
+    }
   }, []);
 
   // Mute/deafen are preferences, not call-only controls: togglable any time.
@@ -390,12 +582,15 @@ export function VoiceProvider({ children }) {
       mutedRef.current = next;
       setMuted(next);
       if (!next) {
+        // UNMUTE: sicherstellen, dass LiveKit den neuen Track bereit hat
         mutedByDeafenRef.current = false;
         deafenedRef.current = false;
         setDeafened(false);
+        await waitForMicTrack(room);
         startMicPipeline(room);
       } else {
-        mutedByDeafenRef.current = false; // manual mute, not caused by deafen
+        // MUTE: Pipeline anhalten (AudioContext bleibt offen)
+        mutedByDeafenRef.current = false;
         stopMicPipeline();
       }
     } catch (err) {
@@ -417,10 +612,17 @@ export function VoiceProvider({ children }) {
 
     if (room) {
       room.remoteParticipants.forEach((p) => {
-        p.audioTrackPublications.forEach((pub) => {
-          if (pub.track)
-            pub.track.attachedElements.forEach((el) => (el.muted = next));
-        });
+        if (typeof p.setVolume === "function") {
+          // LiveKit-API: Volume auf 0 = stumm, Normalwert = hörbar
+          p.setVolume(next ? 0 : outputVolumeRef.current / 100, Track.Source.Microphone);
+          p.setVolume(next ? 0 : outputVolumeRef.current / 100, Track.Source.ScreenShareAudio);
+        } else {
+          // Fallback: Elemente direkt muten
+          p.audioTrackPublications.forEach((pub) => {
+            if (pub.track)
+              pub.track.attachedElements.forEach((el) => (el.muted = next));
+          });
+        }
       });
 
       if (next) {
@@ -439,6 +641,7 @@ export function VoiceProvider({ children }) {
           await room.localParticipant.setMicrophoneEnabled(true);
           mutedRef.current = false;
           setMuted(false);
+          await waitForMicTrack(room);
           startMicPipeline(room);
         } catch (err) {
           console.warn("[voice] undeafen mic release failed:", err);
@@ -471,6 +674,18 @@ export function VoiceProvider({ children }) {
         resolution: { width: 1920, height: 1080, frameRate: 60 },
       });
       setScreenShare(next);
+      if (next) {
+        // Kurz warten bis LiveKit den Audio-Track publiziert hat
+        await new Promise((r) => setTimeout(r, 500));
+        const audioPub = room.localParticipant.getTrackPublication(Track.Source.ScreenShareAudio);
+        const hasAudio = !!audioPub?.track;
+        setScreenShareHasAudio(hasAudio);
+        if (!hasAudio) {
+          console.warn("[voice] Screen-Share hat kein Audio — Browser erfasst nur Video. Tipp: Chrome-Tab teilen und 'Tab-Audio teilen' aktivieren.");
+        }
+      } else {
+        setScreenShareHasAudio(false);
+      }
     } catch (err) {
       console.warn("[voice] toggleScreenShare failed:", err);
     }
@@ -583,6 +798,7 @@ export function VoiceProvider({ children }) {
     muted,
     deafened,
     screenShare,
+    screenShareHasAudio,
     audioInputs,
     activeAudioInputId,
     audioOutputs,

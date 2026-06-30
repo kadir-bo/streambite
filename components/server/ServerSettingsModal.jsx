@@ -216,7 +216,7 @@ export default function ServerSettingsModal({ open, onClose, server }) {
         <div>
           <SectionLabel>Einladungslink</SectionLabel>
           <div className="flex items-center gap-2.5 bg-(--surface-deep) rounded-(--radius-base) border border-(--border-subtle) px-3.5 py-2.5">
-            <Link size={14} className="text-(--text-muted) shrink-0" />
+            <Link className="text-(--text-muted) shrink-0 text-sm" />
             <span className="flex-1 text-sm text-(--text-muted) truncate font-(--font-mono)">
               {inviteLink || "..."}
             </span>

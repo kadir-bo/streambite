@@ -56,13 +56,13 @@ export default function MemberRow({ member, isOffline, serverId, canManage }) {
 
   const menuItems = [
     {
-      icon: <Shield size={14} />,
+      icon: <Shield />,
       label: isAdmin ? "Admin entfernen" : "Admin machen",
       onClick: toggleAdmin,
     },
     { divider: true },
     {
-      icon: <UserMinus size={14} />,
+      icon: <UserMinus />,
       label: "Vom Server entfernen",
       danger: true,
       onClick: () => setConfirmKick(true),
@@ -89,9 +89,9 @@ export default function MemberRow({ member, isOffline, serverId, canManage }) {
         {canManage && !isOwner && (
           <button
             onClick={openMenu}
-            className="flex shrink-0 size-6 items-center justify-center rounded-(--radius-sm) border-none bg-transparent text-(--text-muted) opacity-0 group-hover:opacity-100 hover:bg-(--state-active) hover:text-(--text-secondary) cursor-pointer"
+            className="flex shrink-0 size-6 items-center justify-center rounded-(--radius-sm) border-none bg-transparent text-(--text-muted) opacity-0 group-hover:opacity-100 hover:bg-(--state-active) hover:text-(--text-secondary) cursor-pointer text-sm md:text-base"
           >
-            <DotsThreeVertical size={16} weight="bold" />
+            <DotsThreeVertical weight="bold" />
           </button>
         )}
       </div>

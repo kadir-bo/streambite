@@ -9,6 +9,7 @@ import {
   CaretLeft,
 } from "@phosphor-icons/react";
 import { useFriends } from "@/hooks";
+import { useAuth } from "@/context";
 import AddFriendModal from "@/components/home/AddFriendModal";
 import IncomingRequestsPopover from "@/components/home/IncomingRequestsPopover";
 import { motion } from "framer-motion";
@@ -16,7 +17,11 @@ import { useLayout } from "@/context";
 
 export default function HomeTopbar() {
   const { incomingRequests } = useFriends();
+  const { userDoc } = useAuth();
   const { setActiveNowSidebar, activeNowSidebar, showList } = useLayout();
+  const pendingInvites = userDoc?.pendingInvites ?? [];
+  const totalNotifications = incomingRequests.length + pendingInvites.length;
+
   const [addOpen, setAddOpen] = useState(false);
   const [inboxOpen, setInboxOpen] = useState(false);
   const [anchorRect, setAnchorRect] = useState(null);
@@ -33,21 +38,20 @@ export default function HomeTopbar() {
 
   return (
     <>
-      <header className="flex shrink-0 items-center justify-between gap-2 border-b border-(--border-subtle) bg-(--surface-base) px-2 sm:px-4 h-(--header-channel)">
+      <header className="flex shrink-0 items-center justify-between gap-2 border-b border-(--border-subtle) bg-(--surface-base) px-2 sm:px-4 py-2 md:h-(--header-channel)">
         <div className="flex min-w-0 items-center gap-2 sm:gap-3.5">
           <button
             onClick={showList}
             title="Zurück"
-            className="flex size-7 shrink-0 items-center justify-center rounded-(--radius-base) border-none bg-transparent text-(--text-muted) cursor-pointer md:hidden hover:bg-(--state-hover) hover:text-(--text-secondary)"
+            className="flex size-10 shrink-0 items-center justify-center rounded-(--radius-base) border-none bg-transparent text-(--text-muted) cursor-pointer md:hidden hover:bg-(--state-hover) hover:text-(--text-secondary) text-xl md:text-lg"
           >
-            <CaretLeft size={18} />
+            <CaretLeft />
           </button>
 
           <div className="hidden items-center gap-2 sm:flex">
             <UsersThree
-              size={20}
               weight="fill"
-              className="text-(--text-muted)"
+              className="text-(--text-muted) text-xl md:text-lg"
             />
             <span className="text-(--text-base) font-(--weight-semibold) text-(--text-primary)">
               Freunde
@@ -58,10 +62,10 @@ export default function HomeTopbar() {
 
           <button
             onClick={() => setAddOpen(true)}
-            className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-(--radius-base) border-none bg-(--accent) px-2.5 sm:px-3 py-[5px] text-sm font-(--weight-semibold) text-white transition-[background] duration-150 hover:bg-(--accent-hover)"
+            className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-(--radius-base) border-none bg-(--accent) px-2.5 sm:px-3 py-2 md:py-1.5 text-sm font-(--weight-semibold) text-white transition-[background] duration-150 hover:bg-(--accent-hover)"
           >
-            <UserPlus size={16} className="sm:hidden" />
-            <span className="hidden sm:inline">Freund hinzufügen</span>
+            <UserPlus className="text-lg md:text-md sm:hidden" />
+            <span>Freund hinzufügen</span>
           </button>
         </div>
 
@@ -73,28 +77,21 @@ export default function HomeTopbar() {
               toggleInbox();
             }}
             title="Posteingang"
-            className={`relative flex size-8 cursor-pointer items-center justify-center rounded-(--radius-base) border-none ${inboxOpen ? "bg-(--state-active) text-(--text-primary)" : "bg-transparent text-(--text-muted) hover:bg-(--state-hover)"}`}
+            className={`relative flex size-12 text-xl md:text-lg cursor-pointer items-center justify-center rounded-(--radius-base) border-none ${inboxOpen ? "bg-(--state-active) text-(--text-primary)" : "bg-transparent text-(--text-muted) hover:bg-(--state-hover)"}`}
           >
-            <BellSimple
-              size={18}
-              weight={incomingRequests.length > 0 ? "fill" : "regular"}
-            />
-            {incomingRequests.length > 0 && (
-              <span className="absolute right-0.5 top-0.5 flex min-w-3.5 items-center justify-center rounded-full border-2 border-(--surface-base) bg-(--danger) px-0.75 text-2xs font-(--weight-bold) leading-none text-white">
-                {incomingRequests.length}
+            <BellSimple weight={totalNotifications > 0 ? "fill" : "regular"} />
+            {totalNotifications > 0 && (
+              <span className="absolute -right-1 -top-0.5 flex min-w-[20px] items-center justify-center rounded-full border-2 border-(--surface-base) bg-(--danger) px-1 py-0.5 text-[10px] font-(--weight-bold) leading-none text-white">
+                {totalNotifications}
               </span>
             )}
           </button>
           <button
-            ref={inboxBtnRef}
             onClick={toggleActiveNow}
-            title="Posteingang"
-            className={`relative flex size-8 cursor-pointer items-center justify-center rounded-(--radius-base) border-none ${inboxOpen ? "bg-(--state-active) text-(--text-primary)" : "bg-transparent text-(--text-muted) hover:bg-(--state-hover)"}`}
+            title="Aktive Freunde"
+            className={`relative hidden md:flex size-8 cursor-pointer items-center justify-center rounded-(--radius-base) border-none text-xl md:text-lg ${activeNowSidebar ? "bg-(--state-active) text-(--text-primary)" : "bg-transparent text-(--text-muted) hover:bg-(--state-hover)"}`}
           >
-            <UsersThreeIcon
-              size={18}
-              weight={incomingRequests.length > 0 ? "fill" : "regular"}
-            />
+            <UsersThreeIcon weight={activeNowSidebar ? "fill" : "regular"} />
           </button>
         </div>
       </header>
@@ -103,6 +100,7 @@ export default function HomeTopbar() {
         open={inboxOpen}
         onClose={() => setInboxOpen(false)}
         anchorRect={anchorRect}
+        pendingInvites={pendingInvites}
       />
       <AddFriendModal open={addOpen} onClose={() => setAddOpen(false)} />
     </>

@@ -73,9 +73,9 @@ export default function MemberSidebar() {
                 <button
                   onClick={toggleMembers}
                   title="Schließen"
-                  className="flex size-8 items-center justify-center rounded-(--radius-base) border-none bg-transparent text-(--text-muted) cursor-pointer hover:bg-(--state-hover) hover:text-(--text-secondary)"
+                  className="flex size-8 max-sm:size-10 items-center justify-center rounded-(--radius-base) border-none bg-transparent text-(--text-muted) cursor-pointer hover:bg-(--state-hover) hover:text-(--text-secondary)"
                 >
-                  <X size={18} />
+                  <X className="text-xl md:text-lg" />
                 </button>
               </div>
             )}

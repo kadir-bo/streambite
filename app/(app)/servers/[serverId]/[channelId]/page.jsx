@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
-import { useAuth, useServer, useLayout } from '@/context'
+import { useAuth, useServer } from '@/context'
 import { markRead } from '@/lib'
 import { ChannelHeader, MessageList, MessageInput } from '@/components'
 import VoiceChannelView from '@/components/voice/VoiceChannelView'
@@ -11,7 +11,6 @@ export default function ChannelPage() {
   const { serverId, channelId } = useParams()
   const { firebaseUser } = useAuth()
   const { channels, servers, showMembers, toggleMembers } = useServer()
-  const { showContent } = useLayout()
   const [replyTarget, setReplyTarget] = useState(null)
 
   const channel = channels.find((ch) => ch.id === channelId)
@@ -23,10 +22,10 @@ export default function ChannelPage() {
     if (firebaseUser && channelId && !isVoice) markRead(firebaseUser.uid, channelId).catch(console.error)
   }, [firebaseUser, channelId, isVoice])
 
-  // On mobile, opening a channel switches from the list pane to this content pane.
-  useEffect(() => {
-    showContent()
-  }, [channelId, showContent])
+  // On mobile: the sidebar stays open when tapping a channel, so the user
+  // can browse freely. Tapping the channel again (or the ▶ arrow on the
+  // active channel in the sidebar) calls showContent() explicitly.
+  // (Desktop is unaffected — both panes are always visible at md+.)
 
   return (
     <div

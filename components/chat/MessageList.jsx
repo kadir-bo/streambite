@@ -106,7 +106,7 @@ export default function MessageList({ serverId, channelId, channel, dmUser, onRe
             onClick={() => { scrollToBottom('smooth'); setShowNewMsg(false) }}
             className="absolute bottom-4 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-(--surface-overlay) border border-(--border-default) rounded-(--radius-pill) text-sm font-medium text-(--text-primary) shadow-(--shadow-lg) cursor-pointer whitespace-nowrap"
           >
-            <ArrowDown size={14} weight="bold" />
+            <ArrowDown weight="bold" />
             Neue Nachricht
           </motion.button>
         )}

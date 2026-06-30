@@ -38,20 +38,20 @@ export default function ServerHeader({
     ...(isOwner
       ? [
           {
-            icon: <GearSix size={14} />,
+            icon: <GearSix />,
             label: "Servereinstellungen",
             onClick: onOpenSettings,
           },
         ]
       : []),
     {
-      icon: <UserPlus size={14} />,
+      icon: <UserPlus />,
       label: "Freunde einladen",
       onClick: onOpenInvite,
     },
     { divider: true },
     {
-      icon: <SignOut size={14} />,
+      icon: <SignOut />,
       label: "Server verlassen",
       danger: true,
       onClick: handleLeave,
@@ -70,7 +70,7 @@ export default function ServerHeader({
         <span className="min-w-0 truncate text-sm font-semibold text-(--text-primary)">
           {server?.name ?? "..."}
         </span>
-        <CaretDown size={13} className="ml-auto shrink-0 text-(--text-muted)" />
+        <CaretDown className="ml-auto shrink-0 text-(--text-muted) text-sm md:text-base" />
       </button>
 
       <ContextMenu

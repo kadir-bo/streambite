@@ -17,7 +17,7 @@ export default function RailButton({
 
   const inner = (
     <div
-      className="relative flex items-center py-0.75"
+      className="relative flex items-center py-0.75 max-sm:py-1.25"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -26,11 +26,11 @@ export default function RailButton({
         variants={serverPill}
         className="absolute left-0 w-0.75 origin-left rounded-r-[3px] bg-(--text-primary)"
       />
-      <div className="px-1.75">
+      <div className="px-1.75 ">
         <motion.div
           animate={state}
           variants={serverIcon}
-          className={`flex size-8.5 items-center justify-center overflow-hidden cursor-pointer border border-(--border-subtle) ${active ? "bg-(--surface-overlay)" : "bg-(--surface-raised)"}`}
+          className={`flex size-10 md:size-8.5 items-center justify-center overflow-hidden cursor-pointer border border-(--border-subtle) ${active ? "bg-(--surface-overlay)" : "bg-(--surface-raised)"}`}
         >
           {children}
         </motion.div>

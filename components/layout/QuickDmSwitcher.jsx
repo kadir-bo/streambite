@@ -52,7 +52,7 @@ export default function QuickDmSwitcher({ open, onClose }) {
     >
       <div className="flex flex-col gap-3.5">
         <div className="flex items-center gap-2 bg-(--surface-deep) border border-(--border-subtle) rounded-(--radius-base) px-3">
-          <MagnifyingGlass size={14} className="text-(--text-muted) shrink-0" />
+          <MagnifyingGlass className="text-(--text-muted) shrink-0 text-xl md:text-lg" />
           <input
             autoFocus
             value={search}
@@ -93,8 +93,7 @@ export default function QuickDmSwitcher({ open, onClose }) {
                   {friend.displayName}
                 </span>
                 <ChatCircleText
-                  size={16}
-                  className="text-(--text-muted) shrink-0"
+                  className="text-(--text-muted) shrink-0 text-xl md:text-lg"
                 />
               </button>
             ))

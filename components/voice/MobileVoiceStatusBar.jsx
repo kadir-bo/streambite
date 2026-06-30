@@ -32,7 +32,7 @@ export default function MobileVoiceStatusBar() {
         href={`/servers/${connection.serverId}/${connection.channelId}`}
         className="flex min-w-0 flex-1 items-center gap-2 no-underline"
       >
-        <SpeakerHigh size={16} className="shrink-0 text-(--accent)" />
+        <SpeakerHigh className="shrink-0 text-(--accent) text-xl md:text-lg" />
         <span className="truncate text-sm font-medium text-(--accent)">
           {connection.channelName ?? "Sprachkanal"}
         </span>
@@ -41,27 +41,27 @@ export default function MobileVoiceStatusBar() {
       <button
         onClick={toggleMute}
         title={muted ? "Stummschaltung aufheben" : "Stummschalten"}
-        className={`flex size-9 shrink-0 items-center justify-center rounded-(--radius-base) border-none bg-transparent cursor-pointer ${
+        className={`flex size-9 max-sm:size-10 shrink-0 items-center justify-center rounded-(--radius-base) border-none bg-transparent cursor-pointer text-lg ${
           muted ? "text-(--danger)" : "text-(--text-secondary)"
         }`}
       >
-        {muted ? <MicrophoneSlash size={18} /> : <Microphone size={18} />}
+        {muted ? <MicrophoneSlash /> : <Microphone />}
       </button>
       <button
         onClick={toggleDeafen}
         title={deafened ? "Hörgerät aktivieren" : "Tauben schalten"}
-        className={`flex size-9 shrink-0 items-center justify-center rounded-(--radius-base) border-none bg-transparent cursor-pointer ${
+        className={`flex size-9 max-sm:size-10 shrink-0 items-center justify-center rounded-(--radius-base) border-none bg-transparent cursor-pointer text-lg ${
           deafened ? "text-(--danger)" : "text-(--text-secondary)"
         }`}
       >
-        <Headphones size={18} />
+        <Headphones />
       </button>
       <button
         onClick={disconnect}
         title="Sprachkanal verlassen"
-        className="flex size-9 shrink-0 items-center justify-center rounded-(--radius-base) border-none bg-transparent text-(--danger) cursor-pointer"
+        className="flex size-9 max-sm:size-10 shrink-0 items-center justify-center rounded-(--radius-base) border-none bg-transparent text-(--danger) cursor-pointer text-lg"
       >
-        <PhoneDisconnect size={18} />
+        <PhoneDisconnect />
       </button>
     </div>
   );

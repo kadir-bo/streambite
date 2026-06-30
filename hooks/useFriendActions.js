@@ -53,7 +53,7 @@ export function useFriendActions(user) {
     ...(isFriend
       ? [
           {
-            icon: <UserMinus size={14} />,
+            icon: <UserMinus className="text-xl md:text-lg" />,
             label: "Freund entfernen",
             danger: true,
             onClick: () => setConfirmRemove(true),
@@ -61,7 +61,7 @@ export function useFriendActions(user) {
         ]
       : []),
     {
-      icon: isBlocked ? <UserCheck size={14} /> : <Prohibit size={14} />,
+      icon: isBlocked ? <UserCheck className="text-xl md:text-lg" /> : <Prohibit className="text-xl md:text-lg" />,
       label: isBlocked ? "Entblocken" : "Blockieren",
       danger: !isBlocked,
       onClick: () => (isBlocked ? handleToggleBlock() : setConfirmBlock(true)),

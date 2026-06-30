@@ -93,7 +93,7 @@ export default function VoiceVideoSettings() {
     <div className="flex flex-col gap-6">
       <h2 className="text-xl font-(--weight-semibold) text-(--text-primary)">Sprachchat</h2>
 
-      <div className="grid grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <Select
           label="Mikrofon"
           value={activeAudioInputId ?? ""}
@@ -121,7 +121,7 @@ export default function VoiceVideoSettings() {
         </Select>
       </div>
 
-      <div className="grid grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div>
           <SectionLabel>Mikrofonlautstärke</SectionLabel>
           <input
@@ -132,6 +132,7 @@ export default function VoiceVideoSettings() {
             onChange={(e) => setInputVolume(Number(e.target.value))}
             className="w-full"
           />
+          <p className="text-xs text-(--text-muted) mt-1">{inputVolume}%</p>
         </div>
         <div>
           <SectionLabel>Lautsprecherlautstärke</SectionLabel>
@@ -143,17 +144,18 @@ export default function VoiceVideoSettings() {
             onChange={(e) => setOutputVolume(Number(e.target.value))}
             className="w-full"
           />
+          <p className="text-xs text-(--text-muted) mt-1">{outputVolume}%</p>
         </div>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
         <Button type="button" variant={testing ? "ghost" : "primary"} onClick={toggleTest}>
           <span className="flex items-center gap-2">
-            <Microphone size={16} />
+            <Microphone className="text-xl md:text-lg" />
             {testing ? "Test beenden" : "Mikrofontest"}
           </span>
         </Button>
-        <div className="flex flex-1 items-center gap-0.5">
+        <div className="flex flex-1 items-center gap-0.5 h-5">
           {Array.from({ length: TEST_BAR_COUNT }).map((_, i) => (
             <span
               key={i}
@@ -185,6 +187,7 @@ export default function VoiceVideoSettings() {
           onChange={(e) => setMicSensitivity(Number(e.target.value))}
           className="w-full"
         />
+        <p className="text-xs text-(--text-muted) mt-1">{micSensitivity}%</p>
       </div>
     </div>
   );

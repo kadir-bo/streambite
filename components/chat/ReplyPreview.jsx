@@ -16,7 +16,7 @@ export default function ReplyPreview({ target, onCancel }) {
       className="overflow-hidden"
     >
       <div className="flex items-center gap-2 px-3.5 py-1.5 bg-(--surface-raised) rounded-t-(--radius-base) border-b border-(--border-subtle)">
-        <ArrowBendUpLeft size={14} className="text-(--text-muted) shrink-0" />
+        <ArrowBendUpLeft className="text-(--text-muted) shrink-0 text-xl md:text-lg" />
         <span className="text-xs text-(--text-muted) flex-1 min-w-0 truncate">
           Antwort an{" "}
           <strong className="text-(--text-primary)">
@@ -31,9 +31,9 @@ export default function ReplyPreview({ target, onCancel }) {
         </span>
         <button
           onClick={onCancel}
-          className="p-1 rounded-sm text-(--text-muted) flex items-center shrink-0 hover:text-(--text-primary)"
+          className="p-1 rounded-sm text-(--text-muted) flex items-center shrink-0 hover:text-(--text-primary) text-xl md:text-lg"
         >
-          <X size={14} />
+          <X />
         </button>
       </div>
     </motion.div>

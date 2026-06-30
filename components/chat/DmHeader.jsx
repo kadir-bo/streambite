@@ -40,7 +40,7 @@ export default function DmHeader({ user, dmId }) {
     ...friendActions.items,
     { divider: true },
     {
-      icon: <XCircle size={14} />,
+      icon: <XCircle />,
       label: "Unterhaltung schließen",
       onClick: handleCloseConversation,
     },
@@ -51,33 +51,33 @@ export default function DmHeader({ user, dmId }) {
       <button
         onClick={showList}
         title="Zurück"
-        className="flex size-7 shrink-0 items-center justify-center rounded-(--radius-base) border-none bg-transparent text-(--text-muted) cursor-pointer md:hidden hover:bg-(--state-hover) hover:text-(--text-secondary)"
-      >
-        <CaretLeft size={18} />
-      </button>
-
-      <Avatar
-        src={user?.avatarUrl}
-        name={user?.displayName}
-        size="sm"
-        status={user?.status}
-      />
-      <div className="min-w-0 flex-1">
-        <p className="truncate font-(--weight-semibold) text-(--text-primary) leading-[1.2]">
-          {user?.displayName ?? "..."}
-        </p>
-        <p className="text-2xs text-(--text-muted)">
-          {STATUS_LABELS[user?.status] ?? "Offline"}
-        </p>
-      </div>
-
-      {user && (
-        <button
-          onClick={openMenu}
-          title="Mehr"
-          className="flex size-7 shrink-0 items-center justify-center rounded-(--radius-base) border-none bg-transparent text-(--text-muted) cursor-pointer hover:bg-(--state-hover) hover:text-(--text-secondary)"
+className="flex size-7 max-sm:size-10 shrink-0 items-center justify-center rounded-(--radius-base) border-none bg-transparent text-(--text-muted) cursor-pointer md:hidden hover:bg-(--state-hover) hover:text-(--text-secondary) text-xl md:text-lg"
         >
-          <DotsThreeVertical size={18} weight="bold" />
+          <CaretLeft />
+        </button>
+
+        <Avatar
+          src={user?.avatarUrl}
+          name={user?.displayName}
+          size="sm"
+          status={user?.status}
+        />
+        <div className="min-w-0 flex-1">
+          <p className="truncate font-(--weight-semibold) text-(--text-primary) leading-[1.2]">
+            {user?.displayName ?? "..."}
+          </p>
+          <p className="text-2xs text-(--text-muted)">
+            {STATUS_LABELS[user?.status] ?? "Offline"}
+          </p>
+        </div>
+
+        {user && (
+          <button
+            onClick={openMenu}
+            title="Mehr"
+            className="flex size-7 max-sm:size-10 shrink-0 items-center justify-center rounded-(--radius-base) border-none bg-transparent text-(--text-muted) cursor-pointer hover:bg-(--state-hover) hover:text-(--text-secondary) text-sm md:text-base"
+        >
+          <DotsThreeVertical weight="bold" />
         </button>
       )}
 

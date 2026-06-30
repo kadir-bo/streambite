@@ -53,3 +53,5 @@ firestore.rules
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.vercel

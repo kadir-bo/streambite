@@ -1,10 +1,16 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { Camera, Warning } from "@phosphor-icons/react";
+import { useState, useEffect } from "react";
+import { Warning } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
-import { updateUserDocument, setUsername, uploadToCloudinary, deleteUserAccount, logoutUser } from "@/lib";
+import {
+  updateUserDocument,
+  setUsername,
+  deleteUserAccount,
+  logoutUser,
+} from "@/lib";
 import Input from "@/components/ui/Input";
+import Select from "@/components/ui/Select";
 import Button from "@/components/ui/Button";
 import Avatar from "@/components/layout/Avatar";
 import SectionLabel from "@/components/ui/SectionLabel";
@@ -29,7 +35,7 @@ export default function ProfileSettings({ open }) {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState("");
-  const fileInputRef = useRef(null);
+
 
   // userDoc loads after this modal's first mount (it lives in the always-on
   // sidebar), so re-sync the form fields whenever the modal is opened rather
@@ -47,31 +53,6 @@ export default function ProfileSettings({ open }) {
     username.trim() !== (userDoc?.username ?? "") ||
     status !== (userDoc?.status ?? "online");
 
-  async function handleAvatarChange(e) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    if (file.size > 4 * 1024 * 1024) {
-      setError("Bild ist zu groß (max. 4 MB)");
-      return;
-    }
-    setAvatarPreview(URL.createObjectURL(file));
-    setUploadingAvatar(true);
-    setError("");
-    try {
-      const url = await uploadToCloudinary(
-        file,
-        `streambite/avatars/${firebaseUser.uid}`,
-      );
-      await updateUserDocument(firebaseUser.uid, { avatarUrl: url });
-    } catch {
-      setError("Fehler beim Speichern des Avatars");
-      setAvatarPreview(null);
-    } finally {
-      setUploadingAvatar(false);
-      e.target.value = "";
-    }
-  }
-
   async function handleSave(e) {
     e.preventDefault();
     const name = displayName.trim();
@@ -81,7 +62,9 @@ export default function ProfileSettings({ open }) {
     }
     const uname = username.trim();
     if (uname && !/^[a-zA-Z0-9_]{3,20}$/.test(uname)) {
-      setError("Benutzername: 3–20 Zeichen, nur Buchstaben, Zahlen und Unterstriche");
+      setError(
+        "Benutzername: 3–20 Zeichen, nur Buchstaben, Zahlen und Unterstriche",
+      );
       return;
     }
     setError("");
@@ -91,7 +74,10 @@ export default function ProfileSettings({ open }) {
       if (uname && uname !== userDoc?.username) {
         await setUsername(firebaseUser.uid, uname);
       }
-      if (name !== (userDoc?.displayName ?? "") || status !== (userDoc?.status ?? "online")) {
+      if (
+        name !== (userDoc?.displayName ?? "") ||
+        status !== (userDoc?.status ?? "online")
+      ) {
         await updateUserDocument(firebaseUser.uid, updates);
       }
     } catch (err) {
@@ -128,25 +114,6 @@ export default function ProfileSettings({ open }) {
             size="xl"
             status={status}
           />
-          <button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            disabled={uploadingAvatar}
-            className={`absolute inset-0 rounded-full flex items-center justify-center border-none cursor-pointer text-white transition-opacity duration-150 ${
-              uploadingAvatar
-                ? "bg-black/50 opacity-100"
-                : "bg-transparent opacity-0"
-            } hover:bg-black/50 hover:opacity-100`}
-          >
-            <Camera size={22} weight="bold" />
-          </button>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={handleAvatarChange}
-          />
         </div>
         <div className="min-w-0">
           <p className="text-sm font-(--weight-semibold) text-(--text-primary) truncate">
@@ -167,7 +134,9 @@ export default function ProfileSettings({ open }) {
                 setUploadingAvatar(true);
                 setError("");
                 try {
-                  await updateUserDocument(firebaseUser.uid, { avatarUrl: null });
+                  await updateUserDocument(firebaseUser.uid, {
+                    avatarUrl: null,
+                  });
                   setAvatarPreview(null);
                 } catch {
                   setError("Fehler beim Entfernen des Bildes");
@@ -212,7 +181,10 @@ export default function ProfileSettings({ open }) {
           3–20 Zeichen, nur Buchstaben, Zahlen und Unterstriche.
           {userDoc?.username && userDoc?.tag && (
             <span className="ml-1">
-              Aktuell: <span className="font-mono">{userDoc.username}#{userDoc.tag}</span>
+              Aktuell:{" "}
+              <span className="font-mono">
+                {userDoc.username}#{userDoc.tag}
+              </span>
             </span>
           )}
         </p>
@@ -221,7 +193,7 @@ export default function ProfileSettings({ open }) {
       {/* Status */}
       <div>
         <SectionLabel>Status</SectionLabel>
-        <div className="grid grid-cols-4 gap-2">
+        <div className="hidden md:grid grid-cols-2 gap-2 sm:grid-cols-4">
           {STATUS_OPTIONS.map((opt) => {
             const active = status === opt.value;
             return (
@@ -229,7 +201,7 @@ export default function ProfileSettings({ open }) {
                 key={opt.value}
                 type="button"
                 onClick={() => setStatus(opt.value)}
-                className={`px-1 py-2.5 rounded-(--radius-base) cursor-pointer flex flex-col items-center gap-1.25 transition-[border-color,background] duration-120 ${
+                className={`px-3 py-3 sm:px-1 sm:py-2.5 rounded-(--radius-base) cursor-pointer flex flex-col items-center gap-1.5 sm:gap-1.25 transition-[border-color,background] duration-120 min-h-12 sm:min-h-0 ${
                   active
                     ? "bg-(--state-active) border"
                     : "bg-transparent border border-(--border-subtle)"
@@ -237,11 +209,11 @@ export default function ProfileSettings({ open }) {
                 style={active ? { borderColor: opt.color } : {}}
               >
                 <span
-                  className="size-2 rounded-full block"
+                  className="size-2.5 sm:size-2 rounded-full block"
                   style={{ backgroundColor: opt.color }}
                 />
                 <span
-                  className={`text-2xs text-center leading-[1.2] ${
+                  className={`text-xs sm:text-2xs text-center leading-[1.2] ${
                     active
                       ? "text-(--text-primary) font-(--weight-semibold)"
                       : "text-(--text-muted) font-(--weight-normal)"
@@ -253,6 +225,19 @@ export default function ProfileSettings({ open }) {
             );
           })}
         </div>
+      </div>
+      {/* DROP DOWN FOR MOBILE */}
+      <div className="md:hidden">
+        <Select
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+        >
+          {STATUS_OPTIONS.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </Select>
       </div>
 
       {error && (
@@ -273,14 +258,15 @@ export default function ProfileSettings({ open }) {
       <div className="h-px bg-(--border-subtle) mt-4" />
       <div className="rounded-(--radius-base) border border-(--danger) bg-(--danger-subtle) p-4">
         <div className="flex items-center gap-2 mb-2">
-          <Warning size={16} className="text-(--danger) shrink-0" />
+          <Warning className="text-(--danger) shrink-0 text-xl md:text-lg" />
           <span className="text-sm font-semibold text-(--danger)">
             Account löschen
           </span>
         </div>
         <p className="text-xs text-(--text-secondary) mb-3 leading-relaxed">
           Dein gesamtes Profil, alle Nachrichten und Server-Mitgliedschaften
-          werden unwiderruflich gelöscht. Dies kann nicht rückgängig gemacht werden.
+          werden unwiderruflich gelöscht. Dies kann nicht rückgängig gemacht
+          werden.
         </p>
         <Button
           type="button"
@@ -293,7 +279,10 @@ export default function ProfileSettings({ open }) {
 
       <ConfirmModal
         open={deleteOpen}
-        onClose={() => { setDeleteOpen(false); setDeleteError(""); }}
+        onClose={() => {
+          setDeleteOpen(false);
+          setDeleteError("");
+        }}
         onConfirm={handleDeleteAccount}
         title="Account wirklich löschen?"
         description="Dein Account, alle Nachrichten und Server-Mitgliedschaften werden unwiderruflich gelöscht. Bist du sicher?"
