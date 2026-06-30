@@ -1,0 +1,306 @@
+"use client";
+
+import { useState, useRef, useEffect } from "react";
+import { Camera, Warning } from "@phosphor-icons/react";
+import { useAuth } from "@/context";
+import { updateUserDocument, setUsername, uploadToCloudinary, deleteUserAccount, logoutUser } from "@/lib";
+import Input from "@/components/ui/Input";
+import Button from "@/components/ui/Button";
+import Avatar from "@/components/layout/Avatar";
+import SectionLabel from "@/components/ui/SectionLabel";
+import ConfirmModal from "@/components/modals/ConfirmModal";
+
+const STATUS_OPTIONS = [
+  { value: "online", label: "Online", color: "var(--status-online)" },
+  { value: "busy", label: "Beschäftigt", color: "var(--status-busy)" },
+  { value: "idle", label: "Abwesend", color: "var(--status-idle)" },
+  { value: "offline", label: "Offline", color: "var(--status-offline)" },
+];
+
+export default function ProfileSettings({ open }) {
+  const { userDoc, firebaseUser } = useAuth();
+  const [displayName, setDisplayName] = useState(userDoc?.displayName ?? "");
+  const [username, setUsernameState] = useState(userDoc?.username ?? "");
+  const [status, setStatus] = useState(userDoc?.status ?? "online");
+  const [saving, setSaving] = useState(false);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [error, setError] = useState("");
+  const [avatarPreview, setAvatarPreview] = useState(null);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState("");
+  const fileInputRef = useRef(null);
+
+  // userDoc loads after this modal's first mount (it lives in the always-on
+  // sidebar), so re-sync the form fields whenever the modal is opened rather
+  // than relying on the initial useState value.
+  useEffect(() => {
+    if (open) {
+      setDisplayName(userDoc?.displayName ?? "");
+      setUsernameState(userDoc?.username ?? "");
+      setStatus(userDoc?.status ?? "online");
+    }
+  }, [open, userDoc?.displayName, userDoc?.username, userDoc?.status]);
+
+  const hasChanges =
+    displayName.trim() !== (userDoc?.displayName ?? "") ||
+    username.trim() !== (userDoc?.username ?? "") ||
+    status !== (userDoc?.status ?? "online");
+
+  async function handleAvatarChange(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 4 * 1024 * 1024) {
+      setError("Bild ist zu groß (max. 4 MB)");
+      return;
+    }
+    setAvatarPreview(URL.createObjectURL(file));
+    setUploadingAvatar(true);
+    setError("");
+    try {
+      const url = await uploadToCloudinary(
+        file,
+        `streambite/avatars/${firebaseUser.uid}`,
+      );
+      await updateUserDocument(firebaseUser.uid, { avatarUrl: url });
+    } catch {
+      setError("Fehler beim Speichern des Avatars");
+      setAvatarPreview(null);
+    } finally {
+      setUploadingAvatar(false);
+      e.target.value = "";
+    }
+  }
+
+  async function handleSave(e) {
+    e.preventDefault();
+    const name = displayName.trim();
+    if (!name || name.length < 2) {
+      setError("Name muss mindestens 2 Zeichen haben");
+      return;
+    }
+    const uname = username.trim();
+    if (uname && !/^[a-zA-Z0-9_]{3,20}$/.test(uname)) {
+      setError("Benutzername: 3–20 Zeichen, nur Buchstaben, Zahlen und Unterstriche");
+      return;
+    }
+    setError("");
+    setSaving(true);
+    try {
+      const updates = { displayName: name, status };
+      if (uname && uname !== userDoc?.username) {
+        await setUsername(firebaseUser.uid, uname);
+      }
+      if (name !== (userDoc?.displayName ?? "") || status !== (userDoc?.status ?? "online")) {
+        await updateUserDocument(firebaseUser.uid, updates);
+      }
+    } catch (err) {
+      setError(err?.message || "Fehler beim Speichern");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handleDeleteAccount() {
+    setDeleteError("");
+    setDeleting(true);
+    try {
+      await deleteUserAccount(firebaseUser.uid);
+      // Auth-Listener meldet sich automatisch ab → UI wechselt zu Login
+      // Aber falls das nicht instant passiert, logout explizit:
+      await logoutUser();
+    } catch (err) {
+      setDeleteError(err?.message || "Fehler beim Löschen des Accounts");
+      setDeleting(false);
+    }
+  }
+
+  const currentAvatar = avatarPreview ?? userDoc?.avatarUrl;
+
+  return (
+    <form onSubmit={handleSave} className="flex flex-col gap-5">
+      {/* Avatar section */}
+      <div className="flex items-center gap-4">
+        <div className="relative shrink-0">
+          <Avatar
+            src={currentAvatar}
+            name={displayName || userDoc?.displayName || "?"}
+            size="xl"
+            status={status}
+          />
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={uploadingAvatar}
+            className={`absolute inset-0 rounded-full flex items-center justify-center border-none cursor-pointer text-white transition-opacity duration-150 ${
+              uploadingAvatar
+                ? "bg-black/50 opacity-100"
+                : "bg-transparent opacity-0"
+            } hover:bg-black/50 hover:opacity-100`}
+          >
+            <Camera size={22} weight="bold" />
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleAvatarChange}
+          />
+        </div>
+        <div className="min-w-0">
+          <p className="text-sm font-(--weight-semibold) text-(--text-primary) truncate">
+            {displayName || userDoc?.displayName || "—"}
+          </p>
+          <p className="text-xs text-(--text-muted) font-(--font-mono)">
+            {userDoc?.username
+              ? `${userDoc.username}#${userDoc.tag}`
+              : "Kein Benutzername"}
+          </p>
+          <p className="text-xs text-(--text-ghost) mt-0.5">
+            {firebaseUser?.email}
+          </p>
+          {userDoc?.avatarUrl && (
+            <button
+              type="button"
+              onClick={async () => {
+                setUploadingAvatar(true);
+                setError("");
+                try {
+                  await updateUserDocument(firebaseUser.uid, { avatarUrl: null });
+                  setAvatarPreview(null);
+                } catch {
+                  setError("Fehler beim Entfernen des Bildes");
+                } finally {
+                  setUploadingAvatar(false);
+                }
+              }}
+              disabled={uploadingAvatar}
+              className="text-xs text-(--danger) hover:text-(--danger-hover) bg-transparent border-none cursor-pointer p-0 mt-1 transition-colors"
+            >
+              Bild entfernen
+            </button>
+          )}
+        </div>
+      </div>
+
+      <div className="h-px bg-(--border-subtle)" />
+
+      {/* Display name */}
+      <div>
+        <SectionLabel>Anzeigename</SectionLabel>
+        <Input
+          value={displayName}
+          onChange={(e) => setDisplayName(e.target.value)}
+          maxLength={32}
+          minLength={2}
+          placeholder="Dein Name"
+        />
+      </div>
+
+      {/* Username */}
+      <div>
+        <SectionLabel>Benutzername</SectionLabel>
+        <Input
+          value={username}
+          onChange={(e) => setUsernameState(e.target.value)}
+          maxLength={20}
+          minLength={3}
+          placeholder="benutzername"
+        />
+        <p className="text-xs text-(--text-muted) mt-1">
+          3–20 Zeichen, nur Buchstaben, Zahlen und Unterstriche.
+          {userDoc?.username && userDoc?.tag && (
+            <span className="ml-1">
+              Aktuell: <span className="font-mono">{userDoc.username}#{userDoc.tag}</span>
+            </span>
+          )}
+        </p>
+      </div>
+
+      {/* Status */}
+      <div>
+        <SectionLabel>Status</SectionLabel>
+        <div className="grid grid-cols-4 gap-2">
+          {STATUS_OPTIONS.map((opt) => {
+            const active = status === opt.value;
+            return (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => setStatus(opt.value)}
+                className={`px-1 py-2.5 rounded-(--radius-base) cursor-pointer flex flex-col items-center gap-1.25 transition-[border-color,background] duration-120 ${
+                  active
+                    ? "bg-(--state-active) border"
+                    : "bg-transparent border border-(--border-subtle)"
+                }`}
+                style={active ? { borderColor: opt.color } : {}}
+              >
+                <span
+                  className="size-2 rounded-full block"
+                  style={{ backgroundColor: opt.color }}
+                />
+                <span
+                  className={`text-2xs text-center leading-[1.2] ${
+                    active
+                      ? "text-(--text-primary) font-(--weight-semibold)"
+                      : "text-(--text-muted) font-(--weight-normal)"
+                  }`}
+                >
+                  {opt.label}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {error && (
+        <p className="text-xs text-(--danger) px-3 py-2 bg-(--danger-subtle) rounded-(--radius-base)">
+          {error}
+        </p>
+      )}
+
+      <Button
+        type="submit"
+        loading={saving}
+        disabled={!hasChanges || !displayName.trim()}
+      >
+        Änderungen speichern
+      </Button>
+
+      {/* Account löschen */}
+      <div className="h-px bg-(--border-subtle) mt-4" />
+      <div className="rounded-(--radius-base) border border-(--danger) bg-(--danger-subtle) p-4">
+        <div className="flex items-center gap-2 mb-2">
+          <Warning size={16} className="text-(--danger) shrink-0" />
+          <span className="text-sm font-semibold text-(--danger)">
+            Account löschen
+          </span>
+        </div>
+        <p className="text-xs text-(--text-secondary) mb-3 leading-relaxed">
+          Dein gesamtes Profil, alle Nachrichten und Server-Mitgliedschaften
+          werden unwiderruflich gelöscht. Dies kann nicht rückgängig gemacht werden.
+        </p>
+        <Button
+          type="button"
+          variant="danger"
+          onClick={() => setDeleteOpen(true)}
+        >
+          Account dauerhaft löschen
+        </Button>
+      </div>
+
+      <ConfirmModal
+        open={deleteOpen}
+        onClose={() => { setDeleteOpen(false); setDeleteError(""); }}
+        onConfirm={handleDeleteAccount}
+        title="Account wirklich löschen?"
+        description="Dein Account, alle Nachrichten und Server-Mitgliedschaften werden unwiderruflich gelöscht. Bist du sicher?"
+        confirmLabel={deleting ? "Lösche…" : "Account löschen"}
+        loading={deleting}
+        error={deleteError}
+      />
+    </form>
+  );
+}

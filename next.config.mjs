@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
+  // Erlaubt Zugriff vom iPhone übers lokale Netzwerk
+  // (Next.js 16 blockiert Nicht-localhost-Origins standardmäßig)
+  allowedDevOrigins: ["*"],
 };
 
 export default nextConfig;

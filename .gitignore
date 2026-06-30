@@ -36,6 +36,20 @@ yarn-error.log*
 # vercel
 .vercel
 
+# AI / Claude — never push agent configs
+.claude/
+AGENTS.md
+CLAUDE.md
+
+# Documentation / markdown (not needed in repo)
+*.md
+
+# Debug screenshots
+*.png
+
+# Firebase rules (security logic, not needed in repo)
+firestore.rules
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
