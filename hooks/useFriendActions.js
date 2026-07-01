@@ -8,7 +8,7 @@ import ConfirmModal from "@/components/modals/ConfirmModal";
 
 // Shared Block/Unblock + Remove-friend menu items and their confirmation
 // modals, reused by the DM sidebar list, the Friends list, and the DM
-// header — so the three surfaces can't drift out of sync with each other.
+// header - so the three surfaces can't drift out of sync with each other.
 export function useFriendActions(user) {
   const { firebaseUser, userDoc } = useAuth();
   const [confirmRemove, setConfirmRemove] = useState(false);
@@ -61,7 +61,11 @@ export function useFriendActions(user) {
         ]
       : []),
     {
-      icon: isBlocked ? <UserCheck className="text-xl md:text-lg" /> : <Prohibit className="text-xl md:text-lg" />,
+      icon: isBlocked ? (
+        <UserCheck className="text-xl md:text-lg" />
+      ) : (
+        <Prohibit className="text-xl md:text-lg" />
+      ),
       label: isBlocked ? "Entblocken" : "Blockieren",
       danger: !isBlocked,
       onClick: () => (isBlocked ? handleToggleBlock() : setConfirmBlock(true)),

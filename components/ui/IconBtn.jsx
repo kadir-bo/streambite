@@ -14,12 +14,12 @@ export default function IconBtn({
   icon: Icon,
   onClick,
   title,
-  variant = "ghost",     // ghost | danger | danger-solid | active | primary | link
-  size = "md",           // xs | sm | md | lg | xl
-  mobileSize,            // überschreibt max-sm Größe
-  rounded = "base",      // base | sm | full | none
-  mobileOnly,            // → md:hidden (nur auf Mobile sichtbar)
-  desktopOnly,           // → hidden md:flex (nur auf Desktop sichtbar)
+  variant = "ghost", // ghost | danger | danger-solid | active | primary | link
+  size = "md", // xs | sm | md | lg | xl
+  mobileSize, // überschreibt max-sm Größe
+  rounded = "base", // base | sm | full | none
+  mobileOnly, // → md:hidden (nur auf Mobile sichtbar)
+  desktopOnly, // → hidden md:flex (nur auf Desktop sichtbar)
   active,
   disabled,
   iconWeight,
@@ -27,7 +27,7 @@ export default function IconBtn({
   children,
   ...props
 }) {
-  // Tailwind JIT kann keine dynamischen Strings wie `size-${x}` — daher feste Map
+  // Tailwind JIT kann keine dynamischen Strings wie `size-${x}` - daher feste Map
   const sizeClasses = {
     xs: "size-6",
     sm: "size-7",
@@ -66,7 +66,9 @@ export default function IconBtn({
   };
 
   const sizeClass = sizeClasses[size] ?? sizeClasses.md;
-  const mobClass = mobileSize ? mobileSizeClasses[mobileSize] : "max-sm:size-10";
+  const mobClass = mobileSize
+    ? mobileSizeClasses[mobileSize]
+    : "max-sm:size-10";
 
   const iconClass =
     size === "xs" || size === "sm"
@@ -87,7 +89,9 @@ export default function IconBtn({
         roundedClasses[rounded] ?? "rounded-(--radius-base)",
         variantClasses[variant] ?? variantClasses.ghost,
         // Active-Override für ghost
-        active && variant === "ghost" && "bg-(--state-active) text-(--text-primary)",
+        active &&
+          variant === "ghost" &&
+          "bg-(--state-active) text-(--text-primary)",
         mobileOnly && "md:hidden",
         desktopOnly && "hidden md:flex",
         disabled && "opacity-40 cursor-not-allowed",

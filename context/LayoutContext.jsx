@@ -11,7 +11,7 @@ export function LayoutProvider({ children }) {
   const [activeNowSidebar, setActiveNowSidebar] = useState(true);
 
   // Mobile-first nav: below the md breakpoint only one pane is visible at a
-  // time — "list" (server rail + channel/DM list) or "content" (the actual
+  // time - "list" (server rail + channel/DM list) or "content" (the actual
   // chat/voice/home view). Irrelevant at md+, where both show side by side.
   const [mobilePane, setMobilePane] = useState("list");
   const showContent = useCallback(() => setMobilePane("content"), []);

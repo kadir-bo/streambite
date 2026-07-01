@@ -41,7 +41,6 @@ export default function ProfileSettings({ open }) {
   const [reauthPassword, setReauthPassword] = useState("");
   const [reauthSaving, setReauthSaving] = useState(false);
 
-
   // userDoc loads after this modal's first mount (it lives in the always-on
   // sidebar), so re-sync the form fields whenever the modal is opened rather
   // than relying on the initial useState value.
@@ -120,7 +119,7 @@ export default function ProfileSettings({ open }) {
     } catch (err) {
       setDeleteError(
         err?.message === "Firebase: Error (auth/invalid-credential)." ||
-        err?.message?.includes("invalid-credential")
+          err?.message?.includes("invalid-credential")
           ? "Falsches Passwort. Versuche es erneut."
           : err?.message || "Fehler beim Löschen des Accounts",
       );
@@ -144,7 +143,7 @@ export default function ProfileSettings({ open }) {
         </div>
         <div className="min-w-0">
           <p className="text-sm font-(--weight-semibold) text-(--text-primary) truncate">
-            {displayName || userDoc?.displayName || "—"}
+            {displayName || userDoc?.displayName || "-"}
           </p>
           <p className="text-xs text-(--text-muted) font-(--font-mono)">
             {userDoc?.username
@@ -255,10 +254,7 @@ export default function ProfileSettings({ open }) {
       </div>
       {/* DROP DOWN FOR MOBILE */}
       <div className="md:hidden">
-        <Select
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-        >
+        <Select value={status} onChange={(e) => setStatus(e.target.value)}>
           {STATUS_OPTIONS.map((opt) => (
             <option key={opt.value} value={opt.value}>
               {opt.label}
@@ -328,8 +324,8 @@ export default function ProfileSettings({ open }) {
             </span>
           </div>
           <p className="text-xs text-(--text-secondary) mb-3 leading-relaxed">
-            Aus Sicherheitsgründen musst du dein Passwort erneut eingeben,
-            um den Account zu löschen.
+            Aus Sicherheitsgründen musst du dein Passwort erneut eingeben, um
+            den Account zu löschen.
           </p>
           <div className="flex flex-col gap-2">
             <input

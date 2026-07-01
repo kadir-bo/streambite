@@ -24,7 +24,7 @@ export default function ReplyPreview({ target, onCancel }) {
           </strong>
           {preview && (
             <span className="ml-1 text-(--text-ghost)">
-              — {preview}
+              - {preview}
               {(target?.content?.length ?? 0) > 80 ? "…" : ""}
             </span>
           )}

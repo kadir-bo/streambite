@@ -31,7 +31,7 @@ export function VoiceProvider({ children }) {
   const localSpeakingRef = useRef(false); // manual RMS-based speaking detection for local participant
 
   // Mic/headphone state and device/volume preferences all live here, not
-  // gated behind an active call — exactly like Discord, you can mute
+  // gated behind an active call - exactly like Discord, you can mute
   // yourself, pick devices, and adjust volume before ever joining a channel.
   // Preferences applied immediately when connected; otherwise stored and
   // applied automatically on the next connect().
@@ -69,7 +69,7 @@ export function VoiceProvider({ children }) {
     cancelAnimationFrame(pipeline.rafId);
     pipeline.rafId = null;
     pipeline.active = false;
-    // Source trennen, aber AudioContext OFFEN lassen — beim nächsten
+    // Source trennen, aber AudioContext OFFEN lassen - beim nächsten
     // unmute wird nur die Quelle neu verbunden (kein neuer AudioContext
     // nötig, was iOS-spezifische Suspension-Probleme vermeidet).
     if (pipeline.source) {
@@ -86,7 +86,9 @@ export function VoiceProvider({ children }) {
     const pipeline = audioPipelineRef.current;
     if (!pipeline) return null;
 
-    const publication = room.localParticipant.getTrackPublication(Track.Source.Microphone);
+    const publication = room.localParticipant.getTrackPublication(
+      Track.Source.Microphone,
+    );
     const track = publication?.track;
     const mediaTrack = track?.mediaStreamTrack;
     if (!track || !mediaTrack) return null;
@@ -98,14 +100,18 @@ export function VoiceProvider({ children }) {
     }
 
     try {
-      const source = pipeline.audioContext.createMediaStreamSource(new MediaStream([mediaTrack]));
+      const source = pipeline.audioContext.createMediaStreamSource(
+        new MediaStream([mediaTrack]),
+      );
       source.connect(pipeline.analyser);
       source.connect(pipeline.gainNode);
       pipeline.source = source;
 
-      track.replaceTrack(pipeline.destination.stream.getAudioTracks()[0], true).catch((err) => {
-        console.warn("[voice] mic pipeline replaceTrack failed:", err);
-      });
+      track
+        .replaceTrack(pipeline.destination.stream.getAudioTracks()[0], true)
+        .catch((err) => {
+          console.warn("[voice] mic pipeline replaceTrack failed:", err);
+        });
       return source;
     } catch (err) {
       console.warn("[voice] connectPipelineSource failed:", err);
@@ -118,14 +124,16 @@ export function VoiceProvider({ children }) {
   // bis der Track tatsächlich verfügbar ist (Race-Condition).
   async function waitForMicTrack(room, maxRetries = 15, delay = 50) {
     for (let i = 0; i < maxRetries; i++) {
-      const pub = room.localParticipant.getTrackPublication(Track.Source.Microphone);
+      const pub = room.localParticipant.getTrackPublication(
+        Track.Source.Microphone,
+      );
       if (pub?.track?.mediaStreamTrack) return pub.track;
       await new Promise((r) => setTimeout(r, delay));
     }
     return null;
   }
 
-  // Tick-Funktion für die Mic-Pipeline — liest analyzer/gainNode/data aus
+  // Tick-Funktion für die Mic-Pipeline - liest analyzer/gainNode/data aus
   // audioPipelineRef.current, damit sie AUßERHALB des try-Blocks aufrufbar ist
   // (wird sowohl beim ersten Aufbau als auch beim Reaktivieren einer pausierten
   // Pipeline benötigt; der frühe Exist-Zweig in startMicPipeline hat sonst keine
@@ -153,7 +161,8 @@ export function VoiceProvider({ children }) {
     // - Sprache endet → Gain schließt langsam, verschluckt keine Satzenden
     const targetGain = isCurrentlySpeaking ? inputVolumeRef.current / 100 : 0;
     const smoothFactor = isCurrentlySpeaking ? 0.5 : 0.04;
-    pipeline.gainNode.gain.value += (targetGain - pipeline.gainNode.gain.value) * smoothFactor;
+    pipeline.gainNode.gain.value +=
+      (targetGain - pipeline.gainNode.gain.value) * smoothFactor;
 
     if (isCurrentlySpeaking !== localSpeakingRef.current) {
       localSpeakingRef.current = isCurrentlySpeaking;
@@ -177,7 +186,9 @@ export function VoiceProvider({ children }) {
     }
 
     // Erster Aufbau: alles neu anlegen
-    const publication = room.localParticipant.getTrackPublication(Track.Source.Microphone);
+    const publication = room.localParticipant.getTrackPublication(
+      Track.Source.Microphone,
+    );
     const track = publication?.track;
     const mediaTrack = track?.mediaStreamTrack;
     if (!track || !mediaTrack) return;
@@ -189,24 +200,28 @@ export function VoiceProvider({ children }) {
         audioContext.resume().catch(() => {});
       }
 
-      const source = audioContext.createMediaStreamSource(new MediaStream([mediaTrack]));
+      const source = audioContext.createMediaStreamSource(
+        new MediaStream([mediaTrack]),
+      );
       const data = new Uint8Array(512);
 
-      // AnalyserNode first — gets raw microphone BEFORE gain/gate
+      // AnalyserNode first - gets raw microphone BEFORE gain/gate
       const analyser = audioContext.createAnalyser();
       analyser.fftSize = 1024;
       source.connect(analyser);
 
-      // GainNode second — input volume + noise gate (set to 0 when silent)
+      // GainNode second - input volume + noise gate (set to 0 when silent)
       const gainNode = audioContext.createGain();
       gainNode.gain.value = inputVolumeRef.current / 100;
       source.connect(gainNode);
 
       const destination = audioContext.createMediaStreamDestination();
       gainNode.connect(destination);
-      track.replaceTrack(destination.stream.getAudioTracks()[0], true).catch((err) => {
-        console.warn("[voice] mic pipeline replaceTrack failed:", err);
-      });
+      track
+        .replaceTrack(destination.stream.getAudioTracks()[0], true)
+        .catch((err) => {
+          console.warn("[voice] mic pipeline replaceTrack failed:", err);
+        });
 
       audioPipelineRef.current = {
         audioContext,
@@ -227,7 +242,7 @@ export function VoiceProvider({ children }) {
     if (!room) return;
     const vol = outputVolumeRef.current / 100;
     room.remoteParticipants.forEach((p) => {
-      // LiveKit bietet setVolume() pro Quelle — nutzen statt manuellem
+      // LiveKit bietet setVolume() pro Quelle - nutzen statt manuellem
       // element.volume, da es sowohl Mikrofon- als auch Screen-Share-Audio
       // zuverlässiger steuert (auch auf iOS).
       if (typeof p.setVolume === "function") {
@@ -252,7 +267,8 @@ export function VoiceProvider({ children }) {
   const setInputVolume = useCallback((value) => {
     inputVolumeRef.current = value;
     setInputVolumeState(value);
-    if (audioPipelineRef.current) audioPipelineRef.current.gainNode.gain.value = value / 100;
+    if (audioPipelineRef.current)
+      audioPipelineRef.current.gainNode.gain.value = value / 100;
   }, []);
 
   const setOutputVolume = useCallback((value) => {
@@ -303,27 +319,30 @@ export function VoiceProvider({ children }) {
       // Daher unlocken wir beides SOFORT vor jedem await:
       //
       // 1. AudioContext → Silence → Seite ist "audio unlocked" für Session.
-      //    Wichtig: Den Context NICHT schließen — iOS Safari verliert sonst
+      //    Wichtig: Den Context NICHT schließen - iOS Safari verliert sonst
       //    den Unlock-Status bei Navigation/Route-Change.
       // 2. getUserMedia → Berechtigungsdialog wird getriggert (oder bereits
       //    erteilte Berechtigung bestätigt) → mic ist später nutzbar
       try {
-        unlockCtxRef.current = new (window.AudioContext || window.webkitAudioContext)();
-        if (unlockCtxRef.current.state === "suspended") unlockCtxRef.current.resume();
+        unlockCtxRef.current = new (
+          window.AudioContext || window.webkitAudioContext
+        )();
+        if (unlockCtxRef.current.state === "suspended")
+          unlockCtxRef.current.resume();
         const _buf = unlockCtxRef.current.createBuffer(1, 1, 22050);
         const _src = unlockCtxRef.current.createBufferSource();
         _src.buffer = _buf;
         _src.connect(unlockCtxRef.current.destination);
         _src.start(0);
 
-        // getUserMedia nur triggern (nicht awaiten) — iOS zeigt dann sofort
+        // getUserMedia nur triggern (nicht awaiten) - iOS zeigt dann sofort
         // den Berechtigungsdialog, und setMicrophoneEnabled später funktioniert.
         navigator.mediaDevices
           .getUserMedia({ audio: true })
           .then((_s) => _s.getTracks().forEach((t) => t.stop()))
           .catch(() => {});
       } catch (_e) {
-        /* non-critical — Desktop/Android brauchen das nicht */
+        /* non-critical - Desktop/Android brauchen das nicht */
       }
 
       setConnection({
@@ -389,13 +408,15 @@ export function VoiceProvider({ children }) {
           // binden, da LiveKit's interne Auto-Attachment dort nicht zuverlässig
           // funktioniert (Autoplay-Policy blockiert die Wiedergabe).
           // Screen-Share-Audio wird von LiveKit als eigener Track mit
-          // source=screen_share_audio publiziert — hier ebenfalls abfangen.
+          // source=screen_share_audio publiziert - hier ebenfalls abfangen.
           if (track && track.kind === "audio") {
             try {
               const el = track.attach();
               el.setAttribute("playsinline", "");
               el.play().catch(() => {});
-              console.log(`[voice] audio track subscribed: source=${track.source ?? "unknown"}, kind=${track.kind}`);
+              console.log(
+                `[voice] audio track subscribed: source=${track.source ?? "unknown"}, kind=${track.kind}`,
+              );
             } catch (err) {
               console.warn("[voice] track.attach failed:", err);
             }
@@ -407,10 +428,14 @@ export function VoiceProvider({ children }) {
           const isEnabled = room.localParticipant.isScreenShareEnabled;
           setScreenShare(isEnabled);
           // Prüfen, ob Screen-Share-Audio-Track vorhanden ist
-          const audioPub = room.localParticipant.getTrackPublication(Track.Source.ScreenShareAudio);
+          const audioPub = room.localParticipant.getTrackPublication(
+            Track.Source.ScreenShareAudio,
+          );
           setScreenShareHasAudio(isEnabled && !!audioPub?.track);
           if (isEnabled && !audioPub?.track) {
-            console.warn("[voice] Screen-Share gestartet, aber KEIN Audio-Track erkannt. Der Nutzer muss beim Teilen eines Browser-Tabs 'Tab-Audio teilen' aktivieren.");
+            console.warn(
+              "[voice] Screen-Share gestartet, aber KEIN Audio-Track erkannt. Der Nutzer muss beim Teilen eines Browser-Tabs 'Tab-Audio teilen' aktivieren.",
+            );
           }
           snapshotParticipants(room);
         });
@@ -440,7 +465,7 @@ export function VoiceProvider({ children }) {
         await room.connect(data.url, data.token);
 
         // Audio-Tracks von Teilnehmern, die bereits vor uns im Raum waren,
-        // wurden vor unserem on(TrackSubscribed)-Listener subscribt — also
+        // wurden vor unserem on(TrackSubscribed)-Listener subscribt - also
         // hängen wir sie hier nachträglich an. WICHTIG: Vor startAudio(),
         // denn startAudio() resumt die bereits attached-en <audio>-Elemente.
         room.remoteParticipants.forEach((p) => {
@@ -462,12 +487,17 @@ export function VoiceProvider({ children }) {
         // bestehenden Tracks aufrufen, damit sie alle erfasst werden.
         // Bei Bedarf mehrfach versuchen (iOS braucht manchmal zwei Anläufe).
         for (let i = 0; i < 3; i++) {
-          try { await room.startAudio(); break; } catch { /* retry */ }
+          try {
+            await room.startAudio();
+            break;
+          } catch {
+            /* retry */
+          }
           await new Promise((r) => setTimeout(r, 100));
         }
         applyOutputVolume(room);
 
-        // Den unlock AudioContext NICHT schließen — auf iOS Safari kann
+        // Den unlock AudioContext NICHT schließen - auf iOS Safari kann
         // der Unlock-Status bei Navigation/Route-Change verloren gehen,
         // wenn kein aktiver AudioContext mehr existiert. Ein minimaler,
         // stummer Context hält die Seite für die gesamte Session entsperrt.
@@ -476,20 +506,26 @@ export function VoiceProvider({ children }) {
         joinVoicePresence(serverId, channelId, firebaseUser.uid, {
           name: userDoc?.displayName ?? firebaseUser.displayName ?? "Nutzer",
           avatarUrl: userDoc?.avatarUrl ?? null,
-        }).catch((err) => console.warn("[voice] joinVoicePresence failed:", err));
+        }).catch((err) =>
+          console.warn("[voice] joinVoicePresence failed:", err),
+        );
 
         if (activeAudioInputIdRef.current) {
-          await room.switchActiveDevice("audioinput", activeAudioInputIdRef.current).catch(() => {});
+          await room
+            .switchActiveDevice("audioinput", activeAudioInputIdRef.current)
+            .catch(() => {});
         }
         if (activeAudioOutputIdRef.current) {
-          await room.switchActiveDevice("audiooutput", activeAudioOutputIdRef.current).catch(() => {});
+          await room
+            .switchActiveDevice("audiooutput", activeAudioOutputIdRef.current)
+            .catch(() => {});
         }
 
         let micFailed = false;
         try {
           await room.localParticipant.setMicrophoneEnabled(!mutedRef.current);
         } catch (micErr) {
-          // Handled gracefully below (join muted + visible banner) — warn, not error.
+          // Handled gracefully below (join muted + visible banner) - warn, not error.
           console.warn("[voice] microphone unavailable:", micErr);
           micFailed = true;
         }
@@ -501,16 +537,27 @@ export function VoiceProvider({ children }) {
 
         Room.getLocalDevices("audioinput", true)
           .then((devices) => {
-            setAudioInputs(devices.map((d) => ({ deviceId: d.deviceId, label: d.label })));
-            if (!micFailed) setActiveAudioInputIdState(room.getActiveDevice("audioinput") ?? null);
+            setAudioInputs(
+              devices.map((d) => ({ deviceId: d.deviceId, label: d.label })),
+            );
+            if (!micFailed)
+              setActiveAudioInputIdState(
+                room.getActiveDevice("audioinput") ?? null,
+              );
           })
           .catch((err) => console.warn("[voice] loadAudioInputs failed:", err));
         Room.getLocalDevices("audiooutput", true)
           .then((devices) => {
-            setAudioOutputs(devices.map((d) => ({ deviceId: d.deviceId, label: d.label })));
-            setActiveAudioOutputIdState(room.getActiveDevice("audiooutput") ?? null);
+            setAudioOutputs(
+              devices.map((d) => ({ deviceId: d.deviceId, label: d.label })),
+            );
+            setActiveAudioOutputIdState(
+              room.getActiveDevice("audiooutput") ?? null,
+            );
           })
-          .catch((err) => console.warn("[voice] loadAudioOutputs failed:", err));
+          .catch((err) =>
+            console.warn("[voice] loadAudioOutputs failed:", err),
+          );
 
         setConnection({
           status: "connected",
@@ -601,7 +648,7 @@ export function VoiceProvider({ children }) {
     snapshotParticipants(room);
   }, []);
 
-  // Deafening also mutes the mic (matches Discord) — but undeafen should
+  // Deafening also mutes the mic (matches Discord) - but undeafen should
   // only RELEASE that mute if deafen is what caused it. A mute that already
   // existed before deafening is left alone on undeafen.
   const toggleDeafen = useCallback(async () => {
@@ -614,8 +661,14 @@ export function VoiceProvider({ children }) {
       room.remoteParticipants.forEach((p) => {
         if (typeof p.setVolume === "function") {
           // LiveKit-API: Volume auf 0 = stumm, Normalwert = hörbar
-          p.setVolume(next ? 0 : outputVolumeRef.current / 100, Track.Source.Microphone);
-          p.setVolume(next ? 0 : outputVolumeRef.current / 100, Track.Source.ScreenShareAudio);
+          p.setVolume(
+            next ? 0 : outputVolumeRef.current / 100,
+            Track.Source.Microphone,
+          );
+          p.setVolume(
+            next ? 0 : outputVolumeRef.current / 100,
+            Track.Source.ScreenShareAudio,
+          );
         } else {
           // Fallback: Elemente direkt muten
           p.audioTrackPublications.forEach((pub) => {
@@ -677,11 +730,15 @@ export function VoiceProvider({ children }) {
       if (next) {
         // Kurz warten bis LiveKit den Audio-Track publiziert hat
         await new Promise((r) => setTimeout(r, 500));
-        const audioPub = room.localParticipant.getTrackPublication(Track.Source.ScreenShareAudio);
+        const audioPub = room.localParticipant.getTrackPublication(
+          Track.Source.ScreenShareAudio,
+        );
         const hasAudio = !!audioPub?.track;
         setScreenShareHasAudio(hasAudio);
         if (!hasAudio) {
-          console.warn("[voice] Screen-Share hat kein Audio — Browser erfasst nur Video. Tipp: Chrome-Tab teilen und 'Tab-Audio teilen' aktivieren.");
+          console.warn(
+            "[voice] Screen-Share hat kein Audio - Browser erfasst nur Video. Tipp: Chrome-Tab teilen und 'Tab-Audio teilen' aktivieren.",
+          );
         }
       } else {
         setScreenShareHasAudio(false);
@@ -717,11 +774,14 @@ export function VoiceProvider({ children }) {
   );
 
   // Device lists are enumerable without a live room; only *applying* a
-  // selection live needs one — otherwise it's stored and used on next connect().
+  // selection live needs one - otherwise it's stored and used on next connect().
   const loadAudioInputs = useCallback(async () => {
     try {
       const devices = await Room.getLocalDevices("audioinput", true);
-      const mapped = devices.map((d) => ({ deviceId: d.deviceId, label: d.label }));
+      const mapped = devices.map((d) => ({
+        deviceId: d.deviceId,
+        label: d.label,
+      }));
       setAudioInputs(mapped);
       // Auto-select first device if none selected yet (system default)
       if (!activeAudioInputIdRef.current && mapped.length > 0) {
@@ -729,7 +789,10 @@ export function VoiceProvider({ children }) {
         setActiveAudioInputIdState(mapped[0].deviceId);
       }
       const room = roomRef.current;
-      if (room) setActiveAudioInputIdState(room.getActiveDevice("audioinput") ?? mapped[0]?.deviceId ?? null);
+      if (room)
+        setActiveAudioInputIdState(
+          room.getActiveDevice("audioinput") ?? mapped[0]?.deviceId ?? null,
+        );
     } catch (err) {
       console.warn("[voice] loadAudioInputs failed:", err);
     }
@@ -751,7 +814,10 @@ export function VoiceProvider({ children }) {
   const loadAudioOutputs = useCallback(async () => {
     try {
       const devices = await Room.getLocalDevices("audiooutput", true);
-      const mapped = devices.map((d) => ({ deviceId: d.deviceId, label: d.label }));
+      const mapped = devices.map((d) => ({
+        deviceId: d.deviceId,
+        label: d.label,
+      }));
       setAudioOutputs(mapped);
       // Auto-select first device if none selected yet (system default)
       if (!activeAudioOutputIdRef.current && mapped.length > 0) {
@@ -759,7 +825,10 @@ export function VoiceProvider({ children }) {
         setActiveAudioOutputIdState(mapped[0].deviceId);
       }
       const room = roomRef.current;
-      if (room) setActiveAudioOutputIdState(room.getActiveDevice("audiooutput") ?? mapped[0]?.deviceId ?? null);
+      if (room)
+        setActiveAudioOutputIdState(
+          room.getActiveDevice("audiooutput") ?? mapped[0]?.deviceId ?? null,
+        );
     } catch (err) {
       console.warn("[voice] loadAudioOutputs failed:", err);
     }

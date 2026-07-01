@@ -14,7 +14,7 @@ export default function MemberSidebar() {
   const { servers, activeServerId, showMembers, toggleMembers } = useServer();
   const { firebaseUser } = useAuth();
   const [members, setMembers] = useState([]);
-  // Below md there's no room for a 3rd column — the member list becomes a
+  // Below md there's no room for a 3rd column - the member list becomes a
   // full-screen overlay instead of squeezing the chat down to nothing.
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
@@ -47,7 +47,11 @@ export default function MemberSidebar() {
     <motion.aside
       animate={
         isDesktop
-          ? { width: showMembers ? `${maxSidebarWidth}px` : `${minSidebarWidth}px` }
+          ? {
+              width: showMembers
+                ? `${maxSidebarWidth}px`
+                : `${minSidebarWidth}px`,
+            }
           : { opacity: 1 }
       }
       transition={{ duration: 0.2, ease: "easeInOut" }}

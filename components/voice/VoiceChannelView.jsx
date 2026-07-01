@@ -6,7 +6,7 @@ import ParticipantTile from "./ParticipantTile";
 import VoiceControls from "./VoiceControls";
 import ScreenShareTile from "./ScreenShareTile";
 
-// Connection lives in VoiceContext, not here — staying connected when the
+// Connection lives in VoiceContext, not here - staying connected when the
 // user navigates to another channel/DM (and showing a floating bar) is the
 // whole point, so this view must NOT disconnect on unmount.
 export default function VoiceChannelView({ serverId, channel, isOwner }) {
@@ -25,7 +25,7 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
 
   return (
     <div className="relative flex flex-1 pt-4 flex-col overflow-hidden bg-(--surface-base)">
-      {/* Header — immer sichtbar */}
+      {/* Header - immer sichtbar */}
       {connection.error && (status === "error" || status === "connected") && (
         <div className="mx-6 mb-2 shrink-0 flex max-w-md flex-col items-center gap-2.5 rounded-(--radius-base) border border-(--danger) bg-(--danger-subtle) px-5 py-4 text-center">
           <Warning size={22} className="text-(--danger)" />

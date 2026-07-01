@@ -36,7 +36,7 @@ yarn-error.log*
 # vercel
 .vercel
 
-# AI / Claude — never push agent configs
+# AI / Claude - never push agent configs
 .claude/
 AGENTS.md
 CLAUDE.md

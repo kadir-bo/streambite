@@ -3,15 +3,18 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "motion/react";
-import { BellSimple, Check, X } from "@phosphor-icons/react";
-import { dropdown, acceptServerInvite, declineServerInvite } from "@/lib";
+import { BellSimple } from "@phosphor-icons/react";
+import { dropdown } from "@/lib";
 import { useFriends } from "@/hooks";
 import { useAuth } from "@/context";
-import RequestRow from "@/components/layout/RequestRow";
-import ServerIcon from "@/components/server/ServerIcon";
-import IconBtn from "@/components/ui/IconBtn";
+import { ServerInviteRow, RequestRow } from "@/components";
 
-export default function IncomingRequestsPopover({ open, onClose, anchorRect, pendingInvites = [] }) {
+export default function IncomingRequestsPopover({
+  open,
+  onClose,
+  anchorRect,
+  pendingInvites = [],
+}) {
   const { incomingRequests } = useFriends();
   const { firebaseUser } = useAuth();
   const onCloseRef = useRef(onClose);
@@ -46,7 +49,7 @@ export default function IncomingRequestsPopover({ open, onClose, anchorRect, pen
           exit="hidden"
           variants={dropdown}
           onClick={(e) => e.stopPropagation()}
-          className="fixed z-(--z-tooltip) w-[340px] overflow-y-auto rounded-lg border border-(--border-subtle) bg-(--surface-overlay) shadow-(--shadow-xl)"
+          className="fixed z-(--z-tooltip) w-85 overflow-y-auto rounded-lg border border-(--border-subtle) bg-(--surface-raised) shadow-(--shadow-xl)"
           style={{
             top: (anchorRect?.bottom ?? 0) + 8,
             right: anchorRect ? window.innerWidth - anchorRect.right : 0,
@@ -80,7 +83,9 @@ export default function IncomingRequestsPopover({ open, onClose, anchorRect, pen
               {/* Server invite section */}
               {hasServerInvites && (
                 <>
-                  {hasFriendRequests && <div className="mx-3 my-1 h-px bg-(--border-subtle)" />}
+                  {hasFriendRequests && (
+                    <div className="mx-3 my-1 h-px bg-(--border-subtle)" />
+                  )}
                   <p className="px-3 pt-2 pb-1.5 text-2xs font-(--weight-semibold) uppercase tracking-widest text-(--text-muted)">
                     Servereinladungen
                   </p>
@@ -99,57 +104,5 @@ export default function IncomingRequestsPopover({ open, onClose, anchorRect, pen
       )}
     </AnimatePresence>,
     document.body,
-  );
-}
-
-function ServerInviteRow({ invite, uid }) {
-  const [loading, setLoading] = useState(null);
-
-  async function handleAccept() {
-    if (!uid) return;
-    setLoading("accept");
-    try {
-      await acceptServerInvite(uid, invite);
-    } catch (err) {
-      console.error("[invite] accept failed:", err);
-    } finally {
-      setLoading(null);
-    }
-  }
-
-  async function handleDecline() {
-    if (!uid) return;
-    setLoading("decline");
-    try {
-      await declineServerInvite(uid, invite.serverId);
-    } catch (err) {
-      console.error("[invite] decline failed:", err);
-    } finally {
-      setLoading(null);
-    }
-  }
-
-  return (
-    <div className="flex items-center gap-2.5 px-3 py-2">
-      <div className="size-8 shrink-0 overflow-hidden rounded-md">
-        <ServerIcon
-          name={invite.serverName}
-          iconUrl={invite.serverIconUrl}
-          size={32}
-        />
-      </div>
-      <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-(--weight-medium) text-(--text-primary)">
-          {invite.serverName}
-        </p>
-        <p className="text-xs text-(--text-muted)">
-          {invite.invitedByName ?? "Jemand"} hat dich eingeladen
-        </p>
-      </div>
-      <div className="flex shrink-0 gap-1">
-        <IconBtn icon={Check} onClick={handleAccept} title="Annehmen" variant="primary" disabled={!!loading} rounded="full" />
-        <IconBtn icon={X} onClick={handleDecline} title="Ablehnen" variant="danger" disabled={!!loading} rounded="full" />
-      </div>
-    </div>
   );
 }

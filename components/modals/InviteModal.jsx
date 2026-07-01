@@ -138,7 +138,7 @@ export default function InviteModal({ open, onClose, server }) {
                   transition={{ duration: 0.12 }}
                   className="flex items-center gap-1.5"
                 >
-                  {server?.inviteCode ?? "—"}
+                  {server?.inviteCode ?? "-"}
                   <CopySimple size={14} weight="bold" />
                 </motion.span>
               )}

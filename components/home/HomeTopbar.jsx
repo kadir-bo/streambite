@@ -18,14 +18,13 @@ import IconBtn from "@/components/ui/IconBtn";
 import Badge from "@/components/ui/Badge";
 
 export default function HomeTopbar() {
-  const { incomingRequests } = useFriends();
+  const { incomingRequests, inboxOpen, setInboxOpen } = useFriends();
   const { userDoc } = useAuth();
   const { setActiveNowSidebar, activeNowSidebar, showList } = useLayout();
   const pendingInvites = userDoc?.pendingInvites ?? [];
   const totalNotifications = incomingRequests.length + pendingInvites.length;
 
   const [addOpen, setAddOpen] = useState(false);
-  const [inboxOpen, setInboxOpen] = useState(false);
   const [anchorRect, setAnchorRect] = useState(null);
   const inboxBtnRef = useRef(null);
 
@@ -55,7 +54,7 @@ export default function HomeTopbar() {
               weight="fill"
               className="text-(--text-muted) text-xl md:text-lg"
             />
-            <span className="text-(--text-base) font-(--weight-semibold) text-(--text-primary)">
+            <span className="text-(--text-base) font-(--weight-semibold)">
               Freunde
             </span>
           </div>
@@ -75,7 +74,10 @@ export default function HomeTopbar() {
           <div ref={inboxBtnRef} className="relative">
             <IconBtn
               icon={BellSimple}
-              onClick={(e) => { e.stopPropagation(); toggleInbox(); }}
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleInbox();
+              }}
               title="Posteingang"
               size="xl"
               variant={inboxOpen ? "active" : "ghost"}

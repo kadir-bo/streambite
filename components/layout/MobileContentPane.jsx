@@ -4,7 +4,7 @@ import { useLayout } from "@/context";
 import MobileVoiceStatusBar from "@/components/voice/MobileVoiceStatusBar";
 
 // Below md, this is the "content" half of the one-pane-at-a-time mobile
-// nav — hidden while the sidebar list is showing, full width when active.
+// nav - hidden while the sidebar list is showing, full width when active.
 // At md+ it's always visible (the desktop 3rd column).
 export default function MobileContentPane({ children }) {
   const { mobilePane } = useLayout();

@@ -91,7 +91,7 @@ export default function Message({
         onHoverStart={() => setHovered(true)}
         onHoverEnd={() => setHovered(false)}
         // Hover doesn't fire on touch devices, so the action bar would
-        // otherwise be unreachable on mobile — a tap toggles it there too.
+        // otherwise be unreachable on mobile - a tap toggles it there too.
         onClick={() => setHovered((h) => !h)}
         className={`flex gap-4 relative hover:bg-(--state-hover) transition-colors duration-100 ${
           isFirst ? "px-4 pt-4 pb-0.5" : "px-4 py-0.5"

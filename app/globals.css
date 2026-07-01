@@ -52,7 +52,7 @@
   --font-sans: var(--font-geist-sans), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), "JetBrains Mono", monospace;
 
-  /* TYPOGRAPHY (font-weight only — sizes/tracking/leading live in @theme below,
+  /* TYPOGRAPHY (font-weight only - sizes/tracking/leading live in @theme below,
      since Tailwind needs them registered there to generate text-2xs /tracking-widest/etc.
      as real utilities instead of the ambiguous text-(--var) arbitrary form) */
   --weight-normal: 400;
@@ -121,7 +121,7 @@
 }
 
 @theme {
-  /* Font sizes — registering these under Tailwind's reserved --text-* namespace
+  /* Font sizes - registering these under Tailwind's reserved --text-* namespace
      makes text-2xs , text-md, etc. real utilities. Without this, text-(--text-2xs )
      is ambiguous (color vs font-size) and Tailwind silently treats it as a
      (invalid, discarded) color instead of a font-size. */
@@ -134,7 +134,7 @@
   --text-xl: 22px;
   --text-2xl: 28px;
 
-  /* Letter-spacing and line-height — same reasoning, registered under
+  /* Letter-spacing and line-height - same reasoning, registered under
      Tailwind's --tracking-* / --leading-* namespaces so tracking-widest /
      leading-relaxed use our exact design values instead of Tailwind's
      built-in defaults (which differ slightly, e.g. tracking-widest). */
@@ -154,7 +154,7 @@
    ============================================================
    Wrapped in @layer base so Tailwind utility classes (which live in
    @layer utilities) can actually override these resets. Un-layered CSS
-   always wins over layered CSS regardless of specificity/order — without
+   always wins over layered CSS regardless of specificity/order - without
    this @layer wrapper, e.g. `button { border: none; background: none }`
    silently beats every `border-*`/`bg-*` utility on every <button>.
    ============================================================ */
@@ -240,7 +240,9 @@
      Diese Regel erzwigt 16px NUR auf iOS (via -webkit-touch-callout)
      und überschreibt Tailwinds text-sm/text-base mit !important. */
   @supports (-webkit-touch-callout: none) {
-    input, textarea, select {
+    input,
+    textarea,
+    select {
       font-size: 16px !important;
     }
   }

@@ -69,6 +69,7 @@ export { default as AddFriendModal } from "./home/AddFriendModal";
 export { default as HomeTopbar } from "./home/HomeTopbar";
 export { default as ActiveNowPanel } from "./home/ActiveNowPanel";
 export { default as IncomingRequestsPopover } from "./home/IncomingRequestsPopover";
+export { default as ServerInviteRow } from "./home/ServerInviteRow";
 
 // User
 export { default as UserSettingsModal } from "./user/UserSettingsModal";

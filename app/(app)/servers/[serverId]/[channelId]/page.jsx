@@ -1,36 +1,35 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import { useParams } from 'next/navigation'
-import { useAuth, useServer } from '@/context'
-import { markRead } from '@/lib'
-import { ChannelHeader, MessageList, MessageInput } from '@/components'
-import VoiceChannelView from '@/components/voice/VoiceChannelView'
+import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
+import { useAuth, useServer } from "@/context";
+import { markRead } from "@/lib";
+import { ChannelHeader, MessageList, MessageInput } from "@/components";
+import VoiceChannelView from "@/components/voice/VoiceChannelView";
 
 export default function ChannelPage() {
-  const { serverId, channelId } = useParams()
-  const { firebaseUser } = useAuth()
-  const { channels, servers, showMembers, toggleMembers } = useServer()
-  const [replyTarget, setReplyTarget] = useState(null)
+  const { serverId, channelId } = useParams();
+  const { firebaseUser } = useAuth();
+  const { channels, servers, showMembers, toggleMembers } = useServer();
+  const [replyTarget, setReplyTarget] = useState(null);
 
-  const channel = channels.find((ch) => ch.id === channelId)
-  const isVoice = channel?.type === 'voice'
-  const server = servers.find((s) => s.id === serverId)
-  const isOwner = server?.ownerId === firebaseUser?.uid
+  const channel = channels.find((ch) => ch.id === channelId);
+  const isVoice = channel?.type === "voice";
+  const server = servers.find((s) => s.id === serverId);
+  const isOwner = server?.ownerId === firebaseUser?.uid;
 
   useEffect(() => {
-    if (firebaseUser && channelId && !isVoice) markRead(firebaseUser.uid, channelId).catch(console.error)
-  }, [firebaseUser, channelId, isVoice])
+    if (firebaseUser && channelId && !isVoice)
+      markRead(firebaseUser.uid, channelId).catch(console.error);
+  }, [firebaseUser, channelId, isVoice]);
 
   // On mobile: the sidebar stays open when tapping a channel, so the user
   // can browse freely. Tapping the channel again (or the ▶ arrow on the
   // active channel in the sidebar) calls showContent() explicitly.
-  // (Desktop is unaffected — both panes are always visible at md+.)
+  // (Desktop is unaffected - both panes are always visible at md+.)
 
   return (
-    <div
-      className="flex-1 flex flex-col min-w-0 overflow-hidden bg-(--surface-base)"
-    >
+    <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-(--surface-base)">
       <ChannelHeader
         channel={channel}
         showMembers={showMembers}
@@ -39,7 +38,11 @@ export default function ChannelPage() {
 
       {isVoice ? (
         channel && (
-          <VoiceChannelView serverId={serverId} channel={channel} isOwner={isOwner} />
+          <VoiceChannelView
+            serverId={serverId}
+            channel={channel}
+            isOwner={isOwner}
+          />
         )
       ) : (
         <>
@@ -60,5 +63,5 @@ export default function ChannelPage() {
         </>
       )}
     </div>
-  )
+  );
 }

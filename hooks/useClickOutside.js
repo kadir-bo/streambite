@@ -8,7 +8,7 @@ import { useEffect } from "react";
 // Registered on the capture phase, so when two of these are mounted at once
 // (e.g. two separate context menus), the one opened first always sees an
 // "outside" click on the other's trigger button before that trigger's own
-// click handler runs — which is what keeps two menus from both being open.
+// click handler runs - which is what keeps two menus from both being open.
 export function useClickOutside(refs, onOutside, active = true) {
   const refList = Array.isArray(refs) ? refs : [refs];
 
@@ -16,7 +16,9 @@ export function useClickOutside(refs, onOutside, active = true) {
     if (!active) return;
 
     function handleClick(e) {
-      const isInside = refList.some((r) => r.current && r.current.contains(e.target));
+      const isInside = refList.some(
+        (r) => r.current && r.current.contains(e.target),
+      );
       if (!isInside) onOutside(e);
     }
 

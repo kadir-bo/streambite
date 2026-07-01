@@ -37,7 +37,7 @@ export default function ChannelWelcome({ channel, dmUser }) {
         <strong className="text-(--text-primary)">#{channel?.name}</strong>{" "}
         Kanals.
         {channel?.topic && (
-          <span className="ml-1 text-(--text-muted)">— {channel.topic}</span>
+          <span className="ml-1 text-(--text-muted)">- {channel.topic}</span>
         )}
       </p>
     </div>

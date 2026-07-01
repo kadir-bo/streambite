@@ -1,27 +1,27 @@
-import Script from 'next/script'
-import { Geist, Geist_Mono } from 'next/font/google'
-import './globals.css'
-import { Providers } from '@/components'
+import Script from "next/script";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+import { Providers } from "@/components";
 
 const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-})
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
 
 const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-})
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 export const metadata = {
-  title: 'Streambite',
-  description: 'Community chat, voice and streaming',
-}
+  title: "Streambite",
+  description: "Community chat, voice and streaming",
+};
 
 // Temporary mobile debugging aid: paints uncaught errors directly onto the
 // screen since iOS Safari has no accessible devtools without a Mac. Runs as
 // a raw inline script (not a React component) so it still works even if the
-// React tree itself fails to mount. Dev-only — remove once the mobile
+// React tree itself fails to mount. Dev-only - remove once the mobile
 // blank-screen issue is diagnosed.
 const MOBILE_ERROR_OVERLAY_SCRIPT = `
 (function () {
@@ -52,7 +52,7 @@ const MOBILE_ERROR_OVERLAY_SCRIPT = `
     showError('Unhandled rejection: ' + (r && r.stack ? r.stack : r));
   });
 })();
-`
+`;
 
 export default function RootLayout({ children }) {
   return (
@@ -61,7 +61,7 @@ export default function RootLayout({ children }) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="h-full overflow-hidden">
-        {process.env.NODE_ENV !== 'production' && (
+        {process.env.NODE_ENV !== "production" && (
           <Script
             id="mobile-error-overlay"
             strategy="beforeInteractive"
@@ -71,5 +71,5 @@ export default function RootLayout({ children }) {
         <Providers>{children}</Providers>
       </body>
     </html>
-  )
+  );
 }

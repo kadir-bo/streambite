@@ -35,7 +35,7 @@ export default function ContextMenu({
 
   const handleOutsideClick = useCallback(() => onCloseRef.current(), []);
   // Registered on the capture phase (see the hook), so opening a SECOND
-  // context menu elsewhere closes this one first — the two can't both end
+  // context menu elsewhere closes this one first - the two can't both end
   // up open.
   useClickOutside([menuRef, submenuRef], handleOutsideClick, open);
 
@@ -77,7 +77,7 @@ export default function ContextMenu({
 
   // The menu and its submenu are two separate floating panels with a gap
   // between them, so moving the mouse from one to the other briefly leaves
-  // both — a short delay absorbs that without flickering closed. Hovering
+  // both - a short delay absorbs that without flickering closed. Hovering
   // either panel cancels the pending close.
   function scheduleCloseSubmenu() {
     clearTimeout(closeTimerRef.current);
@@ -117,7 +117,11 @@ export default function ContextMenu({
         >
           {items.map((item, i) =>
             item.divider ? (
-              <div key={i} className="h-px bg-(--border-subtle) my-1" onMouseEnter={closeSubmenu} />
+              <div
+                key={i}
+                className="h-px bg-(--border-subtle) my-1"
+                onMouseEnter={closeSubmenu}
+              />
             ) : item.custom ? (
               <div key={i} className="px-3 py-2" onMouseEnter={closeSubmenu}>
                 {item.custom}
@@ -187,7 +191,9 @@ export default function ContextMenu({
               />
             ))
           ) : (
-            <div className="px-3 py-2 text-sm text-(--text-muted)">Keine Geräte gefunden</div>
+            <div className="px-3 py-2 text-sm text-(--text-muted)">
+              Keine Geräte gefunden
+            </div>
           )}
         </motion.div>
       )}

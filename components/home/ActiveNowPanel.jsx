@@ -80,7 +80,7 @@ export default function ActiveNowPanel() {
             {offlineFriends.length > 0 && (
               <>
                 <p className="text-2xs font-semibold uppercase tracking-wider text-(--text-muted) mb-1">
-                  Offline — {offlineFriends.length}
+                  Offline - {offlineFriends.length}
                 </p>
                 <div className="flex flex-col gap-0.5">
                   {offlineFriends.map((friend) => (
