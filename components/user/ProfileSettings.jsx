@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Warning } from "@phosphor-icons/react";
+import { Warning, Key } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import {
   updateUserDocument,
   setUsername,
   deleteUserAccount,
+  reauthWithPasswordAndDelete,
+  ReAuthRequiredError,
   logoutUser,
 } from "@/lib";
 import Input from "@/components/ui/Input";
@@ -35,6 +37,9 @@ export default function ProfileSettings({ open }) {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState("");
+  const [reauthEmail, setReauthEmail] = useState(null);
+  const [reauthPassword, setReauthPassword] = useState("");
+  const [reauthSaving, setReauthSaving] = useState(false);
 
 
   // userDoc loads after this modal's first mount (it lives in the always-on
@@ -92,12 +97,34 @@ export default function ProfileSettings({ open }) {
     setDeleting(true);
     try {
       await deleteUserAccount(firebaseUser.uid);
-      // Auth-Listener meldet sich automatisch ab → UI wechselt zu Login
-      // Aber falls das nicht instant passiert, logout explizit:
       await logoutUser();
     } catch (err) {
+      if (err instanceof ReAuthRequiredError) {
+        setReauthEmail(err.email);
+        setDeleteOpen(false);
+        setDeleting(false);
+        return;
+      }
       setDeleteError(err?.message || "Fehler beim Löschen des Accounts");
       setDeleting(false);
+    }
+  }
+
+  async function handleReauthAndDelete() {
+    if (!reauthPassword.trim()) return;
+    setReauthSaving(true);
+    setDeleteError("");
+    try {
+      await reauthWithPasswordAndDelete(reauthPassword);
+      await logoutUser();
+    } catch (err) {
+      setDeleteError(
+        err?.message === "Firebase: Error (auth/invalid-credential)." ||
+        err?.message?.includes("invalid-credential")
+          ? "Falsches Passwort. Versuche es erneut."
+          : err?.message || "Fehler beim Löschen des Accounts",
+      );
+      setReauthSaving(false);
     }
   }
 
@@ -290,6 +317,59 @@ export default function ProfileSettings({ open }) {
         loading={deleting}
         error={deleteError}
       />
+
+      {/* Re-Auth Passwort-Abfrage (nach "requires-recent-login") */}
+      {reauthEmail && (
+        <div className="rounded-(--radius-base) border border-(--danger) bg-(--danger-subtle) p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <Key className="text-(--danger) shrink-0 text-xl md:text-lg" />
+            <span className="text-sm font-semibold text-(--danger)">
+              Passwort bestätigen
+            </span>
+          </div>
+          <p className="text-xs text-(--text-secondary) mb-3 leading-relaxed">
+            Aus Sicherheitsgründen musst du dein Passwort erneut eingeben,
+            um den Account zu löschen.
+          </p>
+          <div className="flex flex-col gap-2">
+            <input
+              type="password"
+              autoFocus
+              placeholder="Passwort eingeben"
+              value={reauthPassword}
+              onChange={(e) => setReauthPassword(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleReauthAndDelete();
+              }}
+              className="w-full rounded-(--radius-base) border border-(--border-default) bg-(--surface-deep) px-3 py-2 text-sm text-(--text-primary) outline-none placeholder:text-(--text-ghost)"
+            />
+            {deleteError && (
+              <p className="text-xs text-(--danger)">{deleteError}</p>
+            )}
+            <div className="flex gap-2">
+              <Button
+                type="button"
+                variant="danger"
+                onClick={handleReauthAndDelete}
+                loading={reauthSaving}
+              >
+                Account löschen
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => {
+                  setReauthEmail(null);
+                  setReauthPassword("");
+                  setDeleteError("");
+                }}
+              >
+                Abbrechen
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </form>
   );
 }
