@@ -1,7 +1,6 @@
 'use client'
 
-import Modal from '@/components/ui/Modal'
-import Button from '@/components/ui/Button'
+import { Modal, Button } from "@/components"
 
 export default function ConfirmModal({
   open,

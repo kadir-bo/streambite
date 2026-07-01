@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/context'
-import UsernamePromptModal from '@/components/user/UsernamePromptModal'
+import { UsernamePromptModal } from '@/components'
 
 export default function AuthGuard({ children }) {
   const { firebaseUser, userDoc, loading } = useAuth()

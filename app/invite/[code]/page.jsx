@@ -6,9 +6,7 @@ import { motion } from "motion/react";
 import { useAuth } from "@/context";
 import { useServer } from "@/context";
 import { getInviteInfo } from "@/lib";
-import Avatar from "@/components/layout/Avatar";
-import Button from "@/components/ui/Button";
-import ServerIcon from "@/components/server/ServerIcon";
+import { Avatar, Button, ServerIcon } from "@/components";
 import { pageTransition } from "@/lib";
 
 export default function InvitePage() {

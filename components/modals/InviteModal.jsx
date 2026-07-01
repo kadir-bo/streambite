@@ -17,9 +17,7 @@ import {
   touchDmLastMessage,
   inviteToServer,
 } from "@/lib";
-import ServerIcon from "@/components/server/ServerIcon";
-import Avatar from "@/components/layout/Avatar";
-import Modal from "@/components/ui/Modal";
+import { ServerIcon, Avatar, Modal } from "@/components";
 
 export default function InviteModal({ open, onClose, server }) {
   const { firebaseUser, userDoc } = useAuth();

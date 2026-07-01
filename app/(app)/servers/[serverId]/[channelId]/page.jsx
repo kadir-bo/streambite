@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { useAuth, useServer } from "@/context";
 import { markRead } from "@/lib";
-import { ChannelHeader, MessageList, MessageInput } from "@/components";
-import VoiceChannelView from "@/components/voice/VoiceChannelView";
+import { ChannelHeader, MessageList, MessageInput, VoiceChannelView } from "@/components";
 
 export default function ChannelPage() {
   const { serverId, channelId } = useParams();
