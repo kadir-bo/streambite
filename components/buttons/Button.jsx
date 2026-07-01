@@ -37,10 +37,19 @@ export default function Button({
     lg: { padding: '12px 20px', fontSize: 'var(--text-base)', borderRadius: 'var(--radius-lg)' },
   }
 
+  // Mobile Touch-Target: mindestens 44px Höhe (Apple HIG)
+  // Feste Strings für Tailwind JIT – kein Template-Literal!
+  const mobileHeightClasses = {
+    sm: 'max-sm:min-h-10',
+    md: 'max-sm:min-h-11',
+    lg: 'max-sm:min-h-12',
+  };
+  const mobileHClass = mobileHeightClasses[size] ?? 'max-sm:min-h-11';
+
   return (
     <motion.button
       whileTap={{ scale: disabled || loading ? 1 : 0.97 }}
-      className={cn('inline-flex items-center justify-center gap-2 font-medium transition-opacity cursor-pointer', className)}
+      className={cn('inline-flex items-center justify-center gap-2 font-medium transition-opacity cursor-pointer', mobileHClass, className)}
       style={{
         ...variants[variant],
         ...sizeStyles[size],

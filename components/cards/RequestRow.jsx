@@ -29,7 +29,7 @@ export default function RequestRow({ user }) {
   }
 
   return (
-    <div className="flex items-center gap-2.5 px-3 py-2">
+      <div className="flex items-center gap-2.5 px-3 py-2 max-sm:py-3 max-sm:min-h-12">
       <Avatar src={user.avatarUrl} name={user.displayName} size="sm" />
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-(--weight-medium) text-(--text-primary)">
@@ -42,17 +42,17 @@ export default function RequestRow({ user }) {
           onClick={handleAccept}
           disabled={!!loading}
           title="Annehmen"
-          className={`flex size-6.5 cursor-pointer items-center justify-center rounded-full border border-(--border-subtle) text-(--status-online) ${loading === "accept" ? "bg-(--state-active)" : "bg-(--surface-raised) hover:bg-(--state-hover)"}`}
+          className={`flex size-6.5 max-sm:size-10 cursor-pointer items-center justify-center rounded-full border border-(--border-subtle) text-(--status-online) ${loading === "accept" ? "bg-(--state-active)" : "bg-(--surface-raised) hover:bg-(--state-hover)"}`}
         >
-          <Check size={13} weight="bold" />
+          <Check size={13} weight="bold" className="max-sm:size-4" />
         </button>
         <button
           onClick={handleDecline}
           disabled={!!loading}
           title="Ablehnen"
-          className={`flex size-6.5 cursor-pointer items-center justify-center rounded-full border border-(--border-subtle) text-(--danger) ${loading === "decline" ? "bg-(--state-active)" : "bg-(--surface-raised) hover:bg-(--state-hover)"}`}
+          className={`flex size-6.5 max-sm:size-10 cursor-pointer items-center justify-center rounded-full border border-(--border-subtle) text-(--danger) ${loading === "decline" ? "bg-(--state-active)" : "bg-(--surface-raised) hover:bg-(--state-hover)"}`}
         >
-          <X size={13} weight="bold" />
+          <X size={13} weight="bold" className="max-sm:size-4" />
         </button>
       </div>
     </div>

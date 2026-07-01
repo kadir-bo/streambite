@@ -191,12 +191,12 @@ export default function UserPanel() {
     <>
       <div
         data-user-panel
-        className="flex flex-col shrink-0 items-center gap-1.5 border-t border-(--border-subtle) bg-(--surface-deep) p-2 max-sm:p-3 max-sm:gap-2"
+        className="flex flex-col shrink-0 items-center gap-1.5 border-t border-(--border-subtle) bg-(--surface-deep) p-2 max-sm:p-3 max-sm:gap-2 pb-safe-2"
       >
         <div className="flex w-full justify-end gap-4">
           <button
             onClick={openMenu}
-            className="flex min-w-0 flex-1 cursor-pointer items-center gap-2 rounded-(--radius-base) bg-transparent p-1 text-left transition-[background] duration-100 hover:bg-(--state-hover) max-sm:min-h-10"
+            className="flex min-w-0 flex-1 cursor-pointer items-center gap-2 rounded-(--radius-base) bg-transparent p-1 text-left transition-[background] duration-100 hover:bg-(--state-hover) max-sm:min-h-12"
           >
             <Avatar
               src={userDoc?.avatarUrl}
@@ -226,7 +226,7 @@ export default function UserPanel() {
               onClick={toggleMute}
               title={muted ? "Stummschaltung aufheben" : "Stummschalten"}
               variant={muted ? "danger" : "ghost"}
-              className={`max-sm:rounded-full max-sm:size-10 ${muted ? "!bg-(--danger) !text-white" : ""}`}
+              className={`max-sm:rounded-full ${muted ? "!bg-(--danger) !text-white" : ""}`}
             />
 
             <button

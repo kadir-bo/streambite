@@ -261,6 +261,36 @@
   }
 }
 
+/* ============================================================
+   iOS Safe Area Utilities
+   ============================================================ */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .pb-safe-2 {
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
+  }
+  .pl-safe {
+    padding-left: env(safe-area-inset-left, 0px);
+  }
+  .pr-safe {
+    padding-right: env(safe-area-inset-right, 0px);
+  }
+  .pt-safe {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+}
+
+/* Fallback for browsers without env() support */
+@supports not (padding-bottom: env(safe-area-inset-bottom)) {
+  .pb-safe { padding-bottom: 0; }
+  .pb-safe-2 { padding-bottom: 8px; }
+  .pl-safe { padding-left: 0; }
+  .pr-safe { padding-right: 0; }
+  .pt-safe { padding-top: 0; }
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);

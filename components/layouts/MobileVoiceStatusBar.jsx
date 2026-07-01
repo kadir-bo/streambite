@@ -28,7 +28,7 @@ export default function MobileVoiceStatusBar() {
   }
 
   return (
-    <div className="flex shrink-0 items-center gap-2 border-t border-(--border-subtle) bg-(--surface-deep) px-3 py-2 md:hidden">
+    <div className="flex shrink-0 items-center gap-2 border-t border-(--border-subtle) bg-(--surface-deep) px-3 py-2 pb-safe-2 md:hidden">
       <Link
         href={`/servers/${connection.serverId}/${connection.channelId}`}
         className="flex min-w-0 flex-1 items-center gap-2 no-underline"

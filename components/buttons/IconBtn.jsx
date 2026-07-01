@@ -28,6 +28,8 @@ export default function IconBtn({
   ...props
 }) {
   // Tailwind JIT kann keine dynamischen Strings wie `size-${x}` - daher feste Map
+  // Desktop-Größen bleiben kompakt für Mausbedienung; Mobile wird auf mindestens
+  // 44–48px (Apple HIG / WCAG) vergrößert für bessere Touch-Bedienbarkeit.
   const sizeClasses = {
     xs: "size-6",
     sm: "size-7",
@@ -36,11 +38,11 @@ export default function IconBtn({
     xl: "size-10",
   };
   const mobileSizeClasses = {
-    xs: "max-sm:size-6",
-    sm: "max-sm:size-7",
-    md: "max-sm:size-8",
-    lg: "max-sm:size-9",
-    xl: "max-sm:size-10",
+    xs: "max-sm:size-10", // 40px – absolute Minimum für kleine Aktions-Buttons
+    sm: "max-sm:size-11",
+    md: "max-sm:size-11",
+    lg: "max-sm:size-12", // 48px – optimaler Touch-Target
+    xl: "max-sm:size-12",
   };
 
   const roundedClasses = {
@@ -68,7 +70,7 @@ export default function IconBtn({
   const sizeClass = sizeClasses[size] ?? sizeClasses.md;
   const mobClass = mobileSize
     ? mobileSizeClasses[mobileSize]
-    : "max-sm:size-10";
+    : "max-sm:size-11";
 
   const iconClass =
     size === "xs" || size === "sm"

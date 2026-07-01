@@ -4,6 +4,7 @@ import { useState } from "react";
 import { IconBtn, ServerIcon } from "@/components";
 import { Check, X } from "@phosphor-icons/react";
 import { acceptServerInvite, declineServerInvite } from "@/lib";
+import { useFriends } from "@/hooks";
 
 export default function ServerInviteRow({ invite, uid }) {
   const [loading, setLoading] = useState(null);

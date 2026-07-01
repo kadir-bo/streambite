@@ -58,7 +58,7 @@ export default function FriendRow({ user }) {
     <>
       <div
         onClick={openDm}
-        className="flex items-center gap-3 px-4 py-2.5 border-t border-(--border-subtle) cursor-pointer hover:bg-(--state-hover)"
+        className="flex items-center gap-3 px-4 py-2.5 border-t border-(--border-subtle) cursor-pointer hover:bg-(--state-hover) max-sm:min-h-12"
       >
         <Avatar
           src={user.avatarUrl}

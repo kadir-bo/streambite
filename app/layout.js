@@ -18,6 +18,12 @@ export const metadata = {
   description: "Community chat, voice and streaming",
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
 // Temporary mobile debugging aid: paints uncaught errors directly onto the
 // screen since iOS Safari has no accessible devtools without a Mac. Runs as
 // a raw inline script (not a React component) so it still works even if the
