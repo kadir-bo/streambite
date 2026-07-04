@@ -5,10 +5,10 @@ export default function TabBtn({ label, active, onClick }) {
     <button
       type="button"
       onClick={onClick}
-      className={`flex-1 px-4 py-2 rounded-(--radius-base) text-sm cursor-pointer transition-colors duration-150 ${
+      className={`flex-1 px-4 py-2 rounded-[8px] text-sm cursor-pointer transition-colors duration-150 ${
         active
-          ? 'bg-(--state-active) text-(--text-primary) font-semibold'
-          : 'bg-transparent text-(--text-muted) font-medium hover:bg-(--state-hover) hover:text-(--text-secondary)'
+          ? 'bg-white/10 text-zinc-100 font-semibold'
+          : 'bg-transparent text-zinc-500 font-medium hover:bg-white/5 hover:text-zinc-400'
       }`}
     >
       {label}

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ChatCircleText } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
-import { useFriendActions } from "@/hooks";
+import { useFriendActions, useLongPress } from "@/hooks";
 import { ensureDm } from "@/lib";
 import { Avatar, IconBtn, DotMenu, ContextMenu } from "@/components";
 
@@ -23,7 +23,13 @@ export default function FriendRow({ user }) {
   const [menuPos, setMenuPos] = useState({ x: 0, y: 0 });
   const friendActions = useFriendActions(user);
 
+  const longPress = useLongPress(openMenu);
+
   async function openDm(e) {
+    if (longPress.wasActive.current) {
+      longPress.clear();
+      return;
+    }
     e?.stopPropagation();
     if (opening || !firebaseUser) return;
     setOpening(true);
@@ -57,8 +63,9 @@ export default function FriendRow({ user }) {
   return (
     <>
       <div
+        {...longPress.handlers}
         onClick={openDm}
-        className="flex items-center gap-3 px-4 py-2.5 border-t border-(--border-subtle) cursor-pointer hover:bg-(--state-hover) max-sm:min-h-12"
+        className="flex items-center gap-3 px-4 py-2.5 border-t border-white/5 cursor-pointer hover:bg-white/5 max-sm:min-h-12"
       >
         <Avatar
           src={user.avatarUrl}
@@ -68,16 +75,16 @@ export default function FriendRow({ user }) {
         />
         <div className="min-w-0 flex-1">
           <div className="flex items-baseline gap-1.5">
-            <span className="text-sm font-semibold text-(--text-primary) truncate">
+            <span className="text-sm font-semibold text-zinc-100 truncate">
               {user.displayName}
             </span>
             {user.username && (
-              <span className="text-xs text-(--text-muted) truncate">
+              <span className="text-xs text-zinc-500 truncate">
                 {user.username}
               </span>
             )}
           </div>
-          <p className="text-xs text-(--text-muted)">
+          <p className="text-xs text-zinc-500">
             {STATUS_LABELS[user.status] ?? "Offline"}
           </p>
         </div>
@@ -88,7 +95,7 @@ export default function FriendRow({ user }) {
             onClick={openDm}
             title="Nachricht senden"
             rounded="full"
-            className="bg-(--surface-overlay) text-(--text-secondary) hover:text-(--text-primary)"
+            className="bg-zinc-700 text-zinc-400 hover:text-zinc-100"
           />
 
           <DotMenu onClick={openMenu} />

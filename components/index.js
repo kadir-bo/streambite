@@ -63,6 +63,7 @@ export { default as IncomingRequestsPopover } from "./dropdowns/IncomingRequests
 export { default as DropdownItem } from "./dropdowns/DropdownItem";
 
 // Layouts
+export { default as Topbar } from "./layouts/Topbar";
 export { default as ChannelPane } from "./layouts/ChannelPane";
 export { default as ChannelSidebar } from "./layouts/ChannelSidebar";
 export { default as DmSidebar } from "./layouts/DmSidebar";

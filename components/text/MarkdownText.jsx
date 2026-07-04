@@ -9,7 +9,7 @@ export default function MarkdownText({ content }) {
         switch (token.type) {
           case "bold":
             return (
-              <strong key={i} className="text-(--text-primary)">
+              <strong key={i} className="text-zinc-100">
                 {token.content}
               </strong>
             );
@@ -19,7 +19,7 @@ export default function MarkdownText({ content }) {
             return (
               <code
                 key={i}
-                className="font-mono text-xs bg-(--surface-overlay) rounded-sm px-1.25 py-px"
+                className="font-mono text-xs bg-zinc-700 rounded-sm px-1.25 py-px"
               >
                 {token.content}
               </code>
@@ -30,7 +30,7 @@ export default function MarkdownText({ content }) {
             return (
               <span
                 key={i}
-                className="bg-[rgba(255,255,255,0.08)] rounded-sm px-1 text-(--text-primary) font-medium"
+                className="bg-white/8 rounded-sm px-1 text-zinc-100 font-medium"
               >
                 @{token.content}
               </span>

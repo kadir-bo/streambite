@@ -88,7 +88,7 @@ export default function Message({
         // Hover doesn't fire on touch devices, so the action bar would
         // otherwise be unreachable on mobile - a tap toggles it there too.
         onClick={() => setHovered((h) => !h)}
-        className={`flex gap-4 relative hover:bg-(--state-hover) transition-colors duration-100 ${
+        className={`flex gap-4 relative hover:bg-white/5 transition-colors duration-100 ${
           isFirst ? "px-4 pt-4 pb-0.5" : "px-4 py-0.5"
         }`}
       >
@@ -109,7 +109,7 @@ export default function Message({
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.1 }}
-                  className="block text-right text-2xs font-mono text-(--text-ghost) pt-0.75 select-none"
+                  className="block text-right text-2xs font-mono text-zinc-600 pt-0.75 select-none"
                 >
                   {formatTime(message.createdAt)}
                 </motion.span>
@@ -122,14 +122,14 @@ export default function Message({
         <div className="flex-1 min-w-0">
           {/* Reply reference */}
           {message.type === "reply" && message.replyTo && (
-            <div className="flex items-center gap-1.5 mb-1 text-xs text-(--text-muted) cursor-pointer">
+            <div className="flex items-center gap-1.5 mb-1 text-xs text-zinc-500 cursor-pointer">
               <ArrowBendUpLeft size={12} />
               <Avatar
                 src={message.replyTo.authorAvatar}
                 name={message.replyTo.authorName}
                 size="xs"
               />
-              <span className="font-medium text-(--text-secondary)">
+              <span className="font-medium text-zinc-400">
                 {message.replyTo.authorName}
               </span>
               <span className="max-w-75 truncate">
@@ -141,10 +141,10 @@ export default function Message({
           {/* Header (first message only) */}
           {isFirst && (
             <div className="flex items-baseline gap-2 mb-0.5">
-              <span className="text-base font-semibold text-(--text-primary)">
+              <span className="text-base font-semibold text-zinc-100">
                 {message.authorName}
               </span>
-              <span className="text-2xs text-(--text-ghost) font-mono">
+              <span className="text-2xs text-zinc-600 font-mono">
                 {formatTime(message.createdAt)}
               </span>
             </div>
@@ -152,7 +152,7 @@ export default function Message({
 
           {/* Message body */}
           {isDeleted ? (
-            <p className="text-base text-(--text-ghost) italic">
+            <p className="text-base text-zinc-600 italic">
               (Nachricht gelöscht)
             </p>
           ) : editing ? (
@@ -167,17 +167,17 @@ export default function Message({
                 }}
                 onKeyDown={handleEditKeyDown}
                 disabled={savingEdit}
-                className="w-full resize-none bg-(--surface-deep) border border-(--border-strong) rounded-(--radius-base) px-3 py-2 text-base text-(--text-primary) outline-none leading-normal min-h-10 overflow-y-hidden"
+                className="w-full resize-none bg-(--surface-deep) border border-white/20 rounded-[8px] px-3 py-2 text-base text-zinc-100 outline-none leading-normal min-h-10 overflow-y-hidden"
               />
-              <p className="text-xs text-(--text-muted) mt-1">
+              <p className="text-xs text-zinc-500 mt-1">
                 Enter zum Speichern · Escape zum Abbrechen
               </p>
             </div>
           ) : (
-            <p className="text-base text-(--text-primary) leading-normal wrap-break-word">
+            <p className="text-base text-zinc-100 leading-normal break-words">
               <MessageContent content={message.content} />
               {message.editedAt && !isDeleted && (
-                <span className="text-2xs text-(--text-ghost) ml-1.5 italic">
+                <span className="text-2xs text-zinc-600 ml-1.5 italic">
                   (bearbeitet)
                 </span>
               )}
@@ -189,12 +189,13 @@ export default function Message({
             <div className="flex flex-wrap gap-2 mt-2">
               {message.attachments.map((att, i) =>
                 att.type === "image" ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
                   <img
                     key={i}
                     src={att.url}
                     alt={att.name}
                     loading="lazy"
-                    className="max-w-90 max-h-75 rounded-(--radius-base) border border-(--border-subtle) cursor-pointer object-cover block"
+                    className="max-w-90 max-h-75 rounded-[8px] border border-white/5 cursor-pointer object-cover block"
                     onClick={() => window.open(att.url, "_blank")}
                   />
                 ) : (
@@ -203,7 +204,7 @@ export default function Message({
                     href={att.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-2 px-3 py-2 bg-(--surface-raised) border border-(--border-subtle) rounded-(--radius-base) text-sm text-(--text-secondary) no-underline"
+                    className="inline-flex items-center gap-2 px-3 py-2 bg-zinc-800 border border-white/5 rounded-[8px] text-sm text-zinc-400 no-underline"
                   >
                     📎 {att.name}
                   </a>
@@ -227,7 +228,7 @@ export default function Message({
         {/* Hover actions */}
         <AnimatePresence>
           {hovered && !editing && !isDeleted && (
-            <div className="absolute -top-5 right-4 z-(--z-raised)">
+            <div className="absolute -top-5 right-4 z-[10]">
               <MessageActions
                 message={message}
                 serverId={serverId}

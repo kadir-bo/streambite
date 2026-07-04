@@ -28,7 +28,7 @@ export default function ChannelPage() {
   // (Desktop is unaffected - both panes are always visible at md+.)
 
   return (
-    <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-(--surface-base)">
+    <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-zinc-900">
       <ChannelHeader
         channel={channel}
         showMembers={showMembers}

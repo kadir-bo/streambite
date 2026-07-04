@@ -2,7 +2,14 @@
 import { useState } from "react";
 import { Shield, UserMinus } from "@phosphor-icons/react";
 import { setMemberRoles, kickMember } from "@/lib";
-import { Avatar, ContextMenu, DotMenu, RoleBadge, ConfirmModal } from "@/components";
+import { useLongPress } from "@/hooks";
+import {
+  Avatar,
+  ContextMenu,
+  DotMenu,
+  RoleBadge,
+  ConfirmModal,
+} from "@/components";
 
 export default function MemberRow({ member, isOffline, serverId, canManage }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -11,6 +18,7 @@ export default function MemberRow({ member, isOffline, serverId, canManage }) {
   const [kicking, setKicking] = useState(false);
   const isAdmin = member.roles?.includes("admin");
   const isOwner = member.roles?.includes("owner");
+  const longPress = useLongPress(canManage && !isOwner ? openMenu : undefined);
 
   function openMenu(e) {
     e.stopPropagation();
@@ -52,23 +60,22 @@ export default function MemberRow({ member, isOffline, serverId, canManage }) {
   return (
     <>
       <div
-        className={`group flex items-center gap-2 px-2 py-1.25 rounded-(--radius-base) cursor-default hover:bg-(--state-hover) ${
-          isOffline ? "opacity-[0.45]" : "opacity-100"
+        {...longPress.handlers}
+        className={`group flex items-center gap-2 px-2 py-1.25 rounded-[8px] cursor-default hover:bg-white/5 border border-white/5 h-14 md:h-12 ${
+          isOffline ? "opacity-45" : "opacity-100"
         }`}
       >
         <Avatar
           src={member.avatarUrl}
           name={member.displayName ?? "?"}
-          size="sm"
+          size="md"
           status={isOffline ? "offline" : (member.status ?? "online")}
         />
-        <span className="text-sm font-medium text-(--text-secondary) truncate flex-1">
+        <span className="text-sm font-medium text-zinc-400 truncate flex-1">
           {member.displayName ?? "Nutzer"}
         </span>
         <RoleBadge roles={member.roles} />
-        {canManage && !isOwner && (
-          <DotMenu onClick={openMenu} />
-        )}
+        {canManage && !isOwner && <DotMenu onClick={openMenu} />}
       </div>
 
       {canManage && !isOwner && (

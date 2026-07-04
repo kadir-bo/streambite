@@ -10,20 +10,23 @@ export default function ServerIcon({ name = "", iconUrl, size = 48 }) {
 
   if (iconUrl && !imgError) {
     return (
-      <img
-        src={iconUrl}
-        alt={name}
-        width={size}
-        height={size}
-        onError={() => setImgError(true)}
-        className="size-full object-cover block"
-      />
+      <>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={iconUrl}
+          alt={name}
+          width={size}
+          height={size}
+          onError={() => setImgError(true)}
+          className="size-full object-cover block"
+        />
+      </>
     );
   }
 
   return (
     <span
-      className="font-semibold text-(--text-secondary) tracking-[-0.02em] select-none leading-none"
+      className="font-semibold text-zinc-400 tracking-tight select-none leading-none"
       style={{ fontSize }}
     >
       {initials || name.slice(0, 2).toUpperCase()}

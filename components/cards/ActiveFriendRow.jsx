@@ -34,7 +34,7 @@ export default function ActiveFriendRow({ friend }) {
     <button
       onClick={openDm}
       disabled={opening}
-      className="w-full flex items-center gap-2.5 p-2 rounded-(--radius-base) border-none bg-transparent text-left cursor-pointer hover:bg-(--state-hover) max-sm:min-h-12"
+      className="w-full flex items-center gap-2.5 p-2 rounded-[8px] border-none bg-transparent text-left cursor-pointer hover:bg-white/5 max-sm:min-h-12"
     >
       <Avatar
         src={friend.avatarUrl}
@@ -43,10 +43,10 @@ export default function ActiveFriendRow({ friend }) {
         status={friend.status}
       />
       <div className="min-w-0 flex-1">
-        <p className="text-sm font-medium text-(--text-primary) truncate">
+        <p className="text-sm font-medium text-zinc-100 truncate">
           {friend.displayName}
         </p>
-        <p className="text-xs text-(--text-muted)">
+        <p className="text-xs text-zinc-500">
           {STATUS_LABELS[friend.status] ?? "Online"}
         </p>
       </div>

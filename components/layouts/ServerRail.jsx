@@ -3,7 +3,12 @@ import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { House, Plus } from "@phosphor-icons/react";
 import { useAuth, useLayout, useServer } from "@/context";
-import { RailButton, PendingInviteButton, JoinInviteModal, ServerIcon } from "@/components";
+import {
+  RailButton,
+  PendingInviteButton,
+  JoinInviteModal,
+  ServerIcon,
+} from "@/components";
 
 export default function ServerRail({ onOpenCreate }) {
   const pathname = usePathname();
@@ -16,7 +21,7 @@ export default function ServerRail({ onOpenCreate }) {
   const pendingInvites = userDoc?.pendingInvites ?? [];
 
   return (
-    <div className="flex w-max shrink-0 flex-col items-stretch overflow-y-auto overflow-x-hidden bg-(--surface-deepest) pt-2 pb-2 border-r border-(--border-subtle)">
+    <div className="flex w-max shrink-0 flex-col items-stretch overflow-y-auto overflow-x-hidden bg-zinc-950 pt-2 pb-2 border-r border-white/5">
       <RailButton
         onClick={() => {
           router.push("/channels");
@@ -29,13 +34,13 @@ export default function ServerRail({ onOpenCreate }) {
           weight="fill"
           className={
             isDM
-              ? "text-(--text-primary) text-xl md:text-lg"
-              : "text-(--text-muted) text-xl md:text-lg"
+              ? "text-zinc-100 text-xl md:text-xl"
+              : "text-zinc-500 text-xl md:text-lg"
           }
         />
       </RailButton>
 
-      <div className="mx-auto my-1 h-px w-6 shrink-0 bg-(--border-default)" />
+      <div className="mx-auto my-1 h-px w-6 shrink-0 bg-white/10" />
 
       {servers.map((server) => (
         <RailButton
@@ -60,7 +65,10 @@ export default function ServerRail({ onOpenCreate }) {
         onClick={onOpenCreate}
         tooltip="Server erstellen oder beitreten"
       >
-        <Plus weight="bold" className="text-(--text-muted) text-sm md:text-base" />
+        <Plus
+          weight="bold"
+          className="text-zinc-500 text-sm md:text-base"
+        />
       </RailButton>
 
       <JoinInviteModal

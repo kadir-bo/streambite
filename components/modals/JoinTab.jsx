@@ -31,7 +31,7 @@ export default function JoinTab({ onSuccess }) {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      <p className="text-sm text-(--text-muted) leading-normal">
+      <p className="text-sm text-zinc-500 leading-normal">
         Gib einen Einladungslink oder -code ein, um einem Server beizutreten.
       </p>
 

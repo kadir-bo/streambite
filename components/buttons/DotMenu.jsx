@@ -22,7 +22,10 @@ export default function DotMenu({ onClick, title = "Mehr", className }) {
       mobileSize="xl"
       rounded="sm"
       iconWeight="bold"
-      className={cn("text-sm md:text-base opacity-0 group-hover:opacity-100", className)}
+      className={cn(
+        "text-sm md:text-base md:opacity-0 group-hover:opacity-100",
+        className,
+      )}
     />
   );
 }

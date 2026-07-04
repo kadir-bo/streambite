@@ -24,13 +24,13 @@ export default function RailButton({
       <motion.span
         animate={state}
         variants={serverPill}
-        className="absolute left-0 w-0.75 origin-left rounded-r-[3px] bg-(--text-primary)"
+        className="absolute left-0 w-0.75 origin-left rounded-r-sm bg-zinc-100"
       />
       <div className="px-1.75 ">
         <motion.div
           animate={state}
           variants={serverIcon}
-          className={`flex size-10 md:size-8.5 items-center justify-center overflow-hidden cursor-pointer border border-(--border-subtle) ${active ? "bg-(--surface-overlay)" : "bg-(--surface-raised)"}`}
+          className={`flex size-12 md:size-10 items-center justify-center overflow-hidden cursor-pointer border border-white/5 ${active ? "bg-zinc-700" : "bg-zinc-800"}`}
         >
           {children}
         </motion.div>

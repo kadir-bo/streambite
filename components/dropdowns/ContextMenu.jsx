@@ -28,10 +28,6 @@ export default function ContextMenu({
 
   useEffect(() => () => clearTimeout(closeTimerRef.current), []);
 
-  useEffect(() => {
-    if (!open) setSubmenu(null);
-  }, [open]);
-
   const handleOutsideClick = useCallback(() => onCloseRef.current(), []);
   // Registered on the capture phase (see the hook), so opening a SECOND
   // context menu elsewhere closes this one first - the two can't both end
@@ -51,6 +47,7 @@ export default function ContextMenu({
     return () => {
       window.removeEventListener("scroll", close, true);
       window.removeEventListener("keydown", onKey);
+      setSubmenu(null);
     };
   }, [open]);
 
@@ -99,7 +96,7 @@ export default function ContextMenu({
           variants={dropdown}
           onClick={(e) => e.stopPropagation()}
           onMouseLeave={submenu ? scheduleCloseSubmenu : undefined}
-          className={`z-(--z-tooltip) bg-(--surface-base) border border-(--border-subtle) rounded-lg p-1 shadow-(--shadow-xl) ${width ? "" : "min-w-50"}`}
+          className={`z-[500] bg-zinc-900 border border-white/5 rounded-lg p-1 shadow-[0_16px_48px_rgba(0,0,0,0.6)] ${width ? "" : "min-w-50"}`}
           style={{
             position: "fixed",
             left: position?.x ?? 0,
@@ -118,7 +115,7 @@ export default function ContextMenu({
             item.divider ? (
               <div
                 key={i}
-                className="h-px bg-(--border-subtle) my-1"
+                className="h-px bg-white/5 my-1"
                 onMouseEnter={closeSubmenu}
               />
             ) : item.custom ? (
@@ -167,7 +164,7 @@ export default function ContextMenu({
           onClick={(e) => e.stopPropagation()}
           onMouseEnter={cancelCloseSubmenu}
           onMouseLeave={scheduleCloseSubmenu}
-          className="z-(--z-tooltip) rounded-lg border border-(--border-subtle) bg-(--surface-base) p-1 shadow-(--shadow-xl)"
+          className="z-[500] rounded-lg border border-white/5 bg-zinc-900 p-1 shadow-[0_16px_48px_rgba(0,0,0,0.6)]"
           style={{
             position: "fixed",
             left: submenu.left,
@@ -190,7 +187,7 @@ export default function ContextMenu({
               />
             ))
           ) : (
-            <div className="px-3 py-2 text-sm text-(--text-muted)">
+            <div className="px-3 py-2 text-sm text-zinc-500">
               Keine Geräte gefunden
             </div>
           )}

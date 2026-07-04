@@ -35,7 +35,10 @@ export default function CreateChannelModal({ open, onClose, category }) {
   // Lock the type if category has one (the effect below handles changes).
   const [type, setType] = useState(categoryType);
 
+  // Reset channel type when modal opens (user may have selected a different
+  // category with a different type between opens).
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (open) setType(categoryType);
   }, [open, categoryType]);
 
@@ -74,7 +77,7 @@ export default function CreateChannelModal({ open, onClose, category }) {
         {/* Type selection – ausgeblendet wenn die Kategorie einen festen Typ hat */}
         {!isTypeLocked ? (
           <div className="flex flex-col gap-2">
-            <p className="text-2xs font-semibold tracking-widest uppercase text-(--text-secondary)">
+            <p className="text-2xs font-semibold tracking-widest uppercase text-zinc-400">
               Kanaltyp
             </p>
             {TYPES.map((t) => {
@@ -84,44 +87,44 @@ export default function CreateChannelModal({ open, onClose, category }) {
                   key={t.value}
                   type="button"
                   onClick={() => setType(t.value)}
-                  className={`flex items-center gap-3 p-3 rounded-(--radius-base) border cursor-pointer text-left transition-colors duration-150 ${
+                  className={`flex items-center gap-3 p-3 rounded-[8px] border cursor-pointer text-left transition-colors duration-150 ${
                     active
-                      ? "bg-(--state-active) border-(--border-strong)"
-                      : "bg-transparent border-(--border-subtle) hover:bg-(--state-hover) hover:border-(--border-default)"
+                      ? "bg-white/10 border-white/20"
+                      : "bg-transparent border-white/5 hover:bg-white/5 hover:border-white/10"
                   }`}
                 >
                   <span
-                    className={`flex shrink-0 size-9 items-center justify-center rounded-(--radius-base) ${
+                    className={`flex shrink-0 size-9 items-center justify-center rounded-[8px] ${
                       active
-                        ? "bg-(--surface-overlay) text-(--text-primary)"
-                        : "bg-(--surface-raised) text-(--text-muted)"
+                        ? "bg-zinc-700 text-zinc-100"
+                        : "bg-zinc-800 text-zinc-500"
                     }`}
                   >
                     {t.icon}
                   </span>
                   <div className="flex-1 min-w-0">
                     <p
-                      className={`text-sm font-semibold ${active ? "text-(--text-primary)" : "text-(--text-secondary)"}`}
+                      className={`text-sm font-semibold ${active ? "text-zinc-100" : "text-zinc-400"}`}
                     >
                       {t.label}
                     </p>
-                    <p className="text-xs text-(--text-muted) mt-0.5">
+                    <p className="text-xs text-zinc-500 mt-0.5">
                       {t.description}
                     </p>
                   </div>
                   <CheckCircle
                     size={20}
                     weight="fill"
-                    className={`shrink-0 transition-opacity duration-150 ${active ? "text-(--text-primary) opacity-100" : "opacity-0"}`}
+                    className={`shrink-0 transition-opacity duration-150 ${active ? "text-zinc-100 opacity-100" : "opacity-0"}`}
                   />
                 </button>
               );
             })}
           </div>
         ) : (
-          <div className="flex items-center gap-2 p-3 rounded-(--radius-base) border border-(--border-subtle) bg-(--surface-raised)">
+          <div className="flex items-center gap-2 p-3 rounded-[8px] border border-white/5 bg-zinc-800">
             {type === "text" ? <Hash size={20} /> : <SpeakerHigh size={20} />}
-            <span className="text-sm text-(--text-secondary)">
+            <span className="text-sm text-zinc-400">
               {type === "text" ? "Textkanal" : "Sprachkanal"}
             </span>
           </div>

@@ -9,7 +9,7 @@ export default function AuthCard({ children }) {
       variants={modal}
       initial="hidden"
       animate="visible"
-      className="w-full max-w-sm bg-(--surface-base) border border-(--border-default) rounded-xl p-8 shadow-(--shadow-xl)"
+      className="w-full max-w-sm bg-zinc-900 border border-white/10 rounded-xl p-8 shadow-[0_16px_48px_rgba(0,0,0,0.6)]"
     >
       {children}
     </motion.div>

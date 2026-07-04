@@ -5,17 +5,17 @@ import { cn } from '@/lib'
 
 const variants = {
   primary: {
-    background: 'var(--text-primary)',
-    color: 'var(--surface-deepest)',
+    background: '#f4f4f5',
+    color: '#09090b',
     border: 'none',
   },
   ghost: {
-    background: 'var(--surface-raised)',
-    color: 'var(--text-secondary)',
-    border: '1px solid var(--border-default)',
+    background: '#27272a',
+    color: '#a1a1aa',
+    border: '1px solid rgba(255,255,255,0.1)',
   },
   danger: {
-    background: 'var(--danger)',
+    background: '#ef4444',
     color: '#fff',
     border: 'none',
   },
@@ -32,9 +32,9 @@ export default function Button({
   ...props
 }) {
   const sizeStyles = {
-    sm: { padding: '6px 12px', fontSize: 'var(--text-xs)', borderRadius: 'var(--radius-base)' },
-    md: { padding: '10px 16px', fontSize: 'var(--text-sm)', borderRadius: 'var(--radius-base)' },
-    lg: { padding: '12px 20px', fontSize: 'var(--text-base)', borderRadius: 'var(--radius-lg)' },
+    sm: { padding: '6px 12px', fontSize: '11px', borderRadius: '8px' },
+    md: { padding: '10px 16px', fontSize: '13px', borderRadius: '8px' },
+    lg: { padding: '12px 20px', fontSize: '15px', borderRadius: '12px' },
   }
 
   // Mobile Touch-Target: mindestens 44px Höhe (Apple HIG)
@@ -48,8 +48,8 @@ export default function Button({
 
   return (
     <motion.button
-      whileTap={{ scale: disabled || loading ? 1 : 0.97 }}
-      className={cn('inline-flex items-center justify-center gap-2 font-medium transition-opacity cursor-pointer', mobileHClass, className)}
+      whileTap={!disabled && !loading ? { scale: 0.97 } : {}}
+      className={cn(mobileHClass, className)}
       style={{
         ...variants[variant],
         ...sizeStyles[size],

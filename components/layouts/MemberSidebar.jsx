@@ -6,7 +6,7 @@ import { X } from "@phosphor-icons/react";
 import { useAuth, useServer } from "@/context";
 import { useMediaQuery } from "@/hooks";
 import { subscribeToServerMembers } from "@/lib";
-import { SectionLabel, MemberRow, IconBtn } from "@/components";
+import { MemberRow, IconBtn } from "@/components";
 
 export default function MemberSidebar() {
   const { servers, activeServerId, showMembers, toggleMembers } = useServer();
@@ -20,12 +20,14 @@ export default function MemberSidebar() {
   const memberIdsKey = (activeServer?.memberIds ?? []).join("|");
   const canManage = activeServer?.ownerId === firebaseUser?.uid;
 
-  const minSidebarWidth = 48;
+  // Wie ActiveNowPanel: komplett ausgeblendet wenn collapsed
+  const minSidebarWidth = 0;
   const maxSidebarWidth = 300;
 
   useEffect(() => {
     const ids = activeServer?.memberIds ?? [];
     if (!ids.length) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setMembers([]);
       return;
     }
@@ -39,82 +41,158 @@ export default function MemberSidebar() {
   const online = members.filter((m) => (m.status ?? "online") !== "offline");
   const offline = members.filter((m) => (m.status ?? "online") === "offline");
 
-  if (!isDesktop && !showMembers) return null;
-
   return (
-    <motion.aside
-      animate={
-        isDesktop
-          ? {
-              width: showMembers
-                ? `${maxSidebarWidth}px`
-                : `${minSidebarWidth}px`,
-            }
-          : { opacity: 1 }
-      }
-      transition={{ duration: 0.2, ease: "easeInOut" }}
-      className={`bg-(--surface-deep) shrink-0 py-2.5 overflow-y-auto overflow-x-hidden ${
-        isDesktop
-          ? "border-l border-(--border-subtle)"
-          : "fixed inset-0 z-(--z-modal) w-full"
-      }`}
-    >
-      <AnimatePresence mode="wait">
-        {showMembers && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-            className="px-2"
-          >
-            {!isDesktop && (
-              <div className="mb-2 flex items-center justify-between px-2">
-                <span className="text-sm font-semibold text-(--text-primary)">
+    <>
+      {isDesktop ? (
+        <motion.aside
+          initial={false}
+          className="bg-(--surface-deep) border-l border-white/5 shrink-0 py-2.5 overflow-y-auto overflow-x-hidden"
+          animate={{
+            width: showMembers
+              ? `${maxSidebarWidth}px`
+              : `${minSidebarWidth}px`,
+          }}
+          transition={{ duration: 0.2, ease: "easeInOut" }}
+        >
+          <AnimatePresence mode="wait">
+            {showMembers && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                {/* Desktop Header */}
+                <div className="flex items-center justify-between px-4 pt-0.5">
+                  <h2 className="text-base font-bold text-zinc-100">
+                    Mitglieder
+                  </h2>
+                  <IconBtn icon={X} onClick={toggleMembers} title="Schließen" size="sm" />
+                </div>
+                <div className="mx-4 mt-3 h-px bg-white/5" />
+
+                {/* Online */}
+                {online.length > 0 && (
+                  <div className="px-4 mt-3 mb-4">
+                    <p className="text-2xs font-semibold uppercase tracking-wider text-zinc-500 mb-1">
+                      Online — {online.length}
+                    </p>
+                    <div className="flex flex-col gap-0.5">
+                      {online.map((m) => (
+                        <MemberRow
+                          key={m.id}
+                          member={m}
+                          isOffline={false}
+                          serverId={activeServerId}
+                          canManage={canManage}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Offline */}
+                {offline.length > 0 && (
+                  <div className="px-4 mb-4">
+                    <p className="text-2xs font-semibold uppercase tracking-wider text-zinc-500 mb-1">
+                      Offline — {offline.length}
+                    </p>
+                    <div className="flex flex-col gap-0.5">
+                      {offline.map((m) => (
+                        <MemberRow
+                          key={m.id}
+                          member={m}
+                          isOffline
+                          serverId={activeServerId}
+                          canManage={canManage}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Leerer State */}
+                {members.length === 0 && (
+                  <div className="px-4 pt-8">
+                    <p className="text-xs text-zinc-500 text-center">
+                      Keine Mitglieder
+                    </p>
+                  </div>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.aside>
+      ) : (
+        <AnimatePresence>
+          {showMembers && (
+            <motion.aside
+              key="mobile-member-sidebar"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 30, stiffness: 350 }}
+              className="fixed inset-0 z-[200] w-full bg-(--surface-deep) flex flex-col overflow-hidden"
+            >
+              {/* Mobile Header mit Safe-Area */}
+              <div className="flex items-center justify-between px-4 pt-safe pb-2 border-b border-white/5 shrink-0">
+                <h2 className="text-base font-bold text-zinc-100">
                   Mitglieder
-                </span>
+                </h2>
                 <IconBtn icon={X} onClick={toggleMembers} title="Schließen" />
               </div>
-            )}
 
-            {online.length > 0 && (
-              <section>
-                <SectionLabel label="Online" count={online.length} />
-                {online.map((m) => (
-                  <MemberRow
-                    key={m.id}
-                    member={m}
-                    isOffline={false}
-                    serverId={activeServerId}
-                    canManage={canManage}
-                  />
-                ))}
-              </section>
-            )}
+              <div className="flex-1 overflow-y-auto pb-safe">
+                {online.length > 0 && (
+                  <div className="px-4 mt-3 mb-4">
+                    <p className="text-2xs font-semibold uppercase tracking-wider text-zinc-500 mb-1">
+                      Online — {online.length}
+                    </p>
+                    <div className="flex flex-col gap-0.5">
+                      {online.map((m) => (
+                        <MemberRow
+                          key={m.id}
+                          member={m}
+                          isOffline={false}
+                          serverId={activeServerId}
+                          canManage={canManage}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
 
-            {offline.length > 0 && (
-              <section>
-                <SectionLabel label="Offline" count={offline.length} />
-                {offline.map((m) => (
-                  <MemberRow
-                    key={m.id}
-                    member={m}
-                    isOffline
-                    serverId={activeServerId}
-                    canManage={canManage}
-                  />
-                ))}
-              </section>
-            )}
+                {offline.length > 0 && (
+                  <div className="px-4 mb-4">
+                    <p className="text-2xs font-semibold uppercase tracking-wider text-zinc-500 mb-1">
+                      Offline — {offline.length}
+                    </p>
+                    <div className="flex flex-col gap-0.5">
+                      {offline.map((m) => (
+                        <MemberRow
+                          key={m.id}
+                          member={m}
+                          isOffline
+                          serverId={activeServerId}
+                          canManage={canManage}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
 
-            {members.length === 0 && (
-              <p className="text-xs text-(--text-muted) text-center px-4 pt-4">
-                Keine Mitglieder
-              </p>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.aside>
+                {members.length === 0 && (
+                  <div className="px-4 pt-8">
+                    <p className="text-xs text-zinc-500 text-center">
+                      Keine Mitglieder
+                    </p>
+                  </div>
+                )}
+              </div>
+            </motion.aside>
+          )}
+        </AnimatePresence>
+      )}
+    </>
   );
 }

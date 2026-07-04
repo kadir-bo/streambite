@@ -3,7 +3,14 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 import { useServer } from "@/context";
 import { useAuth } from "@/context";
-import { ServerHeader, ChannelList, DmSidebar, ServerSettingsModal, InviteModal, CreateChannelModal } from "@/components";
+import {
+  ServerHeader,
+  ChannelList,
+  DmSidebar,
+  ServerSettingsModal,
+  InviteModal,
+  CreateChannelModal,
+} from "@/components";
 
 export default function ChannelPane() {
   const params = useParams();
@@ -20,8 +27,11 @@ export default function ChannelPane() {
 
   return (
     <>
-      <div data-channel-pane className="flex flex-1 shrink-0 flex-col overflow-hidden bg-(--surface-deep)">
-        <div className="h-(--header-channel) shrink-0 border-b border-(--border-subtle)">
+      <div
+        data-channel-pane
+        className="flex flex-1 shrink-0 flex-col overflow-hidden bg-(--surface-deep)"
+      >
+        <div className="h-12 shrink-0 border-b border-white/5">
           {serverId ? (
             <ServerHeader
               server={server}
@@ -31,7 +41,7 @@ export default function ChannelPane() {
             />
           ) : (
             <div className="flex h-full items-center px-3.5">
-              <span className="text-sm font-semibold text-(--text-primary)">
+              <span className="text-sm font-semibold text-zinc-100">
                 Direktnachrichten
               </span>
             </div>

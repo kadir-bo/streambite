@@ -38,14 +38,14 @@ export default function ForgotPasswordPage() {
             animate={{ opacity: 1, y: 0, transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] } }}
             className="flex flex-col gap-4 text-center"
           >
-            <div className="text-[32px] mb-1">✉️</div>
-            <h1 className="text-lg font-bold text-(--text-primary)">
+            <div className="text-3xl mb-1">✉️</div>
+            <h1 className="text-lg font-bold text-zinc-100">
               E-Mail gesendet
             </h1>
-            <p className="text-sm text-(--text-muted)">
+            <p className="text-sm text-zinc-500">
               Überprüfe dein Postfach und folge dem Link zum Zurücksetzen.
             </p>
-            <Link href="/login" className="text-sm text-(--text-secondary) hover:text-zinc-100 transition-colors mt-2">
+            <Link href="/login" className="text-sm text-zinc-400 hover:text-zinc-100 transition-colors mt-2">
               Zurück zur Anmeldung
             </Link>
           </motion.div>
@@ -58,10 +58,10 @@ export default function ForgotPasswordPage() {
             className="flex flex-col gap-6"
           >
             <div className="flex flex-col gap-1">
-              <h1 className="text-xl font-bold text-(--text-primary) tracking-tight">
+              <h1 className="text-xl font-bold text-zinc-100 tracking-tight">
                 Passwort zurücksetzen
               </h1>
-              <p className="text-sm text-(--text-muted)">
+              <p className="text-sm text-zinc-500">
                 Wir senden dir einen Link per E-Mail.
               </p>
             </div>
@@ -82,7 +82,7 @@ export default function ForgotPasswordPage() {
               </Button>
             </form>
 
-            <Link href="/login" className="text-xs text-(--text-muted) text-center hover:text-zinc-300 transition-colors">
+            <Link href="/login" className="text-xs text-zinc-500 text-center hover:text-(--accent) transition-colors">
               Zurück zur Anmeldung
             </Link>
           </motion.div>

@@ -11,8 +11,10 @@ export function useDm(dmId) {
 
   useEffect(() => {
     if (!dmId || !firebaseUser) {
+      /* eslint-disable react-hooks/set-state-in-effect */
       setOtherUser(null)
       setLoading(false)
+      /* eslint-enable react-hooks/set-state-in-effect */
       return
     }
 

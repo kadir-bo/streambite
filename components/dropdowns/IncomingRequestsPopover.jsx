@@ -49,7 +49,7 @@ export default function IncomingRequestsPopover({
           exit="hidden"
           variants={dropdown}
           onClick={(e) => e.stopPropagation()}
-          className="fixed z-(--z-tooltip) w-85 overflow-y-auto rounded-lg border border-(--border-subtle) bg-(--surface-raised) shadow-(--shadow-xl)"
+          className="fixed z-[500] w-85 overflow-y-auto rounded-lg border border-white/5 bg-zinc-800 shadow-[0_16px_48px_rgba(0,0,0,0.6)]"
           style={{
             top: (anchorRect?.bottom ?? 0) + 8,
             right: anchorRect ? window.innerWidth - anchorRect.right : 0,
@@ -60,9 +60,9 @@ export default function IncomingRequestsPopover({
             <div className="px-4 py-6 text-center">
               <BellSimple
                 size={28}
-                className="mx-auto mb-2 text-(--text-ghost)"
+                className="mx-auto mb-2 text-zinc-600"
               />
-              <p className="text-xs text-(--text-ghost)">
+              <p className="text-xs text-zinc-600">
                 Keine offenen Anfragen
               </p>
             </div>
@@ -71,7 +71,7 @@ export default function IncomingRequestsPopover({
               {/* Friend requests section */}
               {hasFriendRequests && (
                 <>
-                  <p className="px-3 pt-3 pb-1.5 text-2xs font-(--weight-semibold) uppercase tracking-widest text-(--text-muted)">
+                  <p className="px-3 pt-3 pb-1.5 text-2xs font-semibold uppercase tracking-widest text-zinc-500">
                     Freundschaftsanfragen
                   </p>
                   {incomingRequests.map((user) => (
@@ -84,9 +84,9 @@ export default function IncomingRequestsPopover({
               {hasServerInvites && (
                 <>
                   {hasFriendRequests && (
-                    <div className="mx-3 my-1 h-px bg-(--border-subtle)" />
+                    <div className="mx-3 my-1 h-px bg-white/5" />
                   )}
-                  <p className="px-3 pt-2 pb-1.5 text-2xs font-(--weight-semibold) uppercase tracking-widest text-(--text-muted)">
+                  <p className="px-3 pt-2 pb-1.5 text-2xs font-semibold uppercase tracking-widest text-zinc-500">
                     Servereinladungen
                   </p>
                   {pendingInvites.map((invite) => (

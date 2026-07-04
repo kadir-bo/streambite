@@ -21,21 +21,21 @@ export default function ContextMenuItem({
       disabled={disabled}
       title={title}
       className={
-        "w-full text-left px-3 py-2 rounded-(--radius-base) border-none bg-transparent flex items-center gap-2 text-sm font-medium max-sm:py-2.5 " +
+        "w-full text-left px-3 py-2 rounded-[8px] border-none bg-transparent flex items-center gap-2 text-sm font-medium max-sm:py-2.5 " +
         (disabled
-          ? "text-(--text-muted) opacity-40 cursor-not-allowed"
+          ? "text-zinc-500 opacity-40 cursor-not-allowed"
           : danger
-            ? "text-(--danger) hover:bg-(--danger-subtle) cursor-pointer"
+            ? "text-red-500 hover:bg-red-500/10 cursor-pointer"
             : active
-              ? "text-(--text-primary) bg-(--state-active) cursor-pointer"
-              : "text-(--text-secondary) hover:bg-(--state-hover) cursor-pointer")
+              ? "text-zinc-100 bg-white/10 cursor-pointer"
+              : "text-zinc-400 hover:bg-white/5 cursor-pointer")
       }
     >
       {icon && <span className="shrink-0 flex">{icon}</span>}
       {subtitle ? (
         <span className="min-w-0 flex-1">
           <span className="block truncate">{label}</span>
-          <span className="block truncate text-xs font-normal text-(--text-muted)">
+          <span className="block truncate text-xs font-normal text-zinc-500">
             {subtitle}
           </span>
         </span>

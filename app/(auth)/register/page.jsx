@@ -64,10 +64,10 @@ export default function RegisterPage() {
     <AuthCard>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-1">
-          <h1 className="text-xl font-bold text-(--text-primary) tracking-tight">
+          <h1 className="text-xl font-bold text-zinc-100 tracking-tight text-balance">
             Konto erstellen
           </h1>
-          <p className="text-sm text-(--text-muted)">Tritt Streambite bei</p>
+          <p className="text-sm text-zinc-500 text-balance">Tritt Streambite bei</p>
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -92,6 +92,8 @@ export default function RegisterPage() {
             autoComplete="username"
             minLength={3}
             maxLength={20}
+            pattern="[a-zA-Z0-9_]+"
+            title="Nur Buchstaben, Zahlen und Unterstriche"
           />
           <Input
             label="E-Mail"
@@ -109,11 +111,12 @@ export default function RegisterPage() {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Mindestens 8 Zeichen"
             required
+            minLength={8}
             autoComplete="new-password"
           />
 
           {error && (
-            <p className="text-xs text-(--danger) px-3 py-2 bg-(--danger-subtle) rounded-(--radius-base)">
+            <p className="text-xs text-red-500 px-3 py-2 bg-red-500/10 rounded-[8px]">
               {error}
             </p>
           )}
@@ -124,11 +127,11 @@ export default function RegisterPage() {
         </form>
 
         <div className="flex items-center gap-2.5">
-          <div className="flex-1 h-px bg-(--border-subtle)" />
-          <span className="text-2xs text-(--text-ghost) uppercase tracking-widest">
+          <div className="flex-1 h-px bg-white/5" />
+          <span className="text-2xs text-zinc-600 uppercase tracking-widest">
             oder
           </span>
-          <div className="flex-1 h-px bg-(--border-subtle)" />
+          <div className="flex-1 h-px bg-white/5" />
         </div>
 
         <GoogleButton
@@ -136,11 +139,11 @@ export default function RegisterPage() {
           label="Mit Google registrieren"
         />
 
-        <p className="text-xs text-(--text-muted) text-center">
+        <p className="text-xs text-zinc-500 text-center">
           Bereits registriert?{" "}
           <Link
             href="/login"
-            className="text-(--text-secondary) hover:text-zinc-100 transition-colors"
+            className="text-zinc-400 hover:text-(--accent) transition-colors"
           >
             Anmelden
           </Link>

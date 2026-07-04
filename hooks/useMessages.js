@@ -11,8 +11,10 @@ export function useMessages(serverId, channelId) {
     // serverId is intentionally falsy for DM threads (see messagesCollectionPath) -
     // only channelId (the channel or dmId) is required to subscribe.
     if (!channelId) {
+      /* eslint-disable react-hooks/set-state-in-effect */
       setMessages([]);
       setLoading(false);
+      /* eslint-enable react-hooks/set-state-in-effect */
       return;
     }
 

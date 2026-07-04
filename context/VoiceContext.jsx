@@ -55,6 +55,7 @@ export function VoiceProvider({ children }) {
   const micSensitivityRef = useRef(50);
   const audioPipelineRef = useRef(null); // { audioContext, gainNode, analyser, rafId }
   const unlockCtxRef = useRef(null); // iOS AudioContext-Unlock, bleibt für Session offen
+  const audioElementsRef = useRef(new Set()); // alle <audio>-Elemente von Remote-Teilnehmern, für Resume nach startAudio()
 
   // Mic processing pipeline: raw mic source → AnalyserNode (RMS speaking
   // detection) → GainNode (input volume / noise gate) → published track.
@@ -259,6 +260,19 @@ export function VoiceProvider({ children }) {
     });
   }
 
+  // iOS: Nach room.startAudio() alle gesammelten <audio>-Elemente explizit
+  // abspielen. Während connect() blockiert die Autoplay-Policy el.play(),
+  // weil der User-Gesture-Kontext verloren geht. Nach startAudio() ist
+  // die Audio-Session entsperrt und play() funktioniert.
+  function resumeAudioElements() {
+    const els = audioElementsRef.current;
+    if (els.size === 0) return;
+    els.forEach((el) => {
+      el.play().catch(() => {});
+    });
+    console.log(`[voice] resumed ${els.size} audio element(s) after startAudio()`);
+  }
+
   const setMicSensitivity = useCallback((value) => {
     micSensitivityRef.current = value;
     setMicSensitivityState(value);
@@ -379,8 +393,17 @@ export function VoiceProvider({ children }) {
         // 1080p/60fps with high bitrate for maximum stream quality. The
         // LiveKit default was too conservative for text-heavy content.
         // 1080p/60fps @ 15 Mbps gives crystal-clear text and smooth motion.
+        // Audio: 128 kbps Opus Stereo für klaren Sound bei Screen-Sharing.
         const room = new Room({
+          audioCaptureDefaults: {
+            channelCount: 2,
+            sampleRate: 48000,
+            echoCancellation: false,
+            noiseSuppression: false,
+            autoGainControl: false,
+          },
           publishDefaults: {
+            forceStereo: true,
             screenShareEncoding: {
               ...ScreenSharePresets.h1080fps30.encoding,
               maxBitrate: 15_000_000,
@@ -413,7 +436,12 @@ export function VoiceProvider({ children }) {
             try {
               const el = track.attach();
               el.setAttribute("playsinline", "");
-              el.play().catch(() => {});
+              // ⚠️ KEIN el.play() hier! Auf iOS blockiert die Autoplay-Policy,
+              // weil der User-Gesture-Kontext nach den await-Schritten in
+              // connect() bereits verfallen ist. Stattdessen speichern wir
+              // das Element und resumen ALLE gesammelten Elemente NACH
+              // room.startAudio() (siehe resumeAudioElements unten).
+              audioElementsRef.current.add(el);
               console.log(
                 `[voice] audio track subscribed: source=${track.source ?? "unknown"}, kind=${track.kind}`,
               );
@@ -450,6 +478,10 @@ export function VoiceProvider({ children }) {
           roomRef.current = null;
           stopMicPipeline();
           clearPresence();
+          audioElementsRef.current.forEach((el) => {
+            try { el.pause(); el.remove(); } catch (_) { /* ignore */ }
+          });
+          audioElementsRef.current.clear();
           setParticipants([]);
           setScreenShare(false);
           setScreenShareHasAudio(false);
@@ -466,15 +498,15 @@ export function VoiceProvider({ children }) {
 
         // Audio-Tracks von Teilnehmern, die bereits vor uns im Raum waren,
         // wurden vor unserem on(TrackSubscribed)-Listener subscribt - also
-        // hängen wir sie hier nachträglich an. WICHTIG: Vor startAudio(),
-        // denn startAudio() resumt die bereits attached-en <audio>-Elemente.
+        // hängen wir sie hier nachträglich an. Auch hier kein el.play() -
+        // wird gemeinsam nach startAudio() resumed.
         room.remoteParticipants.forEach((p) => {
           p.audioTrackPublications.forEach((pub) => {
             if (pub.track && pub.track.kind === "audio") {
               try {
                 const el = pub.track.attach();
                 el.setAttribute("playsinline", "");
-                el.play().catch(() => {});
+                audioElementsRef.current.add(el);
               } catch (err) {
                 /* bereits attached, ignorieren */
               }
@@ -496,6 +528,11 @@ export function VoiceProvider({ children }) {
           await new Promise((r) => setTimeout(r, 100));
         }
         applyOutputVolume(room);
+        // iOS: Alle <audio>-Elemente, die während connect() (vor startAudio)
+        // attached wurden, jetzt explizit abspielen. Ohne diesen Schritt
+        // bleiben sie auf iOS stumm, weil die Autoplay-Policy zum Zeitpunkt
+        // des Attachments noch blockiert war.
+        resumeAudioElements();
 
         // Den unlock AudioContext NICHT schließen - auf iOS Safari kann
         // der Unlock-Status bei Navigation/Route-Change verloren gehen,
@@ -570,8 +607,8 @@ export function VoiceProvider({ children }) {
         });
       } catch (err) {
         console.error("[voice] connect failed:", err);
-        if (_unlockCtx && _unlockCtx.state !== "closed") {
-          _unlockCtx.close().catch(() => {});
+        if (unlockCtxRef.current && unlockCtxRef.current.state !== "closed") {
+          unlockCtxRef.current.close().catch(() => {});
         }
         setConnection({
           status: "error",
@@ -582,6 +619,7 @@ export function VoiceProvider({ children }) {
         });
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [firebaseUser, userDoc],
   );
 
@@ -592,6 +630,11 @@ export function VoiceProvider({ children }) {
       roomRef.current = null;
     }
     clearPresence();
+    // Gesammelte Audio-Elemente freigeben
+    audioElementsRef.current.forEach((el) => {
+      try { el.pause(); el.remove(); } catch (_) { /* ignore */ }
+    });
+    audioElementsRef.current.clear();
     setParticipants([]);
     setScreenShare(false);
     setConnection({
@@ -646,6 +689,7 @@ export function VoiceProvider({ children }) {
       setMuted(true);
     }
     snapshotParticipants(room);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Deafening also mutes the mic (matches Discord) - but undeafen should
@@ -715,7 +759,7 @@ export function VoiceProvider({ children }) {
       mutedRef.current = false;
       setMuted(false);
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const toggleScreenShare = useCallback(async () => {
     const room = roomRef.current;
@@ -723,7 +767,13 @@ export function VoiceProvider({ children }) {
     const next = !screenShare;
     try {
       await room.localParticipant.setScreenShareEnabled(next, {
-        audio: true,
+        audio: {
+          channelCount: 2,
+          sampleRate: 48000,
+          echoCancellation: false,
+          noiseSuppression: false,
+          autoGainControl: false,
+        },
         resolution: { width: 1920, height: 1080, frameRate: 60 },
       });
       setScreenShare(next);
@@ -809,6 +859,7 @@ export function VoiceProvider({ children }) {
     } catch (err) {
       console.warn("[voice] selectAudioInput failed:", err);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadAudioOutputs = useCallback(async () => {

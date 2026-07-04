@@ -14,23 +14,23 @@ export default function NavRow({
   return (
     <Link
       href={href}
-      className={`flex items-center gap-2.5 px-2.5 py-2 my-0.5 mx-2 rounded-(--radius-base) no-underline transition-[background] duration-100 max-sm:py-2.5 max-sm:min-h-11 ${
+      className={`flex items-center gap-2.5 px-2.5 py-2 my-0.5 mx-2 rounded-[8px] no-underline transition-colors duration-100 max-sm:py-2.5 max-sm:min-h-11 ${
         active
-          ? "bg-(--state-active)"
-          : "bg-transparent hover:bg-(--state-hover)"
+          ? "bg-white/10"
+          : "bg-transparent hover:bg-white/5"
       }${className}`}
     >
       {icon}
       <div className={`min-w-0 flex-1 ${textClassName}`}>
         <p
-          className={`truncate text-sm ${active || unread ? "font-semibold text-(--text-primary)" : "font-medium text-(--text-secondary)"}`}
+          className={`truncate text-sm ${active || unread ? "font-semibold text-zinc-100" : "font-medium text-zinc-400"}`}
         >
           {label}
         </p>
         {children}
       </div>
       {unread && !active && (
-        <span className="size-2 rounded-full bg-(--text-primary) shrink-0" />
+        <span className="size-2 rounded-full bg-zinc-100 shrink-0" />
       )}
     </Link>
   );

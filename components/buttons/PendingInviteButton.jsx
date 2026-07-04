@@ -7,7 +7,7 @@ export default function PendingInviteButton({ invite, onOpen }) {
 
   return (
     <div
-      className="relative flex items-center py-[3px]"
+      className="relative flex items-center py-0.5"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -15,14 +15,14 @@ export default function PendingInviteButton({ invite, onOpen }) {
         onClick={() => onOpen(invite)}
         className="block w-full bg-transparent border-none p-0"
       >
-        <div className="px-[7px]">
-          <div className="relative flex size-[34px] items-center justify-center overflow-hidden rounded-lg border-2 border-dashed border-(--accent) bg-(--surface-raised) cursor-pointer">
+        <div className="px-1.5">
+          <div className="relative flex size-8 items-center justify-center overflow-hidden rounded-lg border-2 border-dashed border-(--accent) bg-zinc-800 cursor-pointer">
             <ServerIcon
               name={invite.serverName}
               iconUrl={invite.serverIconUrl}
               size={32}
             />
-            <span className="absolute -top-1 -right-1 flex size-4 items-center justify-center rounded-full border-2 border-(--surface-deepest) bg-(--accent) text-[9px] font-bold leading-none text-white">
+            <span className="absolute -top-1 -right-1 flex size-4 items-center justify-center rounded-full border-2 border-zinc-950 bg-(--accent) text-2xs font-bold leading-none text-white">
               +
             </span>
           </div>

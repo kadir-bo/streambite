@@ -6,7 +6,7 @@ import {
   SpeakerHigh,
   Microphone,
   MicrophoneSlash,
-  Headphones,
+  MonitorPlay,
   PhoneDisconnect,
 } from "@phosphor-icons/react";
 import { useVoice } from "@/context";
@@ -19,7 +19,14 @@ import { IconBtn } from "@/components";
 // only below md, and only while actually connected, and only away from the
 // voice channel's own page (which already has its own full control toolbar).
 export default function MobileVoiceStatusBar() {
-  const { connection, muted, deafened, toggleMute, toggleDeafen, disconnect } = useVoice();
+  const {
+    connection,
+    muted,
+    screenShare,
+    toggleMute,
+    toggleScreenShare,
+    disconnect,
+  } = useVoice();
   const pathname = usePathname();
 
   if (connection.status !== "connected") return null;
@@ -28,7 +35,7 @@ export default function MobileVoiceStatusBar() {
   }
 
   return (
-    <div className="flex shrink-0 items-center gap-2 border-t border-(--border-subtle) bg-(--surface-deep) px-3 py-2 pb-safe-2 md:hidden">
+    <div className="flex shrink-0 items-center gap-2 border-t border-white/5 bg-(--surface-deep) px-3 py-2 pb-safe-2 md:hidden">
       <Link
         href={`/servers/${connection.serverId}/${connection.channelId}`}
         className="flex min-w-0 flex-1 items-center gap-2 no-underline"
@@ -46,13 +53,18 @@ export default function MobileVoiceStatusBar() {
         size="lg"
         variant={muted ? "danger" : "ghost"}
       />
-      <IconBtn
-        icon={Headphones}
-        onClick={toggleDeafen}
-        title={deafened ? "Hörgerät aktivieren" : "Tauben schalten"}
-        size="lg"
-        variant={deafened ? "danger" : "ghost"}
-      />
+
+      {/* Screen-Share-Button: nur sichtbar wenn aktiv gestreamt wird */}
+      {screenShare && (
+        <IconBtn
+          icon={MonitorPlay}
+          onClick={toggleScreenShare}
+          title="Bildschirmfreigabe beenden"
+          size="lg"
+          className="bg-(--accent) text-white"
+        />
+      )}
+
       <IconBtn
         icon={PhoneDisconnect}
         onClick={disconnect}

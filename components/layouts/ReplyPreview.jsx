@@ -15,15 +15,15 @@ export default function ReplyPreview({ target, onCancel }) {
       exit="hidden"
       className="overflow-hidden"
     >
-      <div className="flex items-center gap-2 px-3.5 py-1.5 bg-(--surface-raised) rounded-t-(--radius-base) border-b border-(--border-subtle)">
-        <ArrowBendUpLeft className="text-(--text-muted) shrink-0 text-xl md:text-lg" />
-        <span className="text-xs text-(--text-muted) flex-1 min-w-0 truncate">
+      <div className="flex items-center gap-2 px-3.5 py-1.5 bg-zinc-800 rounded-t-[8px] border-b border-white/5">
+        <ArrowBendUpLeft className="text-zinc-500 shrink-0 text-xl md:text-lg" />
+        <span className="text-xs text-zinc-500 flex-1 min-w-0 truncate">
           Antwort an{" "}
-          <strong className="text-(--text-primary)">
+          <strong className="text-zinc-100">
             @{target?.authorName}
           </strong>
           {preview && (
-            <span className="ml-1 text-(--text-ghost)">
+            <span className="ml-1 text-zinc-600">
               - {preview}
               {(target?.content?.length ?? 0) > 80 ? "…" : ""}
             </span>
@@ -31,7 +31,7 @@ export default function ReplyPreview({ target, onCancel }) {
         </span>
         <button
           onClick={onCancel}
-          className="p-1 rounded-sm text-(--text-muted) flex items-center shrink-0 hover:text-(--text-primary) text-xl md:text-lg"
+          className="p-1 rounded-sm text-zinc-500 flex items-center shrink-0 hover:text-zinc-100 text-xl md:text-lg"
         >
           <X />
         </button>

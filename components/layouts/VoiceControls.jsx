@@ -9,10 +9,18 @@ import {
 } from "@phosphor-icons/react";
 import { useVoice } from "@/context";
 import { IconBtn } from "@/components";
+import { cn } from "@/lib";
 
 export default function VoiceControls() {
-  const { muted, deafened, screenShare, toggleMute, toggleDeafen, toggleScreenShare, disconnect } =
-    useVoice();
+  const {
+    muted,
+    deafened,
+    screenShare,
+    toggleMute,
+    toggleDeafen,
+    toggleScreenShare,
+    disconnect,
+  } = useVoice();
 
   return (
     <div className="flex items-center gap-2.5">
@@ -32,6 +40,7 @@ export default function VoiceControls() {
         size="xl"
         rounded="full"
         variant={deafened ? "danger-solid" : "ghost"}
+        className="hidden md:flex"
       />
 
       <IconBtn
@@ -40,7 +49,12 @@ export default function VoiceControls() {
         title={screenShare ? "Bildschirmfreigabe beenden" : "Bildschirm teilen"}
         size="xl"
         rounded="full"
-        className={screenShare ? "bg-(--accent) text-white hover:opacity-90" : "bg-(--surface-raised) text-(--text-secondary) hover:bg-(--state-hover)"}
+        className={cn(
+          "hidden md:flex",
+          screenShare
+            ? "bg-(--accent) text-white hover:opacity-90"
+            : "bg-zinc-800 text-zinc-400 hover:bg-white/5",
+        )}
       />
 
       <IconBtn

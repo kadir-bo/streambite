@@ -6,7 +6,8 @@ import { XCircle, CaretLeft } from "@phosphor-icons/react";
 import { useAuth, useLayout } from "@/context";
 import { useFriendActions } from "@/hooks";
 import { closeDm } from "@/lib";
-import { Avatar, ContextMenu, IconBtn, DotMenu } from "@/components";
+import { useLongPress } from "@/hooks";
+import { Avatar, ContextMenu, IconBtn, DotMenu, Topbar } from "@/components";
 
 const STATUS_LABELS = {
   online: "Online",
@@ -22,6 +23,8 @@ export default function DmHeader({ user, dmId }) {
   const friendActions = useFriendActions(user);
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuPos, setMenuPos] = useState({ x: 0, y: 0 });
+
+  const longPress = useLongPress(user ? openMenu : undefined);
 
   function openMenu(e) {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -46,28 +49,31 @@ export default function DmHeader({ user, dmId }) {
   ];
 
   return (
-    <header className="flex shrink-0 items-center gap-2.5 border-b border-(--border-subtle) bg-(--surface-base) px-4 h-(--header-channel)">
+    <Topbar className="gap-2.5 px-4">
       <IconBtn
         icon={CaretLeft}
         onClick={showList}
         title="Zurück"
-        size="sm"
+        size="xl"
         mobileOnly
+        className="bg-zinc-800!"
       />
 
-        <Avatar
-          src={user?.avatarUrl}
-          name={user?.displayName}
-          size="sm"
-          status={user?.status}
-        />
-        <div className="min-w-0 flex-1">
-          <p className="truncate font-(--weight-semibold) text-(--text-primary) leading-[1.2]">
-            {user?.displayName ?? "..."}
-          </p>
-          <p className="text-2xs text-(--text-muted)">
-            {STATUS_LABELS[user?.status] ?? "Offline"}
-          </p>
+        <div {...longPress.handlers} className="flex items-center gap-2.5 flex-1 min-w-0">
+          <Avatar
+            src={user?.avatarUrl}
+            name={user?.displayName}
+            size="sm"
+            status={user?.status}
+          />
+          <div className="min-w-0 flex-1">
+            <p className="truncate font-semibold text-zinc-100 leading-tight">
+              {user?.displayName ?? "..."}
+            </p>
+            <p className="text-2xs text-zinc-500">
+              {STATUS_LABELS[user?.status] ?? "Offline"}
+            </p>
+          </div>
         </div>
 
         {user && (
@@ -82,6 +88,6 @@ export default function DmHeader({ user, dmId }) {
         items={menuItems}
       />
       {friendActions.modals}
-    </header>
+    </Topbar>
   );
 }

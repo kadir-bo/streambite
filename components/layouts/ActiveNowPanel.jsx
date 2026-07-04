@@ -1,11 +1,7 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import {
-  ArrowLeftIcon,
-  ArrowSquareLeftIcon,
-  Sparkle,
-} from "@phosphor-icons/react";
+import { AnimatePresence, motion } from "motion/react";
+import { Sparkle } from "@phosphor-icons/react";
 import { useFriends } from "@/hooks";
 
 import { ActiveFriendRow } from "@/components";
@@ -27,7 +23,8 @@ export default function ActiveNowPanel() {
   };
   return (
     <motion.aside
-      className="hidden md:flex md:flex-col w-75 bg-(--surface-deep) border-l border-(--border-subtle) shrink-0 py-2.5 overflow-y-auto overflow-x-hidden"
+      initial={false}
+      className="hidden md:flex md:flex-col bg-(--surface-deep) border-l border-white/5 shrink-0 py-2.5 overflow-y-auto overflow-x-hidden"
       animate={{
         width: activeNowSidebar
           ? `${maxSidebarWidth}px`
@@ -49,21 +46,21 @@ export default function ActiveNowPanel() {
             className="px-4"
           >
             {/* Jetzt aktiv (Online-Freunde) */}
-            <p className="text-base font-bold text-(--text-primary) mb-3">
+            <p className="text-base font-bold text-zinc-100 mb-3">
               Jetzt aktiv
             </p>
-            <div className="w-full h-px bg-(--border-subtle) my-2" />
+            <div className="w-full h-px bg-white/5 my-2" />
             {activeFriends.length === 0 ? (
-              <div className="bg-(--surface-raised) border border-(--border-subtle) rounded-lg px-4.5 py-6 text-center mb-4">
+              <div className="bg-zinc-800 border border-white/5 rounded-lg px-4.5 py-6 text-center mb-4">
                 <Sparkle
                   size={28}
                   weight="fill"
-                  className="text-(--text-ghost) mb-2.5 mx-auto"
+                  className="text-zinc-600 mb-2.5 mx-auto"
                 />
-                <p className="text-sm font-semibold text-(--text-secondary) mb-1.5">
+                <p className="text-sm font-semibold text-zinc-400 mb-1.5">
                   Bisher ist alles ruhig …
                 </p>
-                <p className="text-xs text-(--text-muted) leading-relaxed">
+                <p className="text-xs text-zinc-500 leading-relaxed">
                   Wenn ein Freund online ist oder gerade chattet, siehst du es
                   hier.
                 </p>
@@ -79,7 +76,7 @@ export default function ActiveNowPanel() {
             {/* Offline-Freunde */}
             {offlineFriends.length > 0 && (
               <>
-                <p className="text-2xs font-semibold uppercase tracking-wider text-(--text-muted) mb-1">
+                <p className="text-2xs font-semibold uppercase tracking-wider text-zinc-500 mb-1">
                   Offline - {offlineFriends.length}
                 </p>
                 <div className="flex flex-col gap-0.5">

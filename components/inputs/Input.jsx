@@ -10,16 +10,16 @@ const Input = forwardRef(function Input(
   return (
     <div className="flex flex-col gap-1.5">
       {label && (
-        <label className="text-2xs  font-medium tracking-widest uppercase text-(--text-secondary)">
+        <label className="text-2xs font-medium tracking-widest uppercase text-zinc-400">
           {label}
         </label>
       )}
       <input
         ref={ref}
         className={cn(
-          "w-full outline-none transition-colors bg-(--surface-raised) rounded-(--radius-base) px-3 py-2.5 text-sm placeholder:text-sm text-(--text-primary) border",
-          error ? "border-(--danger)" : "border-(--border-default)",
-          "focus:border-(--border-strong)",
+          "w-full outline-none transition-all duration-150 bg-zinc-800 rounded-[8px] px-3 py-2.5 text-sm placeholder:text-sm text-zinc-100 border",
+          error ? "border-red-500" : "border-white/10",
+          "focus:border-(--accent)/40 focus:ring-1 focus:ring-(--accent)/20 focus:bg-zinc-800/80",
           className,
         )}
         onFocus={(e) => {
@@ -30,7 +30,7 @@ const Input = forwardRef(function Input(
         }}
         {...props}
       />
-      {error && <p className="text-xs text-(--danger)">{error}</p>}
+      {error && <p className="text-xs text-red-500">{error}</p>}
     </div>
   );
 });

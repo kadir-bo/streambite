@@ -12,7 +12,14 @@ import {
 } from "@phosphor-icons/react";
 import { useAuth, useVoice } from "@/context";
 import { updateUserDocument, logoutUser } from "@/lib";
-import { Avatar, ContextMenu, VolumeSlider, StatusDot, IconBtn } from "@/components";
+import { useLongPress } from "@/hooks";
+import {
+  Avatar,
+  ContextMenu,
+  VolumeSlider,
+  StatusDot,
+  IconBtn,
+} from "@/components";
 import { UserSettingsModal } from "@/components";
 
 const STATUS_LABELS = {
@@ -30,10 +37,10 @@ const STATUS_OPTIONS = [
 ];
 
 const STATUS_COLORS = {
-  online: "var(--status-online)",
-  busy: "var(--status-busy)",
-  idle: "var(--status-idle)",
-  offline: "var(--status-offline)",
+  online: "#22c55e",
+  busy: "#f59e0b",
+  idle: "#f59e0b",
+  offline: "#3f3f46",
 };
 
 export default function UserPanel() {
@@ -64,6 +71,7 @@ export default function UserPanel() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuPos, setMenuPos] = useState({ x: 0, y: 0 });
   const [menuWidth, setMenuWidth] = useState(0);
+  const longPress = useLongPress(openMenu);
   const [inputMenuOpen, setInputMenuOpen] = useState(false);
   const [inputMenuPos, setInputMenuPos] = useState({ x: 0, y: 0 });
   const [outputMenuOpen, setOutputMenuOpen] = useState(false);
@@ -191,12 +199,13 @@ export default function UserPanel() {
     <>
       <div
         data-user-panel
-        className="flex flex-col shrink-0 items-center gap-1.5 border-t border-(--border-subtle) bg-(--surface-deep) p-2 max-sm:p-3 max-sm:gap-2 pb-safe-2"
+        className="flex flex-col shrink-0 items-center gap-1.5 border-t border-white/5 bg-(--surface-deep) p-2 max-sm:p-3 max-sm:gap-2 pb-safe-2"
       >
         <div className="flex w-full justify-end gap-4">
           <button
+            {...longPress.handlers}
             onClick={openMenu}
-            className="flex min-w-0 flex-1 cursor-pointer items-center gap-2 rounded-(--radius-base) bg-transparent p-1 text-left transition-[background] duration-100 hover:bg-(--state-hover) max-sm:min-h-12"
+            className="flex min-w-0 flex-1 cursor-pointer items-center gap-2 rounded-[8px] bg-transparent p-1 text-left transition-colors duration-100 hover:bg-white/5 max-sm:min-h-12"
           >
             <Avatar
               src={userDoc?.avatarUrl}
@@ -205,7 +214,7 @@ export default function UserPanel() {
               status={status}
             />
             <div className="min-w-0">
-              <p className="truncate text-sm font-semibold text-(--text-primary)">
+              <p className="truncate text-sm font-semibold text-zinc-100">
                 {displayName}
               </p>
               {inVoice ? (
@@ -214,41 +223,42 @@ export default function UserPanel() {
                   Sprachverbunden
                 </p>
               ) : (
-                <p className="truncate text-xs text-(--text-muted)">
+                <p className="truncate text-xs text-zinc-500">
                   {STATUS_LABELS[status] ?? "Online"}
                 </p>
               )}
             </div>
           </button>
-          <div className="flex items-center shrink-0 max-sm:gap-2">
+          <div className="flex items-center shrink-0 max-sm:gap-2 group rounded-lg overflow-hidden">
             <IconBtn
               icon={muted ? MicrophoneSlash : Microphone}
               onClick={toggleMute}
               title={muted ? "Stummschaltung aufheben" : "Stummschalten"}
               variant={muted ? "danger" : "ghost"}
-              className={`max-sm:rounded-full ${muted ? "!bg-(--danger) !text-white" : ""}`}
+              className={`h-full rounded-none group-hover:bg-(--state-hover)/50`}
             />
 
             <button
               onClick={openInputMenu}
               title="Eingabegerät & Lautstärke"
-              className="hidden sm:flex size-5 shrink-0 cursor-pointer items-center justify-center border-none bg-transparent text-(--text-muted) hover:bg-(--state-hover) hover:text-(--text-secondary)"
+              className="hidden sm:flex size-5 shrink-0 cursor-pointer items-center justify-center border-none bg-transparent text-zinc-500 hover:bg-white/5 hover:text-zinc-400 group-hover:bg-(--state-hover)/50 h-full"
             >
               <CaretUp weight="bold" className="text-sm" />
             </button>
           </div>
-          <div className="hidden sm:flex items-center rounded-(--radius-base) overflow-hidden shrink-0 group">
+          <div className="hidden sm:flex items-center rounded-lg overflow-hidden shrink-0 group">
             <IconBtn
               icon={Headphones}
               onClick={toggleDeafen}
               title={deafened ? "Hörgerät aktivieren" : "Tauben schalten"}
               variant={deafened ? "danger" : "ghost"}
+              className="h-full rounded-none group-hover:bg-(--state-hover)/50"
             />
 
             <button
               onClick={openOutputMenu}
               title="Ausgabegerät & Lautstärke"
-              className="flex size-5 shrink-0 cursor-pointer items-center justify-center border-none bg-transparent text-(--text-muted) hover:bg-(--state-hover) hover:text-(--text-secondary) text-sm md:text-base group-hover:bg-(--state-hover)/50 h-full"
+              className="flex size-5 shrink-0 cursor-pointer items-center justify-center border-none bg-transparent text-zinc-500 hover:bg-white/5 hover:text-zinc-400 text-sm md:text-base group-hover:bg-(--state-hover)/50 h-full"
             >
               <CaretUp weight="bold" className="text-sm" />
             </button>

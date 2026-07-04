@@ -95,10 +95,10 @@ export default function InviteModal({ open, onClose, server }) {
               size={44}
             />
             <div className="min-w-0">
-              <p className="text-sm font-semibold text-(--text-primary) truncate">
+              <p className="text-sm font-semibold text-zinc-100 truncate">
                 {server?.name ?? "..."}
               </p>
-              <p className="text-xs text-(--text-muted)">
+              <p className="text-xs text-zinc-500">
                 Einladungslink teilen
               </p>
             </div>
@@ -108,10 +108,10 @@ export default function InviteModal({ open, onClose, server }) {
             whileTap={{ scale: 0.9 }}
             onClick={handleCopy}
             title={inviteLink}
-            className={`flex items-center gap-1.5 px-3 py-1.75 rounded-(--radius-base) border text-sm font-semibold shrink-0 transition-[background,color,border-color] duration-150 ${
+            className={`flex items-center gap-1.5 px-3 py-1.75 rounded-[8px] border text-sm font-semibold shrink-0 transition-colors duration-150 ${
               copied
-                ? "bg-(--state-active) text-(--status-online) border-(--status-online) cursor-default"
-                : "bg-(--surface-deep) text-(--text-primary) border-(--border-subtle) hover:bg-(--surface-raised) cursor-pointer"
+                ? "bg-white/10 text-green-500 border-green-500 cursor-default"
+                : "bg-(--surface-deep) text-zinc-100 border-white/5 hover:bg-zinc-800 cursor-pointer"
             }`}
           >
             <AnimatePresence mode="wait" initial={false}>
@@ -144,37 +144,37 @@ export default function InviteModal({ open, onClose, server }) {
           </motion.button>
         </div>
 
-        <div className="h-px bg-(--border-subtle)" />
+        <div className="h-px bg-white/5" />
 
         {/* Friends search */}
         <div>
-          <p className="text-2xs font-semibold tracking-widest uppercase text-(--text-secondary) mb-2.5">
+          <p className="text-2xs font-semibold tracking-widest uppercase text-zinc-400 mb-2.5">
             An Freund senden
           </p>
 
-          <div className="flex items-center gap-2 bg-(--surface-deep) border border-(--border-subtle) rounded-(--radius-base) px-3 mb-2.5">
+          <div className="flex items-center gap-2 bg-(--surface-deep) border border-white/5 rounded-[8px] px-3 mb-2.5">
             <MagnifyingGlass
               size={14}
-              className="text-(--text-muted) shrink-0"
+              className="text-zinc-500 shrink-0"
             />
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Freund suchen..."
-              className="flex-1 bg-transparent border-none outline-none text-sm text-(--text-primary) py-2.5"
+              className="flex-1 bg-transparent border-none outline-none text-sm text-zinc-100 py-2.5"
             />
           </div>
 
           <div className="max-h-55 overflow-y-auto flex flex-col gap-0.5">
             {friends.length === 0 ? (
               <div className="px-1 py-4 text-center">
-                <UsersThree size={24} className="text-(--text-ghost) mb-1.5" />
-                <p className="text-xs text-(--text-ghost)">
+                <UsersThree size={24} className="text-zinc-600 mb-1.5" />
+                <p className="text-xs text-zinc-600">
                   Du hast noch keine Freunde
                 </p>
               </div>
             ) : filteredFriends.length === 0 ? (
-              <p className="text-xs text-(--text-ghost) text-center py-3">
+              <p className="text-xs text-zinc-600 text-center py-3">
                 Niemand gefunden
               </p>
             ) : (
@@ -183,7 +183,7 @@ export default function InviteModal({ open, onClose, server }) {
                 return (
                   <div
                     key={friend.id}
-                    className="flex items-center gap-2.5 px-1 py-1.5 rounded-(--radius-base)"
+                    className="flex items-center gap-2.5 px-1 py-1.5 rounded-[8px]"
                   >
                     <Avatar
                       src={friend.avatarUrl}
@@ -191,7 +191,7 @@ export default function InviteModal({ open, onClose, server }) {
                       size="sm"
                       status={friend.status}
                     />
-                    <span className="flex-1 text-sm font-medium text-(--text-primary) truncate">
+                    <span className="flex-1 text-sm font-medium text-zinc-100 truncate">
                       {friend.displayName}
                     </span>
                     <button
@@ -199,8 +199,8 @@ export default function InviteModal({ open, onClose, server }) {
                       disabled={sent || sendingTo === friend.id}
                       className={`flex items-center gap-1 px-2.5 py-1.25 rounded-sm border text-xs font-semibold shrink-0 ${
                         sent
-                          ? "bg-(--state-active) text-(--status-online) border-(--border-default) cursor-default"
-                          : "bg-(--surface-raised) text-(--text-secondary) border-(--border-default) cursor-pointer"
+                          ? "bg-white/10 text-green-500 border-white/10 cursor-default"
+                          : "bg-zinc-800 text-zinc-400 border-white/10 cursor-pointer"
                       } ${sendingTo === friend.id ? "opacity-60" : "opacity-100"}`}
                     >
                       {sent ? (
@@ -220,7 +220,7 @@ export default function InviteModal({ open, onClose, server }) {
           </div>
         </div>
 
-        <p className="text-xs text-(--text-ghost) text-center">
+        <p className="text-xs text-zinc-600 text-center">
           Jeder mit diesem Link kann dem Server beitreten.
         </p>
       </div>

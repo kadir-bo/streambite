@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { motion } from "motion/react";
 import { AuthCard, Input, Button, GoogleButton } from "@/components";
 import { loginUser, signInWithGoogle } from "@/lib";
 
@@ -36,10 +37,10 @@ export default function LoginPage() {
     <AuthCard>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-1">
-          <h1 className="text-xl font-bold text-(--text-primary) tracking-tight">
+          <h1 className="text-xl font-bold text-zinc-100 tracking-tight text-balance">
             Willkommen zurück
           </h1>
-          <p className="text-sm text-(--text-muted)">
+          <p className="text-sm text-zinc-500 text-balance">
             Melde dich bei Streambite an
           </p>
         </div>
@@ -67,7 +68,7 @@ export default function LoginPage() {
             />
             <Link
               href="/forgot-password"
-              className="text-xs text-(--text-muted) self-end hover:text-zinc-300 transition-colors"
+              className="text-xs text-zinc-500 self-end hover:text-(--accent) transition-colors"
             >
               Passwort vergessen?
             </Link>
@@ -79,11 +80,11 @@ export default function LoginPage() {
         </form>
 
         <div className="flex items-center gap-2.5">
-          <div className="flex-1 h-px bg-(--border-subtle)" />
-          <span className="text-2xs text-(--text-ghost) uppercase tracking-widest">
+          <div className="flex-1 h-px bg-white/5" />
+          <span className="text-2xs text-zinc-600 uppercase tracking-widest">
             oder
           </span>
-          <div className="flex-1 h-px bg-(--border-subtle)" />
+          <div className="flex-1 h-px bg-white/5" />
         </div>
 
         <GoogleButton
@@ -91,11 +92,11 @@ export default function LoginPage() {
           label="Mit Google anmelden"
         />
 
-        <p className="text-xs text-(--text-muted) text-center">
+        <p className="text-xs text-zinc-500 text-center">
           Noch kein Konto?{" "}
           <Link
             href="/register"
-            className="text-(--text-secondary) hover:text-zinc-100 transition-colors"
+            className="text-zinc-400 hover:text-(--accent) transition-colors"
           >
             Registrieren
           </Link>

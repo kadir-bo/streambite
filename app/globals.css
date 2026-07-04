@@ -5,114 +5,17 @@
    ============================================================ */
 
 :root {
-  /* SURFACES */
-  --surface-deepest: #09090b;
+  /* SURFACE (deep only — still used for sidebar/panel backgrounds) */
   --surface-deep: #111113;
-  --surface-base: #18181b;
-  --surface-raised: #27272a;
-  --surface-overlay: #3f3f46;
-
-  /* TEXT */
-  --text-primary: #f4f4f5;
-  --text-secondary: #a1a1aa;
-  --text-muted: #71717a;
-  --text-ghost: #52525b;
-
-  /* BORDERS */
-  --border-subtle: rgba(255, 255, 255, 0.06);
-  --border-default: rgba(255, 255, 255, 0.1);
-  --border-strong: rgba(255, 255, 255, 0.18);
-
-  /* INTERACTIVE STATES */
-  --state-hover: rgba(255, 255, 255, 0.04);
-  --state-active: rgba(255, 255, 255, 0.1);
-  --state-pressed: rgba(255, 255, 255, 0.14);
-  --state-focus: rgba(255, 255, 255, 0.2);
-  --state-disabled: rgba(255, 255, 255, 0.04);
-
-  /* STATUS (semantisch) */
-  --status-online: #22c55e;
-  --status-idle: #f59e0b;
-  --status-busy: #f59e0b;
-  --status-dnd: #ef4444;
-  --status-offline: #3f3f46;
-  --status-live: #f43f5e;
-
-  /* DANGER (semantisch) */
-  --danger: #ef4444;
-  --danger-hover: #dc2626;
-  --danger-subtle: rgba(239, 68, 68, 0.1);
 
   /* ACCENT (primäre Call-to-Action, z.B. "Freund hinzufügen") */
   --accent: #5865f2;
   --accent-hover: #4752c4;
   --accent-subtle: rgba(88, 101, 242, 0.12);
 
-  /* FONTS (mapped from next/font CSS variables) */
-  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), "JetBrains Mono", monospace;
-
-  /* TYPOGRAPHY (font-weight only - sizes/tracking/leading live in @theme below,
-     since Tailwind needs them registered there to generate text-2xs /tracking-widest/etc.
-     as real utilities instead of the ambiguous text-(--var) arbitrary form) */
-  --weight-normal: 400;
-  --weight-medium: 500;
-  --weight-semibold: 600;
-  --weight-bold: 700;
-
-  /* SPACING */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 20px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-10: 40px;
-  --space-12: 48px;
-  --space-16: 64px;
-
-  /* BORDER RADIUS */
-  --radius-sm: 4px;
-  --radius-base: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --radius-2xl: 20px;
-  --radius-pill: 9999px;
-  --radius-full: 9999px;
-
-  /* SHADOWS */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
-  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
-
-  /* Z-INDEX */
-  --z-base: 0;
-  --z-raised: 10;
-  --z-dropdown: 100;
-  --z-modal: 200;
-  --z-overlay: 300;
-  --z-toast: 400;
-  --z-tooltip: 500;
-
-  /* LAYOUT */
-  --sidebar-server: 48px;
-  --sidebar-channel: 208px;
-  --sidebar-member: 240px;
-  --header-channel: 48px;
-  --panel-settings: 220px;
-
-  /* ANIMATION */
-  --duration-instant: 80ms;
-  --duration-fast: 150ms;
-  --duration-base: 200ms;
-  --duration-slow: 300ms;
-  --duration-slower: 450ms;
-
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --state-hover: rgba(255, 255, 255, 0.04);
+  --warning: #f59e0b;
+  --warning-subtle: rgba(245, 158, 11, 0.1);
 }
 
 @theme inline {
@@ -174,11 +77,11 @@
   }
 
   body {
-    background-color: var(--surface-deepest);
-    color: var(--text-primary);
-    font-family: var(--font-sans);
-    font-size: var(--text-base);
-    line-height: var(--leading-normal);
+    background-color: #09090b;
+    color: #f4f4f5;
+    font-family: var(--font-geist-sans), system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow: hidden;
@@ -195,25 +98,25 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: var(--surface-overlay);
-    border-radius: var(--radius-pill);
+    background: #3f3f46;
+    border-radius: 9999px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--border-strong);
+    background: rgba(255, 255, 255, 0.18);
   }
 
   /* Selection */
   ::selection {
-    background: var(--state-active);
-    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.1);
+    color: #f4f4f5;
   }
 
   /* Focus ring */
   :focus-visible {
-    outline: 2px solid var(--state-focus);
+    outline: 2px solid rgba(255, 255, 255, 0.2);
     outline-offset: 2px;
-    border-radius: var(--radius-sm);
+    border-radius: 4px;
   }
 
   /* Remove default button styling */
@@ -257,7 +160,7 @@
   code,
   pre,
   kbd {
-    font-family: var(--font-mono);
+    font-family: var(--font-geist-mono), "JetBrains Mono", monospace;
   }
 }
 
@@ -271,12 +174,7 @@
   .pb-safe-2 {
     padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
   }
-  .pl-safe {
-    padding-left: env(safe-area-inset-left, 0px);
-  }
-  .pr-safe {
-    padding-right: env(safe-area-inset-right, 0px);
-  }
+
   .pt-safe {
     padding-top: env(safe-area-inset-top, 0px);
   }
@@ -286,8 +184,7 @@
 @supports not (padding-bottom: env(safe-area-inset-bottom)) {
   .pb-safe { padding-bottom: 0; }
   .pb-safe-2 { padding-bottom: 8px; }
-  .pl-safe { padding-left: 0; }
-  .pr-safe { padding-right: 0; }
+
   .pt-safe { padding-top: 0; }
 }
 

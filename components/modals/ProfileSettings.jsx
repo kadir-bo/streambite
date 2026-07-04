@@ -21,10 +21,10 @@ import {
 } from "@/components";
 
 const STATUS_OPTIONS = [
-  { value: "online", label: "Online", color: "var(--status-online)" },
-  { value: "busy", label: "Beschäftigt", color: "var(--status-busy)" },
-  { value: "idle", label: "Abwesend", color: "var(--status-idle)" },
-  { value: "offline", label: "Offline", color: "var(--status-offline)" },
+  { value: "online", label: "Online", color: "#22c55e" },
+  { value: "busy", label: "Beschäftigt", color: "#f59e0b" },
+  { value: "idle", label: "Abwesend", color: "#f59e0b" },
+  { value: "offline", label: "Offline", color: "#3f3f46" },
 ];
 
 export default function ProfileSettings({ open }) {
@@ -48,9 +48,11 @@ export default function ProfileSettings({ open }) {
   // than relying on the initial useState value.
   useEffect(() => {
     if (open) {
+      /* eslint-disable react-hooks/set-state-in-effect */
       setDisplayName(userDoc?.displayName ?? "");
       setUsernameState(userDoc?.username ?? "");
       setStatus(userDoc?.status ?? "online");
+      /* eslint-enable react-hooks/set-state-in-effect */
     }
   }, [open, userDoc?.displayName, userDoc?.username, userDoc?.status]);
 
@@ -144,15 +146,15 @@ export default function ProfileSettings({ open }) {
           />
         </div>
         <div className="min-w-0">
-          <p className="text-sm font-(--weight-semibold) text-(--text-primary) truncate">
+          <p className="text-sm font-semibold text-zinc-100 truncate">
             {displayName || userDoc?.displayName || "-"}
           </p>
-          <p className="text-xs text-(--text-muted) font-(--font-mono)">
+          <p className="text-xs text-zinc-500 font-mono">
             {userDoc?.username
               ? `${userDoc.username}#${userDoc.tag}`
               : "Kein Benutzername"}
           </p>
-          <p className="text-xs text-(--text-ghost) mt-0.5">
+          <p className="text-xs text-zinc-600 mt-0.5">
             {firebaseUser?.email}
           </p>
           {userDoc?.avatarUrl && (
@@ -173,7 +175,7 @@ export default function ProfileSettings({ open }) {
                 }
               }}
               disabled={uploadingAvatar}
-              className="text-xs text-(--danger) hover:text-(--danger-hover) bg-transparent border-none cursor-pointer p-0 mt-1 transition-colors"
+              className="text-xs text-red-500 hover:text-red-600 bg-transparent border-none cursor-pointer p-0 mt-1 transition-colors"
             >
               Bild entfernen
             </button>
@@ -181,7 +183,7 @@ export default function ProfileSettings({ open }) {
         </div>
       </div>
 
-      <div className="h-px bg-(--border-subtle)" />
+      <div className="h-px bg-white/5" />
 
       {/* Display name */}
       <div>
@@ -205,7 +207,7 @@ export default function ProfileSettings({ open }) {
           minLength={3}
           placeholder="benutzername"
         />
-        <p className="text-xs text-(--text-muted) mt-1">
+        <p className="text-xs text-zinc-500 mt-1">
           3–20 Zeichen, nur Buchstaben, Zahlen und Unterstriche.
           {userDoc?.username && userDoc?.tag && (
             <span className="ml-1">
@@ -229,10 +231,10 @@ export default function ProfileSettings({ open }) {
                 key={opt.value}
                 type="button"
                 onClick={() => setStatus(opt.value)}
-                className={`px-3 py-3 sm:px-1 sm:py-2.5 rounded-(--radius-base) cursor-pointer flex flex-col items-center gap-1.5 sm:gap-1.25 transition-[border-color,background] duration-120 min-h-12 sm:min-h-0 ${
+                className={`px-3 py-3 sm:px-1 sm:py-2.5 rounded-[8px] cursor-pointer flex flex-col items-center gap-1.5 sm:gap-1.25 transition-colors duration-120 min-h-12 sm:min-h-0 ${
                   active
-                    ? "bg-(--state-active) border"
-                    : "bg-transparent border border-(--border-subtle)"
+                    ? "bg-white/10 border"
+                    : "bg-transparent border border-white/5"
                 }`}
                 style={active ? { borderColor: opt.color } : {}}
               >
@@ -241,10 +243,10 @@ export default function ProfileSettings({ open }) {
                   style={{ backgroundColor: opt.color }}
                 />
                 <span
-                  className={`text-xs sm:text-2xs text-center leading-[1.2] ${
+                  className={`text-xs sm:text-2xs text-center leading-tight ${
                     active
-                      ? "text-(--text-primary) font-(--weight-semibold)"
-                      : "text-(--text-muted) font-(--weight-normal)"
+                      ? "text-zinc-100 font-semibold"
+                      : "text-zinc-500 font-normal"
                   }`}
                 >
                   {opt.label}
@@ -266,7 +268,7 @@ export default function ProfileSettings({ open }) {
       </div>
 
       {error && (
-        <p className="text-xs text-(--danger) px-3 py-2 bg-(--danger-subtle) rounded-(--radius-base)">
+        <p className="text-xs text-red-500 px-3 py-2 bg-red-500/10 rounded-[8px]">
           {error}
         </p>
       )}
@@ -280,15 +282,15 @@ export default function ProfileSettings({ open }) {
       </Button>
 
       {/* Account löschen */}
-      <div className="h-px bg-(--border-subtle) mt-4" />
-      <div className="rounded-(--radius-base) border border-(--danger) bg-(--danger-subtle) p-4">
+      <div className="h-px bg-white/5 mt-4" />
+      <div className="rounded-[8px] border border-red-500 bg-red-500/10 p-4">
         <div className="flex items-center gap-2 mb-2">
-          <Warning className="text-(--danger) shrink-0 text-xl md:text-lg" />
-          <span className="text-sm font-semibold text-(--danger)">
+          <Warning className="text-red-500 shrink-0 text-xl md:text-lg" />
+          <span className="text-sm font-semibold text-red-500">
             Account löschen
           </span>
         </div>
-        <p className="text-xs text-(--text-secondary) mb-3 leading-relaxed">
+        <p className="text-xs text-zinc-400 mb-3 leading-relaxed">
           Dein gesamtes Profil, alle Nachrichten und Server-Mitgliedschaften
           werden unwiderruflich gelöscht. Dies kann nicht rückgängig gemacht
           werden.
@@ -318,14 +320,14 @@ export default function ProfileSettings({ open }) {
 
       {/* Re-Auth Passwort-Abfrage (nach "requires-recent-login") */}
       {reauthEmail && (
-        <div className="rounded-(--radius-base) border border-(--danger) bg-(--danger-subtle) p-4">
+        <div className="rounded-[8px] border border-red-500 bg-red-500/10 p-4">
           <div className="flex items-center gap-2 mb-2">
-            <Key className="text-(--danger) shrink-0 text-xl md:text-lg" />
-            <span className="text-sm font-semibold text-(--danger)">
+            <Key className="text-red-500 shrink-0 text-xl md:text-lg" />
+            <span className="text-sm font-semibold text-red-500">
               Passwort bestätigen
             </span>
           </div>
-          <p className="text-xs text-(--text-secondary) mb-3 leading-relaxed">
+          <p className="text-xs text-zinc-400 mb-3 leading-relaxed">
             Aus Sicherheitsgründen musst du dein Passwort erneut eingeben, um
             den Account zu löschen.
           </p>
@@ -339,10 +341,10 @@ export default function ProfileSettings({ open }) {
               onKeyDown={(e) => {
                 if (e.key === "Enter") handleReauthAndDelete();
               }}
-              className="w-full rounded-(--radius-base) border border-(--border-default) bg-(--surface-deep) px-3 py-2 text-sm text-(--text-primary) outline-none placeholder:text-(--text-ghost)"
+              className="w-full rounded-[8px] border border-white/10 bg-(--surface-deep) px-3 py-2 text-sm text-zinc-100 outline-none placeholder:text-zinc-600"
             />
             {deleteError && (
-              <p className="text-xs text-(--danger)">{deleteError}</p>
+              <p className="text-xs text-red-500">{deleteError}</p>
             )}
             <div className="flex gap-2">
               <Button

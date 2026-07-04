@@ -9,6 +9,7 @@ export default function RenameChannelModal({ open, onClose, serverId, channel })
   const [error, setError] = useState("");
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (open) setName(channel?.name ?? "");
   }, [open, channel?.name]);
 

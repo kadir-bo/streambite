@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import {
   ChatsCircle,
@@ -8,17 +8,19 @@ import {
 } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import { subscribeToUser, ensureDm, closeDm } from "@/lib";
-import { useUnread, useFriendActions } from "@/hooks";
+import { useUnread, useFriendActions, useIsDesktop, useLongPress } from "@/hooks";
 import { NavRow, Avatar, ContextMenu, DotMenu } from "@/components";
 
 export default function DmRow({ dm, otherUid, active }) {
   const { firebaseUser } = useAuth();
   const router = useRouter();
+  const rowRef = useRef(null);
   const [user, setUser] = useState(null);
   const { isUnread } = useUnread();
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuPos, setMenuPos] = useState({ x: 0, y: 0 });
   const friendActions = useFriendActions(user);
+  const isDesktop = useIsDesktop();
 
   useEffect(() => {
     if (!otherUid) return;
@@ -36,12 +38,20 @@ export default function DmRow({ dm, otherUid, active }) {
     await closeDm(dm.id, firebaseUser.uid);
   }
 
+  const longPress = useLongPress(openMenu);
+
   function openMenu(e) {
     e.preventDefault();
     e.stopPropagation();
-    const rect = e.currentTarget.getBoundingClientRect();
-    // rechtsbündig am Button, 4px Abstand nach unten
-    setMenuPos({ x: rect.right - 220, y: rect.bottom + 4 });
+    // Card-Rand statt DotMenu-Position: rechtsbündig am NavRow
+    const row = rowRef.current?.querySelector("a");
+    const rect = (row ?? e.currentTarget).getBoundingClientRect();
+    const menuWidth = 220;
+    const gap = 4;
+    setMenuPos({
+      x: rect.right - menuWidth - gap,
+      y: rect.top,
+    });
     setMenuOpen(true);
   }
 
@@ -63,10 +73,17 @@ export default function DmRow({ dm, otherUid, active }) {
 
   return (
     <div
+      ref={rowRef}
+      {...longPress.handlers}
       className="group relative"
       onContextMenu={(e) => {
         e.preventDefault();
-        setMenuPos({ x: e.clientX, y: e.clientY });
+        const menuWidth = 220;
+        const gap = 4;
+        setMenuPos({
+          x: e.clientX - menuWidth / 2,
+          y: e.clientY,
+        });
         setMenuOpen(true);
       }}
     >
@@ -84,20 +101,28 @@ export default function DmRow({ dm, otherUid, active }) {
         }
         label={user?.displayName ?? "..."}
       >
-        <div className="flex items-center gap-1 relative">
-          <span className="truncate flex-1 leading-0">
-            {dm.lastMessage && (
-              <span className="text-xs text-(--text-muted)">
-                {dm.lastMessage.content || (
-                  <ChatsCircle size={12} className="inline align-middle" />
-                )}
-              </span>
-            )}
-          </span>
-
-          <DotMenu onClick={openMenu} />
-        </div>
+        {/* Mobile: Letzte Nachricht unter dem Namen, DotMenu rechts */}
+        {/* Desktop: Letzte Nachricht + DotMenu in einer Zeile */}
+        {dm.lastMessage && (
+          <div className="flex items-center gap-1 relative max-sm:mt-0.5">
+            <span className="truncate flex-1 text-xs text-zinc-500">
+              {dm.lastMessage.content ? (
+                <span className="truncate">{dm.lastMessage.content}</span>
+              ) : (
+                <ChatsCircle size={12} className="inline align-middle shrink-0" />
+              )}
+            </span>
+          </div>
+        )}
       </NavRow>
+
+      {/* DotMenu außerhalb des NavRow-Contents, absolut rechts positioniert */}
+      <div className={isDesktop ? "absolute right-2 top-1/2 -translate-y-1/2" : "absolute right-4 bottom-2 z-10"}>
+        <DotMenu
+          onClick={openMenu}
+          className={isDesktop ? "" : "!opacity-100"}
+        />
+      </div>
 
       <ContextMenu
         open={menuOpen}

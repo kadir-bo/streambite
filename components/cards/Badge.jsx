@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "motion/react";
 import { cn } from "@/lib";
 
 /**
@@ -15,15 +16,18 @@ export default function Badge({ count, className }) {
   const display = count > 99 ? "99+" : count;
 
   return (
-    <span
+    <motion.span
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      transition={{ type: "spring", stiffness: 500, damping: 30, mass: 0.5 }}
       className={cn(
         "absolute flex min-w-5 aspect-square items-center justify-center",
-        "rounded-full border-2 border-(--surface-base) bg-(--danger)",
-        "px-1 py-0.5 text-2xs font-(--weight-bold) leading-none text-white",
+        "rounded-full border-2 border-zinc-900 bg-red-500",
+        "px-1 py-0.5 text-2xs font-bold leading-none text-white",
         className ?? "right-0 top-0",
       )}
     >
       {display}
-    </span>
+    </motion.span>
   );
 }

@@ -30,14 +30,7 @@ export default function VoiceVideoSettings() {
   const [testError, setTestError] = useState("");
   const testRef = useRef(null); // { stream, audioContext, rafId }
 
-  useEffect(() => {
-    loadAudioInputs();
-    loadAudioOutputs();
-    return () => stopTest();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const stopTest = useCallback(() => {
+  function stopTest() {
     const t = testRef.current;
     if (t) {
       cancelAnimationFrame(t.rafId);
@@ -47,6 +40,13 @@ export default function VoiceVideoSettings() {
     }
     setTesting(false);
     setLevel(0);
+  }
+
+  useEffect(() => {
+    loadAudioInputs();
+    loadAudioOutputs();
+    return () => stopTest();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function startTest() {
@@ -56,6 +56,10 @@ export default function VoiceVideoSettings() {
         audio: activeAudioInputId ? { deviceId: { exact: activeAudioInputId } } : true,
       });
       const audioContext = new AudioContext();
+      // iOS: AudioContext ist nach async getUserMedia oft "suspended"
+      if (audioContext.state === "suspended") {
+        await audioContext.resume();
+      }
       const source = audioContext.createMediaStreamSource(stream);
       const analyser = audioContext.createAnalyser();
       analyser.fftSize = 512;
@@ -89,7 +93,7 @@ export default function VoiceVideoSettings() {
 
   return (
     <div className="flex flex-col gap-6">
-      <h2 className="text-xl font-(--weight-semibold) text-(--text-primary)">Sprachchat</h2>
+      <h2 className="text-xl font-semibold text-zinc-100">Sprachchat</h2>
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <Select
@@ -130,7 +134,7 @@ export default function VoiceVideoSettings() {
             onChange={(e) => setInputVolume(Number(e.target.value))}
             className="w-full"
           />
-          <p className="text-xs text-(--text-muted) mt-1">{inputVolume}%</p>
+          <p className="text-xs text-zinc-500 mt-1">{inputVolume}%</p>
         </div>
         <div>
           <SectionLabel>Lautsprecherlautstärke</SectionLabel>
@@ -142,7 +146,7 @@ export default function VoiceVideoSettings() {
             onChange={(e) => setOutputVolume(Number(e.target.value))}
             className="w-full"
           />
-          <p className="text-xs text-(--text-muted) mt-1">{outputVolume}%</p>
+          <p className="text-xs text-zinc-500 mt-1">{outputVolume}%</p>
         </div>
       </div>
 
@@ -157,7 +161,7 @@ export default function VoiceVideoSettings() {
           {Array.from({ length: TEST_BAR_COUNT }).map((_, i) => (
             <span
               key={i}
-              className="h-5 flex-1 rounded-(--radius-sm) transition-colors duration-75"
+              className="h-5 flex-1 rounded-[4px] transition-colors duration-75"
               style={{
                 backgroundColor:
                   testing && level * TEST_BAR_COUNT > i
@@ -168,13 +172,13 @@ export default function VoiceVideoSettings() {
           ))}
         </div>
       </div>
-      {testError && <p className="text-xs text-(--danger)">{testError}</p>}
+      {testError && <p className="text-xs text-red-500">{testError}</p>}
 
-      <div className="h-px bg-(--border-subtle)" />
+      <div className="h-px bg-white/5" />
 
       <div>
         <SectionLabel>Mikrofonempfindlichkeit</SectionLabel>
-        <p className="text-xs text-(--text-muted) mb-2">
+        <p className="text-xs text-zinc-500 mb-2">
           Bestimmt, ab welcher Lautstärke dein Mikrofon Ton überträgt.
         </p>
         <input
@@ -185,7 +189,7 @@ export default function VoiceVideoSettings() {
           onChange={(e) => setMicSensitivity(Number(e.target.value))}
           className="w-full"
         />
-        <p className="text-xs text-(--text-muted) mt-1">{micSensitivity}%</p>
+        <p className="text-xs text-zinc-500 mt-1">{micSensitivity}%</p>
       </div>
     </div>
   );

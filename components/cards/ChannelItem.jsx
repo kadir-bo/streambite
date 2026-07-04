@@ -11,9 +11,15 @@ import {
   CheckCircle,
 } from "@phosphor-icons/react";
 import { useAuth, useServer, useVoice, useLayout } from "@/context";
-import { useUnread, useIsDesktop } from "@/hooks";
+import { useUnread, useIsDesktop, useLongPress } from "@/hooks";
 import { markRead, deleteChannel } from "@/lib";
-import { ContextMenu, DotMenu, ConfirmModal, RenameChannelModal, Avatar } from "@/components";
+import {
+  ContextMenu,
+  DotMenu,
+  ConfirmModal,
+  RenameChannelModal,
+  Avatar,
+} from "@/components";
 
 const TYPE_ICON = {
   text: Hash,
@@ -29,11 +35,18 @@ export default function ChannelItem({ channel, serverId, isActive, isOwner }) {
   const isLastOfType =
     channels.filter((ch) => ch.type === channel.type).length <= 1;
 
+  const longPress = useLongPress(openMenu, 500);
+
   // Single click:
   // - Mobile: sidebar schließen → Content anzeigen for Text + Voice
   // - Desktop: Voice sofort joinen (kein extra Tap)
   // - Mobile Voice: nur navigieren, JOIN-Button im Channel-Screen
-  function handleClick() {
+  function handleClick(e) {
+    if (longPress.wasActive.current) {
+      longPress.clear();
+      e.preventDefault();
+      return;
+    }
     if (!isDesktop) showContent(); // Mobile: Sidebar schließen
     if (isDesktop && channel.type === "voice") {
       connect(serverId, channel.id, channel.name); // Desktop: Auto-Join
@@ -98,11 +111,11 @@ export default function ChannelItem({ channel, serverId, isActive, isOwner }) {
             onClick: () =>
               firebaseUser && markRead(firebaseUser.uid, channel.id),
           },
-          { divider: true },
         ]
       : []),
     ...(isOwner
       ? [
+          { divider: true },
           {
             icon: <PencilSimple />,
             label: "Kanal umbenennen",
@@ -129,53 +142,63 @@ export default function ChannelItem({ channel, serverId, isActive, isOwner }) {
       transition={{ duration: 0.15 }}
     >
       <div
-        className={`group flex select-none items-center gap-1.5 pl-4 pr-2 py-1.5 mx-2 my-px rounded-(--radius-base) transition-colors duration-100 max-sm:py-2.5 max-sm:min-h-11 max-sm:pl-3 ${
+        {...longPress.handlers}
+        className={`group flex select-none items-center gap-1.5 mx-2 my-px rounded-[8px] transition-colors duration-100 ${
           isActive
-            ? "bg-(--state-active)"
-            : "bg-transparent hover:bg-(--state-hover)"
+            ? "bg-white/10"
+            : "bg-transparent hover:bg-white/5"
         }`}
       >
         <Link
           href={`/servers/${serverId}/${channel.id}`}
           onClick={handleClick}
-          className="flex select-none items-center gap-1.5 flex-1 min-w-0 no-underline"
+          className="flex select-none items-center gap-1.5 flex-1 min-w-0 no-underline h-full py-2 pl-4"
         >
           <Icon
             weight={isActive ? "fill" : "regular"}
             className={`shrink-0 text-base transition-colors duration-100 ${
               isActive || unread
-                ? "text-(--text-primary)"
-                : "text-(--text-muted) group-hover:text-(--text-secondary)"
+                ? "text-zinc-100"
+                : "text-zinc-500 group-hover:text-zinc-400"
             }`}
           />
           <span
             className={`text-sm truncate flex-1 transition-colors duration-100 ${
               isActive || unread
-                ? "text-(--text-primary) font-semibold"
-                : "text-(--text-muted) font-medium group-hover:text-(--text-secondary)"
+                ? "text-zinc-100 font-semibold"
+                : "text-zinc-500 font-medium group-hover:text-zinc-400"
             }`}
           >
             {channel.name}
           </span>
           {unread && (
-            <span className="size-2 rounded-full bg-(--text-primary) shrink-0" />
+            <span className="size-2 rounded-full bg-zinc-100 shrink-0" />
           )}
         </Link>
 
         {menuItems.length > 0 && (
-          <DotMenu onClick={openMenu} />
+          <DotMenu className={"size-10!"} onClick={openMenu} />
         )}
       </div>
 
       {channel.type === "voice" && voiceMembers.length > 0 && (
-        <div className="flex flex-col gap-4 pl-5 pr-2">
+        <div className="flex flex-col gap-1 pl-5 pr-2 pb-2">
           {voiceMembers.map((m) => (
-            <div key={m.uid} className="flex items-center gap-1.5 min-w-0">
+            <Link
+              key={m.uid}
+              href={`/servers/${serverId}/${channel.id}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (isDesktop) connect(serverId, channel.id, channel.name);
+                if (!isDesktop) showContent();
+              }}
+              className="flex select-none items-center gap-1.5 no-underline rounded-[8px] px-1 py-1 hover:bg-white/5"
+            >
               <Avatar src={m.avatarUrl} name={m.name} size="xs" />
-              <span className="truncate text-xs text-(--text-muted)">
+              <span className="truncate text-xs text-zinc-500 group-hover:text-zinc-400">
                 {m.name}
               </span>
-            </div>
+            </Link>
           ))}
         </div>
       )}

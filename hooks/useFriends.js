@@ -15,19 +15,19 @@ export function useFriends() {
   const incomingUids = userDoc?.incomingRequests ?? [];
   const outgoingUids = userDoc?.outgoingRequests ?? [];
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(
     () => subscribeToFriendUsers(friendUids, setFriends),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [friendUids.join(",")],
   );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(
     () => subscribeToFriendUsers(incomingUids, setIncomingRequests),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [incomingUids.join(",")],
   );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(
     () => subscribeToFriendUsers(outgoingUids, setOutgoingRequests),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [outgoingUids.join(",")],
   );
 

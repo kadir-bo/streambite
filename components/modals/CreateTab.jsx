@@ -31,7 +31,7 @@ export default function CreateTab({ onSuccess }) {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      <p className="text-sm text-(--text-muted) leading-normal">
+      <p className="text-sm text-zinc-500 leading-normal">
         Erstelle deinen eigenen Server und lade Freunde ein.
       </p>
 

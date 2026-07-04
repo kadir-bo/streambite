@@ -32,17 +32,17 @@ export default function RequestRow({ user }) {
       <div className="flex items-center gap-2.5 px-3 py-2 max-sm:py-3 max-sm:min-h-12">
       <Avatar src={user.avatarUrl} name={user.displayName} size="sm" />
       <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-(--weight-medium) text-(--text-primary)">
+        <p className="truncate text-sm font-medium text-zinc-100">
           {user.displayName}
         </p>
-        <p className="text-xs text-(--text-muted)">Möchte befreundet sein</p>
+        <p className="text-xs text-zinc-500">Möchte befreundet sein</p>
       </div>
       <div className="flex shrink-0 gap-1">
         <button
           onClick={handleAccept}
           disabled={!!loading}
           title="Annehmen"
-          className={`flex size-6.5 max-sm:size-10 cursor-pointer items-center justify-center rounded-full border border-(--border-subtle) text-(--status-online) ${loading === "accept" ? "bg-(--state-active)" : "bg-(--surface-raised) hover:bg-(--state-hover)"}`}
+          className={`flex size-6.5 max-sm:size-10 cursor-pointer items-center justify-center rounded-full border border-white/5 text-green-500 ${loading === "accept" ? "bg-white/10" : "bg-zinc-800 hover:bg-white/5"}`}
         >
           <Check size={13} weight="bold" className="max-sm:size-4" />
         </button>
@@ -50,7 +50,7 @@ export default function RequestRow({ user }) {
           onClick={handleDecline}
           disabled={!!loading}
           title="Ablehnen"
-          className={`flex size-6.5 max-sm:size-10 cursor-pointer items-center justify-center rounded-full border border-(--border-subtle) text-(--danger) ${loading === "decline" ? "bg-(--state-active)" : "bg-(--surface-raised) hover:bg-(--state-hover)"}`}
+          className={`flex size-6.5 max-sm:size-10 cursor-pointer items-center justify-center rounded-full border border-white/5 text-red-500 ${loading === "decline" ? "bg-white/10" : "bg-zinc-800 hover:bg-white/5"}`}
         >
           <X size={13} weight="bold" className="max-sm:size-4" />
         </button>

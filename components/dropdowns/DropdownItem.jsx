@@ -6,8 +6,8 @@ export default function DropdownItem({ icon: Icon, label, onClick, danger }) {
       onClick={onClick}
       className={`flex items-center gap-2 w-full px-2.5 py-1.75 rounded-sm text-sm text-left transition-colors duration-100 ${
         danger
-          ? "text-(--danger) hover:bg-(--danger-subtle)"
-          : "text-(--text-secondary) hover:bg-(--state-hover) hover:text-(--text-primary)"
+          ? "text-red-500 hover:bg-red-500/10"
+          : "text-zinc-400 hover:bg-white/5 hover:text-zinc-100"
       }`}
     >
       <Icon weight="bold" className="text-xl md:text-lg" />

@@ -47,20 +47,20 @@ export default function InvitePage() {
 
   if (authLoading || fetching) {
     return (
-      <div className="min-h-dvh flex items-center justify-center bg-(--surface-deepest)">
-        <div className="size-8 rounded-full border-2 border-(--border-default) border-t-(--text-muted) animate-spin" />
+      <div className="min-h-dvh flex items-center justify-center bg-zinc-950">
+        <div className="size-8 rounded-full border-2 border-white/10 border-t-zinc-500 animate-spin" />
       </div>
     );
   }
 
   if (!info) {
     return (
-      <div className="min-h-dvh flex items-center justify-center bg-(--surface-deepest) p-5">
+      <div className="min-h-dvh flex items-center justify-center bg-zinc-950 p-5">
         <div className="text-center max-w-90">
-          <p className="text-xl font-semibold text-(--text-primary) mb-2">
+          <p className="text-xl font-semibold text-zinc-100 mb-2">
             Ungültige Einladung
           </p>
-          <p className="text-sm text-(--text-muted) mb-6">
+          <p className="text-sm text-zinc-500 mb-6">
             Dieser Einladungslink ist abgelaufen oder ungültig.
           </p>
           <Button onClick={() => router.push("/channels")} variant="ghost">
@@ -78,23 +78,23 @@ export default function InvitePage() {
       initial="hidden"
       animate="visible"
       variants={pageTransition}
-      className="min-h-dvh flex items-center justify-center bg-(--surface-deepest) p-5"
+      className="min-h-dvh flex items-center justify-center bg-zinc-950 p-5"
     >
-      <div className="bg-(--surface-raised) rounded-xl border border-(--border-subtle) p-8 w-full max-w-100 text-center flex flex-col items-center gap-5">
+      <div className="bg-zinc-800 rounded-xl border border-white/5 p-8 w-full max-w-100 text-center flex flex-col items-center gap-5">
         {/* Server Icon */}
-        <div className="size-20 rounded-xl bg-(--surface-overlay) border border-(--border-subtle) flex items-center justify-center overflow-hidden">
+        <div className="size-20 rounded-xl bg-zinc-700 border border-white/5 flex items-center justify-center overflow-hidden">
           <ServerIcon name={server.name} iconUrl={server.iconUrl} size={80} />
         </div>
 
         {/* Info */}
         <div>
-          <p className="text-xs font-semibold tracking-widest uppercase text-(--text-muted) mb-1.5">
+          <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-1.5">
             Du wurdest eingeladen
           </p>
-          <h1 className="text-2xl font-bold text-(--text-primary) mb-1">
+          <h1 className="text-2xl font-bold text-zinc-100 mb-1">
             {server.name}
           </h1>
-          <p className="text-sm text-(--text-muted)">
+          <p className="text-sm text-zinc-500">
             {server.memberCount ?? 0} Mitglied
             {server.memberCount !== 1 ? "er" : ""}
           </p>
@@ -107,7 +107,7 @@ export default function InvitePage() {
           </Button>
 
           {error && (
-            <p className="mt-2 text-xs text-(--danger) text-center">{error}</p>
+            <p className="mt-2 text-xs text-red-500 text-center">{error}</p>
           )}
         </div>
       </div>

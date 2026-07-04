@@ -37,7 +37,7 @@ export default function Modal({
           exit="hidden"
           variants={backdrop}
           onClick={onClose}
-          className={`fixed inset-0 z-(--z-modal) bg-black/65 flex items-center justify-center ${
+          className={`fixed inset-0 z-[200] bg-black/65 flex pb-40 md:pb-0 items-center justify-center ${
             mobileFullScreen ? "p-0 sm:p-5" : "p-5"
           }`}
         >
@@ -48,7 +48,7 @@ export default function Modal({
             exit="exit"
             variants={modal}
             onClick={(e) => e.stopPropagation()}
-            className={`bg-(--surface-raised) border border-(--border-subtle) w-full relative overflow-hidden ${
+            className={`bg-zinc-800 border border-white/5 w-full relative overflow-hidden ${
               mobileFullScreen
                 ? "h-full rounded-none sm:h-auto sm:rounded-xl"
                 : "rounded-xl"
@@ -57,7 +57,7 @@ export default function Modal({
           >
             {title && (
               <div className="px-5 pt-5 flex items-start justify-between gap-3">
-                <h2 className="text-(--text-xl) font-(--weight-semibold) text-(--text-primary) leading-[1.2]">
+                <h2 className="text-(--text-xl) font-semibold text-zinc-100 leading-tight">
                   {title}
                 </h2>
                 <IconBtn

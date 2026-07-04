@@ -62,7 +62,7 @@ export default function MessageActions({
       initial="hidden"
       animate="visible"
       exit="exit"
-      className="inline-flex items-center gap-0.5 bg-(--surface-raised) border border-(--border-default) rounded-(--radius-base) px-1 py-0.5 shadow-(--shadow-lg)"
+      className="inline-flex items-center gap-0.5 bg-zinc-800 border border-white/10 rounded-[8px] px-1 py-0.5 shadow-[0_8px_24px_rgba(0,0,0,0.5)]"
     >
       {/* Emoji */}
       <div className="relative">
@@ -109,7 +109,7 @@ export default function MessageActions({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.92 }}
               transition={{ duration: 0.1 }}
-              className="absolute top-[calc(100%+4px)] right-0 min-w-40 bg-(--surface-raised) border border-(--border-default) rounded-(--radius-base) shadow-(--shadow-lg) z-(--z-dropdown) overflow-hidden p-1"
+              className="absolute top-[calc(100%+4px)] right-0 min-w-40 bg-zinc-800 border border-white/10 rounded-[8px] shadow-[0_8px_24px_rgba(0,0,0,0.5)] z-[100] overflow-hidden p-1"
             >
               <DropdownItem
                 icon={Copy}

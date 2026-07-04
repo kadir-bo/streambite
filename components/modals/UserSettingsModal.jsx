@@ -22,7 +22,7 @@ export default function UserSettingsModal({ open, onClose }) {
     >
       <div className="flex h-full flex-col sm:h-150 sm:flex-row">
         {/* Tab-Leiste: Desktop links */}
-        <div className="hidden sm:flex shrink-0 flex-col gap-0.5 border-r border-(--border-subtle) w-52 p-3">
+        <div className="hidden sm:flex shrink-0 flex-col gap-0.5 border-r border-white/5 w-52 p-3">
           {TABS.map((t) => {
             const Icon = t.icon;
             const active = tab === t.id;
@@ -30,10 +30,10 @@ export default function UserSettingsModal({ open, onClose }) {
               <button
                 key={t.id}
                 onClick={() => setTab(t.id)}
-                className={`flex items-center gap-2.5 whitespace-nowrap rounded-(--radius-base) border-none bg-transparent px-3 py-2 text-sm font-medium cursor-pointer transition-colors duration-100 ${
+                className={`flex items-center gap-2.5 whitespace-nowrap rounded-[8px] border-none bg-transparent px-3 py-2 text-sm font-medium cursor-pointer transition-colors duration-100 ${
                   active
-                    ? "bg-(--state-active) text-(--text-primary)"
-                    : "text-(--text-secondary) hover:bg-(--state-hover)"
+                    ? "bg-white/10 text-zinc-100"
+                    : "text-zinc-400 hover:bg-white/5"
                 }`}
               >
                 <Icon className="text-lg" />
@@ -44,8 +44,8 @@ export default function UserSettingsModal({ open, onClose }) {
         </div>
 
         {/* Tab-Dropdown Mobile */}
-        <div className="sm:hidden flex items-center gap-3 border-b border-(--border-subtle) px-2 py-2">
-          <IconBtn icon={CaretLeft} onClick={onClose} title="Zurück" size="sm" mobileOnly />
+        <div className="sm:hidden flex items-center gap-3 border-b border-white/5 px-2 py-2">
+          <IconBtn icon={CaretLeft} onClick={onClose} title="Zurück" size="xl" mobileOnly className="bg-zinc-800!" />
           <div className="flex-1">
             <Select
               value={tab}

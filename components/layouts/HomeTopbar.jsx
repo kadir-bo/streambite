@@ -4,14 +4,18 @@ import { useState, useRef } from "react";
 import {
   UsersThree,
   BellSimple,
-  UsersThreeIcon,
   UserPlus,
   CaretLeft,
 } from "@phosphor-icons/react";
 import { useFriends } from "@/hooks";
 import { useAuth } from "@/context";
-import { AddFriendModal, IncomingRequestsPopover, IconBtn, Badge } from "@/components";
-import { motion } from "framer-motion";
+import {
+  AddFriendModal,
+  IncomingRequestsPopover,
+  IconBtn,
+  Badge,
+  Topbar,
+} from "@/components";
 import { useLayout } from "@/context";
 
 export default function HomeTopbar() {
@@ -36,7 +40,7 @@ export default function HomeTopbar() {
 
   return (
     <>
-      <header className="flex shrink-0 items-center justify-between gap-2 border-b border-(--border-subtle) bg-(--surface-base) px-2 sm:px-4 py-2 md:h-(--header-channel)">
+      <Topbar className="justify-between gap-2 px-2 sm:px-4">
         <div className="flex min-w-0 items-center gap-2 sm:gap-3.5">
           <IconBtn
             icon={CaretLeft}
@@ -44,26 +48,27 @@ export default function HomeTopbar() {
             title="Zurück"
             size="xl"
             mobileOnly
+            className="bg-zinc-800!"
           />
 
           <div className="hidden items-center gap-2 sm:flex">
             <UsersThree
               weight="fill"
-              className="text-(--text-muted) text-xl md:text-lg"
+              className="text-zinc-500 text-xl md:text-lg"
             />
-            <span className="text-(--text-base) font-(--weight-semibold)">
+            <span className="text-(--text-base) font-semibold">
               Freunde
             </span>
           </div>
 
-          <div className="hidden h-4.5 w-px bg-(--border-default) sm:block" />
+          <div className="hidden h-4.5 w-px bg-white/10 sm:block" />
 
           <button
             onClick={() => setAddOpen(true)}
-            className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-(--radius-base) border-none bg-(--accent) px-2.5 sm:px-3 py-2 md:py-1.5 text-sm font-(--weight-semibold) text-white transition-[background] duration-150 hover:bg-(--accent-hover)"
+            className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-[8px] border-none bg-(--accent) px-2.5 sm:px-3 py-3 md:py-1.5 text-sm font-semibold text-white transition-colors duration-150 hover:bg-(--accent-hover)"
           >
             <UserPlus className="text-lg md:text-md sm:hidden" />
-            <span>Freund hinzufügen</span>
+            Freund hinzufügen
           </button>
         </div>
 
@@ -83,14 +88,15 @@ export default function HomeTopbar() {
             <Badge count={totalNotifications} />
           </div>
           <IconBtn
-            icon={UsersThreeIcon}
+            icon={UsersThree}
             onClick={toggleActiveNow}
             title="Aktive Freunde"
+            size="xl"
             variant={activeNowSidebar ? "active" : "ghost"}
             desktopOnly
           />
         </div>
-      </header>
+      </Topbar>
 
       <IncomingRequestsPopover
         open={inboxOpen}

@@ -44,7 +44,7 @@ export default function UsernamePromptModal({ open, uid, tag, onDone }) {
           animate="visible"
           exit="hidden"
           variants={backdrop}
-          className="fixed inset-0 z-(--z-modal) bg-black/75 flex items-center justify-center p-5"
+          className="fixed inset-0 z-[200] bg-black/75 flex items-center justify-center p-5"
         >
           <motion.div
             key="card"
@@ -52,14 +52,14 @@ export default function UsernamePromptModal({ open, uid, tag, onDone }) {
             animate="visible"
             exit="exit"
             variants={modal}
-            className="bg-(--surface-raised) rounded-xl border border-(--border-subtle) w-full max-w-100 p-6"
+            className="bg-zinc-800 rounded-xl border border-white/5 w-full max-w-100 p-6"
           >
             <div className="flex flex-col items-center gap-2.5 mb-5 text-center">
-              <UserCircle size={36} className="text-(--text-muted)" />
-              <h2 className="text-lg font-(--weight-semibold) text-(--text-primary)">
+              <UserCircle size={36} className="text-zinc-500" />
+              <h2 className="text-lg font-semibold text-zinc-100">
                 Wähle einen Benutzernamen
               </h2>
-              <p className="text-sm text-(--text-muted)">
+              <p className="text-sm text-zinc-500">
                 Damit dich andere finden und als Freund hinzufügen können.
               </p>
             </div>
@@ -75,7 +75,7 @@ export default function UsernamePromptModal({ open, uid, tag, onDone }) {
               />
 
               {error && (
-                <p className="text-xs text-(--danger) px-3 py-2 bg-(--danger-subtle) rounded-(--radius-base)">
+                <p className="text-xs text-red-500 px-3 py-2 bg-red-500/10 rounded-[8px]">
                   {error}
                 </p>
               )}

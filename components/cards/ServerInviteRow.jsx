@@ -45,10 +45,10 @@ export default function ServerInviteRow({ invite, uid }) {
         />
       </div>
       <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-(--weight-medium) text-(--text-primary)">
+        <p className="truncate text-sm font-medium text-zinc-100">
           {invite.serverName}
         </p>
-        <p className="text-xs text-(--text-muted)">
+        <p className="text-xs text-zinc-500">
           {invite.invitedByName ?? "Jemand"} hat dich eingeladen
         </p>
       </div>

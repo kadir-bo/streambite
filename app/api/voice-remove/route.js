@@ -42,7 +42,7 @@ export async function POST(request) {
     return NextResponse.json(
       {
         error: "remove_failed",
-        message: err.message ?? "Entfernen fehlgeschlagen",
+        message: "Entfernen des Teilnehmers fehlgeschlagen.",
       },
       { status: 500 },
     );

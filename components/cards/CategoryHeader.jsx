@@ -20,11 +20,11 @@ export default function CategoryHeader({
         <motion.span
           animate={{ rotate: isCollapsed ? -90 : 0 }}
           transition={springs.snappy}
-          className="flex text-(--text-ghost) shrink-0"
+          className="flex text-zinc-600 shrink-0"
         >
           <CaretRight weight="bold" className="text-sm md:text-base" />
         </motion.span>
-        <span className="text-2xs font-semibold tracking-widest text-(--text-muted) uppercase transition-colors duration-100 group-hover:text-(--text-secondary)">
+        <span className="text-2xs font-semibold tracking-widest text-zinc-500 uppercase transition-colors duration-100 group-hover:text-zinc-400">
           {category.name}
         </span>
       </div>
@@ -36,7 +36,7 @@ export default function CategoryHeader({
             e.stopPropagation();
             onAddChannel?.(category);
           }}
-          className="p-1 pr-3 bg-transparent border-none cursor-pointer rounded flex group-hover:text-(--text-muted) text-transparent hover:text-(--text-secondary) transition-colors duration-100"
+          className="p-1 pr-3 bg-transparent border-none cursor-pointer rounded flex text-zinc-500 hover:text-zinc-400 transition-colors duration-100"
         >
           <Plus className="text-sm md:text-base" />
         </motion.button>

@@ -9,6 +9,12 @@ import { cn } from "@/lib";
  * <IconBtn icon={Trash} onClick={handleDelete} title="Löschen" variant="danger" />
  * <IconBtn icon={CaretLeft} onClick={goBack} title="Zurück" mobileOnly />
  * <IconBtn icon={PaperPlaneTilt} onClick={handleSend} variant="primary" />
+ *
+ * Größen:
+ *   size="xs" | "sm" | "md" | "lg" | "xl"  → vordefinierte Maps (size-6 … size-10)
+ *   size="size-4" | "size-16"               → beliebige Tailwind-Klasse direkt
+ *   mobileSize="sm" | "lg"                  → vordefinierte Maps (max-sm:size-11 … 12)
+ *   mobileSize="max-sm:size-16"             → beliebige Tailwind-Klasse direkt
  */
 export default function IconBtn({
   icon: Icon,
@@ -36,6 +42,7 @@ export default function IconBtn({
     md: "size-8",
     lg: "size-9",
     xl: "size-10",
+    "2xl": "size-15",
   };
   const mobileSizeClasses = {
     xs: "max-sm:size-10", // 40px – absolute Minimum für kleine Aktions-Buttons
@@ -45,37 +52,47 @@ export default function IconBtn({
     xl: "max-sm:size-12",
   };
 
+  // Icon-Größe skaliert mit Button-Größe
+  const iconSizeClasses = {
+    xs: "text-xs",
+    sm: "text-sm",
+    md: "text-base",
+    lg: "text-lg",
+    xl: "text-xl",
+    "2xl": "text-2xl",
+  };
+
   const roundedClasses = {
-    base: "rounded-(--radius-base)",
-    sm: "rounded-(--radius-sm)",
+    base: "rounded-[8px]",
+    sm: "rounded-[4px]",
     full: "rounded-full",
     none: "",
   };
 
   const variantClasses = {
     ghost: cn(
-      "bg-transparent text-(--text-muted)",
-      "hover:bg-(--state-hover) hover:text-(--text-secondary)",
+      "bg-transparent text-zinc-500",
+      "hover:bg-white/5 hover:text-zinc-400",
     ),
     danger: cn(
-      "bg-transparent text-(--danger)",
-      "hover:bg-(--danger-subtle) hover:text-(--danger)",
+      "bg-transparent text-red-500",
+      "hover:bg-red-500/10 hover:text-red-500",
     ),
-    "danger-solid": "bg-(--danger) text-white hover:opacity-90",
-    active: "bg-(--state-active) text-(--text-primary)",
-    primary: "bg-(--text-primary) text-(--surface-deepest)",
+    "danger-solid": "bg-red-500 text-white hover:opacity-90",
+    active: "bg-white/10 text-zinc-100",
+    primary: "bg-zinc-100 text-zinc-950",
     link: "bg-transparent text-(--accent) hover:underline",
   };
 
-  const sizeClass = sizeClasses[size] ?? sizeClasses.md;
+  // size kann sowohl ein Key (xs/sm/md/...) als auch ein direktes Tailwind-Klasse
+  // sein (z.B. "size-4" oder "size-16"). Gleiches gilt für mobileSize.
+  const sizeClass = sizeClasses[size] ?? size ?? sizeClasses.md;
   const mobClass = mobileSize
-    ? mobileSizeClasses[mobileSize]
+    ? mobileSizeClasses[mobileSize] ?? mobileSize
     : "max-sm:size-11";
 
-  const iconClass =
-    size === "xs" || size === "sm"
-      ? "text-sm md:text-base"
-      : "text-xl md:text-lg";
+  // Icon-Größe über Map: size="sm" → text-sm, size="xl" → text-xl, Raw → text-xl
+  const iconClass = iconSizeClasses[size] ?? "text-xl";
 
   return (
     <button
@@ -88,12 +105,12 @@ export default function IconBtn({
         "flex shrink-0 items-center justify-center border-none cursor-pointer transition-all duration-100",
         sizeClass,
         mobClass,
-        roundedClasses[rounded] ?? "rounded-(--radius-base)",
+        roundedClasses[rounded] ?? "rounded-[8px]",
         variantClasses[variant] ?? variantClasses.ghost,
         // Active-Override für ghost
         active &&
           variant === "ghost" &&
-          "bg-(--state-active) text-(--text-primary)",
+          "bg-white/10 text-zinc-100",
         mobileOnly && "md:hidden",
         desktopOnly && "hidden md:flex",
         disabled && "opacity-40 cursor-not-allowed",

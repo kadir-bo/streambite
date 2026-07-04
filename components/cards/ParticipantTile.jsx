@@ -6,6 +6,7 @@ import {
   UserMinus,
 } from "@phosphor-icons/react";
 import { useVoice } from "@/context";
+import { useLongPress } from "@/hooks";
 import { Avatar, ContextMenu, ConfirmModal, DotMenu } from "@/components";
 
 export default function ParticipantTile({ participant, isOwner }) {
@@ -17,6 +18,7 @@ export default function ParticipantTile({ participant, isOwner }) {
   const [error, setError] = useState("");
 
   const canManage = isOwner && !participant.isLocal;
+  const longPress = useLongPress(canManage ? openMenu : undefined);
 
   function openMenu(e) {
     e.stopPropagation();
@@ -39,7 +41,10 @@ export default function ParticipantTile({ participant, isOwner }) {
   }
 
   return (
-    <div className="group relative flex select-none flex-col items-center gap-3 rounded-(--radius-base) bg-(--surface-raised) border border-(--border-subtle) aspect-video p-4 w-full min-w-0 justify-center">
+    <div
+      {...longPress.handlers}
+      className="group relative flex select-none flex-col items-center gap-3 rounded-[8px] bg-zinc-800 border border-white/5 aspect-video p-4 w-full min-w-0 justify-center"
+    >
       {canManage && (
         <DotMenu
           onClick={openMenu}
@@ -55,12 +60,12 @@ export default function ParticipantTile({ participant, isOwner }) {
         <Avatar name={participant.name} size="xl" />
       </div>
       <div className="flex items-center justify-center gap-2 max-w-full">
-        <span className="text-sm font-medium text-(--text-primary) truncate">
+        <span className="text-sm font-medium text-zinc-100 truncate">
           {participant.name}
           {participant.isLocal ? " (Du)" : ""}
         </span>
         {participant.isMicMuted && (
-          <MicrophoneSlash className="text-(--text-muted) shrink-0 text-xl md:text-lg" />
+          <MicrophoneSlash className="text-zinc-500 shrink-0 text-xl md:text-lg" />
         )}
       </div>
 

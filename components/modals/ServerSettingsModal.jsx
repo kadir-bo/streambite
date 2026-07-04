@@ -25,6 +25,7 @@ export default function ServerSettingsModal({ open, onClose, server }) {
   // servers list resolving), so re-sync the name field whenever the modal
   // is opened rather than relying on the initial useState value.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (open) setName(server?.name ?? "");
   }, [open, server?.name]);
 
@@ -123,7 +124,7 @@ export default function ServerSettingsModal({ open, onClose, server }) {
         {isOwner && (
           <div className="flex items-center gap-4">
             <div className="relative shrink-0">
-              <div className="size-16 rounded-lg overflow-hidden border border-(--border-subtle)">
+              <div className="size-16 rounded-lg overflow-hidden border border-white/5">
                 <ServerIcon
                   name={server?.name}
                   iconUrl={currentIcon}
@@ -151,10 +152,10 @@ export default function ServerSettingsModal({ open, onClose, server }) {
               />
             </div>
             <div>
-              <p className="text-sm font-(--weight-semibold) text-(--text-primary)">
+              <p className="text-sm font-semibold text-zinc-100">
                 {server?.name}
               </p>
-              <p className="text-xs text-(--text-muted) mt-0.5">
+              <p className="text-xs text-zinc-500 mt-0.5">
                 Klicke auf das Icon zum Ändern
               </p>
               {server?.iconUrl && (
@@ -173,7 +174,7 @@ export default function ServerSettingsModal({ open, onClose, server }) {
                     }
                   }}
                   disabled={uploadingIcon}
-                  className="text-xs text-(--danger) hover:text-(--danger-hover) bg-transparent border-none cursor-pointer p-0 mt-1 transition-colors"
+                  className="text-xs text-red-500 hover:text-red-600 bg-transparent border-none cursor-pointer p-0 mt-1 transition-colors"
                 >
                   Bild entfernen
                 </button>
@@ -203,7 +204,7 @@ export default function ServerSettingsModal({ open, onClose, server }) {
         )}
 
         {error && (
-          <p className="text-xs text-(--danger) px-3 py-2 bg-(--danger-subtle) rounded-(--radius-base)">
+          <p className="text-xs text-red-500 px-3 py-2 bg-red-500/10 rounded-[8px]">
             {error}
           </p>
         )}
@@ -211,17 +212,17 @@ export default function ServerSettingsModal({ open, onClose, server }) {
         {/* Invite link */}
         <div>
           <SectionLabel>Einladungslink</SectionLabel>
-          <div className="flex items-center gap-2.5 bg-(--surface-deep) rounded-(--radius-base) border border-(--border-subtle) px-3.5 py-2.5">
-            <Link className="text-(--text-muted) shrink-0 text-sm" />
-            <span className="flex-1 text-sm text-(--text-muted) truncate font-(--font-mono)">
+          <div className="flex items-center gap-2.5 bg-(--surface-deep) rounded-[8px] border border-white/5 px-3.5 py-2.5">
+            <Link className="text-zinc-500 shrink-0 text-sm" />
+            <span className="flex-1 text-sm text-zinc-500 truncate font-mono">
               {inviteLink || "..."}
             </span>
             <button
               onClick={copyInvite}
-              className={`flex items-center gap-1.25 px-2.5 py-1 rounded-sm border border-(--border-default) text-xs font-(--weight-semibold) cursor-pointer shrink-0 transition-all duration-150 ${
+              className={`flex items-center gap-1.25 px-2.5 py-1 rounded-sm border border-white/10 text-xs font-semibold cursor-pointer shrink-0 transition-all duration-150 ${
                 copied
-                  ? "bg-(--state-active) text-(--status-online)"
-                  : "bg-(--surface-raised) text-(--text-secondary)"
+                  ? "bg-white/10 text-green-500"
+                  : "bg-zinc-800 text-zinc-400"
               }`}
             >
               {copied ? (
@@ -239,7 +240,7 @@ export default function ServerSettingsModal({ open, onClose, server }) {
 
         {/* Danger zone */}
         <div>
-          <div className="h-px bg-(--border-subtle) mb-3" />
+          <div className="h-px bg-white/5 mb-3" />
           <SectionLabel danger>Gefahrenzone</SectionLabel>
           <div className="flex flex-col gap-2.5">
             <Button variant="danger" loading={leaving} onClick={handleLeave}>
@@ -256,8 +257,8 @@ export default function ServerSettingsModal({ open, onClose, server }) {
             )}
 
             {isOwner && confirmDelete && (
-              <div className="flex flex-col gap-2 p-3 rounded-(--radius-base) border border-(--danger) bg-(--danger-subtle)">
-                <p className="text-xs text-(--danger) font-semibold">
+              <div className="flex flex-col gap-2 p-3 rounded-[8px] border border-red-500 bg-red-500/10">
+                <p className="text-xs text-red-500 font-semibold">
                   Wirklich löschen? Alle Kanäle, Nachrichten und Dateien
                   werden unwiderruflich gelöscht.
                 </p>

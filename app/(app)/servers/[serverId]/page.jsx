@@ -17,8 +17,8 @@ export default function ServerDefaultPage() {
   }, [channels, serverId, router])
 
   return (
-    <div className="flex-1 flex items-center justify-center bg-(--surface-base)">
-      <div className="size-6 rounded-full border-2 border-(--border-default) border-t-(--text-muted) animate-spin" />
+    <div className="flex-1 flex items-center justify-center bg-zinc-900">
+      <div className="size-6 rounded-full border-2 border-white/10 border-t-zinc-500 animate-spin" />
     </div>
   )
 }

@@ -49,10 +49,10 @@ export default function DmSidebar() {
 
   return (
     <div className="py-2">
-      <div className="px-2 pb-2">
+      <div className="px-2 py-3">
         <button
           onClick={() => setSwitcherOpen(true)}
-          className="w-full flex items-center gap-2 py-1.75 px-2.5 rounded-(--radius-base) border-none bg-(--surface-deepest) text-(--text-muted) text-xs cursor-pointer text-left truncate hover:text-(--text-secondary) "
+          className="w-full flex items-center gap-2 py-3 md:py-1.75 px-2.5 rounded-lg md:rounded-[8px] border border-white/5 bg-zinc-950/50 text-zinc-400 text-xs cursor-pointer text-left truncate hover:text-zinc-400 "
         >
           <MagnifyingGlass className="shrink-0 text-xl md:text-lg" />
           <span className="truncate text-sm">
@@ -65,10 +65,10 @@ export default function DmSidebar() {
         href="/channels"
         active={isHome}
         icon={
-            <UsersThree
-              weight={isHome ? "fill" : "regular"}
-              className={`shrink-0 text-xl md:text-lg ${isHome ? "text-(--text-primary)" : "text-(--text-muted)"}`}
-            />
+          <UsersThree
+            weight={isHome ? "fill" : "regular"}
+            className={`shrink-0 text-xl md:text-lg ${isHome ? "text-zinc-100" : "text-zinc-500"}`}
+          />
         }
         textClassName="flex items-center"
         label="Freunde"
@@ -78,7 +78,7 @@ export default function DmSidebar() {
         <button
           onClick={() => setSwitcherOpen(true)}
           title="Neues Gespräch starten"
-          className="p-2 text-xs flex w-full items-center justify-between border-none bg-transparent text-(--text-muted) cursor-pointer rounded-sm hover:text-(--text-secondary)"
+          className="p-2 text-xs flex w-full items-center justify-between border-none bg-transparent text-zinc-500 cursor-pointer rounded-sm hover:text-zinc-400"
         >
           Direktnachrichten
           <Plus weight="bold" className="text-sm md:text-base" />
@@ -86,7 +86,7 @@ export default function DmSidebar() {
       </div>
 
       {dms.length === 0 ? (
-        <p className="px-4 py-1 text-xs text-(--text-ghost)">
+        <p className="px-4 py-1 text-xs text-zinc-600">
           Noch keine Unterhaltungen
         </p>
       ) : (

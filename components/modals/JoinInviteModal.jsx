@@ -44,10 +44,10 @@ export default function JoinInviteModal({ open, onClose, invite }) {
       <div className="flex flex-col items-center gap-4 text-center">
         <ServerIcon name={invite?.serverName} iconUrl={invite?.serverIconUrl} size={64} />
         <div>
-          <p className="text-lg font-semibold text-(--text-primary)">
+          <p className="text-lg font-semibold text-zinc-100">
             {invite?.serverName}
           </p>
-          <p className="text-sm text-(--text-muted) mt-1">
+          <p className="text-sm text-zinc-500 mt-1">
             {invite?.invitedByName} hat dich zu diesem Server eingeladen
           </p>
         </div>

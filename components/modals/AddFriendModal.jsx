@@ -80,19 +80,19 @@ export default function AddFriendModal({ open, onClose }) {
       maxWidth={440}
     >
       <div className="flex flex-col gap-5">
-        <p className="text-sm text-(--text-muted)">
+        <p className="text-sm text-zinc-500">
           Suche nach dem Nutzernamen mit Tag - z.B.{" "}
-          <span className="font-(--font-mono) text-(--text-secondary)">
+          <span className="font-mono text-zinc-400">
             Max#1234
           </span>
         </p>
 
         {/* Search input */}
         <form onSubmit={handleSearch} className="flex gap-2">
-          <div className="flex-1 flex items-center gap-2.5 bg-(--surface-deep) border border-(--border-subtle) rounded-(--radius-base) px-3">
+          <div className="flex-1 flex items-center gap-2.5 bg-(--surface-deep) border border-white/5 rounded-[8px] px-3">
             <MagnifyingGlass
               size={16}
-              className="text-(--text-muted) shrink-0"
+              className="text-zinc-500 shrink-0"
             />
             <input
               value={query}
@@ -103,32 +103,37 @@ export default function AddFriendModal({ open, onClose }) {
                 setError("");
               }}
               placeholder="Nutzername#1234"
-              className="flex-1 bg-transparent border-none outline-none text-sm text-(--text-primary) py-2.5 font-(--font-mono)"
+              className="flex-1 w-full bg-transparent border-none outline-none text-sm text-zinc-100 py-2.5 font-mono"
             />
           </div>
-          <Button type="submit" loading={searching} disabled={!query.trim()}>
+          <Button
+            type="submit"
+            loading={searching}
+            disabled={!query.trim()}
+            className="min-w-max"
+          >
             Suchen
           </Button>
         </form>
 
         {/* Error */}
         {error && (
-          <div className="flex items-center gap-2 px-3 py-2.5 bg-(--danger-subtle) rounded-(--radius-base)">
-            <Warning size={16} className="text-(--danger) shrink-0" />
-            <p className="text-sm text-(--danger)">{error}</p>
+          <div className="flex items-center gap-2 px-3 py-2.5 bg-red-500/10 rounded-[8px]">
+            <Warning size={16} className="text-red-500 shrink-0" />
+            <p className="text-sm text-red-500">{error}</p>
           </div>
         )}
 
         {/* Not found */}
         {result === "not_found" && (
-          <p className="text-sm text-(--text-muted) text-center py-3">
+          <p className="text-sm text-zinc-500 text-center py-3">
             Kein Nutzer mit diesem Tag gefunden.
           </p>
         )}
 
         {/* Found user */}
         {result && result !== "not_found" && (
-          <div className="flex items-center gap-3 p-3.5 bg-(--surface-deep) rounded-(--radius-base) border border-(--border-subtle)">
+          <div className="flex items-center gap-3 p-3.5 bg-(--surface-deep) rounded-[8px] border border-white/5">
             <Avatar
               src={result.avatarUrl}
               name={result.displayName}
@@ -136,29 +141,29 @@ export default function AddFriendModal({ open, onClose }) {
               status={result.status}
             />
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-(--weight-semibold) text-(--text-primary)">
+              <p className="text-sm font-semibold text-zinc-100">
                 {result.displayName}
               </p>
-              <p className="text-xs text-(--text-muted) font-(--font-mono)">
+              <p className="text-xs text-zinc-500 font-mono">
                 #{result.tag ?? "????"}
               </p>
             </div>
 
             {sent ? (
-              <div className="flex items-center gap-1.5 text-(--status-online) text-sm font-(--weight-medium)">
+              <div className="flex items-center gap-1.5 text-green-500 text-sm font-medium">
                 <Check size={16} weight="bold" />
                 Gesendet
               </div>
             ) : alreadyFriend ? (
-              <span className="text-xs text-(--text-muted)">
+              <span className="text-xs text-zinc-500">
                 Bereits befreundet
               </span>
             ) : requestPending ? (
-              <span className="text-xs text-(--text-muted)">
+              <span className="text-xs text-zinc-500">
                 Anfrage ausstehend
               </span>
             ) : isSelf ? (
-              <span className="text-xs text-(--text-muted)">Das bist du</span>
+              <span className="text-xs text-zinc-500">Das bist du</span>
             ) : (
               <Button
                 onClick={handleSend}

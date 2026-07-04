@@ -17,8 +17,10 @@ import {
   touchDmLastMessage,
   touchChannelLastMessage,
   markRead,
+  cn,
 } from "@/lib";
 import { EmojiPicker, ReplyPreview, IconBtn } from "@/components";
+import { useIsDesktop } from "@/hooks";
 
 const MAX_FILE_SIZE = 8 * 1024 * 1024; // 8MB
 
@@ -38,6 +40,7 @@ export default function MessageInput({
     dmUser.blockedUsers?.includes(firebaseUser.uid)
   );
   const blocked = iBlockedThem || theyBlockedMe;
+  const isDesktop = useIsDesktop();
   const [content, setContent] = useState("");
   const [pending, setPending] = useState(false);
   const [attachments, setAttachments] = useState([]); // { file, preview, error }
@@ -60,7 +63,9 @@ export default function MessageInput({
   }
 
   function handleKeyDown(e) {
-    if (e.key === "Enter" && !e.shiftKey) {
+    // Desktop: Enter sendet, Shift+Enter = neue Zeile
+    // Mobile: Enter = neue Zeile (kein Senden ohne physische Tastatur)
+    if (e.key === "Enter" && !e.shiftKey && isDesktop) {
       e.preventDefault();
       handleSend();
     }
@@ -193,7 +198,7 @@ export default function MessageInput({
   if (blocked) {
     return (
       <div className="shrink-0 px-4 pb-5">
-        <div className="flex items-center gap-2.5 rounded-(--radius-base) border border-(--border-subtle) bg-(--surface-raised) px-4 py-3 text-sm text-(--text-muted)">
+        <div className="flex items-center gap-2.5 rounded-[8px] border border-white/5 bg-zinc-800 px-4 py-3 text-sm text-zinc-500">
           <Prohibit className="shrink-0 text-xl md:text-lg" />
           {iBlockedThem
             ? "Du hast diese Person blockiert. Entblocke sie, um wieder Nachrichten zu senden."
@@ -214,26 +219,29 @@ export default function MessageInput({
       {/* Attachment previews */}
       {attachments.length > 0 && (
         <div
-          className={`flex flex-wrap gap-2 border-b border-(--border-subtle) bg-(--surface-raised) px-3.5 py-2.5 ${replyTarget ? "rounded-none" : "rounded-t-(--radius-base)"}`}
+          className={`flex flex-wrap gap-2 border-b border-white/5 bg-zinc-800 px-3.5 py-2.5 ${replyTarget ? "rounded-none" : "rounded-t-[8px]"}`}
         >
           {attachments.map((att, i) => (
             <div
               key={i}
-              className="relative overflow-hidden rounded-(--radius-base) border border-(--border-subtle) bg-(--surface-deep)"
+              className="relative overflow-hidden rounded-[8px] border border-white/5 bg-(--surface-deep)"
             >
               {att.preview ? (
-                <img
-                  src={att.preview}
-                  alt={att.file.name}
-                  className="block size-20 object-cover"
-                />
+                <>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={att.preview}
+                    alt={att.file.name}
+                    className="block size-20 object-cover"
+                  />
+                </>
               ) : (
                 <div className="flex size-20 flex-col items-center justify-center gap-1 p-2">
-                  <Paperclip className="text-(--text-muted) text-xl md:text-lg" />
-                  <span className="break-all text-center text-2xs leading-[1.2] text-(--text-muted)">
+                  <Paperclip className="text-zinc-500 text-xl md:text-lg" />
+                  <span className="break-all text-center text-2xs leading-tight text-zinc-500">
                     {att.file.name}
                   </span>
-                  <span className="text-2xs text-(--text-ghost)">
+                  <span className="text-2xs text-zinc-600">
                     {formatBytes(att.file.size)}
                   </span>
                 </div>
@@ -251,7 +259,7 @@ export default function MessageInput({
 
       {/* Input container */}
       <div
-        className={`flex items-end gap-2 p-1 mt-5 border border-(--border-subtle) bg-(--surface-raised) ${replyTarget || attachments.length > 0 ? "rounded-b-(--radius-base)" : "rounded-(--radius-base)"}`}
+        className={`flex gap-2 mt-5 border border-white/5 bg-zinc-800 min-h-12 md:min-h-10 ${replyTarget || attachments.length > 0 ? "rounded-b-[8px]" : "rounded-[8px]"} ${content ? "items-start" : "items-center"}`}
       >
         {/* Attach */}
         <IconBtn
@@ -259,7 +267,8 @@ export default function MessageInput({
           onClick={() => fileInputRef.current?.click()}
           title="Datei anh\u00e4ngen"
           rounded="sm"
-          className="hover:text-(--text-primary)"
+          size="xl"
+          className="hover:text-zinc-100 size-12"
         />
         <input
           ref={fileInputRef}
@@ -286,17 +295,21 @@ export default function MessageInput({
           }
           rows={1}
           disabled={pending}
-          className="flex-1 resize-none border-none bg-transparent pt-1 mb-0.5 text-(--text-base) leading-normal outline-none max-h-[30vh] overflow-y-auto"
+          className={cn(
+            "flex-1 self-stretch resize-none border-none bg-transparent text-(--text-base) leading-normal outline-none max-h-[30vh] overflow-y-auto",
+            content ? "" : "pt-2.5 md:pt-3",
+          )}
         />
 
         {/* Emoji */}
-        <div className="relative shrink-0">
+        <div className="relative shrink-0 hidden md:flex">
           <IconBtn
             icon={Smiley}
             onClick={() => setEmojiOpen((v) => !v)}
             title="Emoji"
             rounded="sm"
-            className="hover:text-(--text-primary)"
+            size="xl"
+            className="hover:text-zinc-100"
           />
           <AnimatePresence>
             {emojiOpen && (
@@ -316,6 +329,7 @@ export default function MessageInput({
               onClick={handleSend}
               title="Senden"
               rounded="sm"
+              size="xl"
               variant="primary"
               disabled={pending}
               iconWeight="fill"

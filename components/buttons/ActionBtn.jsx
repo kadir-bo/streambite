@@ -9,7 +9,7 @@ export default function ActionBtn({ icon, title, onClick, danger }) {
       onClick={onClick}
       title={title}
       variant={danger ? "danger" : "ghost"}
-      className={danger ? "" : "hover:text-(--text-primary)"}
+      className={danger ? "" : "hover:text-zinc-100"}
     />
   );
 }

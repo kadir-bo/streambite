@@ -44,17 +44,17 @@ export default function ChannelsHomePage() {
 
   return (
     <div className="flex-1 flex min-w-0 overflow-hidden">
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-(--surface-base)">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-zinc-900">
         <HomeTopbar />
 
         {friends.length === 0 ? (
           <div className="flex-1 flex flex-col items-center justify-center gap-4">
-            <UsersThree size={48} className="text-(--text-ghost)" />
+            <UsersThree size={48} className="text-zinc-600" />
             <div className="text-center">
-              <p className="text-base font-semibold text-(--text-secondary) mb-1">
+              <p className="text-base font-semibold text-zinc-400 mb-1">
                 Noch keine Freunde
               </p>
-              <p className="text-sm text-(--text-muted)">
+              <p className="text-sm text-zinc-500">
                 Füge oben jemanden über &quot;Freund hinzufügen&quot; hinzu.
               </p>
             </div>
@@ -62,20 +62,20 @@ export default function ChannelsHomePage() {
         ) : (
           <div className="flex-1 overflow-y-auto pt-4">
             <div className="px-4 pb-3">
-              <div className="flex items-center gap-2 bg-(--surface-deep) border border-(--border-subtle) rounded-(--radius-base) px-3">
+              <div className="flex items-center gap-2 bg-(--surface-deep) border border-white/5 rounded-[8px] px-3">
                 <MagnifyingGlass
-                  className="text-(--text-muted) shrink-0 text-xl md:text-lg"
+                  className="text-zinc-500 shrink-0 text-xl md:text-lg"
                 />
                 <input
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Suche"
-                  className="flex-1 bg-transparent border-none outline-none text-sm text-(--text-primary) py-2.5"
+                  className="flex-1 bg-transparent border-none outline-none text-sm text-zinc-100 py-2.5"
                 />
               </div>
             </div>
 
-            <p className="px-4 pb-1.5 text-2xs font-semibold tracking-widest uppercase text-(--text-muted)">
+            <p className="px-4 pb-1.5 text-2xs font-semibold tracking-widest uppercase text-zinc-500">
               Alle Freunde — {filteredFriends.length}
             </p>
 

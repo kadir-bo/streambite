@@ -34,8 +34,10 @@ export function ServerProvider({ children }) {
 
   useEffect(() => {
     if (!activeServerId) {
+      /* eslint-disable react-hooks/set-state-in-effect */
       setChannels([])
       setCategories([])
+      /* eslint-enable react-hooks/set-state-in-effect */
       return
     }
     const unsubscribe = subscribeToServerChannels(activeServerId, setChannels, setCategories)
@@ -44,6 +46,7 @@ export function ServerProvider({ children }) {
 
   useEffect(() => {
     if (!activeServerId) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setVoicePresence({})
       return
     }
