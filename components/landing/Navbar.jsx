@@ -34,9 +34,11 @@ export default function Navbar() {
         </span>
 
         <div className="flex items-center gap-2 sm:gap-3">
-          <Button variant="ghost" size="sm" onClick={() => router.push("/login")} className="hidden sm:inline-flex">
-            Anmelden
-          </Button>
+          <div className="hidden sm:block">
+            <Button variant="ghost" size="sm" onClick={() => router.push("/login")}>
+              Anmelden
+            </Button>
+          </div>
           <Button variant="primary" size="sm" onClick={() => router.push("/register")} className="max-sm:py-2">
             Loslegen
           </Button>
