@@ -1,13 +1,14 @@
 "use client";
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { House, Plus } from "@phosphor-icons/react";
+import { Plus } from "@phosphor-icons/react";
 import { useAuth, useLayout, useServer } from "@/context";
 import {
   RailButton,
   PendingInviteButton,
   JoinInviteModal,
   ServerIcon,
+  Logo,
 } from "@/components";
 
 export default function ServerRail({ onOpenCreate }) {
@@ -30,13 +31,9 @@ export default function ServerRail({ onOpenCreate }) {
         active={isDM}
         tooltip="Direktnachrichten"
       >
-        <House
-          weight="fill"
-          className={
-            isDM
-              ? "text-zinc-100 text-xl md:text-xl"
-              : "text-zinc-500 text-xl md:text-lg"
-          }
+        <Logo
+          variant="icon"
+          className={`h-5 w-5 ${isDM ? "opacity-100" : "opacity-50"}`}
         />
       </RailButton>
 

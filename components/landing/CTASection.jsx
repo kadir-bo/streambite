@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { useRouter } from "next/navigation"
-import { motion } from "motion/react"
-import { Sparkle, ArrowRight } from "@phosphor-icons/react"
-import { motionTokens, springs } from "@/lib/motion-tokens"
+import { useRouter } from "next/navigation";
+import { motion } from "motion/react";
+import { Sparkle, ArrowRight } from "@phosphor-icons/react";
+import { motionTokens } from "@/lib/motion-tokens";
 
 export default function CTASection() {
-  const router = useRouter()
+  const router = useRouter();
 
   return (
     <section className="relative py-28 md:py-36 overflow-hidden">
@@ -21,10 +21,13 @@ export default function CTASection() {
 
       <div className="relative z-10 max-w-6xl mx-auto px-6">
         <motion.div
-          initial={{ opacity: 0, y: motionTokens.distance.lg }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: motionTokens.duration.slow, ease: motionTokens.easing.smooth }}
+          transition={{
+            duration: motionTokens.duration.normal,
+            ease: motionTokens.easing.glide,
+          }}
           className="mx-auto max-w-2xl text-center"
         >
           {/* Subtle badge */}
@@ -38,17 +41,24 @@ export default function CTASection() {
           </h2>
 
           <p className="text-lg text-zinc-400 mb-10 max-w-lg mx-auto leading-relaxed">
-            Tritt deiner ersten Community bei oder erstelle deinen eigenen Server –
-            <span className="text-zinc-300"> kostenlos, ohne Verpflichtung.</span>
+            Tritt deiner ersten Community bei oder erstelle deinen eigenen
+            Server –
+            <span className="text-zinc-300">
+              {" "}
+              kostenlos, ohne Verpflichtung.
+            </span>
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             {/* Primary CTA – mit mehr Präsenz */}
             <button
               onClick={() => router.push("/register")}
-              className="group relative inline-flex items-center gap-2.5 rounded-xl bg-(--accent) px-8 py-4 text-white text-base font-semibold leading-none shadow-lg shadow-(--accent)/25 hover:shadow-xl hover:shadow-(--accent)/30 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
+              className="group relative inline-flex items-center gap-2.5 rounded-xl bg-(--accent) px-8 py-4 text-white text-base font-semibold leading-none shadow-lg shadow-(--accent)/25 hover:shadow-xl hover:shadow-(--accent)/30 transition-all duration-200"
             >
-              <Sparkle className="size-5 group-hover:rotate-12 transition-transform duration-300" weight="fill" />
+              <Sparkle
+                className="size-5 group-hover:rotate-12 transition-transform duration-300"
+                weight="fill"
+              />
               <span>Kostenlos registrieren</span>
             </button>
 
@@ -58,16 +68,11 @@ export default function CTASection() {
               className="inline-flex items-center gap-1.5 rounded-xl border border-white/[0.08] px-6 py-4 text-sm text-zinc-400 font-medium hover:text-white hover:border-white/[0.15] hover:bg-white/[0.03] transition-all duration-200 group"
             >
               Bereits Mitglied?
-              <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1" />
+              <ArrowRight className="size-4" />
             </button>
           </div>
-
-          {/* Trust-Signal */}
-          <p className="text-xs text-zinc-600 mt-8">
-            Keine Kreditkarte erforderlich &bull; In 30 Sekunden starten
-          </p>
         </motion.div>
       </div>
     </section>
-  )
+  );
 }

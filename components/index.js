@@ -27,6 +27,8 @@ export { default as CategoryHeader } from "./cards/CategoryHeader";
 export { default as Badge } from "./cards/Badge";
 export { default as RoleBadge } from "./cards/RoleBadge";
 export { default as EmptyState } from "./cards/EmptyState";
+export { default as Card } from "./cards/Card";
+export { default as StepCard } from "./cards/StepCard";
 
 // Modals
 export { default as Modal } from "./modals/Modal";
@@ -95,6 +97,7 @@ export { default as Avatar } from "./media/Avatar";
 export { default as StatusDot } from "./media/StatusDot";
 export { default as GoogleLogo } from "./media/GoogleLogo";
 export { default as ServerIcon } from "./media/ServerIcon";
+export { default as Logo } from "./media/Logo";
 
 // Text
 export { default as MarkdownText } from "./text/MarkdownText";

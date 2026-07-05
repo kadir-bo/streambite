@@ -268,7 +268,7 @@ export default function MessageInput({
           title="Datei anh\u00e4ngen"
           rounded="sm"
           size="xl"
-          className="hover:text-zinc-100 size-12"
+          className="size-12 hover:text-zinc-100"
         />
         <input
           ref={fileInputRef}
@@ -308,7 +308,7 @@ export default function MessageInput({
             title="Emoji"
             rounded="sm"
             size="xl"
-            className="hover:text-zinc-100"
+            className="size-12 hover:text-zinc-100"
           />
           <AnimatePresence>
             {emojiOpen && (
@@ -332,6 +332,7 @@ export default function MessageInput({
               variant="primary"
               disabled={pending}
               iconWeight="fill"
+              className="size-12"
             >
               {pending && (
                 <span className="block size-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" />

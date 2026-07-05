@@ -16,6 +16,12 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Streambite",
   description: "Community chat, voice and streaming",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
+  manifest: "/manifest.json",
 };
 
 export const viewport = {

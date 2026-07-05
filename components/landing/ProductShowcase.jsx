@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react"
 import { motion, useInView } from "motion/react"
+import { motionTokens } from "@/lib/motion-tokens"
 
 const channels = ["Willkommen", "Ankündigungen", "Chat", "Voice", "Stream"]
 
@@ -59,17 +60,17 @@ export default function ProductShowcase() {
     <section ref={sectionRef} className="max-w-6xl mx-auto px-6 pb-24 md:pb-32">
       <div className="text-center mb-12">
         <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
-          So sieht&#39;s aus
+          Chat. Voice. Streaming.
         </h2>
         <p className="text-zinc-400 text-lg max-w-lg mx-auto">
-          Ein Blick auf die Streambite-Oberfläche – clean, dunkel, aufgeräumt.
+          Wechsle zwischen den Channels und erlebe, wie sich Streambite anfühlt.
         </p>
       </div>
 
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 1 } : {}}
+        transition={{ duration: motionTokens.duration.normal, ease: motionTokens.easing.glide }}
         className="relative mx-auto max-w-5xl"
       >
         {/* Browser-Fenster Mockup */}
@@ -131,10 +132,20 @@ export default function ProductShowcase() {
                 </span>
               </div>
 
-              {/* Messages */}
-              <div className="flex-1 p-4 space-y-4 overflow-hidden">
+              {/* Messages – animiert bei Channel-Wechsel */}
+              <div key={activeChannel} className="flex-1 p-4 space-y-4 overflow-hidden">
                 {current.messages.map((m, i) => (
-                  <div key={i} className="flex gap-3">
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{
+                      duration: 0.5,
+                      delay: i * 0.3,
+                      ease: motionTokens.easing.glide,
+                    }}
+                    className="flex gap-3"
+                  >
                     <div className="size-8 rounded-full bg-zinc-800 shrink-0 flex items-center justify-center text-xs font-medium text-zinc-400">
                       {m.name[0]}
                     </div>
@@ -145,7 +156,7 @@ export default function ProductShowcase() {
                       </div>
                       <p className="text-sm text-zinc-300 mt-0.5 break-words">{m.msg}</p>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
 

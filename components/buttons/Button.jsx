@@ -13,9 +13,9 @@ const variantStyles = {
 }
 
 const sizeStyles = {
-  sm:  'px-3 py-1.5 text-xs rounded-lg max-sm:min-h-10',
-  md:  'px-4 py-2.5 text-sm rounded-lg max-sm:min-h-11',
-  lg:  'px-6 py-3 text-base rounded-xl max-sm:min-h-12',
+  sm:  'px-4 py-3.5 text-sm rounded-xl max-sm:min-h-12',
+  md:  'px-5 py-3.5 text-sm rounded-xl max-sm:min-h-12',
+  lg:  'px-7 py-4 text-base rounded-xl max-sm:min-h-12',
 }
 
 export default function Button({
@@ -31,8 +31,7 @@ export default function Button({
 
   return (
     <motion.button
-      whileTap={!isDisabled ? { scale: 0.97 } : {}}
-      whileHover={!isDisabled ? { scale: 1.02 } : {}}
+      whileTap={!isDisabled ? { scale: 0.98 } : {}}
       className={cn(
         'inline-flex items-center justify-center gap-2 font-semibold leading-none select-none',
         'transition-all duration-150',

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { CaretLeft } from "@phosphor-icons/react";
 import { AuthCard, Input, Button, GoogleButton } from "@/components";
 import { loginUser, signInWithGoogle } from "@/lib";
 
@@ -39,7 +40,7 @@ export default function LoginPage() {
           href="/"
           className="text-xs text-zinc-500 hover:text-(--accent) transition-colors inline-flex items-center gap-1 self-start"
         >
-          &larr; Zurück zur Startseite
+          <CaretLeft className="size-3.5" weight="bold" /> Zurück zur Startseite
         </Link>
 
         <div className="flex flex-col gap-1">

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { CaretLeft } from "@phosphor-icons/react";
 import { AuthCard, Input, Button, GoogleButton } from "@/components";
 import {
   registerUser,
@@ -67,14 +68,16 @@ export default function RegisterPage() {
           href="/"
           className="text-xs text-zinc-500 hover:text-(--accent) transition-colors inline-flex items-center gap-1 self-start"
         >
-          &larr; Zurück zur Startseite
+          <CaretLeft className="size-3.5" weight="bold" /> Zurück zur Startseite
         </Link>
 
         <div className="flex flex-col gap-1">
           <h1 className="text-xl font-bold text-zinc-100 tracking-tight text-balance">
             Konto erstellen
           </h1>
-          <p className="text-sm text-zinc-500 text-balance">Tritt Streambite bei</p>
+          <p className="text-sm text-zinc-500 text-balance">
+            Streambite beitreten
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">

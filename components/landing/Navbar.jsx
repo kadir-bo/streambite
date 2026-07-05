@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { Button } from "@/components"
+import { Button, Logo } from "@/components"
 import { cn } from "@/lib"
 
 export default function Navbar() {
@@ -28,9 +28,9 @@ export default function Navbar() {
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <span
           onClick={() => router.push("/")}
-          className="flex items-center gap-2 text-lg font-semibold tracking-tight cursor-pointer select-none text-[#bec2ff] hover:opacity-80 transition-opacity"
+          className="flex items-center gap-2 cursor-pointer select-none text-white hover:opacity-80 transition-opacity"
         >
-          Streambite
+          <Logo />
         </span>
 
         <div className="flex items-center gap-2 sm:gap-3">

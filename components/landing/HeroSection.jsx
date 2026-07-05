@@ -1,16 +1,18 @@
-"use client"
+"use client";
 
-import { useRouter } from "next/navigation"
-import { motion } from "motion/react"
-import { Button } from "@/components"
-import { springs } from "@/lib/motion-tokens"
+import { useRouter } from "next/navigation";
+import { useCallback } from "react";
+import { motion } from "motion/react";
+import { Button } from "@/components";
+import { motionTokens } from "@/lib/motion-tokens";
+import { ArrowDownIcon } from "@phosphor-icons/react";
 
 export default function HeroSection() {
-  const router = useRouter()
+  const router = useRouter();
 
-  const scrollToFeatures = () => {
-    document.getElementById("features")?.scrollIntoView({ behavior: "smooth" })
-  }
+  const scrollToFeatures = useCallback(() => {
+    document.getElementById("features")?.scrollIntoView({ behavior: "smooth" });
+  }, []);
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
@@ -36,7 +38,10 @@ export default function HeroSection() {
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          transition={{
+            duration: motionTokens.duration.fast,
+            ease: motionTokens.easing.glide,
+          }}
           className="inline-flex items-center gap-1.5 rounded-full border border-(--accent)/20 bg-(--accent)/5 px-4 py-1.5 text-xs font-medium text-(--accent) mb-8"
         >
           <span className="size-1.5 rounded-full bg-(--accent) animate-pulse" />
@@ -54,8 +59,9 @@ export default function HeroSection() {
 
         {/* Subtext – kein Entrance-Anim */}
         <p className="text-zinc-400 text-lg sm:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-          Streambite verbindet Echtzeit-Chat, Sprachkanäle und Screen-Sharing in einem
-          modernen Interface – entwickelt für echte Gespräche und private Communities.
+          Streambite verbindet Echtzeit-Chat, Sprachkanäle und Streaming in
+          einem modernen Interface – entwickelt für echte Gespräche und private
+          Communities.
         </p>
 
         {/* CTA – kein Entrance-Anim, nur Tap/Hover */}
@@ -69,17 +75,14 @@ export default function HeroSection() {
           >
             Starte deine Community
           </Button>
-          <motion.button
+          <button
             onClick={scrollToFeatures}
-            whileHover={{ x: 4 }}
-            whileTap={{ scale: 0.97 }}
-            transition={springs.snappy}
-            className="text-zinc-400 hover:text-white transition-colors px-6 py-3 text-base font-medium"
+            className="text-zinc-400 hover:text-white transition-colors px-6 py-3 text-base font-medium flex items-center justify-center gap-2"
           >
-            Funktionen entdecken &darr;
-          </motion.button>
+            Funktionen entdecken <ArrowDownIcon className="text-lg" />
+          </button>
         </div>
       </div>
     </section>
-  )
+  );
 }
