@@ -53,8 +53,8 @@ export default function TechnicalDeepDive() {
               verlustfreie Audio- und Videoübertragung bei minimaler Latenz.
             </motion.p>
 
-            {/* 2 kleine horizontale Benefit-Cards */}
-            <div className="grid grid-cols-2 gap-3">
+            {/* 2 kleine Benefit-Cards – stacked auf Mobile, nebeneinander ab sm */}
+            <div className="flex flex-col sm:grid sm:grid-cols-2 gap-3">
               {benefits.map((item, i) => {
                 const Icon = item.icon;
                 return (
@@ -67,7 +67,7 @@ export default function TechnicalDeepDive() {
                       delay: 0.12 + i * 0.08,
                       ease: motionTokens.easing.glide,
                     }}
-                    className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] p-3"
+                    className="flex flex-col items-center text-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 sm:p-3 sm:flex-row sm:text-left sm:items-center"
                   >
                     <div className="size-9 rounded-lg bg-(--accent)/10 flex items-center justify-center shrink-0">
                       <Icon

@@ -42,14 +42,14 @@ export default function HeroSection() {
             duration: motionTokens.duration.fast,
             ease: motionTokens.easing.glide,
           }}
-          className="inline-flex items-center gap-1.5 rounded-full border border-(--accent)/20 bg-(--accent)/5 px-4 py-1.5 text-xs font-medium text-(--accent) mb-8"
+          className="inline-flex items-center gap-1.5 rounded-full border border-(--accent)/20 bg-(--accent)/5 px-4 py-1.5 text-xs font-medium text-(--accent) mb-6 sm:mb-8"
         >
           <span className="size-1.5 rounded-full bg-(--accent) animate-pulse" />
           Echtzeit-Kommunikation &bull; Open Beta
         </motion.div>
 
         {/* Heading – kein Entrance-Anim, sofort da */}
-        <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-[1.05] mb-6">
+        <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-[1.05] mb-4 sm:mb-6">
           Deine Community.
           <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-(--accent) to-indigo-400">
@@ -58,7 +58,7 @@ export default function HeroSection() {
         </h1>
 
         {/* Subtext – kein Entrance-Anim */}
-        <p className="text-zinc-400 text-lg sm:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+        <p className="text-zinc-400 text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed">
           Streambite verbindet Echtzeit-Chat, Sprachkanäle und Streaming in
           einem modernen Interface – entwickelt für echte Gespräche und private
           Communities.
@@ -77,7 +77,7 @@ export default function HeroSection() {
           </Button>
           <button
             onClick={scrollToFeatures}
-            className="text-zinc-400 hover:text-white transition-colors px-6 py-3 text-base font-medium flex items-center justify-center gap-2"
+            className="hidden sm:flex text-zinc-400 hover:text-white transition-colors px-6 py-3 text-base font-medium items-center justify-center gap-2"
           >
             Funktionen entdecken <ArrowDownIcon className="text-lg" />
           </button>

@@ -77,7 +77,7 @@ export default function SecuritySection() {
 
         <div className="grid sm:grid-cols-2 gap-4 max-w-4xl mx-auto">
           {securityItems.map((item, i) => (
-            <Card key={item.title} {...item} variant="horizontal" index={i} />
+            <Card key={item.title} {...item} index={i} />
           ))}
         </div>
       </div>

@@ -49,11 +49,11 @@ export default function CTASection() {
             </span>
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
             {/* Primary CTA – mit mehr Präsenz */}
             <button
               onClick={() => router.push("/register")}
-              className="group relative inline-flex items-center gap-2.5 rounded-xl bg-(--accent) px-8 py-4 text-white text-base font-semibold leading-none shadow-lg shadow-(--accent)/25 hover:shadow-xl hover:shadow-(--accent)/30 transition-all duration-200"
+              className="group relative inline-flex items-center justify-center gap-2.5 rounded-xl bg-(--accent) px-8 py-4 text-white text-base font-semibold leading-none shadow-lg shadow-(--accent)/25 hover:shadow-xl hover:shadow-(--accent)/30 transition-all duration-200"
             >
               <Sparkle
                 className="size-5 group-hover:rotate-12 transition-transform duration-300"
@@ -65,7 +65,7 @@ export default function CTASection() {
             {/* Secondary – subtiler, als Button mit Stil */}
             <button
               onClick={() => router.push("/login")}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-white/[0.08] px-6 py-4 text-sm text-zinc-400 font-medium hover:text-white hover:border-white/[0.15] hover:bg-white/[0.03] transition-all duration-200 group"
+              className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-white/[0.08] px-6 py-4 text-sm text-zinc-400 font-medium hover:text-white hover:border-white/[0.15] hover:bg-white/[0.03] transition-all duration-200 group"
             >
               Bereits Mitglied?
               <ArrowRight className="size-4" />
