@@ -3,22 +3,19 @@
 import { motion } from 'motion/react'
 import { cn } from '@/lib'
 
-const variants = {
-  primary: {
-    background: '#f4f4f5',
-    color: '#09090b',
-    border: 'none',
-  },
-  ghost: {
-    background: '#27272a',
-    color: '#a1a1aa',
-    border: '1px solid rgba(255,255,255,0.1)',
-  },
-  danger: {
-    background: '#ef4444',
-    color: '#fff',
-    border: 'none',
-  },
+const variantStyles = {
+  primary:
+    'bg-(--accent) text-white hover:brightness-110 shadow-lg shadow-(--accent)/20',
+  ghost:
+    'bg-zinc-800 text-zinc-300 border border-white/[0.08] hover:bg-zinc-700 hover:text-white',
+  danger:
+    'bg-red-500 text-white hover:bg-red-600',
+}
+
+const sizeStyles = {
+  sm:  'px-3 py-1.5 text-xs rounded-lg max-sm:min-h-10',
+  md:  'px-4 py-2.5 text-sm rounded-lg max-sm:min-h-11',
+  lg:  'px-6 py-3 text-base rounded-xl max-sm:min-h-12',
 }
 
 export default function Button({
@@ -28,36 +25,23 @@ export default function Button({
   loading = false,
   disabled = false,
   className,
-  style,
   ...props
 }) {
-  const sizeStyles = {
-    sm: { padding: '6px 12px', fontSize: '11px', borderRadius: '8px' },
-    md: { padding: '10px 16px', fontSize: '13px', borderRadius: '8px' },
-    lg: { padding: '12px 20px', fontSize: '15px', borderRadius: '12px' },
-  }
-
-  // Mobile Touch-Target: mindestens 44px Höhe (Apple HIG)
-  // Feste Strings für Tailwind JIT – kein Template-Literal!
-  const mobileHeightClasses = {
-    sm: 'max-sm:min-h-10',
-    md: 'max-sm:min-h-11',
-    lg: 'max-sm:min-h-12',
-  };
-  const mobileHClass = mobileHeightClasses[size] ?? 'max-sm:min-h-11';
+  const isDisabled = disabled || loading
 
   return (
     <motion.button
-      whileTap={!disabled && !loading ? { scale: 0.97 } : {}}
-      className={cn(mobileHClass, className)}
-      style={{
-        ...variants[variant],
-        ...sizeStyles[size],
-        opacity: disabled || loading ? 0.5 : 1,
-        cursor: disabled || loading ? 'not-allowed' : 'pointer',
-        ...style,
-      }}
-      disabled={disabled || loading}
+      whileTap={!isDisabled ? { scale: 0.97 } : {}}
+      whileHover={!isDisabled ? { scale: 1.02 } : {}}
+      className={cn(
+        'inline-flex items-center justify-center gap-2 font-semibold leading-none select-none',
+        'transition-all duration-150',
+        variantStyles[variant],
+        sizeStyles[size],
+        isDisabled && 'opacity-50 cursor-not-allowed',
+        className,
+      )}
+      disabled={isDisabled}
       {...props}
     >
       {loading ? (

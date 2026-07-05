@@ -11,7 +11,7 @@ import { useVoice } from "@/context";
 import { IconBtn } from "@/components";
 import { cn } from "@/lib";
 
-export default function VoiceControls() {
+export default function VoiceControls({ compact = false }) {
   const {
     muted,
     deafened,
@@ -22,8 +22,31 @@ export default function VoiceControls() {
     disconnect,
   } = useVoice();
 
+  if (compact) {
+    return (
+      <div className="flex items-center gap-1">
+        <IconBtn
+          icon={muted ? MicrophoneSlash : Microphone}
+          onClick={toggleMute}
+          title={muted ? "Stummschaltung aufheben" : "Stummschalten"}
+          size="sm"
+          rounded="full"
+          variant={muted ? "danger" : "ghost"}
+        />
+        <IconBtn
+          icon={PhoneDisconnect}
+          onClick={disconnect}
+          title="Sprachkanal verlassen"
+          size="sm"
+          rounded="full"
+          variant="danger"
+        />
+      </div>
+    );
+  }
+
   return (
-    <div className="flex items-center gap-2.5">
+    <div className="flex items-center gap-1.5">
       <IconBtn
         icon={muted ? MicrophoneSlash : Microphone}
         onClick={toggleMute}
@@ -63,7 +86,7 @@ export default function VoiceControls() {
         title="Sprachkanal verlassen"
         size="xl"
         rounded="full"
-        variant="danger-solid"
+        variant="danger"
       />
     </div>
   );

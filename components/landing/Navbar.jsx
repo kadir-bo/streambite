@@ -2,10 +2,8 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { motion } from "motion/react"
 import { Button } from "@/components"
 import { cn } from "@/lib"
-import { fade } from "@/lib"
 
 export default function Navbar() {
   const router = useRouter()
@@ -18,10 +16,7 @@ export default function Navbar() {
   }, [])
 
   return (
-    <motion.nav
-      initial={{ y: -16, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={fade}
+    <nav
       className={cn(
         "fixed top-0 left-0 right-0 z-50",
         scrolled
@@ -47,6 +42,6 @@ export default function Navbar() {
           </Button>
         </div>
       </div>
-    </motion.nav>
+    </nav>
   )
 }

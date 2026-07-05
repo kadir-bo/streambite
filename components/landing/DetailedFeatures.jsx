@@ -67,7 +67,7 @@ function FeatureCard({ feature, index }) {
         <Icon className="text-lg text-(--accent)" weight="duotone" />
       </motion.div>
       <h3 className="text-lg font-semibold mb-2 text-white">{feature.label}</h3>
-      <p className="text-sm text-zinc-400 leading-relaxed text-balance">{feature.desc}</p>
+      <p className="text-sm text-zinc-400 leading-relaxed">{feature.desc}</p>
     </motion.div>
   )
 }
@@ -77,10 +77,10 @@ export default function DetailedFeatures() {
     <section className="bg-[#0e0e10] py-24 md:py-32">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4 text-white text-balance">
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4 text-white">
             Alles, was deine Community braucht
           </h2>
-          <p className="text-zinc-400 text-lg max-w-2xl mx-auto leading-relaxed text-balance">
+          <p className="text-zinc-400 text-lg max-w-2xl mx-auto leading-relaxed">
             Von Text über Sprache bis Bildschirm – Streambite vereint alle
             Kommunikationsformen in einer Plattform mit Fokus auf technischer Exzellenz.
           </p>

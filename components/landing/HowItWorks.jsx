@@ -98,10 +98,10 @@ export default function HowItWorks() {
 
       <div className="relative max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-3 text-white text-balance">
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-3 text-white">
             So funktioniert&apos;s
           </h2>
-          <p className="text-zinc-400 text-lg max-w-lg mx-auto text-balance">
+          <p className="text-zinc-400 text-lg max-w-lg mx-auto">
             In vier einfachen Schritten zu deiner eigenen Community.
           </p>
         </div>

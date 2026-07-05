@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation"
 import { motion } from "motion/react"
 import { Button } from "@/components"
-import { motionTokens, springs } from "@/lib/motion-tokens"
+import { springs } from "@/lib/motion-tokens"
 
 export default function HeroSection() {
   const router = useRouter()
@@ -32,47 +32,34 @@ export default function HeroSection() {
       </div>
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+        {/* Badge – kleine Animation, sofort sichtbar */}
         <motion.div
-          initial={{ opacity: 0, y: motionTokens.distance.xl }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: motionTokens.duration.slow, ease: motionTokens.easing.smooth }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          className="inline-flex items-center gap-1.5 rounded-full border border-(--accent)/20 bg-(--accent)/5 px-4 py-1.5 text-xs font-medium text-(--accent) mb-8"
         >
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, scale: motionTokens.scale.subtle }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: motionTokens.duration.normal, delay: 0.1, ease: motionTokens.easing.smooth }}
-            className="inline-flex items-center gap-1.5 rounded-full border border-(--accent)/20 bg-(--accent)/5 px-4 py-1.5 text-xs font-medium text-(--accent) mb-8"
-          >
-            <span className="size-1.5 rounded-full bg-(--accent) animate-pulse" />
-            Echtzeit-Kommunikation &bull; Open Beta
-          </motion.div>
-
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-[1.05] mb-6 text-balance">
-            Deine Community.
-            <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-(--accent) to-indigo-400">
-              Dein Chat. Deine Stimme.
-            </span>
-          </h1>
+          <span className="size-1.5 rounded-full bg-(--accent) animate-pulse" />
+          Echtzeit-Kommunikation &bull; Open Beta
         </motion.div>
 
-        <motion.p
-          initial={{ opacity: 0, y: motionTokens.distance.md }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: motionTokens.duration.slow, delay: 0.15, ease: motionTokens.easing.smooth }}
-          className="text-zinc-400 text-lg sm:text-xl max-w-2xl mx-auto mb-10 leading-relaxed text-balance"
-        >
+        {/* Heading – kein Entrance-Anim, sofort da */}
+        <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-[1.05] mb-6">
+          Deine Community.
+          <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-(--accent) to-indigo-400">
+            Dein Chat. Deine Stimme.
+          </span>
+        </h1>
+
+        {/* Subtext – kein Entrance-Anim */}
+        <p className="text-zinc-400 text-lg sm:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
           Streambite verbindet Echtzeit-Chat, Sprachkanäle und Screen-Sharing in einem
           modernen Interface – entwickelt für echte Gespräche und private Communities.
-        </motion.p>
+        </p>
 
-        <motion.div
-          initial={{ opacity: 0, y: motionTokens.distance.md }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: motionTokens.duration.slow, delay: 0.3, ease: motionTokens.easing.smooth }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
+        {/* CTA – kein Entrance-Anim, nur Tap/Hover */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button
             variant="primary"
             size="lg"
@@ -85,13 +72,13 @@ export default function HeroSection() {
           <motion.button
             onClick={scrollToFeatures}
             whileHover={{ x: 4 }}
-            whileTap={{ scale: motionTokens.scale.tap }}
+            whileTap={{ scale: 0.97 }}
             transition={springs.snappy}
             className="text-zinc-400 hover:text-white transition-colors px-6 py-3 text-base font-medium"
           >
             Funktionen entdecken &darr;
           </motion.button>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

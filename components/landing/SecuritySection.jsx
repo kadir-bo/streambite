@@ -8,7 +8,7 @@ import {
   EyeSlash,
   FileText,
 } from "@phosphor-icons/react"
-import { motionTokens, springs } from "@/lib/motion-tokens"
+import { motionTokens } from "@/lib/motion-tokens"
 
 const securityItems = [
   {
@@ -82,7 +82,7 @@ export default function SecuritySection() {
             initial={{ opacity: 0, y: motionTokens.distance.md }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: motionTokens.duration.slow, delay: 0.05, ease: motionTokens.easing.smooth }}
-            className="text-3xl md:text-5xl font-bold tracking-tight mb-4 text-white text-balance"
+            className="text-3xl md:text-5xl font-bold tracking-tight mb-4 text-white"
           >
             Sicherheit & Datenschutz<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-(--accent) to-indigo-400">
@@ -94,7 +94,7 @@ export default function SecuritySection() {
             initial={{ opacity: 0, y: motionTokens.distance.md }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: motionTokens.duration.slow, delay: 0.1, ease: motionTokens.easing.smooth }}
-            className="text-zinc-400 text-lg max-w-2xl mx-auto leading-relaxed text-balance"
+            className="text-zinc-400 text-lg max-w-2xl mx-auto leading-relaxed"
           >
             Wir glauben, dass deine privaten Gespräche auch privat bleiben sollten.
             Streambite ist von Grund auf so konzipiert, dass deine Daten geschützt

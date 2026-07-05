@@ -78,7 +78,7 @@ export default function TechnicalDeepDive() {
               initial={{ opacity: 0, y: motionTokens.distance.md }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: motionTokens.duration.slow, ease: motionTokens.easing.smooth }}
-              className="text-3xl md:text-5xl font-bold tracking-tight mb-4 text-white text-balance"
+              className="text-3xl md:text-5xl font-bold tracking-tight mb-4 text-white"
             >
               Entwickelt für Performance
             </motion.h2>

@@ -296,8 +296,7 @@ export default function MessageInput({
           rows={1}
           disabled={pending}
           className={cn(
-            "flex-1 self-stretch resize-none border-none bg-transparent text-(--text-base) leading-normal outline-none max-h-[30vh] overflow-y-auto",
-            content ? "" : "pt-2.5 md:pt-3",
+            "flex-1 self-stretch resize-none border-none bg-transparent text-(--text-base) leading-normal outline-none max-h-[30vh] overflow-y-auto pt-3 md:pt-2.5",
           )}
         />
 

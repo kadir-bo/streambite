@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { motion } from "motion/react";
 import { AuthCard, Input, Button, GoogleButton } from "@/components";
 import { loginUser, signInWithGoogle } from "@/lib";
 
@@ -36,6 +35,13 @@ export default function LoginPage() {
   return (
     <AuthCard>
       <div className="flex flex-col gap-6">
+        <Link
+          href="/"
+          className="text-xs text-zinc-500 hover:text-(--accent) transition-colors inline-flex items-center gap-1 self-start"
+        >
+          &larr; Zurück zur Startseite
+        </Link>
+
         <div className="flex flex-col gap-1">
           <h1 className="text-xl font-bold text-zinc-100 tracking-tight text-balance">
             Willkommen zurück

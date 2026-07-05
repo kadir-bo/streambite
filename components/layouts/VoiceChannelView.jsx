@@ -5,11 +5,12 @@ import {
   SpeakerHigh,
   Warning,
   PhoneCall,
+  PhoneDisconnect,
   CaretDown,
   CaretUp,
 } from "@phosphor-icons/react";
 import { useVoice } from "@/context";
-import { ParticipantTile, VoiceControls, ScreenShareTile } from "@/components";
+import { ParticipantTile, VoiceControls, ScreenShareTile, IconBtn } from "@/components";
 
 // Connection lives in VoiceContext, not here - staying connected when the
 // user navigates to another channel/DM (and showing a floating bar) is the
@@ -17,7 +18,7 @@ import { ParticipantTile, VoiceControls, ScreenShareTile } from "@/components";
 const MAX_VISIBLE = 4;
 
 export default function VoiceChannelView({ serverId, channel, isOwner }) {
-  const { connection, participants, screenShareHasAudio, connect } = useVoice();
+  const { connection, participants, screenShareHasAudio, connect, disconnect } = useVoice();
   const [showAll, setShowAll] = useState(false);
   const isThisChannel =
     connection.serverId === serverId && connection.channelId === channel.id;
@@ -36,6 +37,10 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
   const showAudioWarning =
     !screenShareHasAudio &&
     participants.some((p) => p.isLocal && p.isScreenSharing);
+
+  // User is connected to voice but looking at a different channel
+  const connectedElsewhere =
+    connection.status === "connected" && !isThisChannel;
 
   return (
     <div className="relative flex flex-1 pt-4 flex-col overflow-hidden bg-zinc-900">
@@ -62,7 +67,6 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
 
           {hasScreenShare ? (
             <>
-              {/* Screen-Share nimmt den verfügbaren Platz */}
               <div className="flex-1 min-h-0">
                 {screenSharers.map((p) => (
                   <ScreenShareTile
@@ -71,8 +75,6 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
                   />
                 ))}
               </div>
-
-              {/* Teilnehmer als kompakte Reihe */}
               {participants.length > 0 && (
                 <div className="shrink-0 flex flex-wrap justify-center gap-3">
                   {visibleParticipants.map((p) => (
@@ -88,20 +90,15 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
                   className="shrink-0 flex cursor-pointer items-center justify-center gap-1.5 self-center rounded-[8px] border border-white/5 bg-zinc-800 px-4 py-1.5 text-xs font-medium text-zinc-400 hover:bg-white/5"
                 >
                   {showAll ? (
-                    <>
-                      <CaretUp size={14} /> Weniger anzeigen
-                    </>
+                    <><CaretUp size={14} /> Weniger anzeigen</>
                   ) : (
-                    <>
-                      <CaretDown size={14} /> {hiddenCount} weitere anzeigen
-                    </>
+                    <><CaretDown size={14} /> {hiddenCount} weitere anzeigen</>
                   )}
                 </button>
               )}
             </>
           ) : (
             <div className="flex flex-1 flex-col items-center justify-center -mt-8 gap-3">
-              {/* Ohne Screen-Share: Teilnehmer zentriert */}
               <div
                 className="w-full max-w-4xl mx-auto"
                 style={{
@@ -124,13 +121,9 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
                   className="flex cursor-pointer items-center justify-center gap-1.5 rounded-[8px] border border-white/5 bg-zinc-800 px-4 py-1.5 text-xs font-medium text-zinc-400 hover:bg-white/5"
                 >
                   {showAll ? (
-                    <>
-                      <CaretUp size={14} /> Weniger anzeigen
-                    </>
+                    <><CaretUp size={14} /> Weniger anzeigen</>
                   ) : (
-                    <>
-                      <CaretDown size={14} /> {hiddenCount} weitere anzeigen
-                    </>
+                    <><CaretDown size={14} /> {hiddenCount} weitere anzeigen</>
                   )}
                 </button>
               )}
@@ -153,9 +146,35 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
         </div>
       )}
 
+      {/* Floating Voice-Steuerung unten (nur wenn in DIESEM Channel verbunden) */}
       {status === "connected" && (
-        <div className="absolute w-full max-w-xs md:max-w-max bottom-8 md:bottom-5 left-1/2 -translate-x-1/2 rounded-[9999px] border border-white/5 bg-zinc-800 px-4 py-3 shadow-[0_8px_24px_rgba(0,0,0,0.5)]">
+        <div className="absolute flex items-center gap-0.5 bottom-4 md:bottom-5 left-1/2 -translate-x-1/2 rounded-xl border border-white/[0.06] bg-zinc-800/95 backdrop-blur-sm px-3 py-2 shadow-[0_8px_24px_rgba(0,0,0,0.5)]">
+          {/* Channel-Name als Hinweis */}
+          <div className="flex items-center gap-1.5 pr-2 mr-1.5 border-r border-white/[0.06]">
+            <SpeakerHigh weight="fill" className="size-3.5 text-(--accent)" />
+            <span className="text-xs font-medium text-zinc-300 hidden sm:inline whitespace-nowrap">
+              {connection.channelName}
+            </span>
+          </div>
           <VoiceControls />
+        </div>
+      )}
+
+      {/* Floating "Verbunden woanders" – wenn verbunden, aber anderer Channel geöffnet */}
+      {connectedElsewhere && (
+        <div className="absolute flex items-center gap-2 bottom-4 md:bottom-5 left-1/2 -translate-x-1/2 rounded-xl border border-white/[0.06] bg-zinc-800/95 backdrop-blur-sm px-3 py-2 shadow-[0_8px_24px_rgba(0,0,0,0.5)]">
+          <SpeakerHigh weight="fill" className="size-3.5 text-(--accent)" />
+          <span className="text-xs text-zinc-400 whitespace-nowrap">
+            Verbunden mit <span className="text-zinc-200 font-medium">{connection.channelName}</span>
+          </span>
+          <IconBtn
+            icon={PhoneDisconnect}
+            onClick={disconnect}
+            title="Sprachkanal verlassen"
+            size="sm"
+            rounded="full"
+            variant="danger"
+          />
         </div>
       )}
     </div>

@@ -33,11 +33,11 @@ export default function CTASection() {
             Bereit loszulegen?
           </div>
 
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4 text-white leading-[1.1] text-balance">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4 text-white leading-[1.1]">
             Worauf wartest du?
           </h2>
 
-          <p className="text-lg text-zinc-400 mb-10 max-w-lg mx-auto leading-relaxed text-balance">
+          <p className="text-lg text-zinc-400 mb-10 max-w-lg mx-auto leading-relaxed">
             Tritt deiner ersten Community bei oder erstelle deinen eigenen Server –
             <span className="text-zinc-300"> kostenlos, ohne Verpflichtung.</span>
           </p>
