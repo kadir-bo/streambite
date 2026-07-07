@@ -4,11 +4,7 @@ import { useRouter } from "next/navigation";
 import { ChatsCircle, ChatCircleText, XCircle } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import { subscribeToUser, ensureDm, closeDm } from "@/lib";
-import {
-  useUnread,
-  useFriendActions,
-  useLongPress,
-} from "@/hooks";
+import { useUnread, useFriendActions, useLongPress } from "@/hooks";
 import { Avatar, ContextMenu, DotMenu } from "@/components";
 
 const STATUS_LABELS = {
@@ -100,7 +96,7 @@ export default function DmRow({ dm, otherUid, active }) {
     <div
       ref={rowRef}
       {...longPress.handlers}
-      className="group relative"
+      className="group flex items-center mx-2"
       onContextMenu={openMenuAtCursor}
     >
       <a
@@ -109,7 +105,7 @@ export default function DmRow({ dm, otherUid, active }) {
           e.preventDefault();
           openDm();
         }}
-        className={`flex items-center gap-1.5 px-3 py-2.5 mx-2 rounded-xl no-underline transition-colors duration-100 ${
+        className={`flex items-center gap-3 px-3 py-2.5 flex-1 min-w-0 rounded-xl no-underline transition-colors duration-100 ${
           active
             ? "bg-surface-hover"
             : "bg-transparent hover:bg-surface-hover/50"
@@ -150,15 +146,12 @@ export default function DmRow({ dm, otherUid, active }) {
             </p>
           )}
         </div>
-
-        <DotMenu
-          onClick={(e) => {
-            e.stopPropagation();
-            openMenuFromAnchor();
-          }}
-          className="shrink-0"
-        />
       </a>
+
+      <DotMenu
+        onClick={openMenuFromAnchor}
+        className="shrink-0 ml-auto"
+      />
 
       <ContextMenu
         open={menuOpen}

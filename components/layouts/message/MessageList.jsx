@@ -1,63 +1,72 @@
-'use client'
+"use client";
 
-import { useEffect, useRef, useState, useCallback } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
-import { ArrowDown } from '@phosphor-icons/react'
-import { groupMessages } from '@/lib'
-import { useMessages } from '@/hooks'
-import { ChannelWelcome, MessageGroup } from '@/components'
+import { useEffect, useRef, useState, useCallback } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { ArrowDown } from "@phosphor-icons/react";
+import { groupMessages } from "@/lib";
+import { useMessages } from "@/hooks";
+import { ChannelWelcome, MessageGroup } from "@/components";
 
-export default function MessageList({ serverId, channelId, channel, dmUser, onReply }) {
-  const { messages, loading } = useMessages(serverId, channelId)
-  const groups = groupMessages(messages)
+export default function MessageList({
+  serverId,
+  channelId,
+  channel,
+  dmUser,
+  onReply,
+}) {
+  const { messages, loading } = useMessages(serverId, channelId);
+  const groups = groupMessages(messages);
 
-  const containerRef = useRef(null)
-  const bottomRef = useRef(null)
-  const isAtBottomRef = useRef(true)
-  const prevCountRef = useRef(0)
-  const [showNewMsg, setShowNewMsg] = useState(false)
+  const containerRef = useRef(null);
+  const bottomRef = useRef(null);
+  const isAtBottomRef = useRef(true);
+  const prevCountRef = useRef(0);
+  const [showNewMsg, setShowNewMsg] = useState(false);
 
   // Track whether user is at bottom
   function handleScroll() {
-    const el = containerRef.current
-    if (!el) return
-    const threshold = 80
-    isAtBottomRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < threshold
-    if (isAtBottomRef.current) setShowNewMsg(false)
+    const el = containerRef.current;
+    if (!el) return;
+    const threshold = 80;
+    isAtBottomRef.current =
+      el.scrollHeight - el.scrollTop - el.clientHeight < threshold;
+    if (isAtBottomRef.current) setShowNewMsg(false);
   }
 
-  function scrollToBottom(behavior = 'smooth') {
-    bottomRef.current?.scrollIntoView({ behavior })
+  function scrollToBottom(behavior = "smooth") {
+    bottomRef.current?.scrollIntoView({ behavior });
   }
 
   // Scroll to bottom on initial load
   useEffect(() => {
     if (!loading && messages.length > 0) {
-      scrollToBottom('instant')
-      prevCountRef.current = messages.length
+      scrollToBottom("instant");
+      prevCountRef.current = messages.length;
     }
-  }, [loading]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [loading]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // React to new messages
   useEffect(() => {
     if (messages.length <= prevCountRef.current) {
-      prevCountRef.current = messages.length
-      return
+      prevCountRef.current = messages.length;
+      return;
     }
 
-    const newMsg = messages[messages.length - 1]
-    const isOwnMessage = newMsg?.authorId && typeof window !== 'undefined' &&
+    const newMsg = messages[messages.length - 1];
+    const isOwnMessage =
+      newMsg?.authorId &&
+      typeof window !== "undefined" &&
       // We detect own by checking if we scrolled to bottom recently (approximate)
-      isAtBottomRef.current
+      isAtBottomRef.current;
 
     if (isAtBottomRef.current) {
-      scrollToBottom('smooth')
+      scrollToBottom("smooth");
     } else {
-      setShowNewMsg(true)
+      setShowNewMsg(true);
     }
 
-    prevCountRef.current = messages.length
-  }, [messages.length]) // eslint-disable-line react-hooks/exhaustive-deps
+    prevCountRef.current = messages.length;
+  }, [messages.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="flex-1 flex flex-col min-h-0 relative bg-surface-app">
@@ -102,7 +111,10 @@ export default function MessageList({ serverId, channelId, channel, dmUser, onRe
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.9 }}
             transition={{ duration: 0.15 }}
-            onClick={() => { scrollToBottom('smooth'); setShowNewMsg(false) }}
+            onClick={() => {
+              scrollToBottom("smooth");
+              setShowNewMsg(false);
+            }}
             className="absolute bottom-4 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 px-4 py-2 bg-surface-hover border border-white/10 rounded-full text-sm font-medium text-white shadow-[0_8px_24px_rgba(0,0,0,0.5)] cursor-pointer whitespace-nowrap"
           >
             <ArrowDown weight="bold" />
@@ -111,5 +123,5 @@ export default function MessageList({ serverId, channelId, channel, dmUser, onRe
         )}
       </AnimatePresence>
     </div>
-  )
+  );
 }

@@ -5,7 +5,14 @@ import { motion, AnimatePresence } from "motion/react";
 import { ArrowBendUpLeft } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import { formatTime, editMessage, deleteMessage } from "@/lib";
-import { Avatar, MessageActions, ReactionBar, ConfirmModal, MarkdownText, MessageContent } from "@/components";
+import {
+  Avatar,
+  MessageActions,
+  ReactionBar,
+  ConfirmModal,
+  MarkdownText,
+  MessageContent,
+} from "@/components";
 
 export default function Message({
   message,
@@ -93,12 +100,12 @@ export default function Message({
         }`}
       >
         {/* Avatar column — larger with colored bg */}
-        <div className="w-14 shrink-0">
+        <div className="w-max shrink-0 ml-4">
           {isFirst ? (
             <Avatar
               src={message.authorAvatar}
               name={message.authorName}
-              size="xl"
+              size="lg"
             />
           ) : (
             /* Inline timestamp for grouped messages */
