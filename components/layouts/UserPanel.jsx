@@ -200,7 +200,7 @@ export default function UserPanel() {
     <>
       <div
         data-user-panel
-        className="shrink-0 px-3 pb-3 pt-1 max-sm:px-4 max-sm:pb-4"
+        className="shrink-0 px-3 pb-3 pt-1 max-sm:px-4 max-sm:pb-4 bg-[surface-deep]"
       >
         <div className="flex items-center gap-3 rounded-2xl bg-[#111119] p-3">
           {/* Avatar + Name + Status */}

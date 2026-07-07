@@ -2,7 +2,12 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useLayout } from "@/context";
-import { ServerRail, ChannelPane, UserPanel, CreateServerModal } from "@/components";
+import {
+  ServerRail,
+  ChannelPane,
+  UserPanel,
+  CreateServerModal,
+} from "@/components";
 
 export default function UnifiedSidebar() {
   const [createOpen, setCreateOpen] = useState(false);

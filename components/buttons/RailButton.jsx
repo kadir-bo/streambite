@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import Link from "next/link";
-import { serverPill, serverIcon } from "@/lib";
+import { serverIcon } from "@/lib";
 import { Tooltip } from "@/components";
 
 export default function RailButton({
@@ -21,11 +21,6 @@ export default function RailButton({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <motion.span
-        animate={state}
-        variants={serverPill}
-        className="absolute left-0 w-1 origin-left rounded-r-full bg-white"
-      />
       <div className="px-1.5">
         <motion.div
           animate={state}
