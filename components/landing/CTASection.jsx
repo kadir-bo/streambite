@@ -65,7 +65,7 @@ export default function CTASection() {
             {/* Secondary – subtiler, als Button mit Stil */}
             <button
               onClick={() => router.push("/login")}
-              className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-white/[0.08] px-6 py-4 text-sm text-zinc-400 font-medium hover:text-white hover:border-white/[0.15] hover:bg-white/[0.03] transition-all duration-200 group"
+              className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-white/8 px-6 py-4 text-sm text-zinc-400 font-medium hover:text-white hover:border-white/15 hover:bg-white/3 transition-all duration-200 group"
             >
               Bereits Mitglied?
               <ArrowRight className="size-4" />

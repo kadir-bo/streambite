@@ -116,7 +116,7 @@ export default function TechnicalDeepDive() {
 
             {/* Fallback-Placeholder solange kein Video vorhanden */}
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-zinc-500">
-              <div className="size-16 rounded-full bg-white/[0.04] flex items-center justify-center group-hover:bg-white/[0.08] transition-colors">
+              <div className="size-16 rounded-full bg-white/4 flex items-center justify-center group-hover:bg-white/8 transition-colors">
                 <svg
                   viewBox="0 0 24 24"
                   fill="currentColor"

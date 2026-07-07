@@ -43,11 +43,11 @@ export default function Card({
       className={cn(
         "group transition-all duration-300",
         isHorizontal &&
-          "flex gap-4 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5 hover:border-(--accent)/20 hover:bg-white/[0.04]",
+          "flex gap-4 rounded-2xl border border-white/6 bg-white/2 p-5 hover:border-(--accent)/20 hover:bg-white/4",
         isCenter &&
           "flex flex-col items-center gap-3",
         !isHorizontal && !isCenter &&
-          "rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6 hover:border-(--accent)/30 hover:bg-white/[0.06]",
+          "rounded-2xl border border-white/6 bg-white/3 p-6 hover:border-(--accent)/30 hover:bg-white/6",
         className,
       )}
       {...props}
