@@ -77,7 +77,7 @@ export default function MessageList({
       >
         {loading ? (
           <div className="flex-1 flex items-center justify-center">
-            <span className="size-6 rounded-full border-2 border-white/10 border-t-[#8a38f5] [animation:spin_0.7s_linear_infinite] block" />
+            <span className="size-6 rounded-full border-2 border-white/10 border-t-accent [animation:spin_0.7s_linear_infinite] block" />
           </div>
         ) : messages.length === 0 ? (
           <div className="flex-1 flex flex-col justify-end">

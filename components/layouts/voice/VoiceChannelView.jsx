@@ -13,13 +13,29 @@ import {
   MicrophoneSlash,
 } from "@phosphor-icons/react";
 import { useVoice, useLayout } from "@/context";
-import { Avatar, ScreenShareTile, InviteModal, VoiceControls } from "@/components";
+import {
+  Avatar,
+  ScreenShareTile,
+  InviteModal,
+  VoiceControls,
+} from "@/components";
 
 const MAX_VISIBLE = 4;
 
 export default function VoiceChannelView({ serverId, channel, isOwner }) {
-  const { connection, participants, screenShareHasAudio, muted, deafened, screenShare, connect, disconnect, toggleMute, toggleDeafen, toggleScreenShare } =
-    useVoice();
+  const {
+    connection,
+    participants,
+    screenShareHasAudio,
+    muted,
+    deafened,
+    screenShare,
+    connect,
+    disconnect,
+    toggleMute,
+    toggleDeafen,
+    toggleScreenShare,
+  } = useVoice();
   const { showList } = useLayout();
   const [showAll, setShowAll] = useState(false);
   const [inviteOpen, setInviteOpen] = useState(false);
@@ -44,6 +60,8 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
   const connectedElsewhere =
     connection.status === "connected" && !isThisChannel;
 
+  const isConnected = status === "connected";
+  const isConnecting = status === "connecting";
   return (
     <div className="relative flex flex-1 flex-col overflow-hidden bg-surface-app">
       {/* Topbar */}
@@ -88,14 +106,14 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
       </div>
 
       {/* Error */}
-      {connection.error && (status === "error" || status === "connected") && (
+      {connection.error && (status === "error" || isConnected) && (
         <div className="mx-6 mb-2 shrink-0 flex max-w-md flex-col items-center gap-2.5 rounded-2xl border border-red-500 bg-red-500/10 px-5 py-4 text-center">
           <Warning size={22} className="text-red-500" />
           <p className="text-sm text-zinc-100">{connection.error}</p>
         </div>
       )}
 
-      {status === "connected" ? (
+      {isConnected ? (
         <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-4 py-4 pb-28">
           {/* Audio Warning */}
           {showAudioWarning && (
@@ -167,19 +185,17 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
         <div className="flex flex-1 items-center justify-center px-6">
           <button
             onClick={() => connect(serverId, channel.id, channel.name)}
-            disabled={status === "connecting"}
-            className="flex items-center gap-2 rounded-2xl bg-accent px-6 py-3 text-base font-semibold text-white border-none cursor-pointer hover:bg-accent-hover disabled:opacity-60 disabled:cursor-not-allowed"
+            disabled={isConnecting}
+            className="flex items-center gap-2 rounded-2xl bg-surface-deep px-6 py-3 text-base font-semibold text-white cursor-pointer hover:bg-surface-hover disabled:opacity-60 disabled:cursor-not-allowed duration-100 border border-surface-border/5 hover:border-surface-border"
           >
-            <PhoneCall />
-            {status === "connecting"
-              ? "Verbinde…"
-              : `${channel.name} beitreten`}
+            <PhoneCall weight="regular" className="text-xl" />
+            {isConnecting ? "Verbinde…" : `${channel.name} beitreten`}
           </button>
         </div>
       )}
 
       {/* Floating Voice Controls */}
-      {status === "connected" && (
+      {isConnected && (
         <VoiceControls
           muted={muted}
           deafened={deafened}

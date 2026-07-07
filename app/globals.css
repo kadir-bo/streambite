@@ -13,7 +13,7 @@
   --surface-input: #111119;
   --surface-border: #323232;
 
-  /* ACCENT (Purple — Figma Design) */
+  /* ACCENT (Purple) */
   --accent: #928bff;
   --accent-hover: #958fe6;
   --accent-subtle: #e0deffab;
@@ -48,9 +48,9 @@
   --color-surface-border: #323232;
 
   /* ACCENT */
-  --color-accent: #8a38f5;
-  --color-accent-hover: #7a2de0;
-  --color-accent-subtle: rgba(138, 56, 245, 0.12);
+  --accent: #928bff;
+  --accent-hover: #958fe6;
+  --accent-subtle: #e0deffab;
 
   /* STATUS */
   --color-green: #4ac263;
