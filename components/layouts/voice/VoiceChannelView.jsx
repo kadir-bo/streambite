@@ -247,7 +247,7 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
 
       {/* Connected elsewhere */}
       {connectedElsewhere && (
-        <div className="absolute flex items-center gap-2 bottom-4 left-1/2 -translate-x-1/2 rounded-2xl border border-white/5 bg-surface-deep px-4 py-2 shadow-[0_8px_24px_rgba(0,0,0,0.5)]">
+        <div className="absolute flex items-center gap-2 bottom-4 left-1/2 -translate-x-1/2 rounded-2xl border border-white/5 bg-surface-deep px-4 py-2 shadow-md">
           <SpeakerHigh weight="fill" className="size-4 text-accent" />
           <span className="text-xs text-zinc-400 whitespace-nowrap">
             Verbunden mit{" "}
@@ -285,7 +285,7 @@ function VoiceParticipantCard({ participant, isOwner }) {
     <div
       className={`flex flex-col items-center justify-center gap-3 rounded-2xl bg-surface-deep border aspect-square p-4 transition-all duration-200 ${
         isActiveSpeaker
-          ? "border-green shadow-[0_0_0_2px_rgba(74,194,99,0.3)]"
+          ? "border-green ring-2 ring-green/30"
           : "border-white/5"
       }`}
     >

@@ -205,7 +205,7 @@ export default function UserPanel() {
             </div>
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-1">
-                <p className="truncate text-[15px] font-bold text-white">
+                <p className="truncate text-base font-bold text-white">
                   {displayName}
                 </p>
                 <svg

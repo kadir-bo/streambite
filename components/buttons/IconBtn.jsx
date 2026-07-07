@@ -64,7 +64,7 @@ export default function IconBtn({
 
   const roundedClasses = {
     base: "rounded-lg",
-    sm: "rounded-[4px]",
+    sm: "rounded",
     full: "rounded-full",
     none: "",
   };

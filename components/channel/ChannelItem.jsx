@@ -163,7 +163,7 @@ export default function ChannelItem({ channel, serverId, isActive, isOwner }) {
             }`}
           />
           <span
-            className={`text-[15px] truncate flex-1 transition-colors duration-100 ${
+            className={`text-base truncate flex-1 transition-colors duration-100 ${
               isActive || unread
                 ? "text-white font-semibold"
                 : "text-zinc-400 font-medium group-hover:text-zinc-300"

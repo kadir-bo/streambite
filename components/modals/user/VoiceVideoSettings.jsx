@@ -53,7 +53,9 @@ export default function VoiceVideoSettings() {
     setTestError("");
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        audio: activeAudioInputId ? { deviceId: { exact: activeAudioInputId } } : true,
+        audio: activeAudioInputId
+          ? { deviceId: { exact: activeAudioInputId } }
+          : true,
       });
       const audioContext = new AudioContext();
       // iOS: AudioContext ist nach async getUserMedia oft "suspended"
@@ -78,11 +80,17 @@ export default function VoiceVideoSettings() {
         testRef.current.rafId = requestAnimationFrame(tick);
       }
 
-      testRef.current = { stream, audioContext, rafId: requestAnimationFrame(tick) };
+      testRef.current = {
+        stream,
+        audioContext,
+        rafId: requestAnimationFrame(tick),
+      };
       setTesting(true);
     } catch (err) {
       console.warn("[voice] mic test failed:", err);
-      setTestError("Mikrofon konnte nicht getestet werden (Berechtigung verweigert?).");
+      setTestError(
+        "Mikrofon konnte nicht getestet werden (Berechtigung verweigert?).",
+      );
     }
   }
 
@@ -151,7 +159,11 @@ export default function VoiceVideoSettings() {
       </div>
 
       <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
-        <Button type="button" variant={testing ? "ghost" : "primary"} onClick={toggleTest}>
+        <Button
+          type="button"
+          variant={testing ? "ghost" : "primary"}
+          onClick={toggleTest}
+        >
           <span className="flex items-center gap-2">
             <Microphone className="text-xl md:text-lg" />
             {testing ? "Test beenden" : "Mikrofontest"}
@@ -161,7 +173,7 @@ export default function VoiceVideoSettings() {
           {Array.from({ length: TEST_BAR_COUNT }).map((_, i) => (
             <span
               key={i}
-              className="h-5 flex-1 rounded-[4px] transition-colors duration-75"
+              className="h-5 flex-1 rounded-sm transition-colors duration-75"
               style={{
                 backgroundColor:
                   testing && level * TEST_BAR_COUNT > i

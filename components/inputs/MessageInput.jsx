@@ -290,7 +290,7 @@ export default function MessageInput({
           rows={1}
           disabled={pending}
           className={cn(
-            "flex-1 self-stretch resize-none border-none bg-transparent text-[15px] leading-normal outline-none max-h-[30vh] overflow-y-auto py-3.5 placeholder:text-zinc-500",
+            "flex-1 self-stretch resize-none border-none bg-transparent text-base leading-normal outline-none max-h-[30vh] overflow-y-auto py-3.5 placeholder:text-zinc-500",
           )}
         />
 

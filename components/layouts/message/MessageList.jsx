@@ -115,7 +115,7 @@ export default function MessageList({
               scrollToBottom("smooth");
               setShowNewMsg(false);
             }}
-            className="absolute bottom-4 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 px-4 py-2 bg-surface-hover border border-white/10 rounded-full text-sm font-medium text-white shadow-[0_8px_24px_rgba(0,0,0,0.5)] cursor-pointer whitespace-nowrap"
+            className="absolute bottom-4 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 px-4 py-2 bg-surface-hover border border-white/10 rounded-full text-sm font-medium text-white shadow-md cursor-pointer whitespace-nowrap"
           >
             <ArrowDown weight="bold" />
             Neue Nachricht

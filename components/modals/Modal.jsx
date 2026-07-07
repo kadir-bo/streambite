@@ -37,7 +37,7 @@ export default function Modal({
           exit="hidden"
           variants={backdrop}
           onClick={onClose}
-          className={`fixed inset-0 z-[200] bg-black/80 flex pb-40 md:pb-0 items-center justify-center ${
+          className={`fixed inset-0 z-200 bg-black/80 flex pb-40 md:pb-0 items-center justify-center ${
             mobileFullScreen ? "p-0 sm:p-5" : "p-5"
           }`}
         >
@@ -57,7 +57,7 @@ export default function Modal({
           >
             {title && (
               <div className="px-5 pt-5 flex items-start justify-between gap-3">
-                <h2 className="text-(--text-xl) font-semibold text-zinc-100 leading-tight">
+                <h2 className="text-(--text-xl) font-semibold leading-tight">
                   {title}
                 </h2>
                 <IconBtn

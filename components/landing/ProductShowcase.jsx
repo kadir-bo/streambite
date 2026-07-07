@@ -138,7 +138,7 @@ export default function ProductShowcase() {
               <div className="size-2.5 rounded-full bg-green-500/80" />
             </div>
             <div className="flex-1 text-center">
-              <span className="text-[11px] text-zinc-500 font-medium">
+              <span className="text-xs text-zinc-500 font-medium">
                 Streambite — {activeChannel}
               </span>
             </div>
@@ -159,7 +159,7 @@ export default function ProductShowcase() {
 
             {/* Channel-Seitenleiste – klickbar */}
             <div className="w-48 md:w-56 bg-[#0a0a0c] border-r border-white/5 p-3 hidden sm:block">
-              <div className="text-[11px] font-semibold text-zinc-400 uppercase tracking-wider mb-3 px-2">
+              <div className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3 px-2">
                 Allgemein
               </div>
               <div className="space-y-0.5">
@@ -217,7 +217,7 @@ export default function ProductShowcase() {
                         <span className={`text-sm font-semibold ${m.color}`}>
                           {m.name}
                         </span>
-                        <span className="text-[10px] text-zinc-600">heute</span>
+                        <span className="text-2xs text-zinc-600">heute</span>
                       </div>
                       <p className="text-sm text-zinc-300 mt-0.5 wrap-break-word">
                         {m.msg}

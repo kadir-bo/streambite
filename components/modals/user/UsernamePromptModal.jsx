@@ -44,7 +44,7 @@ export default function UsernamePromptModal({ open, uid, tag, onDone }) {
           animate="visible"
           exit="hidden"
           variants={backdrop}
-          className="fixed inset-0 z-[200] bg-black/75 flex items-center justify-center p-5"
+          className="fixed inset-0 z-200 bg-black/75 flex items-center justify-center p-5"
         >
           <motion.div
             key="card"

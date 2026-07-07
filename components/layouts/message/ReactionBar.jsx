@@ -49,7 +49,7 @@ export default function ReactionBar({
             onClick={() => handleToggle(emoji, data)}
             disabled={!!pending}
             title={(data?.users ?? []).join(", ")}
-            className={`inline-flex items-center gap-1.25 px-2 py-0.5 rounded-[9999px] text-sm font-medium text-zinc-400 transition-colors duration-100 ${
+            className={`inline-flex items-center gap-1.25 px-2 py-0.5 rounded-full text-sm font-medium text-zinc-400 transition-colors duration-100 ${
               pending === emoji ? "opacity-60" : "opacity-100"
             } ${pending ? "cursor-wait" : "cursor-pointer"} ${
               hasReacted

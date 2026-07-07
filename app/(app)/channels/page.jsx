@@ -170,7 +170,7 @@ export default function ChannelsHomePage() {
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[15px] font-semibold text-white truncate">
+                  <p className="text-base font-semibold text-white truncate">
                     {friend.displayName}
                   </p>
                   <p className="text-xs text-zinc-500 truncate">

@@ -9,18 +9,38 @@ import {
 import { StepCard } from "@/components";
 
 const steps = [
-  { icon: UserPlus, number: "1", title: "Konto erstellen", desc: "Registriere dich mit deiner E-Mail in unter 30 Sekunden. Kein Bestätigungs-Marathon." },
-  { icon: Compass, number: "2", title: "Server erstellen", desc: "Erstelle deinen Server und richte Text- sowie Voice-Channels nach deinen Bedürfnissen ein." },
-  { icon: LinkSimple, number: "3", title: "Freunde einladen", desc: "Verschicke Einladungs-Links an deine Freunde oder dein Team. Ein Klick zum Beitreten." },
-  { icon: ChatCircleDots, number: "4", title: "Austauschen", desc: "Starte den Austausch – egal ob Text, Voice oder hochauflösendes Streaming." },
+  {
+    icon: UserPlus,
+    number: "1",
+    title: "Konto erstellen",
+    desc: "Registriere dich mit deiner E-Mail in unter 30 Sekunden. Kein Bestätigungs-Marathon.",
+  },
+  {
+    icon: Compass,
+    number: "2",
+    title: "Server erstellen",
+    desc: "Erstelle deinen Server und richte Text- sowie Voice-Channels nach deinen Bedürfnissen ein.",
+  },
+  {
+    icon: LinkSimple,
+    number: "3",
+    title: "Freunde einladen",
+    desc: "Verschicke Einladungs-Links an deine Freunde oder dein Team. Ein Klick zum Beitreten.",
+  },
+  {
+    icon: ChatCircleDots,
+    number: "4",
+    title: "Austauschen",
+    desc: "Starte den Austausch – egal ob Text, Voice oder hochauflösendes Streaming.",
+  },
 ];
 
 export default function HowItWorks() {
   return (
     <section className="relative bg-[#09090b] py-24 md:py-32 overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-linear-to-r from-transparent via-white/6 to-transparent" />
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/4 size-[500px] bg-(--accent) opacity-[0.02] rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/4 size-125 bg-(--accent) opacity-[0.02] rounded-full blur-3xl" />
       </div>
 
       <div className="relative max-w-6xl mx-auto px-6">

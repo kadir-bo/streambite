@@ -43,7 +43,7 @@ export default function StepCard({ step, index = 0, total = 4 }) {
             ...springs.bouncy,
             delay: index * motionTokens.stagger.delay + 0.25,
           }}
-          className="absolute -top-1.5 -right-1.5 size-6 rounded-full bg-(--accent) text-white text-[11px] font-bold flex items-center justify-center shadow-lg shadow-(--accent)/30"
+          className="absolute -top-1.5 -right-1.5 size-6 rounded-full bg-(--accent) text-white text-xs font-bold flex items-center justify-center shadow-lg shadow-(--accent)/30"
         >
           {step.number}
         </motion.div>

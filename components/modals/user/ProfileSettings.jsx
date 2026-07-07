@@ -137,7 +137,7 @@ export default function ProfileSettings({ open }) {
             onClick={() => setStatusDropdownOpen((v) => !v)}
             className="w-full flex items-center justify-between rounded-xl bg-surface-hover border border-white/5 px-4 py-3 text-left cursor-pointer"
           >
-            <span className="text-[15px] text-white">
+            <span className="text-base text-white">
               {selectedStatus?.label}
             </span>
             <CaretDown className="text-zinc-400 transition-transform" />
@@ -158,7 +158,7 @@ export default function ProfileSettings({ open }) {
                     className="size-2 rounded-full"
                     style={{ backgroundColor: opt.color }}
                   />
-                  <span className="text-[15px]">{opt.label}</span>
+                  <span className="text-base">{opt.label}</span>
                 </button>
               ))}
             </div>
@@ -184,7 +184,7 @@ export default function ProfileSettings({ open }) {
               maxLength={20}
               minLength={3}
               placeholder="benutzername"
-              className="w-full rounded-xl bg-surface-hover border border-white/5 px-4 py-3 text-[15px] text-white outline-none placeholder:text-zinc-600 focus:border-accent/50"
+              className="w-full rounded-xl bg-surface-hover border border-white/5 px-4 py-3 text-base text-white outline-none placeholder:text-zinc-600 focus:border-accent/50"
             />
           </div>
 
@@ -197,7 +197,7 @@ export default function ProfileSettings({ open }) {
               type="email"
               value={firebaseUser?.email ?? ""}
               disabled
-              className="w-full rounded-xl bg-surface-hover border border-white/5 px-4 py-3 text-[15px] text-white outline-none opacity-60 cursor-not-allowed"
+              className="w-full rounded-xl bg-surface-hover border border-white/5 px-4 py-3 text-base text-white outline-none opacity-60 cursor-not-allowed"
             />
           </div>
         </div>
@@ -220,7 +220,7 @@ export default function ProfileSettings({ open }) {
         <button
           type="submit"
           disabled={saving || !displayName.trim()}
-          className="w-full rounded-xl bg-accent px-4 py-3 text-[15px] font-semibold text-white border-none cursor-pointer hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full rounded-xl bg-accent px-4 py-3 text-base font-semibold text-white border-none cursor-pointer hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {saving ? "Speichern…" : "Änderungen speichern"}
         </button>
@@ -236,7 +236,7 @@ export default function ProfileSettings({ open }) {
         <button
           type="button"
           onClick={() => setDeleteOpen(true)}
-          className="w-full flex items-center justify-between rounded-xl bg-red px-4 py-3 text-[15px] font-semibold text-white border-none cursor-pointer hover:bg-red-hover"
+          className="w-full flex items-center justify-between rounded-xl bg-red px-4 py-3 text-base font-semibold text-white border-none cursor-pointer hover:bg-red-hover"
         >
           <span>Account Löschen</span>
           <Trash weight="regular" className="text-lg" />

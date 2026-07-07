@@ -49,7 +49,7 @@ export default function IncomingRequestsPopover({
           exit="hidden"
           variants={dropdown}
           onClick={(e) => e.stopPropagation()}
-          className="fixed z-[500] w-85 overflow-y-auto rounded-lg border border-white/5 bg-zinc-800 shadow-[0_16px_48px_rgba(0,0,0,0.6)]"
+          className="fixed z-[500] w-85 overflow-y-auto rounded-lg border border-white/5 bg-zinc-800 shadow-lg"
           style={{
             top: (anchorRect?.bottom ?? 0) + 8,
             right: anchorRect ? window.innerWidth - anchorRect.right : 0,

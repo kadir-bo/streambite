@@ -96,7 +96,7 @@ export default function ContextMenu({
           variants={dropdown}
           onClick={(e) => e.stopPropagation()}
           onMouseLeave={submenu ? scheduleCloseSubmenu : undefined}
-          className={`z-500 bg-zinc-900 border border-white/5 rounded-lg p-1 shadow-[0_16px_48px_rgba(0,0,0,0.6)] ${width ? "" : "min-w-50"}`}
+          className={`z-500 bg-zinc-900 border border-white/5 rounded-lg p-1 shadow-lg ${width ? "" : "min-w-50"}`}
           style={{
             position: "fixed",
             left: position?.x ?? 0,
@@ -164,7 +164,7 @@ export default function ContextMenu({
           onClick={(e) => e.stopPropagation()}
           onMouseEnter={cancelCloseSubmenu}
           onMouseLeave={scheduleCloseSubmenu}
-          className="z-500 rounded-lg border border-white/5 bg-zinc-900 p-1 shadow-[0_16px_48px_rgba(0,0,0,0.6)]"
+          className="z-500 rounded-lg border border-white/5 bg-zinc-900 p-1 shadow-lg"
           style={{
             position: "fixed",
             left: submenu.left,

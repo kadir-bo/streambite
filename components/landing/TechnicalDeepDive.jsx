@@ -67,7 +67,7 @@ export default function TechnicalDeepDive() {
                       delay: 0.12 + i * 0.08,
                       ease: motionTokens.easing.glide,
                     }}
-                    className="flex flex-col items-center text-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 sm:p-3 sm:flex-row sm:text-left sm:items-center"
+                    className="flex flex-col items-center text-center gap-2 rounded-xl border border-white/5 bg-white/[0.02] p-4 sm:p-3 sm:flex-row sm:text-left sm:items-center"
                   >
                     <div className="size-9 rounded-lg bg-(--accent)/10 flex items-center justify-center shrink-0">
                       <Icon
@@ -98,7 +98,7 @@ export default function TechnicalDeepDive() {
               delay: 0.2,
               ease: motionTokens.easing.glide,
             }}
-            className="relative h-full rounded-2xl overflow-hidden border border-white/[0.06] bg-gradient-to-br from-zinc-900 to-zinc-950 group min-h-[200px]"
+            className="relative h-full rounded-2xl overflow-hidden border border-white/5 bg-gradient-to-br from-zinc-900 to-zinc-950 group min-h-[200px]"
           >
             {/* Video-Element – sobald eine Datei unter public/video/demo.mp4 liegt, wird sie automatisch abgespielt */}
             <video

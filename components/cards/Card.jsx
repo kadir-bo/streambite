@@ -85,7 +85,7 @@ export default function Card({
             {title}
           </div>
           {description && (
-            <div className="text-[11px] text-zinc-500 mt-0.5 font-medium">
+            <div className="text-xs text-zinc-500 mt-0.5 font-medium">
               {description}
             </div>
           )}

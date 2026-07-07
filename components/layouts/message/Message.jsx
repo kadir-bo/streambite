@@ -181,7 +181,7 @@ export default function Message({
               </p>
             </div>
           ) : (
-            <p className="text-[15px] text-zinc-200 leading-relaxed wrap-break-word">
+            <p className="text-base text-zinc-200 leading-relaxed wrap-break-word">
               <MessageContent content={message.content} />
               {message.editedAt && !isDeleted && (
                 <span className="text-2xs text-zinc-600 ml-1.5 italic">

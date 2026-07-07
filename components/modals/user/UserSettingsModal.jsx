@@ -36,7 +36,7 @@ export default function UserSettingsModal({ open, onClose }) {
               <button
                 key={t.id}
                 onClick={() => setTab(t.id)}
-                className="relative whitespace-nowrap border-none bg-transparent px-4 py-3 text-[15px] font-medium cursor-pointer transition-colors duration-150"
+                className="relative whitespace-nowrap border-none bg-transparent px-4 py-3 text-base font-medium cursor-pointer transition-colors duration-150"
               >
                 {t.label}
                 {active && (
