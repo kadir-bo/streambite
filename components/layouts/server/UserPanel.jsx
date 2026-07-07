@@ -12,7 +12,7 @@ import {
   BellSimple,
 } from "@phosphor-icons/react";
 import { useAuth, useVoice } from "@/context";
-import { updateUserDocument, logoutUser } from "@/lib";
+import { updateUserDocument, logoutUser, STATUS_COLORS, STATUS_LABELS } from "@/lib";
 import { useLongPress } from "@/hooks";
 import {
   Avatar,
@@ -23,26 +23,12 @@ import {
 } from "@/components";
 import { UserSettingsModal } from "@/components";
 
-const STATUS_LABELS = {
-  online: "Online",
-  busy: "Beschäftigt",
-  idle: "Abwesend",
-  offline: "Offline",
-};
-
 const STATUS_OPTIONS = [
   { value: "online", label: "Online" },
   { value: "busy", label: "Beschäftigt" },
   { value: "idle", label: "Abwesend" },
   { value: "offline", label: "Offline" },
 ];
-
-const STATUS_COLORS = {
-  online: "#22c55e",
-  busy: "#f59e0b",
-  idle: "#f59e0b",
-  offline: "#3f3f46",
-};
 
 export default function UserPanel() {
   const { userDoc, firebaseUser } = useAuth();
@@ -239,7 +225,7 @@ export default function UserPanel() {
                 </svg>
               </div>
               {inVoice ? (
-                <p className="flex items-center gap-1 truncate text-xs font-medium text-[#8a38f5]">
+                <p className="flex items-center gap-1 truncate text-xs font-medium text-accent">
                   <WifiHigh size={12} className="shrink-0" />
                   Sprachverbunden
                 </p>

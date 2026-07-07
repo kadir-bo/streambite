@@ -5,16 +5,9 @@ import { useRouter } from "next/navigation";
 import { XCircle, CaretLeft } from "@phosphor-icons/react";
 import { useAuth, useLayout } from "@/context";
 import { useFriendActions } from "@/hooks";
-import { closeDm } from "@/lib";
+import { closeDm, STATUS_LABELS } from "@/lib";
 import { useLongPress } from "@/hooks";
 import { Avatar, ContextMenu, DotMenu, Topbar } from "@/components";
-
-const STATUS_LABELS = {
-  online: "Online",
-  busy: "Beschäftigt",
-  idle: "Abwesend",
-  offline: "Offline",
-};
 
 export default function DmHeader({ user, dmId }) {
   const { firebaseUser } = useAuth();
@@ -58,21 +51,20 @@ export default function DmHeader({ user, dmId }) {
         <CaretLeft weight="regular" className="text-xl" />
       </button>
 
-      <div {...longPress.handlers} className="flex items-center gap-3 flex-1 min-w-0">
+      <div
+        {...longPress.handlers}
+        className="flex items-center gap-3 flex-1 min-w-0"
+      >
         <div className="relative shrink-0">
-          <Avatar
-            src={user?.avatarUrl}
-            name={user?.displayName}
-            size="md"
-          />
+          <Avatar src={user?.avatarUrl} name={user?.displayName} size="md" />
           <span
-            className="absolute bottom-0 right-0 size-2.5 rounded-full border-2 border-[#030309]"
+            className="absolute bottom-0 right-0 size-2.5 rounded-full border-2 border-surface-app"
             style={{
               background:
                 user?.status === "online"
                   ? "#4ac263"
                   : user?.status === "busy"
-                    ? "#f59e0b"
+                    ? "#f5340b"
                     : "#686868",
             }}
           />
@@ -87,9 +79,7 @@ export default function DmHeader({ user, dmId }) {
         </div>
       </div>
 
-      {user && (
-        <DotMenu onClick={openMenu} />
-      )}
+      {user && <DotMenu onClick={openMenu} />}
 
       <ContextMenu
         open={menuOpen}

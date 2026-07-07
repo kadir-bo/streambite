@@ -21,7 +21,8 @@ import { Avatar, ScreenShareTile, InviteModal } from "@/components";
 const MAX_VISIBLE = 4;
 
 export default function VoiceChannelView({ serverId, channel, isOwner }) {
-  const { connection, participants, screenShareHasAudio, connect, disconnect } = useVoice();
+  const { connection, participants, screenShareHasAudio, connect, disconnect } =
+    useVoice();
   const { showList } = useLayout();
   const [showAll, setShowAll] = useState(false);
   const [inviteOpen, setInviteOpen] = useState(false);
@@ -55,7 +56,13 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
           className="flex items-center justify-center size-10 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
         >
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path
+              d="M12.5 15L7.5 10L12.5 5"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         </button>
 
@@ -99,7 +106,8 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
               <Warning size={20} className="shrink-0 text-yellow-500" />
               <span>
                 Kein Audio beim Teilen. Teile einen <strong>Chrome-Tab</strong>{" "}
-                und aktiviere <strong>&bdquo;Tab-Audio teilen&ldquo;</strong> im Dialog.
+                und aktiviere <strong>&bdquo;Tab-Audio teilen&ldquo;</strong> im
+                Dialog.
               </span>
             </div>
           )}
@@ -108,10 +116,7 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
           {hasScreenShare && (
             <div className="flex-1 min-h-0 rounded-2xl overflow-hidden bg-surface-deep">
               {screenSharers.map((p) => (
-                <ScreenShareTile
-                  key={`${p.identity}-screen`}
-                  participant={p}
-                />
+                <ScreenShareTile key={`${p.identity}-screen`} participant={p} />
               ))}
             </div>
           )}
@@ -150,9 +155,13 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
               className="shrink-0 flex cursor-pointer items-center justify-center gap-1.5 self-center rounded-2xl border border-white/5 bg-surface-deep px-4 py-2 text-xs font-medium text-zinc-400 hover:bg-surface-hover"
             >
               {showAll ? (
-                <><CaretUp size={14} /> Weniger anzeigen</>
+                <>
+                  <CaretUp size={14} /> Weniger anzeigen
+                </>
               ) : (
-                <><CaretDown size={14} /> {hiddenCount} weitere anzeigen</>
+                <>
+                  <CaretDown size={14} /> {hiddenCount} weitere anzeigen
+                </>
               )}
             </button>
           )}
@@ -192,19 +201,37 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
               type="button"
               className="flex size-12 shrink-0 items-center justify-center rounded-full bg-surface-hover text-white border-none cursor-pointer transition-colors hover:bg-surface-raised"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
-                <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+                <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
               </svg>
             </button>
             <button
               type="button"
               className="flex size-12 shrink-0 items-center justify-center rounded-full bg-surface-hover text-white border-none cursor-pointer transition-colors hover:bg-surface-raised"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                <line x1="8" y1="21" x2="16" y2="21"/>
-                <line x1="12" y1="17" x2="12" y2="21"/>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                <line x1="8" y1="21" x2="16" y2="21" />
+                <line x1="12" y1="17" x2="12" y2="21" />
               </svg>
             </button>
             <button
@@ -221,9 +248,12 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
       {/* Connected elsewhere */}
       {connectedElsewhere && (
         <div className="absolute flex items-center gap-2 bottom-4 left-1/2 -translate-x-1/2 rounded-2xl border border-white/5 bg-surface-deep px-4 py-2 shadow-[0_8px_24px_rgba(0,0,0,0.5)]">
-          <SpeakerHigh weight="fill" className="size-4 text-[#8a38f5]" />
+          <SpeakerHigh weight="fill" className="size-4 text-accent" />
           <span className="text-xs text-zinc-400 whitespace-nowrap">
-            Verbunden mit <span className="text-zinc-200 font-medium">{connection.channelName}</span>
+            Verbunden mit{" "}
+            <span className="text-zinc-200 font-medium">
+              {connection.channelName}
+            </span>
           </span>
           <button
             onClick={disconnect}
@@ -255,7 +285,7 @@ function VoiceParticipantCard({ participant, isOwner }) {
     <div
       className={`flex flex-col items-center justify-center gap-3 rounded-2xl bg-surface-deep border aspect-square p-4 transition-all duration-200 ${
         isActiveSpeaker
-          ? "border-[#4ac263] shadow-[0_0_0_2px_rgba(74,194,99,0.3)]"
+          ? "border-green shadow-[0_0_0_2px_rgba(74,194,99,0.3)]"
           : "border-white/5"
       }`}
     >
@@ -271,7 +301,7 @@ function VoiceParticipantCard({ participant, isOwner }) {
         {isMuted ? (
           <MicrophoneSlash className="text-zinc-500 shrink-0" size={16} />
         ) : (
-          <div className="size-2 rounded-full bg-[#4ac263] shrink-0" />
+          <div className="size-2 rounded-full bg-green shrink-0" />
         )}
       </div>
     </div>

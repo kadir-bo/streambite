@@ -11,11 +11,7 @@ import {
 import { useLayout, useAuth } from "@/context";
 import { useFriends } from "@/hooks";
 import { ensureDm } from "@/lib";
-import {
-  HomeTopbar,
-  Avatar,
-  DmRow,
-} from "@/components";
+import { HomeTopbar, Avatar, DmRow } from "@/components";
 
 export default function ChannelsHomePage() {
   const { friends } = useFriends();
@@ -42,7 +38,8 @@ export default function ChannelsHomePage() {
 
   const onlineFriends = useMemo(() => {
     return sortedFriends.filter(
-      (f) => f.status === "online" || f.status === "busy" || f.status === "idle"
+      (f) =>
+        f.status === "online" || f.status === "busy" || f.status === "idle",
     );
   }, [sortedFriends]);
 
@@ -50,7 +47,7 @@ export default function ChannelsHomePage() {
     const q = search.trim().toLowerCase();
     if (!q) return sortedFriends;
     return sortedFriends.filter((f) =>
-      (f.displayName ?? "").toLowerCase().includes(q)
+      (f.displayName ?? "").toLowerCase().includes(q),
     );
   }, [sortedFriends, search]);
 
@@ -128,13 +125,13 @@ export default function ChannelsHomePage() {
                       />
                     </div>
                     <span
-                      className="absolute bottom-1 right-1 size-3 rounded-full border-2 border-[#1c1c28]"
+                      className="absolute bottom-1 right-1 size-3 rounded-full border-2 border-surface-hover"
                       style={{
                         background:
                           friend.status === "online"
                             ? "#4ac263"
                             : friend.status === "busy"
-                              ? "#f59e0b"
+                              ? "#f5340b"
                               : "#686868",
                       }}
                     />
@@ -161,13 +158,13 @@ export default function ChannelsHomePage() {
                     size="lg"
                   />
                   <span
-                    className="absolute bottom-0 right-0 size-2.5 rounded-full border-2 border-[#030309]"
+                    className="absolute bottom-0 right-0 size-2.5 rounded-full border-2 border-surface-app"
                     style={{
                       background:
                         friend.status === "online"
                           ? "#4ac263"
                           : friend.status === "busy"
-                            ? "#f59e0b"
+                            ? "#f5340b"
                             : "#686868",
                     }}
                   />

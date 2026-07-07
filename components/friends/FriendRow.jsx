@@ -5,15 +5,8 @@ import { useRouter } from "next/navigation";
 import { ChatCircleText } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import { useFriendActions, useLongPress } from "@/hooks";
-import { ensureDm } from "@/lib";
+import { ensureDm, STATUS_LABELS } from "@/lib";
 import { Avatar, IconBtn, DotMenu, ContextMenu } from "@/components";
-
-const STATUS_LABELS = {
-  online: "Online",
-  busy: "Beschäftigt",
-  idle: "Abwesend",
-  offline: "Offline",
-};
 
 export default function FriendRow({ user }) {
   const { firebaseUser } = useAuth();

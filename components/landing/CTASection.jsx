@@ -12,12 +12,12 @@ export default function CTASection() {
     <section className="relative py-28 md:py-36 overflow-hidden">
       {/* Tiefe Hintergrund-Atmosphäre */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/3 left-1/3 size-[700px] bg-(--accent) opacity-[0.03] rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 size-[500px] bg-indigo-500 opacity-[0.02] rounded-full blur-3xl" />
+        <div className="absolute top-1/3 left-1/3 size-175 bg-(--accent) opacity-[0.03] rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 size-125 bg-indigo-500 opacity-[0.02] rounded-full blur-3xl" />
       </div>
 
       {/* Subtiler oberer Trenner */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-linear-to-r from-transparent via-white/6 to-transparent" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-6">
         <motion.div

@@ -2,7 +2,12 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "motion/react";
-import { LockSimple, ShieldCheck, StackSimple, EyeSlash } from "@phosphor-icons/react";
+import {
+  LockSimple,
+  ShieldCheck,
+  StackSimple,
+  EyeSlash,
+} from "@phosphor-icons/react";
 import { motionTokens } from "@/lib/motion-tokens";
 import { Card } from "@/components";
 
@@ -40,7 +45,7 @@ export default function SecuritySection() {
   return (
     <section
       ref={ref}
-      className="border-t border-white/[0.06] py-24 md:py-32 bg-[#1c1b1d]/20"
+      className="border-t border-white/6 py-24 md:py-32 bg-[#1c1b1d]/20"
     >
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-14">

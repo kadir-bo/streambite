@@ -71,10 +71,12 @@ export default function MemberRow({ member, isOffline, serverId, canManage }) {
           size="md"
           status={isOffline ? "offline" : (member.status ?? "online")}
         />
-        <span className="text-sm font-medium text-zinc-400 truncate flex-1">
-          {member.displayName ?? "Nutzer"}
-        </span>
-        <RoleBadge roles={member.roles} />
+        <div className="flex flex-col">
+          <RoleBadge roles={member.roles} />
+          <span className="text-sm font-medium text-zinc-400 truncate flex-1">
+            {member.displayName ?? "Nutzer"}
+          </span>
+        </div>
         {canManage && !isOwner && <DotMenu onClick={openMenu} />}
       </div>
 

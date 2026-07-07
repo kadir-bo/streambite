@@ -44,9 +44,9 @@ export default function Card({
         "group transition-all duration-300",
         isHorizontal &&
           "flex gap-4 rounded-2xl border border-white/6 bg-white/2 p-5 hover:border-(--accent)/20 hover:bg-white/4",
-        isCenter &&
-          "flex flex-col items-center gap-3",
-        !isHorizontal && !isCenter &&
+        isCenter && "flex flex-col items-center gap-3",
+        !isHorizontal &&
+          !isCenter &&
           "rounded-2xl border border-white/6 bg-white/3 p-6 hover:border-(--accent)/30 hover:bg-white/6",
         className,
       )}
@@ -61,8 +61,9 @@ export default function Card({
             isHorizontal &&
               "size-10 rounded-xl bg-(--accent)/10 shrink-0 mt-0.5",
             isCenter &&
-              "size-12 rounded-2xl bg-gradient-to-br from-(--accent)/15 to-(--accent)/5 border border-(--accent)/10 group-hover:border-(--accent)/25 group-hover:from-(--accent)/20 group-hover:to-(--accent)/10 transition-all duration-300",
-            !isHorizontal && !isCenter &&
+              "size-12 rounded-2xl bg-linear-to-br from-(--accent)/15 to-(--accent)/5 border border-(--accent)/10 group-hover:border-(--accent)/25 group-hover:from-(--accent)/20 group-hover:to-(--accent)/10 transition-all duration-300",
+            !isHorizontal &&
+              !isCenter &&
               "size-11 rounded-xl bg-(--accent)/10 mb-4",
           )}
         >
@@ -95,7 +96,9 @@ export default function Card({
             {title}
           </h3>
           {description && (
-            <p className="text-sm text-zinc-400 leading-relaxed">{description}</p>
+            <p className="text-sm text-zinc-400 leading-relaxed">
+              {description}
+            </p>
           )}
         </div>
       )}

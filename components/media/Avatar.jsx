@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getInitials, cn } from "@/lib";
+import { getInitials, cn, STATUS_COLORS } from "@/lib";
 
 const sizes = {
   xs: { size: 20, font: "10px" },
@@ -22,13 +22,6 @@ export default function Avatar({ src, name, size = "md", status, className }) {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setFailed(false);
   }, [src]);
-
-  const STATUS_COLORS = {
-    online: "#22c55e",
-    busy: "#f59e0b",
-    idle: "#f59e0b",
-    offline: "#3f3f46",
-  };
 
   const statusDot = status && (
     <span

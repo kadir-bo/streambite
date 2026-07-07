@@ -11,15 +11,12 @@ import {
   ReAuthRequiredError,
   logoutUser,
 } from "@/lib";
-import {
-  Avatar,
-  ConfirmModal,
-} from "@/components";
+import { Avatar, ConfirmModal } from "@/components";
 
 const STATUS_OPTIONS = [
   { value: "online", label: "Online", color: "#4ac263" },
-  { value: "busy", label: "Beschäftigt", color: "#f59e0b" },
-  { value: "idle", label: "Abwesend", color: "#f59e0b" },
+  { value: "busy", label: "Beschäftigt", color: "#f5340b" },
+  { value: "idle", label: "Abwesend", color: "#f5340b" },
   { value: "offline", label: "Offline", color: "#686868" },
 ];
 
@@ -60,7 +57,9 @@ export default function ProfileSettings({ open }) {
     }
     const uname = username.trim();
     if (uname && !/^[a-zA-Z0-9_]{3,20}$/.test(uname)) {
-      setError("Benutzername: 3–20 Zeichen, nur Buchstaben, Zahlen und Unterstriche");
+      setError(
+        "Benutzername: 3–20 Zeichen, nur Buchstaben, Zahlen und Unterstriche",
+      );
       return;
     }
     setError("");
@@ -70,7 +69,10 @@ export default function ProfileSettings({ open }) {
       if (uname && uname !== userDoc?.username) {
         await setUsername(firebaseUser.uid, uname);
       }
-      if (name !== (userDoc?.displayName ?? "") || status !== (userDoc?.status ?? "online")) {
+      if (
+        name !== (userDoc?.displayName ?? "") ||
+        status !== (userDoc?.status ?? "online")
+      ) {
         await updateUserDocument(firebaseUser.uid, updates);
       }
     } catch (err) {
@@ -135,7 +137,9 @@ export default function ProfileSettings({ open }) {
             onClick={() => setStatusDropdownOpen((v) => !v)}
             className="w-full flex items-center justify-between rounded-xl bg-surface-hover border border-white/5 px-4 py-3 text-left cursor-pointer"
           >
-            <span className="text-[15px] text-white">{selectedStatus?.label}</span>
+            <span className="text-[15px] text-white">
+              {selectedStatus?.label}
+            </span>
             <CaretDown className="text-zinc-400 transition-transform" />
           </button>
           {statusDropdownOpen && (
@@ -150,7 +154,10 @@ export default function ProfileSettings({ open }) {
                   }}
                   className="w-full flex items-center gap-3 px-4 py-3 text-left cursor-pointer border-none"
                 >
-                  <span className="size-2 rounded-full" style={{ backgroundColor: opt.color }} />
+                  <span
+                    className="size-2 rounded-full"
+                    style={{ backgroundColor: opt.color }}
+                  />
                   <span className="text-[15px]">{opt.label}</span>
                 </button>
               ))}
@@ -161,11 +168,15 @@ export default function ProfileSettings({ open }) {
 
       {/* Persönliche Daten */}
       <div>
-        <h3 className="text-base font-bold text-white mb-3">Persönliche Daten</h3>
+        <h3 className="text-base font-bold text-white mb-3">
+          Persönliche Daten
+        </h3>
         <div className="flex flex-col gap-4">
           {/* Benutzername */}
           <div>
-            <label className="block text-xs text-zinc-500 mb-1.5">Benutzername</label>
+            <label className="block text-xs text-zinc-500 mb-1.5">
+              Benutzername
+            </label>
             <input
               type="text"
               value={username}
@@ -173,13 +184,15 @@ export default function ProfileSettings({ open }) {
               maxLength={20}
               minLength={3}
               placeholder="benutzername"
-              className="w-full rounded-xl bg-surface-hover border border-white/5 px-4 py-3 text-[15px] text-white outline-none placeholder:text-zinc-600 focus:border-[#8a38f5]/50"
+              className="w-full rounded-xl bg-surface-hover border border-white/5 px-4 py-3 text-[15px] text-white outline-none placeholder:text-zinc-600 focus:border-accent/50"
             />
           </div>
 
           {/* E-Mail */}
           <div>
-            <label className="block text-xs text-zinc-500 mb-1.5">E-Mail Adresse</label>
+            <label className="block text-xs text-zinc-500 mb-1.5">
+              E-Mail Adresse
+            </label>
             <input
               type="email"
               value={firebaseUser?.email ?? ""}
@@ -192,9 +205,7 @@ export default function ProfileSettings({ open }) {
 
       {/* Mitglied seit */}
       {memberSince && (
-        <p className="text-sm text-zinc-500">
-          Mitglied seit {memberSince}
-        </p>
+        <p className="text-sm text-zinc-500">Mitglied seit {memberSince}</p>
       )}
 
       {/* Error */}
@@ -219,7 +230,8 @@ export default function ProfileSettings({ open }) {
       <div className="mt-4">
         <h3 className="text-base font-bold text-white mb-2">Account Löschen</h3>
         <p className="text-sm text-zinc-500 mb-4">
-          Um Ihren Account unwiderruflich zu löschen können Sie auf den nachfolgenden Button klicken.
+          Um Ihren Account unwiderruflich zu löschen können Sie auf den
+          nachfolgenden Button klicken.
         </p>
         <button
           type="button"
@@ -249,10 +261,13 @@ export default function ProfileSettings({ open }) {
         <div className="rounded-xl border border-red-500 bg-red-500/10 p-4">
           <div className="flex items-center gap-2 mb-2">
             <Key className="text-red-500 shrink-0 text-lg" />
-            <span className="text-sm font-semibold text-red-500">Passwort bestätigen</span>
+            <span className="text-sm font-semibold text-red-500">
+              Passwort bestätigen
+            </span>
           </div>
           <p className="text-xs text-zinc-400 mb-3 leading-relaxed">
-            Aus Sicherheitsgründen musst du dein Passwort erneut eingeben, um den Account zu löschen.
+            Aus Sicherheitsgründen musst du dein Passwort erneut eingeben, um
+            den Account zu löschen.
           </p>
           <div className="flex flex-col gap-2">
             <input

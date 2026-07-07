@@ -145,7 +145,7 @@ export default function ProductShowcase() {
           </div>
 
           {/* App-Inhalt – Sidebar + Chat */}
-          <div className="flex h-[420px] md:h-[520px] bg-zinc-950">
+          <div className="flex h-105 md:h-130 bg-zinc-950">
             {/* Server-Rail */}
             <div className="w-16 md:w-18 bg-zinc-950 flex flex-col items-center gap-2 py-3 border-r border-white/5">
               <div className="size-10 rounded-2xl bg-(--accent) flex items-center justify-center text-white text-sm font-bold">

@@ -32,14 +32,17 @@ export default function StepCard({ step, index = 0, total = 4 }) {
         <motion.div
           whileHover={{ scale: motionTokens.scale.pop }}
           transition={springs.bouncy}
-          className="size-16 rounded-2xl bg-gradient-to-br from-(--accent)/20 to-(--accent)/5 border border-(--accent)/20 flex items-center justify-center group-hover:border-(--accent)/40 group-hover:from-(--accent)/30 group-hover:to-(--accent)/10 transition-all duration-300"
+          className="size-16 rounded-2xl bg-linear-to-br from-(--accent)/20 to-(--accent)/5 border border-(--accent)/20 flex items-center justify-center group-hover:border-(--accent)/40 group-hover:from-(--accent)/30 group-hover:to-(--accent)/10 transition-all duration-300"
         >
           <Icon className="text-2xl text-(--accent)" weight="duotone" />
         </motion.div>
         <motion.div
           initial={{ scale: 0 }}
           animate={isInView ? { scale: 1 } : {}}
-          transition={{ ...springs.bouncy, delay: index * motionTokens.stagger.delay + 0.25 }}
+          transition={{
+            ...springs.bouncy,
+            delay: index * motionTokens.stagger.delay + 0.25,
+          }}
           className="absolute -top-1.5 -right-1.5 size-6 rounded-full bg-(--accent) text-white text-[11px] font-bold flex items-center justify-center shadow-lg shadow-(--accent)/30"
         >
           {step.number}
@@ -49,7 +52,7 @@ export default function StepCard({ step, index = 0, total = 4 }) {
       {/* Verbindungslinie */}
       {index < total - 1 && (
         <div className="hidden md:block absolute top-8 left-[calc(50%+2.5rem)] w-[calc(100%-5rem)] h-px">
-          <div className="w-full h-full bg-gradient-to-r from-(--accent)/30 to-transparent" />
+          <div className="w-full h-full bg-linear-to-r from-(--accent)/30 to-transparent" />
         </div>
       )}
 

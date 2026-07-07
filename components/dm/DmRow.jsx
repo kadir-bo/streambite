@@ -3,23 +3,9 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { ChatsCircle, ChatCircleText, XCircle } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
-import { subscribeToUser, ensureDm, closeDm, cn } from "@/lib";
+import { subscribeToUser, ensureDm, closeDm, cn, STATUS_COLORS, STATUS_LABELS } from "@/lib";
 import { useUnread, useFriendActions, useLongPress } from "@/hooks";
 import { Avatar, ContextMenu, DotMenu } from "@/components";
-
-const STATUS_LABELS = {
-  online: "Online",
-  busy: "Beschäftigt",
-  idle: "Abwesend",
-  offline: "Offline",
-};
-
-const STATUS_COLORS = {
-  online: "#4ac263",
-  busy: "#f59e0b",
-  idle: "#f59e0b",
-  offline: "#686868",
-};
 
 const MENU_WIDTH = 220;
 const MENU_GAP = 4;

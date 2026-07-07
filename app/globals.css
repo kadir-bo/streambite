@@ -14,9 +14,9 @@
   --surface-border: #323232;
 
   /* ACCENT (Purple — Figma Design) */
-  --accent: #261f2e;
-  --accent-hover: #3e3449;
-  --accent-subtle: rgba(56, 36, 82, 0.12);
+  --accent: #928bff;
+  --accent-hover: #958fe6;
+  --accent-subtle: #e0deffab;
 
   /* STATUS */
   --green: #4ac263;
@@ -24,7 +24,7 @@
   --red-subtle: rgba(125, 16, 33, 0.3);
 
   --state-hover: rgba(255, 255, 255, 0.04);
-  --warning: #f59e0b;
+  --warning: #f5340b;
   --warning-subtle: rgba(245, 158, 11, 0.1);
 
   /* TEXT */
@@ -59,7 +59,7 @@
   --color-red-subtle: rgba(125, 16, 33, 0.3);
 
   --color-state-hover: rgba(255, 255, 255, 0.04);
-  --color-warning: #f59e0b;
+  --color-warning: #f5340b;
   --color-warning-subtle: rgba(245, 158, 11, 0.1);
 
   /* TEXT */

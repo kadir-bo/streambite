@@ -3,14 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context";
-import { ensureDm } from "@/lib";
+import { ensureDm, STATUS_LABELS } from "@/lib";
 import { Avatar } from "@/components";
-
-const STATUS_LABELS = {
-  online: "Online",
-  busy: "Beschäftigt",
-  idle: "Abwesend",
-};
 
 export default function ActiveFriendRow({ friend }) {
   const { firebaseUser } = useAuth();
