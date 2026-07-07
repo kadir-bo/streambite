@@ -9,7 +9,7 @@ import {
 import { useAuth } from "@/context";
 import { subscribeToUser, ensureDm, closeDm } from "@/lib";
 import { useUnread, useFriendActions, useIsDesktop, useLongPress } from "@/hooks";
-import { NavRow, Avatar, ContextMenu, DotMenu } from "@/components";
+import { Avatar, ContextMenu, DotMenu } from "@/components";
 
 export default function DmRow({ dm, otherUid, active }) {
   const { firebaseUser } = useAuth();
@@ -43,7 +43,6 @@ export default function DmRow({ dm, otherUid, active }) {
   function openMenu(e) {
     e.preventDefault();
     e.stopPropagation();
-    // Card-Rand statt DotMenu-Position: rechtsbündig am NavRow
     const row = rowRef.current?.querySelector("a");
     const rect = (row ?? e.currentTarget).getBoundingClientRect();
     const menuWidth = 220;
@@ -71,6 +70,13 @@ export default function DmRow({ dm, otherUid, active }) {
     },
   ];
 
+  const STATUS_LABELS = {
+    online: "Online",
+    busy: "Beschäftigt",
+    idle: "Abwesend",
+    offline: "Offline",
+  };
+
   return (
     <div
       ref={rowRef}
@@ -87,36 +93,58 @@ export default function DmRow({ dm, otherUid, active }) {
         setMenuOpen(true);
       }}
     >
-      <NavRow
+      <a
         href={`/channels/dm/${dm.id}`}
-        active={active}
-        unread={isUnread(dm.id, dm.updatedAt)}
-        icon={
+        onClick={(e) => {
+          e.preventDefault();
+          openDm();
+        }}
+        className={`flex items-center gap-3 px-3 py-2.5 mx-2 rounded-xl no-underline transition-colors duration-100 ${
+          active
+            ? "bg-[#1c1c28]"
+            : "bg-transparent hover:bg-[#1c1c28]/50"
+        }`}
+      >
+        <div className="relative shrink-0">
           <Avatar
             src={user?.avatarUrl}
             name={user?.displayName ?? "?"}
-            size="sm"
-            status={user?.status}
+            size="lg"
           />
-        }
-        label={user?.displayName ?? "..."}
-      >
-        {/* Mobile: Letzte Nachricht unter dem Namen, DotMenu rechts */}
-        {/* Desktop: Letzte Nachricht + DotMenu in einer Zeile */}
-        {dm.lastMessage && (
-          <div className="flex items-center gap-1 relative max-sm:mt-0.5">
-            <span className="truncate flex-1 text-xs text-zinc-500">
-              {dm.lastMessage.content ? (
-                <span className="truncate">{dm.lastMessage.content}</span>
-              ) : (
-                <ChatsCircle size={12} className="inline align-middle shrink-0" />
+          <span
+            className="absolute bottom-0 right-0 size-2.5 rounded-full border-2 border-[#05050b]"
+            style={{
+              background:
+                user?.status === "online"
+                  ? "#4ac263"
+                  : user?.status === "busy"
+                    ? "#f59e0b"
+                    : "#686868",
+            }}
+          />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className={`text-[15px] truncate ${
+            active || isUnread(dm.id, dm.updatedAt)
+              ? "text-white font-semibold"
+              : "text-zinc-300 font-medium"
+          }`}>
+            {user?.displayName ?? "..."}
+          </p>
+          {dm.lastMessage ? (
+            <p className="truncate text-xs text-zinc-500">
+              {dm.lastMessage.content || (
+                <ChatsCircle size={12} className="inline align-middle" />
               )}
-            </span>
-          </div>
-        )}
-      </NavRow>
+            </p>
+          ) : (
+            <p className="truncate text-xs text-zinc-500">
+              {STATUS_LABELS[user?.status] ?? "Offline"}
+            </p>
+          )}
+        </div>
+      </a>
 
-      {/* DotMenu außerhalb des NavRow-Contents, absolut rechts positioniert */}
       <div className={isDesktop ? "absolute right-2 top-1/2 -translate-y-1/2" : "absolute right-4 bottom-2 z-10"}>
         <DotMenu
           onClick={openMenu}

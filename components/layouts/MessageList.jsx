@@ -60,7 +60,7 @@ export default function MessageList({ serverId, channelId, channel, dmUser, onRe
   }, [messages.length]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="flex-1 flex flex-col min-h-0 relative">
+    <div className="flex-1 flex flex-col min-h-0 relative bg-[#030309]">
       <div
         ref={containerRef}
         onScroll={handleScroll}
@@ -68,7 +68,7 @@ export default function MessageList({ serverId, channelId, channel, dmUser, onRe
       >
         {loading ? (
           <div className="flex-1 flex items-center justify-center">
-            <span className="size-6 rounded-full border-2 border-white/10 border-t-zinc-500 [animation:spin_0.7s_linear_infinite] block" />
+            <span className="size-6 rounded-full border-2 border-white/10 border-t-[#8a38f5] [animation:spin_0.7s_linear_infinite] block" />
           </div>
         ) : messages.length === 0 ? (
           <div className="flex-1 flex flex-col justify-end">
@@ -103,7 +103,7 @@ export default function MessageList({ serverId, channelId, channel, dmUser, onRe
             exit={{ opacity: 0, y: 8, scale: 0.9 }}
             transition={{ duration: 0.15 }}
             onClick={() => { scrollToBottom('smooth'); setShowNewMsg(false) }}
-            className="absolute bottom-4 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-zinc-700 border border-white/10 rounded-[9999px] text-sm font-medium text-zinc-100 shadow-[0_8px_24px_rgba(0,0,0,0.5)] cursor-pointer whitespace-nowrap"
+            className="absolute bottom-4 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 px-4 py-2 bg-[#1c1c28] border border-white/10 rounded-full text-sm font-medium text-white shadow-[0_8px_24px_rgba(0,0,0,0.5)] cursor-pointer whitespace-nowrap"
           >
             <ArrowDown weight="bold" />
             Neue Nachricht

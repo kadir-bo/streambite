@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Plus } from "@phosphor-icons/react";
+import { Plus, ChatCircleText } from "@phosphor-icons/react";
 import { useAuth, useLayout, useServer } from "@/context";
 import {
   RailButton,
@@ -22,7 +22,7 @@ export default function ServerRail({ onOpenCreate }) {
   const pendingInvites = userDoc?.pendingInvites ?? [];
 
   return (
-    <div className="flex w-max shrink-0 flex-col items-stretch overflow-y-auto overflow-x-hidden bg-zinc-950 pt-2 pb-2 border-r border-white/5">
+    <div className="flex w-max shrink-0 flex-col items-center gap-2 overflow-y-auto overflow-x-hidden bg-[#05050b] py-3 px-1.5">
       <RailButton
         onClick={() => {
           router.push("/channels");
@@ -31,13 +31,11 @@ export default function ServerRail({ onOpenCreate }) {
         active={isDM}
         tooltip="Direktnachrichten"
       >
-        <Logo
-          variant="icon"
-          className={`h-5 w-5 ${isDM ? "opacity-100" : "opacity-50"}`}
+        <ChatCircleText
+          weight={isDM ? "fill" : "regular"}
+          className={`h-6 w-6 ${isDM ? "text-[#8a38f5]" : "text-zinc-500"}`}
         />
       </RailButton>
-
-      <div className="mx-auto my-1 h-px w-6 shrink-0 bg-white/10" />
 
       {servers.map((server) => (
         <RailButton
@@ -64,7 +62,7 @@ export default function ServerRail({ onOpenCreate }) {
       >
         <Plus
           weight="bold"
-          className="text-zinc-500 text-sm md:text-base"
+          className="text-zinc-500 text-lg"
         />
       </RailButton>
 

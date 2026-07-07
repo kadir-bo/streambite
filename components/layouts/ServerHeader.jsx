@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { CaretDown, GearSix, UserPlus, SignOut } from "@phosphor-icons/react";
+import { CaretDown, GearSix, UserPlus, SignOut, UsersThree } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import { leaveServer } from "@/lib";
 import { ContextMenu, ServerIcon } from "@/components";
@@ -20,8 +20,6 @@ export default function ServerHeader({
   const { firebaseUser } = useAuth();
   const router = useRouter();
 
-  // Measured (not hardcoded) so the dropdown always matches the channel
-  // column's actual rendered width, even if that width changes elsewhere later.
   function openMenu(e) {
     const rect = e.currentTarget.getBoundingClientRect();
     setMenuPos({ x: rect.left, y: rect.bottom + 4 });
@@ -61,19 +59,41 @@ export default function ServerHeader({
 
   return (
     <>
-      <button
-        {...longPress.handlers}
-        onClick={openMenu}
-        className="flex h-full w-full cursor-pointer items-center gap-2 bg-transparent px-3 border-none hover:bg-white/5"
-      >
-        <div className="size-10 shrink-0 overflow-hidden flex items-center justify-center bg-zinc-800 rounded-full">
-          <ServerIcon name={server?.name} iconUrl={server?.iconUrl} size={34} />
-        </div>
-        <span className="min-w-0 truncate text-sm font-semibold text-zinc-100">
-          {server?.name ?? "..."}
-        </span>
-        <CaretDown className="ml-auto shrink-0 text-zinc-500 text-sm md:text-base" />
-      </button>
+      <div className="flex h-full items-center justify-between px-4">
+        {/* Left: Gear icon (owner only) */}
+        {isOwner ? (
+          <button
+            onClick={onOpenSettings}
+            title="Servereinstellungen"
+            className="flex items-center justify-center size-10 rounded-full border-none bg-[#1c1c28] text-zinc-400 cursor-pointer transition-colors hover:text-white"
+          >
+            <GearSix weight="regular" className="text-xl" />
+          </button>
+        ) : (
+          <div className="size-10" />
+        )}
+
+        {/* Center: Server name with chevron */}
+        <button
+          {...longPress.handlers}
+          onClick={openMenu}
+          className="flex items-center gap-2 border-none bg-transparent cursor-pointer"
+        >
+          <span className="text-lg font-bold text-white">
+            {server?.name ?? "..."}
+          </span>
+          <CaretDown className="text-zinc-400 text-sm" />
+        </button>
+
+        {/* Right: People icon */}
+        <button
+          onClick={onOpenInvite}
+          title="Mitglieder"
+          className="flex items-center justify-center size-10 rounded-full border-none bg-[#1c1c28] text-zinc-400 cursor-pointer transition-colors hover:text-white"
+        >
+          <UsersThree weight="regular" className="text-xl" />
+        </button>
+      </div>
 
       <ContextMenu
         open={menuOpen}

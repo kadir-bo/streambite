@@ -22,23 +22,23 @@ export default function ChannelHeader({
   const { screenShare, toggleScreenShare } = useVoice();
 
   return (
-    <Topbar className="gap-2 px-4">
+    <Topbar className="gap-3 px-4">
       <IconBtn
         icon={CaretLeft}
         onClick={showList}
         title="Zurück"
         size="xl"
         mobileOnly
-        className="bg-zinc-800!"
+        className="bg-[#1c1c28]!"
       />
 
-      <div className="flex items-center gap-1.5 flex-1 min-w-0">
+      <div className="flex items-center gap-2 flex-1 min-w-0">
         <Icon
           weight="regular"
-          className="text-zinc-500 shrink-0 text-sm md:text-"
+          className="text-zinc-500 shrink-0 text-base"
         />
         <div className="flex flex-col md:flex-row gap-0 md:gap-2 items-start">
-          <span className="text-base font-semibold text-zinc-100 truncate">
+          <span className="text-lg font-semibold text-white truncate">
             {channel?.name ?? "..."}
           </span>
 
@@ -50,8 +50,8 @@ export default function ChannelHeader({
         </div>
       </div>
 
-      <div className="flex items-center gap-0.5 shrink-0">
-        {/* Screen-Share-Indikator: sichtbar wenn aktiv gestreamt wird */}
+      <div className="flex items-center gap-2 shrink-0">
+        {/* Screen-Share-Indikator */}
         {screenShare && (
           <IconBtn
             icon={MonitorPlay}
@@ -59,17 +59,22 @@ export default function ChannelHeader({
             title="Bildschirmfreigabe beenden"
             size="xl"
             variant="active"
-            className="bg-(--accent) !text-white"
+            className="bg-[#1c1c28] !text-white"
           />
         )}
 
-        <IconBtn
-          icon={UsersThree}
+        <button
+          type="button"
           onClick={onToggleMembers}
           title="Mitglieder"
-          size="xl"
-          variant={showMembers ? "active" : "ghost"}
-        />
+          className={`flex items-center justify-center size-10 rounded-full border-none cursor-pointer transition-all duration-150 ${
+            showMembers
+              ? "bg-[#1c1c28] text-white"
+              : "bg-transparent text-zinc-400 hover:bg-[#1c1c28] hover:text-white"
+          }`}
+        >
+          <UsersThree weight="regular" className="text-xl" />
+        </button>
       </div>
     </Topbar>
   );

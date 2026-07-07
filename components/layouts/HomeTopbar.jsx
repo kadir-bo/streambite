@@ -2,8 +2,7 @@
 
 import { useState, useRef } from "react";
 import {
-  UsersThree,
-  BellSimple,
+  MagnifyingGlass,
   UserPlus,
   CaretLeft,
 } from "@phosphor-icons/react";
@@ -34,76 +33,44 @@ export default function HomeTopbar() {
     setInboxOpen((v) => !v);
   }
 
-  function toggleActiveNow() {
-    setActiveNowSidebar((prev) => !prev);
-  }
-
   return (
     <>
-      <Topbar className="justify-between gap-2 px-2 sm:px-4">
-        <div className="flex min-w-0 items-center gap-2 sm:gap-3.5">
+      <Topbar className="justify-between gap-2 px-4">
+        {/* Left: Search icon (mobile back) */}
+        <div className="flex min-w-0 items-center gap-3">
           <IconBtn
             icon={CaretLeft}
             onClick={showList}
             title="Zurück"
             size="xl"
             mobileOnly
-            className="bg-zinc-800!"
+            className="bg-[#1c1c28]!"
           />
-
-          <div className="hidden items-center gap-2 sm:flex">
-            <UsersThree
-              weight="fill"
-              className="text-zinc-500 text-xl md:text-lg"
-            />
-            <span className="text-(--text-base) font-semibold">
-              Freunde
-            </span>
-          </div>
-
-          <div className="hidden h-4.5 w-px bg-white/10 sm:block" />
-
           <button
-            onClick={() => setAddOpen(true)}
-            className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-[8px] border-none bg-(--accent) px-2.5 sm:px-3 py-3 md:py-1.5 text-sm font-semibold text-white transition-colors duration-150 hover:bg-(--accent-hover)"
+            type="button"
+            title="Suche"
+            className="flex items-center justify-center size-10 rounded-full border-none bg-[#1c1c28] text-zinc-400 cursor-pointer transition-colors hover:text-white hidden md:flex"
           >
-            <UserPlus className="text-lg md:text-md sm:hidden" />
-            Freund hinzufügen
+            <MagnifyingGlass weight="regular" className="text-xl" />
           </button>
         </div>
 
-        <div className="flex items-center gap-2">
-          <div ref={inboxBtnRef} className="relative">
-            <IconBtn
-              icon={BellSimple}
-              onClick={(e) => {
-                e.stopPropagation();
-                toggleInbox();
-              }}
-              title="Posteingang"
-              size="xl"
-              variant={inboxOpen ? "active" : "ghost"}
-              iconWeight={totalNotifications > 0 ? "fill" : "regular"}
-            />
-            <Badge count={totalNotifications} />
-          </div>
-          <IconBtn
-            icon={UsersThree}
-            onClick={toggleActiveNow}
-            title="Aktive Freunde"
-            size="xl"
-            variant={activeNowSidebar ? "active" : "ghost"}
-            desktopOnly
-          />
-        </div>
+        {/* Center: "Nachrichten" title */}
+        <span className="text-lg font-bold text-white">
+          Nachrichten
+        </span>
+
+        {/* Right: Add friend */}
+        <button
+          type="button"
+          onClick={() => setAddOpen(true)}
+          title="Freund hinzufügen"
+          className="flex items-center justify-center size-10 rounded-full border-none bg-[#1c1c28] text-zinc-400 cursor-pointer transition-colors hover:text-white"
+        >
+          <UserPlus weight="regular" className="text-xl" />
+        </button>
       </Topbar>
 
-      <IncomingRequestsPopover
-        open={inboxOpen}
-        onClose={() => setInboxOpen(false)}
-        anchorRect={anchorRect}
-        pendingInvites={pendingInvites}
-      />
       <AddFriendModal open={addOpen} onClose={() => setAddOpen(false)} />
     </>
   );

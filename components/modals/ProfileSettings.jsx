@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Warning, Key } from "@phosphor-icons/react";
+import { Warning, Key, CaretDown } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import {
   updateUserDocument,
@@ -12,19 +12,15 @@ import {
   logoutUser,
 } from "@/lib";
 import {
-  Input,
-  Select,
-  Button,
   Avatar,
-  SectionLabel,
   ConfirmModal,
 } from "@/components";
 
 const STATUS_OPTIONS = [
-  { value: "online", label: "Online", color: "#22c55e" },
+  { value: "online", label: "Online", color: "#4ac263" },
   { value: "busy", label: "Beschäftigt", color: "#f59e0b" },
   { value: "idle", label: "Abwesend", color: "#f59e0b" },
-  { value: "offline", label: "Offline", color: "#3f3f46" },
+  { value: "offline", label: "Offline", color: "#686868" },
 ];
 
 export default function ProfileSettings({ open }) {
@@ -33,26 +29,20 @@ export default function ProfileSettings({ open }) {
   const [username, setUsernameState] = useState(userDoc?.username ?? "");
   const [status, setStatus] = useState(userDoc?.status ?? "online");
   const [saving, setSaving] = useState(false);
-  const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [error, setError] = useState("");
-  const [avatarPreview, setAvatarPreview] = useState(null);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState("");
   const [reauthEmail, setReauthEmail] = useState(null);
   const [reauthPassword, setReauthPassword] = useState("");
   const [reauthSaving, setReauthSaving] = useState(false);
+  const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
 
-  // userDoc loads after this modal's first mount (it lives in the always-on
-  // sidebar), so re-sync the form fields whenever the modal is opened rather
-  // than relying on the initial useState value.
   useEffect(() => {
     if (open) {
-      /* eslint-disable react-hooks/set-state-in-effect */
       setDisplayName(userDoc?.displayName ?? "");
       setUsernameState(userDoc?.username ?? "");
       setStatus(userDoc?.status ?? "online");
-      /* eslint-enable react-hooks/set-state-in-effect */
     }
   }, [open, userDoc?.displayName, userDoc?.username, userDoc?.status]);
 
@@ -70,9 +60,7 @@ export default function ProfileSettings({ open }) {
     }
     const uname = username.trim();
     if (uname && !/^[a-zA-Z0-9_]{3,20}$/.test(uname)) {
-      setError(
-        "Benutzername: 3–20 Zeichen, nur Buchstaben, Zahlen und Unterstriche",
-      );
+      setError("Benutzername: 3–20 Zeichen, nur Buchstaben, Zahlen und Unterstriche");
       return;
     }
     setError("");
@@ -82,10 +70,7 @@ export default function ProfileSettings({ open }) {
       if (uname && uname !== userDoc?.username) {
         await setUsername(firebaseUser.uid, uname);
       }
-      if (
-        name !== (userDoc?.displayName ?? "") ||
-        status !== (userDoc?.status ?? "online")
-      ) {
+      if (name !== (userDoc?.displayName ?? "") || status !== (userDoc?.status ?? "online")) {
         await updateUserDocument(firebaseUser.uid, updates);
       }
     } catch (err) {
@@ -122,8 +107,7 @@ export default function ProfileSettings({ open }) {
       await logoutUser();
     } catch (err) {
       setDeleteError(
-        err?.message === "Firebase: Error (auth/invalid-credential)." ||
-          err?.message?.includes("invalid-credential")
+        err?.message?.includes("invalid-credential")
           ? "Falsches Passwort. Versuche es erneut."
           : err?.message || "Fehler beim Löschen des Accounts",
       );
@@ -131,177 +115,124 @@ export default function ProfileSettings({ open }) {
     }
   }
 
-  const currentAvatar = avatarPreview ?? userDoc?.avatarUrl;
+  const selectedStatus = STATUS_OPTIONS.find((o) => o.value === status);
+  const memberSince = firebaseUser?.metadata?.creationTime
+    ? new Date(firebaseUser.metadata.creationTime).toLocaleDateString("de-DE", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      })
+    : null;
 
   return (
-    <form onSubmit={handleSave} className="flex flex-col gap-5">
-      {/* Avatar section */}
-      <div className="flex items-center gap-4">
-        <div className="relative shrink-0">
-          <Avatar
-            src={currentAvatar}
-            name={displayName || userDoc?.displayName || "?"}
-            size="xl"
-            status={status}
-          />
-        </div>
-        <div className="min-w-0">
-          <p className="text-sm font-semibold text-zinc-100 truncate">
-            {displayName || userDoc?.displayName || "-"}
-          </p>
-          <p className="text-xs text-zinc-500 font-mono">
-            {userDoc?.username
-              ? `${userDoc.username}#${userDoc.tag}`
-              : "Kein Benutzername"}
-          </p>
-          <p className="text-xs text-zinc-600 mt-0.5">
-            {firebaseUser?.email}
-          </p>
-          {userDoc?.avatarUrl && (
-            <button
-              type="button"
-              onClick={async () => {
-                setUploadingAvatar(true);
-                setError("");
-                try {
-                  await updateUserDocument(firebaseUser.uid, {
-                    avatarUrl: null,
-                  });
-                  setAvatarPreview(null);
-                } catch {
-                  setError("Fehler beim Entfernen des Bildes");
-                } finally {
-                  setUploadingAvatar(false);
-                }
-              }}
-              disabled={uploadingAvatar}
-              className="text-xs text-red-500 hover:text-red-600 bg-transparent border-none cursor-pointer p-0 mt-1 transition-colors"
-            >
-              Bild entfernen
-            </button>
-          )}
-        </div>
-      </div>
-
-      <div className="h-px bg-white/5" />
-
-      {/* Display name */}
+    <form onSubmit={handleSave} className="flex flex-col gap-6 max-w-lg">
+      {/* Sichtbarkeit */}
       <div>
-        <SectionLabel>Anzeigename</SectionLabel>
-        <Input
-          value={displayName}
-          onChange={(e) => setDisplayName(e.target.value)}
-          maxLength={32}
-          minLength={2}
-          placeholder="Dein Name"
-        />
-      </div>
-
-      {/* Username */}
-      <div>
-        <SectionLabel>Benutzername</SectionLabel>
-        <Input
-          value={username}
-          onChange={(e) => setUsernameState(e.target.value)}
-          maxLength={20}
-          minLength={3}
-          placeholder="benutzername"
-        />
-        <p className="text-xs text-zinc-500 mt-1">
-          3–20 Zeichen, nur Buchstaben, Zahlen und Unterstriche.
-          {userDoc?.username && userDoc?.tag && (
-            <span className="ml-1">
-              Aktuell:{" "}
-              <span className="font-mono">
-                {userDoc.username}#{userDoc.tag}
-              </span>
-            </span>
-          )}
-        </p>
-      </div>
-
-      {/* Status */}
-      <div>
-        <SectionLabel>Status</SectionLabel>
-        <div className="hidden md:grid grid-cols-2 gap-2 sm:grid-cols-4">
-          {STATUS_OPTIONS.map((opt) => {
-            const active = status === opt.value;
-            return (
-              <button
-                key={opt.value}
-                type="button"
-                onClick={() => setStatus(opt.value)}
-                className={`px-3 py-3 sm:px-1 sm:py-2.5 rounded-[8px] cursor-pointer flex flex-col items-center gap-1.5 sm:gap-1.25 transition-colors duration-120 min-h-12 sm:min-h-0 ${
-                  active
-                    ? "bg-white/10 border"
-                    : "bg-transparent border border-white/5"
-                }`}
-                style={active ? { borderColor: opt.color } : {}}
-              >
-                <span
-                  className="size-2.5 sm:size-2 rounded-full block"
-                  style={{ backgroundColor: opt.color }}
-                />
-                <span
-                  className={`text-xs sm:text-2xs text-center leading-tight ${
-                    active
-                      ? "text-zinc-100 font-semibold"
-                      : "text-zinc-500 font-normal"
+        <h3 className="text-base font-bold text-white mb-3">Sichtbarkeit</h3>
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => setStatusDropdownOpen((v) => !v)}
+            className="w-full flex items-center justify-between rounded-xl bg-[#1c1c28] border border-white/5 px-4 py-3 text-left cursor-pointer"
+          >
+            <span className="text-[15px] text-white">{selectedStatus?.label}</span>
+            <CaretDown className={`text-zinc-400 transition-transform ${statusDropdownOpen ? "rotate-180" : ""}`} />
+          </button>
+          {statusDropdownOpen && (
+            <div className="absolute top-full left-0 right-0 mt-1 rounded-xl bg-[#1c1c28] border border-white/5 overflow-hidden z-10">
+              {STATUS_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => {
+                    setStatus(opt.value);
+                    setStatusDropdownOpen(false);
+                  }}
+                  className={`w-full flex items-center gap-3 px-4 py-3 text-left cursor-pointer border-none ${
+                    status === opt.value
+                      ? "bg-white/10 text-white"
+                      : "bg-transparent text-zinc-400 hover:bg-white/5"
                   }`}
                 >
-                  {opt.label}
-                </span>
-              </button>
-            );
-          })}
+                  <span className="size-2 rounded-full" style={{ backgroundColor: opt.color }} />
+                  <span className="text-[15px]">{opt.label}</span>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
-      {/* DROP DOWN FOR MOBILE */}
-      <div className="md:hidden">
-        <Select value={status} onChange={(e) => setStatus(e.target.value)}>
-          {STATUS_OPTIONS.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </Select>
+
+      {/* Persönliche Daten */}
+      <div>
+        <h3 className="text-base font-bold text-white mb-3">Persönliche Daten</h3>
+        <div className="flex flex-col gap-4">
+          {/* Benutzername */}
+          <div>
+            <label className="block text-xs text-zinc-500 mb-1.5">Benutzername</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsernameState(e.target.value)}
+              maxLength={20}
+              minLength={3}
+              placeholder="benutzername"
+              className="w-full rounded-xl bg-[#1c1c28] border border-white/5 px-4 py-3 text-[15px] text-white outline-none placeholder:text-zinc-600 focus:border-[#8a38f5]/50"
+            />
+          </div>
+
+          {/* E-Mail */}
+          <div>
+            <label className="block text-xs text-zinc-500 mb-1.5">E-Mail Adresse</label>
+            <input
+              type="email"
+              value={firebaseUser?.email ?? ""}
+              disabled
+              className="w-full rounded-xl bg-[#1c1c28] border border-white/5 px-4 py-3 text-[15px] text-white outline-none opacity-60 cursor-not-allowed"
+            />
+          </div>
+        </div>
       </div>
 
+      {/* Mitglied seit */}
+      {memberSince && (
+        <p className="text-sm text-zinc-500">
+          Mitglied seit {memberSince}
+        </p>
+      )}
+
+      {/* Error */}
       {error && (
-        <p className="text-xs text-red-500 px-3 py-2 bg-red-500/10 rounded-[8px]">
+        <p className="text-xs text-red-500 px-3 py-2 bg-red-500/10 rounded-xl">
           {error}
         </p>
       )}
 
-      <Button
-        type="submit"
-        loading={saving}
-        disabled={!hasChanges || !displayName.trim()}
-      >
-        Änderungen speichern
-      </Button>
+      {/* Save button */}
+      {hasChanges && (
+        <button
+          type="submit"
+          disabled={saving || !displayName.trim()}
+          className="w-full rounded-xl bg-[#8a38f5] px-4 py-3 text-[15px] font-semibold text-white border-none cursor-pointer hover:bg-[#7a2de0] disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {saving ? "Speichern…" : "Änderungen speichern"}
+        </button>
+      )}
 
       {/* Account löschen */}
-      <div className="h-px bg-white/5 mt-4" />
-      <div className="rounded-[8px] border border-red-500 bg-red-500/10 p-4">
-        <div className="flex items-center gap-2 mb-2">
-          <Warning className="text-red-500 shrink-0 text-xl md:text-lg" />
-          <span className="text-sm font-semibold text-red-500">
-            Account löschen
-          </span>
-        </div>
-        <p className="text-xs text-zinc-400 mb-3 leading-relaxed">
-          Dein gesamtes Profil, alle Nachrichten und Server-Mitgliedschaften
-          werden unwiderruflich gelöscht. Dies kann nicht rückgängig gemacht
-          werden.
+      <div className="mt-4">
+        <h3 className="text-base font-bold text-white mb-2">Account Löschen</h3>
+        <p className="text-sm text-zinc-500 mb-4">
+          Um Ihren Account unwiderruflich zu löschen können Sie auf den nachfolgenden Button klicken.
         </p>
-        <Button
+        <button
           type="button"
-          variant="danger"
           onClick={() => setDeleteOpen(true)}
+          className="w-full flex items-center justify-between rounded-xl bg-[#7d1021] px-4 py-3 text-[15px] font-semibold text-white border-none cursor-pointer hover:bg-[#9a1a2d]"
         >
-          Account dauerhaft löschen
-        </Button>
+          <span>Account Löschen</span>
+          <Trash weight="regular" className="text-lg" />
+        </button>
       </div>
 
       <ConfirmModal
@@ -318,18 +249,14 @@ export default function ProfileSettings({ open }) {
         error={deleteError}
       />
 
-      {/* Re-Auth Passwort-Abfrage (nach "requires-recent-login") */}
       {reauthEmail && (
-        <div className="rounded-[8px] border border-red-500 bg-red-500/10 p-4">
+        <div className="rounded-xl border border-red-500 bg-red-500/10 p-4">
           <div className="flex items-center gap-2 mb-2">
-            <Key className="text-red-500 shrink-0 text-xl md:text-lg" />
-            <span className="text-sm font-semibold text-red-500">
-              Passwort bestätigen
-            </span>
+            <Key className="text-red-500 shrink-0 text-lg" />
+            <span className="text-sm font-semibold text-red-500">Passwort bestätigen</span>
           </div>
           <p className="text-xs text-zinc-400 mb-3 leading-relaxed">
-            Aus Sicherheitsgründen musst du dein Passwort erneut eingeben, um
-            den Account zu löschen.
+            Aus Sicherheitsgründen musst du dein Passwort erneut eingeben, um den Account zu löschen.
           </p>
           <div className="flex flex-col gap-2">
             <input
@@ -341,31 +268,31 @@ export default function ProfileSettings({ open }) {
               onKeyDown={(e) => {
                 if (e.key === "Enter") handleReauthAndDelete();
               }}
-              className="w-full rounded-[8px] border border-white/10 bg-(--surface-deep) px-3 py-2 text-sm text-zinc-100 outline-none placeholder:text-zinc-600"
+              className="w-full rounded-xl border border-white/10 bg-[#111119] px-3 py-2 text-sm text-white outline-none placeholder:text-zinc-600"
             />
             {deleteError && (
               <p className="text-xs text-red-500">{deleteError}</p>
             )}
             <div className="flex gap-2">
-              <Button
+              <button
                 type="button"
-                variant="danger"
                 onClick={handleReauthAndDelete}
-                loading={reauthSaving}
+                disabled={reauthSaving}
+                className="rounded-xl bg-[#7d1021] px-4 py-2 text-sm font-medium text-white border-none cursor-pointer hover:bg-[#9a1a2d] disabled:opacity-50"
               >
-                Account löschen
-              </Button>
-              <Button
+                {reauthSaving ? "Lösche…" : "Account löschen"}
+              </button>
+              <button
                 type="button"
-                variant="ghost"
                 onClick={() => {
                   setReauthEmail(null);
                   setReauthPassword("");
                   setDeleteError("");
                 }}
+                className="rounded-xl bg-transparent px-4 py-2 text-sm font-medium text-zinc-400 border border-white/10 cursor-pointer hover:bg-white/5"
               >
                 Abbrechen
-              </Button>
+              </button>
             </div>
           </div>
         </div>

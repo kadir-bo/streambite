@@ -29,9 +29,9 @@ export default function ChannelPane() {
     <>
       <div
         data-channel-pane
-        className="flex flex-1 shrink-0 flex-col overflow-hidden bg-(--surface-deep)"
+        className="flex flex-1 shrink-0 flex-col overflow-hidden bg-[#05050b]"
       >
-        <div className="h-12 shrink-0 border-b border-white/5">
+        <div className="h-14 shrink-0 border-b border-white/5">
           {serverId ? (
             <ServerHeader
               server={server}
@@ -41,7 +41,7 @@ export default function ChannelPane() {
             />
           ) : (
             <div className="flex h-full items-center px-3.5">
-              <span className="text-sm font-semibold text-zinc-100">
+              <span className="text-lg font-bold text-white">
                 Direktnachrichten
               </span>
             </div>

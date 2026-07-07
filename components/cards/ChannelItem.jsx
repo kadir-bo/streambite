@@ -143,36 +143,36 @@ export default function ChannelItem({ channel, serverId, isActive, isOwner }) {
     >
       <div
         {...longPress.handlers}
-        className={`group flex select-none items-center gap-1.5 mx-2 my-px rounded-[8px] transition-colors duration-100 ${
+        className={`group flex select-none items-center gap-2 mx-2 my-px rounded-xl transition-colors duration-100 ${
           isActive
-            ? "bg-white/10"
-            : "bg-transparent hover:bg-white/5"
+            ? "bg-[#1c1c28]"
+            : "bg-transparent hover:bg-[#1c1c28]/50"
         }`}
       >
         <Link
           href={`/servers/${serverId}/${channel.id}`}
           onClick={handleClick}
-          className="flex select-none items-center gap-1.5 flex-1 min-w-0 no-underline h-full py-2 pl-4"
+          className="flex select-none items-center gap-2 flex-1 min-w-0 no-underline h-full py-2.5 pl-4"
         >
           <Icon
             weight={isActive ? "fill" : "regular"}
-            className={`shrink-0 text-base transition-colors duration-100 ${
+            className={`shrink-0 text-lg transition-colors duration-100 ${
               isActive || unread
-                ? "text-zinc-100"
+                ? "text-white"
                 : "text-zinc-500 group-hover:text-zinc-400"
             }`}
           />
           <span
-            className={`text-sm truncate flex-1 transition-colors duration-100 ${
+            className={`text-[15px] truncate flex-1 transition-colors duration-100 ${
               isActive || unread
-                ? "text-zinc-100 font-semibold"
-                : "text-zinc-500 font-medium group-hover:text-zinc-400"
+                ? "text-white font-semibold"
+                : "text-zinc-400 font-medium group-hover:text-zinc-300"
             }`}
           >
             {channel.name}
           </span>
           {unread && (
-            <span className="size-2 rounded-full bg-zinc-100 shrink-0" />
+            <span className="size-2 rounded-full bg-white shrink-0" />
           )}
         </Link>
 

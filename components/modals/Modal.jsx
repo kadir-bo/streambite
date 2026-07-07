@@ -37,7 +37,7 @@ export default function Modal({
           exit="hidden"
           variants={backdrop}
           onClick={onClose}
-          className={`fixed inset-0 z-[200] bg-black/65 flex pb-40 md:pb-0 items-center justify-center ${
+          className={`fixed inset-0 z-[200] bg-black/80 flex pb-40 md:pb-0 items-center justify-center ${
             mobileFullScreen ? "p-0 sm:p-5" : "p-5"
           }`}
         >
@@ -48,10 +48,10 @@ export default function Modal({
             exit="exit"
             variants={modal}
             onClick={(e) => e.stopPropagation()}
-            className={`bg-zinc-800 border border-white/5 w-full relative overflow-hidden ${
+            className={`bg-[#030309] border border-white/5 w-full relative overflow-hidden ${
               mobileFullScreen
-                ? "h-full rounded-none sm:h-auto sm:rounded-xl"
-                : "rounded-xl"
+                ? "h-full rounded-none sm:h-auto sm:rounded-2xl"
+                : "rounded-2xl"
             }`}
             style={{ maxWidth }}
           >

@@ -5,17 +5,32 @@
    ============================================================ */
 
 :root {
-  /* SURFACE (deep only — still used for sidebar/panel backgrounds) */
-  --surface-deep: #111113;
+  /* SURFACES */
+  --surface-deep: #111119;
+  --surface-card: #111119;
+  --surface-hover: #1c1c28;
+  --surface-sidebar: #05050b;
+  --surface-input: #111119;
+  --surface-border: #323232;
 
-  /* ACCENT (primäre Call-to-Action, z.B. "Freund hinzufügen") */
-  --accent: #5865f2;
-  --accent-hover: #4752c4;
-  --accent-subtle: rgba(88, 101, 242, 0.12);
+  /* ACCENT (Purple — Figma Design) */
+  --accent: #8a38f5;
+  --accent-hover: #7a2de0;
+  --accent-subtle: rgba(138, 56, 245, 0.12);
+
+  /* STATUS */
+  --green: #4ac263;
+  --red: #7d1021;
+  --red-subtle: rgba(125, 16, 33, 0.3);
 
   --state-hover: rgba(255, 255, 255, 0.04);
   --warning: #f59e0b;
   --warning-subtle: rgba(245, 158, 11, 0.1);
+
+  /* TEXT */
+  --text-primary: #ffffff;
+  --text-secondary: #686868;
+  --text-muted: #4a4a4a;
 }
 
 @theme inline {
@@ -77,7 +92,7 @@
   }
 
   body {
-    background-color: #09090b;
+    background-color: #030309;
     color: #f4f4f5;
     font-family: var(--font-geist-sans), system-ui, sans-serif;
     font-size: 15px;
@@ -98,7 +113,7 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #3f3f46;
+    background: #323232;
     border-radius: 9999px;
   }
 

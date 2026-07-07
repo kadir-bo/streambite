@@ -9,6 +9,7 @@ import {
   PhoneDisconnect,
   WifiHigh,
   CaretUp,
+  BellSimple,
 } from "@phosphor-icons/react";
 import { useAuth, useVoice } from "@/context";
 import { updateUserDocument, logoutUser } from "@/lib";
@@ -199,26 +200,46 @@ export default function UserPanel() {
     <>
       <div
         data-user-panel
-        className="flex flex-col shrink-0 items-center gap-1.5 border-t border-white/5 bg-(--surface-deep) p-2 max-sm:p-3 max-sm:gap-2 pb-safe-2"
+        className="shrink-0 px-3 pb-3 pt-1 max-sm:px-4 max-sm:pb-4"
       >
-        <div className="flex w-full justify-end gap-4">
+        <div className="flex items-center gap-3 rounded-2xl bg-[#111119] p-3">
+          {/* Avatar + Name + Status */}
           <button
             {...longPress.handlers}
             onClick={openMenu}
-            className="flex min-w-0 flex-1 cursor-pointer items-center gap-2 rounded-[8px] bg-transparent p-1 text-left transition-colors duration-100 hover:bg-white/5 max-sm:min-h-12"
+            className="flex min-w-0 flex-1 cursor-pointer items-center gap-3 border-none bg-transparent p-0 text-left"
           >
-            <Avatar
-              src={userDoc?.avatarUrl}
-              name={displayName}
-              size="sm"
-              status={status}
-            />
-            <div className="min-w-0">
-              <p className="truncate text-sm font-semibold text-zinc-100">
-                {displayName}
-              </p>
+            <div className="relative shrink-0">
+              <Avatar
+                src={userDoc?.avatarUrl}
+                name={displayName}
+                size="lg"
+                status={status}
+              />
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1">
+                <p className="truncate text-[15px] font-bold text-white">
+                  {displayName}
+                </p>
+                <svg
+                  className="shrink-0 text-zinc-400"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M3 4.5L6 7.5L9 4.5"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
               {inVoice ? (
-                <p className="flex items-center gap-1 truncate text-xs font-medium text-(--accent)">
+                <p className="flex items-center gap-1 truncate text-xs font-medium text-[#8a38f5]">
                   <WifiHigh size={12} className="shrink-0" />
                   Sprachverbunden
                 </p>
@@ -229,49 +250,15 @@ export default function UserPanel() {
               )}
             </div>
           </button>
-          <div className="flex items-center shrink-0 max-sm:gap-2 group rounded-lg overflow-hidden">
-            <IconBtn
-              icon={muted ? MicrophoneSlash : Microphone}
-              onClick={toggleMute}
-              title={muted ? "Stummschaltung aufheben" : "Stummschalten"}
-              variant={muted ? "danger" : "ghost"}
-              className={`h-full rounded-none group-hover:bg-(--state-hover)/50`}
-            />
 
-            <button
-              onClick={openInputMenu}
-              title="Eingabegerät & Lautstärke"
-              className="hidden sm:flex size-5 shrink-0 cursor-pointer items-center justify-center border-none bg-transparent text-zinc-500 hover:bg-white/5 hover:text-zinc-400 group-hover:bg-(--state-hover)/50 h-full"
-            >
-              <CaretUp weight="bold" className="text-sm" />
-            </button>
-          </div>
-          <div className="hidden sm:flex items-center rounded-lg overflow-hidden shrink-0 group">
-            <IconBtn
-              icon={Headphones}
-              onClick={toggleDeafen}
-              title={deafened ? "Hörgerät aktivieren" : "Tauben schalten"}
-              variant={deafened ? "danger" : "ghost"}
-              className="h-full rounded-none group-hover:bg-(--state-hover)/50"
-            />
-
-            <button
-              onClick={openOutputMenu}
-              title="Ausgabegerät & Lautstärke"
-              className="flex size-5 shrink-0 cursor-pointer items-center justify-center border-none bg-transparent text-zinc-500 hover:bg-white/5 hover:text-zinc-400 text-sm md:text-base group-hover:bg-(--state-hover)/50 h-full"
-            >
-              <CaretUp weight="bold" className="text-sm" />
-            </button>
-          </div>
-
-          {inVoice && (
-            <IconBtn
-              icon={PhoneDisconnect}
-              onClick={disconnect}
-              title="Sprachkanal verlassen"
-              variant="danger"
-            />
-          )}
+          {/* Bell icon */}
+          <button
+            type="button"
+            title="Benachrichtigungen"
+            className="flex shrink-0 items-center justify-center size-10 rounded-full border-none bg-[#1c1c28] text-zinc-400 cursor-pointer transition-colors hover:text-white"
+          >
+            <BellSimple weight="regular" className="text-xl" />
+          </button>
         </div>
       </div>
 

@@ -7,7 +7,7 @@ import { useAuth, useLayout } from "@/context";
 import { useFriendActions } from "@/hooks";
 import { closeDm } from "@/lib";
 import { useLongPress } from "@/hooks";
-import { Avatar, ContextMenu, IconBtn, DotMenu, Topbar } from "@/components";
+import { Avatar, ContextMenu, DotMenu, Topbar } from "@/components";
 
 const STATUS_LABELS = {
   online: "Online",
@@ -49,35 +49,46 @@ export default function DmHeader({ user, dmId }) {
   ];
 
   return (
-    <Topbar className="gap-2.5 px-4">
-      <IconBtn
-        icon={CaretLeft}
+    <Topbar className="gap-3 px-4">
+      <button
         onClick={showList}
         title="Zurück"
-        size="xl"
-        mobileOnly
-        className="bg-zinc-800!"
-      />
+        className="flex items-center justify-center size-10 rounded-full border-none bg-[#1c1c28] text-zinc-400 cursor-pointer transition-colors hover:text-white md:hidden"
+      >
+        <CaretLeft weight="regular" className="text-xl" />
+      </button>
 
-        <div {...longPress.handlers} className="flex items-center gap-2.5 flex-1 min-w-0">
+      <div {...longPress.handlers} className="flex items-center gap-3 flex-1 min-w-0">
+        <div className="relative shrink-0">
           <Avatar
             src={user?.avatarUrl}
             name={user?.displayName}
-            size="sm"
-            status={user?.status}
+            size="md"
           />
-          <div className="min-w-0 flex-1">
-            <p className="truncate font-semibold text-zinc-100 leading-tight">
-              {user?.displayName ?? "..."}
-            </p>
-            <p className="text-2xs text-zinc-500">
-              {STATUS_LABELS[user?.status] ?? "Offline"}
-            </p>
-          </div>
+          <span
+            className="absolute bottom-0 right-0 size-2.5 rounded-full border-2 border-[#030309]"
+            style={{
+              background:
+                user?.status === "online"
+                  ? "#4ac263"
+                  : user?.status === "busy"
+                    ? "#f59e0b"
+                    : "#686868",
+            }}
+          />
         </div>
+        <div className="min-w-0 flex-1">
+          <p className="truncate font-semibold text-white leading-tight">
+            {user?.displayName ?? "..."}
+          </p>
+          <p className="text-xs text-zinc-500">
+            {STATUS_LABELS[user?.status] ?? "Offline"}
+          </p>
+        </div>
+      </div>
 
-        {user && (
-          <DotMenu onClick={openMenu} />
+      {user && (
+        <DotMenu onClick={openMenu} />
       )}
 
       <ContextMenu

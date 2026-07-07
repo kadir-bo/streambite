@@ -89,16 +89,16 @@ export default function Message({
         // otherwise be unreachable on mobile - a tap toggles it there too.
         onClick={() => setHovered((h) => !h)}
         className={`flex gap-4 relative hover:bg-white/5 transition-colors duration-100 ${
-          isFirst ? "px-4 pt-4 pb-0.5" : "px-4 py-0.5"
+          isFirst ? "px-4 pt-5 pb-1" : "px-4 py-1"
         }`}
       >
-        {/* Avatar column */}
-        <div className="w-10 shrink-0">
+        {/* Avatar column — larger with colored bg */}
+        <div className="w-14 shrink-0">
           {isFirst ? (
             <Avatar
               src={message.authorAvatar}
               name={message.authorName}
-              size="md"
+              size="xl"
             />
           ) : (
             /* Inline timestamp for grouped messages */
@@ -140,11 +140,11 @@ export default function Message({
 
           {/* Header (first message only) */}
           {isFirst && (
-            <div className="flex items-baseline gap-2 mb-0.5">
-              <span className="text-base font-semibold text-zinc-100">
+            <div className="flex items-baseline gap-2 mb-1">
+              <span className="text-base font-bold text-white">
                 {message.authorName}
               </span>
-              <span className="text-2xs text-zinc-600 font-mono">
+              <span className="text-xs text-zinc-500">
                 {formatTime(message.createdAt)}
               </span>
             </div>
@@ -174,7 +174,7 @@ export default function Message({
               </p>
             </div>
           ) : (
-            <p className="text-base text-zinc-100 leading-normal break-words">
+            <p className="text-[15px] text-zinc-200 leading-relaxed break-words">
               <MessageContent content={message.content} />
               {message.editedAt && !isDeleted && (
                 <span className="text-2xs text-zinc-600 ml-1.5 italic">

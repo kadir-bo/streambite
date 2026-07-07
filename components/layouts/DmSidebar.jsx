@@ -3,15 +3,13 @@
 import { useState, useEffect } from "react";
 import { usePathname, useParams, useRouter } from "next/navigation";
 import {
-  UsersThree,
   MagnifyingGlass,
   Plus,
-  ChatCircleText,
 } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import { useFriends } from "@/hooks";
 import { subscribeToUserDms, ensureDm } from "@/lib";
-import { QuickDmSwitcher, NavRow, DmRow, Avatar } from "@/components";
+import { QuickDmSwitcher, DmRow } from "@/components";
 
 export default function DmSidebar() {
   const { firebaseUser } = useAuth();
@@ -49,42 +47,32 @@ export default function DmSidebar() {
 
   return (
     <div className="py-2">
+      {/* Search bar */}
       <div className="px-2 py-3">
         <button
           onClick={() => setSwitcherOpen(true)}
-          className="w-full flex items-center gap-2 py-3 md:py-1.75 px-2.5 rounded-lg md:rounded-[8px] border border-white/5 bg-zinc-950/50 text-zinc-400 text-xs cursor-pointer text-left truncate hover:text-zinc-400 "
+          className="w-full flex items-center gap-2 py-3 px-3 rounded-xl border border-white/5 bg-[#111119] text-zinc-500 text-sm cursor-pointer text-left truncate hover:text-zinc-400"
         >
-          <MagnifyingGlass className="shrink-0 text-xl md:text-lg" />
-          <span className="truncate text-sm">
+          <MagnifyingGlass className="shrink-0 text-lg" />
+          <span className="truncate">
             Finde oder starte ein Gespräch
           </span>
         </button>
       </div>
 
-      <NavRow
-        href="/channels"
-        active={isHome}
-        icon={
-          <UsersThree
-            weight={isHome ? "fill" : "regular"}
-            className={`shrink-0 text-xl md:text-lg ${isHome ? "text-zinc-100" : "text-zinc-500"}`}
-          />
-        }
-        textClassName="flex items-center"
-        label="Freunde"
-      />
-
-      <div className="p-2">
+      {/* Direktnachrichten header */}
+      <div className="px-4 py-2">
         <button
           onClick={() => setSwitcherOpen(true)}
           title="Neues Gespräch starten"
-          className="p-2 text-xs flex w-full items-center justify-between border-none bg-transparent text-zinc-500 cursor-pointer rounded-sm hover:text-zinc-400"
+          className="p-0 text-xs flex w-full items-center justify-between border-none bg-transparent text-zinc-500 cursor-pointer rounded-sm hover:text-zinc-400"
         >
           Direktnachrichten
-          <Plus weight="bold" className="text-sm md:text-base" />
+          <Plus weight="bold" className="text-base" />
         </button>
       </div>
 
+      {/* DM list */}
       {dms.length === 0 ? (
         <p className="px-4 py-1 text-xs text-zinc-600">
           Noch keine Unterhaltungen

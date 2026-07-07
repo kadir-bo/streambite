@@ -3,8 +3,7 @@
 import { useState, useRef, useCallback } from "react";
 import { AnimatePresence } from "motion/react";
 import {
-  Paperclip,
-  Smiley,
+  Plus,
   PaperPlaneTilt,
   X,
   Prohibit,
@@ -257,19 +256,19 @@ export default function MessageInput({
         </div>
       )}
 
-      {/* Input container */}
+      {/* Input container — Figma Design */}
       <div
-        className={`flex gap-2 mt-5 border border-white/5 bg-zinc-800 min-h-12 md:min-h-10 ${replyTarget || attachments.length > 0 ? "rounded-b-[8px]" : "rounded-[8px]"} ${content ? "items-start" : "items-center"}`}
+        className={`flex items-center gap-3 border border-white/5 bg-[#111119] min-h-14 ${replyTarget || attachments.length > 0 ? "rounded-b-2xl" : "rounded-2xl"} ${content ? "items-start" : "items-center"}`}
       >
-        {/* Attach */}
-        <IconBtn
-          icon={Paperclip}
+        {/* Attach / Plus icon */}
+        <button
+          type="button"
           onClick={() => fileInputRef.current?.click()}
-          title="Datei anh\u00e4ngen"
-          rounded="sm"
-          size="xl"
-          className="size-12 hover:text-zinc-100"
-        />
+          title="Datei anhängen"
+          className="flex shrink-0 items-center justify-center size-12 border-none bg-transparent text-zinc-400 cursor-pointer transition-colors hover:text-zinc-200"
+        >
+          <Plus weight="regular" className="text-2xl" />
+        </button>
         <input
           ref={fileInputRef}
           type="file"
@@ -290,56 +289,34 @@ export default function MessageInput({
           onKeyDown={handleKeyDown}
           placeholder={
             serverId
-              ? `Schreib etwas in #${channel?.name ?? "\u2026"}`
-              : `Nachricht an ${channel?.name ?? "\u2026"}`
+              ? `Schreib etwas in #${channel?.name ?? "…"}`
+              : `Nachricht an ${channel?.name ?? "…"}`
           }
           rows={1}
           disabled={pending}
           className={cn(
-            "flex-1 self-stretch resize-none border-none bg-transparent text-(--text-base) leading-normal outline-none max-h-[30vh] overflow-y-auto pt-3 md:pt-2.5",
+            "flex-1 self-stretch resize-none border-none bg-transparent text-[15px] leading-normal outline-none max-h-[30vh] overflow-y-auto py-3.5 placeholder:text-zinc-500",
           )}
         />
 
-        {/* Emoji */}
-        <div className="relative shrink-0 hidden md:flex">
-          <IconBtn
-            icon={Smiley}
-            onClick={() => setEmojiOpen((v) => !v)}
-            title="Emoji"
-            rounded="sm"
-            size="xl"
-            className="size-12 hover:text-zinc-100"
-          />
-          <AnimatePresence>
-            {emojiOpen && (
-              <EmojiPicker
-                onSelect={insertEmoji}
-                onClose={() => setEmojiOpen(false)}
-              />
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* Send */}
-        <AnimatePresence>
-          {hasContent && (
-            <IconBtn
-              icon={PaperPlaneTilt}
-              onClick={handleSend}
-              title="Senden"
-              rounded="sm"
-              size="xl"
-              variant="primary"
-              disabled={pending}
-              iconWeight="fill"
-              className="size-12"
-            >
-              {pending && (
-                <span className="block size-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" />
-              )}
-            </IconBtn>
+        {/* Send button — always visible */}
+        <button
+          type="button"
+          onClick={handleSend}
+          title="Senden"
+          disabled={!hasContent || pending}
+          className={`flex shrink-0 items-center justify-center size-11 rounded-full border-none cursor-pointer transition-all duration-150 ${
+            hasContent
+              ? "bg-white text-black hover:bg-zinc-200"
+              : "bg-zinc-700 text-zinc-500"
+          }`}
+        >
+          {pending ? (
+            <span className="block size-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+          ) : (
+            <PaperPlaneTilt weight="fill" className="text-lg" />
           )}
-        </AnimatePresence>
+        </button>
       </div>
 
       {uploadError && (

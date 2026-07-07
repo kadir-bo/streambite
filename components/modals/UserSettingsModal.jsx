@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { User, Microphone, CaretLeft } from "@phosphor-icons/react";
-import { Modal, Select, ProfileSettings, VoiceVideoSettings, IconBtn } from "@/components";
+import { User, Microphone, Shield, Lock, Trash } from "@phosphor-icons/react";
+import { Modal, Select, ProfileSettings, VoiceVideoSettings } from "@/components";
 
 const TABS = [
-  { id: "profile", label: "Mein Profil", icon: User },
-  { id: "voice", label: "Sprache & Video", icon: Microphone },
+  { id: "profile", label: "Account", icon: User },
+  { id: "voice", label: "Sprach Chat", icon: Microphone },
+  { id: "privacy", label: "Datenschutz", icon: Shield },
+  { id: "security", label: "Sicherheit", icon: Lock },
 ];
 
 export default function UserSettingsModal({ open, onClose }) {
@@ -20,50 +22,53 @@ export default function UserSettingsModal({ open, onClose }) {
       bodyClassName=""
       mobileFullScreen
     >
-      <div className="flex h-full flex-col sm:h-150 sm:flex-row">
-        {/* Tab-Leiste: Desktop links */}
-        <div className="hidden sm:flex shrink-0 flex-col gap-0.5 border-r border-white/5 w-52 p-3">
+      <div className="flex h-full flex-col">
+        {/* Pull handle */}
+        <div className="flex justify-center pt-3 pb-2 sm:hidden">
+          <div className="w-10 h-1 rounded-full bg-zinc-600" />
+        </div>
+
+        {/* Tab Navigation — horizontal scroll on mobile */}
+        <div className="flex items-center gap-1 border-b border-white/5 px-4 overflow-x-auto scrollbar-none">
           {TABS.map((t) => {
-            const Icon = t.icon;
             const active = tab === t.id;
             return (
               <button
                 key={t.id}
                 onClick={() => setTab(t.id)}
-                className={`flex items-center gap-2.5 whitespace-nowrap rounded-[8px] border-none bg-transparent px-3 py-2 text-sm font-medium cursor-pointer transition-colors duration-100 ${
+                className={`relative whitespace-nowrap border-none bg-transparent px-4 py-3 text-[15px] font-medium cursor-pointer transition-colors duration-150 ${
                   active
-                    ? "bg-white/10 text-zinc-100"
-                    : "text-zinc-400 hover:bg-white/5"
+                    ? "text-white"
+                    : "text-zinc-500 hover:text-zinc-300"
                 }`}
               >
-                <Icon className="text-lg" />
                 {t.label}
+                {active && (
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-white rounded-full" />
+                )}
               </button>
             );
           })}
         </div>
 
-        {/* Tab-Dropdown Mobile */}
-        <div className="sm:hidden flex items-center gap-3 border-b border-white/5 px-2 py-2">
-          <IconBtn icon={CaretLeft} onClick={onClose} title="Zurück" size="xl" mobileOnly className="bg-zinc-800!" />
-          <div className="flex-1">
-            <Select
-              value={tab}
-              onChange={(e) => setTab(e.target.value)}
-            >
-              {TABS.map((t) => (
-                <option key={t.id} value={t.id}>
-                  {t.label}
-                </option>
-              ))}
-            </Select>
-          </div>
-        </div>
-
-        <div className="relative flex-1 overflow-y-auto px-4 py-5 sm:p-6">
-
+        {/* Content */}
+        <div className="relative flex-1 overflow-y-auto px-4 py-6 sm:px-8">
           {tab === "profile" && <ProfileSettings open={open} />}
           {tab === "voice" && <VoiceVideoSettings />}
+          {tab === "privacy" && (
+            <div className="flex flex-col items-center justify-center h-full text-center">
+              <Shield size={48} className="text-zinc-600 mb-4" />
+              <p className="text-lg font-semibold text-zinc-400">Datenschutz</p>
+              <p className="text-sm text-zinc-500 mt-1">Einstellungen folgen bald</p>
+            </div>
+          )}
+          {tab === "security" && (
+            <div className="flex flex-col items-center justify-center h-full text-center">
+              <Lock size={48} className="text-zinc-600 mb-4" />
+              <p className="text-lg font-semibold text-zinc-400">Sicherheit</p>
+              <p className="text-sm text-zinc-500 mt-1">Einstellungen folgen bald</p>
+            </div>
+          )}
         </div>
       </div>
     </Modal>
