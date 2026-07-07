@@ -1,93 +1,95 @@
 "use client";
 
 import {
-  Microphone,
+  SpeakerHigh,
   MicrophoneSlash,
+  Microphone,
   Headphones,
-  PhoneDisconnect,
   MonitorPlay,
+  PhoneDisconnect,
 } from "@phosphor-icons/react";
-import { useVoice } from "@/context";
-import { IconBtn } from "@/components";
-import { cn } from "@/lib";
 
-export default function VoiceControls({ compact = false }) {
-  const {
-    muted,
-    deafened,
-    screenShare,
-    toggleMute,
-    toggleDeafen,
-    toggleScreenShare,
-    disconnect,
-  } = useVoice();
-
-  if (compact) {
-    return (
-      <div className="flex items-center gap-1">
-        <IconBtn
-          icon={muted ? MicrophoneSlash : Microphone}
-          onClick={toggleMute}
-          title={muted ? "Stummschaltung aufheben" : "Stummschalten"}
-          size="sm"
-          rounded="full"
-          variant={muted ? "danger" : "ghost"}
-        />
-        <IconBtn
-          icon={PhoneDisconnect}
-          onClick={disconnect}
-          title="Sprachkanal verlassen"
-          size="sm"
-          rounded="full"
-          variant="danger"
-        />
-      </div>
-    );
-  }
-
+/**
+ * Floating voice controls bar.
+ *
+ * @param {object}  props
+ * @param {boolean} props.muted        – Mic currently muted
+ * @param {boolean} props.deafened     – Speaker currently muted
+ * @param {boolean} props.screenShare  – Screen share active
+ * @param {Function} props.onToggleMute
+ * @param {Function} props.onToggleDeafen
+ * @param {Function} props.onToggleScreenShare
+ * @param {Function} props.onDisconnect
+ */
+export default function VoiceControls({
+  muted,
+  deafened,
+  screenShare,
+  onToggleMute,
+  onToggleDeafen,
+  onToggleScreenShare,
+  onDisconnect,
+}) {
   return (
-    <div className="flex items-center gap-1.5">
-      <IconBtn
-        icon={muted ? MicrophoneSlash : Microphone}
-        onClick={toggleMute}
-        title={muted ? "Stummschaltung aufheben" : "Stummschalten"}
-        size="xl"
-        rounded="full"
-        variant={muted ? "danger-solid" : "ghost"}
-      />
+    <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center px-4">
+      <div className="flex items-center gap-2 rounded-3xl bg-surface-deep p-3">
+        {/* Speaker / Deafen */}
+        <ControlButton
+          active={!deafened}
+          onClick={onToggleDeafen}
+        >
+          <SpeakerHigh weight="regular" className="text-xl" />
+        </ControlButton>
 
-      <IconBtn
-        icon={Headphones}
-        onClick={toggleDeafen}
-        title={deafened ? "Hörgerät aktivieren" : "Tauben schalten"}
-        size="xl"
-        rounded="full"
-        variant={deafened ? "danger-solid" : "ghost"}
-        className="hidden md:flex"
-      />
+        {/* Microphone */}
+        <ControlButton
+          danger={muted}
+          onClick={onToggleMute}
+        >
+          {muted ? (
+            <MicrophoneSlash weight="regular" className="text-xl" />
+          ) : (
+            <Microphone weight="regular" className="text-xl" />
+          )}
+        </ControlButton>
 
-      <IconBtn
-        icon={MonitorPlay}
-        onClick={toggleScreenShare}
-        title={screenShare ? "Bildschirmfreigabe beenden" : "Bildschirm teilen"}
-        size="xl"
-        rounded="full"
-        className={cn(
-          "hidden md:flex",
-          screenShare
-            ? "bg-(--accent) text-white hover:opacity-90"
-            : "bg-zinc-800 text-zinc-400 hover:bg-white/5",
-        )}
-      />
+        {/* Headphones */}
+        <ControlButton>
+          <Headphones weight="regular" className="text-xl" />
+        </ControlButton>
 
-      <IconBtn
-        icon={PhoneDisconnect}
-        onClick={disconnect}
-        title="Sprachkanal verlassen"
-        size="xl"
-        rounded="full"
-        variant="danger"
-      />
+        {/* Screen Share */}
+        <ControlButton
+          active={screenShare}
+          onClick={onToggleScreenShare}
+        >
+          <MonitorPlay weight="regular" className="text-xl" />
+        </ControlButton>
+
+        {/* Disconnect */}
+        <ControlButton danger onClick={onDisconnect}>
+          <PhoneDisconnect weight="regular" className="text-xl" />
+        </ControlButton>
+      </div>
     </div>
+  );
+}
+
+/* ─── Single pill button ─── */
+function ControlButton({ children, danger, active, onClick }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`flex size-12 shrink-0 cursor-pointer items-center justify-center rounded-full border-none text-white transition-colors ${
+        danger
+          ? "bg-red hover:bg-red-hover"
+          : active
+            ? "bg-accent hover:bg-accent-hover"
+            : "bg-surface-hover hover:bg-surface-raised"
+      }`}
+    >
+      {children}
+    </button>
   );
 }

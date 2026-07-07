@@ -61,19 +61,19 @@ export default function MemberRow({ member, isOffline, serverId, canManage }) {
     <>
       <div
         {...longPress.handlers}
-        className={`group flex items-center gap-2 px-2 py-1.25 rounded-lg cursor-default hover:bg-white/5 border border-white/5 h-14 md:h-12  ${
+        className={`group flex items-center gap-1.5 px-2 py-1.25 rounded-lg cursor-default ${
           isOffline ? "opacity-45" : "opacity-100"
         }`}
       >
         <Avatar
           src={member.avatarUrl}
           name={member.displayName ?? "?"}
-          size="md"
+          size="sm"
           status={isOffline ? "offline" : (member.status ?? "online")}
         />
         <div className="flex flex-col">
           <RoleBadge roles={member.roles} />
-          <span className="text-sm font-medium text-zinc-400 truncate flex-1">
+          <span className="text-xs font-medium text-zinc-400 truncate flex-1">
             {member.displayName ?? "Nutzer"}
           </span>
         </div>

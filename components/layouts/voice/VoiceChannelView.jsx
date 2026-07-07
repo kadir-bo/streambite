@@ -11,17 +11,14 @@ import {
   UserPlus,
   UsersThree,
   MicrophoneSlash,
-  Microphone,
-  ArrowExpand,
-  Pause,
 } from "@phosphor-icons/react";
 import { useVoice, useLayout } from "@/context";
-import { Avatar, ScreenShareTile, InviteModal } from "@/components";
+import { Avatar, ScreenShareTile, InviteModal, VoiceControls } from "@/components";
 
 const MAX_VISIBLE = 4;
 
 export default function VoiceChannelView({ serverId, channel, isOwner }) {
-  const { connection, participants, screenShareHasAudio, connect, disconnect } =
+  const { connection, participants, screenShareHasAudio, muted, deafened, screenShare, connect, disconnect, toggleMute, toggleDeafen, toggleScreenShare } =
     useVoice();
   const { showList } = useLayout();
   const [showAll, setShowAll] = useState(false);
@@ -183,66 +180,15 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
 
       {/* Floating Voice Controls */}
       {status === "connected" && (
-        <div className="absolute flex items-center justify-center gap-2 bottom-4 left-0 right-0 px-4">
-          <div className="flex items-center gap-2 rounded-3xl bg-surface-deep p-3">
-            <button
-              type="button"
-              className="flex size-12 shrink-0 items-center justify-center rounded-full bg-surface-hover text-white border-none cursor-pointer transition-colors hover:bg-surface-raised"
-            >
-              <SpeakerHigh weight="regular" className="text-xl" />
-            </button>
-            <button
-              type="button"
-              className="flex size-12 shrink-0 items-center justify-center rounded-full bg-red text-white border-none cursor-pointer transition-colors hover:bg-red-hover"
-            >
-              <MicrophoneSlash weight="regular" className="text-xl" />
-            </button>
-            <button
-              type="button"
-              className="flex size-12 shrink-0 items-center justify-center rounded-full bg-surface-hover text-white border-none cursor-pointer transition-colors hover:bg-surface-raised"
-            >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
-                <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
-              </svg>
-            </button>
-            <button
-              type="button"
-              className="flex size-12 shrink-0 items-center justify-center rounded-full bg-surface-hover text-white border-none cursor-pointer transition-colors hover:bg-surface-raised"
-            >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
-                <line x1="8" y1="21" x2="16" y2="21" />
-                <line x1="12" y1="17" x2="12" y2="21" />
-              </svg>
-            </button>
-            <button
-              type="button"
-              onClick={disconnect}
-              className="flex size-12 shrink-0 items-center justify-center rounded-full bg-red text-white border-none cursor-pointer transition-colors hover:bg-red-hover"
-            >
-              <PhoneDisconnect weight="regular" className="text-xl" />
-            </button>
-          </div>
-        </div>
+        <VoiceControls
+          muted={muted}
+          deafened={deafened}
+          screenShare={screenShare}
+          onToggleMute={toggleMute}
+          onToggleDeafen={toggleDeafen}
+          onToggleScreenShare={toggleScreenShare}
+          onDisconnect={disconnect}
+        />
       )}
 
       {/* Connected elsewhere */}
@@ -284,9 +230,7 @@ function VoiceParticipantCard({ participant, isOwner }) {
   return (
     <div
       className={`flex flex-col items-center justify-center gap-3 rounded-2xl bg-surface-deep border aspect-square p-4 transition-all duration-200 ${
-        isActiveSpeaker
-          ? "border-green ring-2 ring-green/30"
-          : "border-white/5"
+        isActiveSpeaker ? "border-green ring-2 ring-green/30" : "border-white/5"
       }`}
     >
       <div className="relative">

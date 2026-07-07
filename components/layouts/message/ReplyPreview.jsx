@@ -15,7 +15,7 @@ export default function ReplyPreview({ target, onCancel }) {
       exit="hidden"
       className="overflow-hidden"
     >
-      <div className="flex items-center gap-2 px-3.5 py-1.5 bg-zinc-800 rounded-t-lg border-b border-white/5">
+      <div className="flex items-center gap-2 px-3.5 py-1.5 bg-surface-deep/80 rounded-t-lg border-b border-white/5">
         <ArrowBendUpLeft className="text-zinc-500 shrink-0 text-xl md:text-lg" />
         <span className="text-xs text-zinc-500 flex-1 min-w-0 truncate">
           Antwort an{" "}
