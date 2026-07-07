@@ -11,6 +11,9 @@ import {
   UserPlus,
   UsersThree,
   MicrophoneSlash,
+  MicrophoneIcon,
+  MicrophoneSlashIcon,
+  CaretLeftIcon,
 } from "@phosphor-icons/react";
 import { useVoice, useLayout } from "@/context";
 import {
@@ -18,6 +21,7 @@ import {
   ScreenShareTile,
   InviteModal,
   VoiceControls,
+  VoiceParticipantCard,
 } from "@/components";
 
 const MAX_VISIBLE = 4;
@@ -70,15 +74,7 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
           onClick={showList}
           className="flex items-center justify-center size-10 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
         >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path
-              d="M12.5 15L7.5 10L12.5 5"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <CaretLeftIcon className="text-xl" weight="regular" />
         </button>
 
         <div className="flex items-center gap-2">
@@ -232,38 +228,6 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
         onClose={() => setInviteOpen(false)}
         server={{ id: serverId }}
       />
-    </div>
-  );
-}
-
-function VoiceParticipantCard({ participant, isOwner }) {
-  const { removeFromVoice } = useVoice();
-  const [confirmRemove, setConfirmRemove] = useState(false);
-
-  const isActiveSpeaker = participant.isSpeaking;
-  const isMuted = participant.isMicMuted;
-
-  return (
-    <div
-      className={`flex flex-col items-center justify-center gap-3 rounded-2xl bg-surface-deep border aspect-square p-4 transition-all duration-200 ${
-        isActiveSpeaker ? "border-green ring-2 ring-green/30" : "border-white/5"
-      }`}
-    >
-      <div className="relative">
-        <Avatar name={participant.name} size="xl" />
-      </div>
-
-      <div className="flex items-center justify-between w-full">
-        <span className="text-sm font-medium text-white truncate">
-          {participant.name}
-          {participant.isLocal ? " (Du)" : ""}
-        </span>
-        {isMuted ? (
-          <MicrophoneSlash className="text-zinc-500 shrink-0" size={16} />
-        ) : (
-          <div className="size-2 rounded-full bg-green shrink-0" />
-        )}
-      </div>
     </div>
   );
 }

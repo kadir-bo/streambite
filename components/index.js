@@ -88,6 +88,7 @@ export { default as UserPanel } from "./layouts/server/UserPanel";
 // Layouts — Voice
 export { default as VoiceChannelView } from "./layouts/voice/VoiceChannelView";
 export { default as VoiceControls } from "./layouts/voice/VoiceControls";
+export { default as VoiceParticipantCard } from "./layouts/voice/VoiceParticipantCard";
 
 // Media
 export { default as Avatar } from "./media/Avatar";
