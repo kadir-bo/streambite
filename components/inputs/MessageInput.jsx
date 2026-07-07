@@ -258,7 +258,7 @@ export default function MessageInput({
 
       {/* Input container — Figma Design */}
       <div
-        className={`flex items-center gap-3 border border-white/5 bg-surface-deep min-h-14 ${replyTarget || attachments.length > 0 ? "rounded-b-2xl" : "rounded-2xl"} ${content ? "items-start" : "items-center"}`}
+        className={`flex items-center gap-3 border border-white/5 bg-surface-deep min-h-14 ${replyTarget || attachments.length > 0 ? "rounded-b-2xl" : "rounded-2xl"}`}
       >
         {/* Attach / Plus icon */}
         <button
