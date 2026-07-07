@@ -7,7 +7,6 @@ import { subscribeToUser, ensureDm, closeDm } from "@/lib";
 import {
   useUnread,
   useFriendActions,
-  useIsDesktop,
   useLongPress,
 } from "@/hooks";
 import { Avatar, ContextMenu, DotMenu } from "@/components";
@@ -46,7 +45,6 @@ export default function DmRow({ dm, otherUid, active }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuPos, setMenuPos] = useState({ x: 0, y: 0 });
   const friendActions = useFriendActions(user);
-  const isDesktop = useIsDesktop();
 
   useEffect(() => {
     if (!otherUid) return;
@@ -111,7 +109,7 @@ export default function DmRow({ dm, otherUid, active }) {
           e.preventDefault();
           openDm();
         }}
-        className={`flex items-center gap-3 px-3 py-2.5 mx-2 rounded-xl no-underline transition-colors duration-100 ${
+        className={`flex items-center gap-1.5 px-3 py-2.5 mx-2 rounded-xl no-underline transition-colors duration-100 ${
           active
             ? "bg-surface-hover"
             : "bg-transparent hover:bg-surface-hover/50"
@@ -152,20 +150,15 @@ export default function DmRow({ dm, otherUid, active }) {
             </p>
           )}
         </div>
-      </a>
 
-      <div
-        className={
-          isDesktop
-            ? "absolute right-2 top-1/2 -translate-y-1/2"
-            : "absolute right-4 bottom-2 z-10"
-        }
-      >
         <DotMenu
-          onClick={openMenuFromAnchor}
-          className={isDesktop ? "" : "!opacity-100"}
+          onClick={(e) => {
+            e.stopPropagation();
+            openMenuFromAnchor();
+          }}
+          className="shrink-0"
         />
-      </div>
+      </a>
 
       <ContextMenu
         open={menuOpen}

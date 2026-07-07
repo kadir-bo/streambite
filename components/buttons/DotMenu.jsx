@@ -1,6 +1,6 @@
 "use client";
 
-import { DotsThreeVertical } from "@phosphor-icons/react";
+import { CaretDownIcon } from "@phosphor-icons/react";
 import { cn } from "@/lib";
 import { IconBtn } from "@/components";
 
@@ -15,17 +15,14 @@ import { IconBtn } from "@/components";
 export default function DotMenu({ onClick, title = "Mehr", className }) {
   return (
     <IconBtn
-      icon={DotsThreeVertical}
+      icon={CaretDownIcon}
       onClick={onClick}
       title={title}
-      size="xs"
+      size="lg"
       mobileSize="xl"
       rounded="sm"
       iconWeight="bold"
-      className={cn(
-        "text-sm md:text-base md:opacity-0 group-hover:opacity-100",
-        className,
-      )}
+      className={cn("text-sm md:text-base", className)}
     />
   );
 }
