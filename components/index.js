@@ -12,40 +12,37 @@ export { default as RailButton } from "./buttons/RailButton";
 export { default as PendingInviteButton } from "./buttons/PendingInviteButton";
 export { default as ActionBtn } from "./buttons/ActionBtn";
 
-// Cards
-export { default as NavRow } from "./cards/NavRow";
-export { default as DmRow } from "./cards/DmRow";
+// Cards (remaining shared)
+export { default as Badge } from "./cards/Badge";
+export { default as Card } from "./cards/Card";
+export { default as EmptyState } from "./cards/EmptyState";
 export { default as MemberRow } from "./cards/MemberRow";
-export { default as FriendRow } from "./cards/FriendRow";
-export { default as RequestRow } from "./cards/RequestRow";
-export { default as ActiveFriendRow } from "./cards/ActiveFriendRow";
-export { default as ChannelItem } from "./cards/ChannelItem";
 export { default as ParticipantTile } from "./cards/ParticipantTile";
+export { default as RoleBadge } from "./cards/RoleBadge";
 export { default as ScreenShareTile } from "./cards/ScreenShareTile";
 export { default as ServerInviteRow } from "./cards/ServerInviteRow";
-export { default as CategoryHeader } from "./cards/CategoryHeader";
-export { default as Badge } from "./cards/Badge";
-export { default as RoleBadge } from "./cards/RoleBadge";
-export { default as EmptyState } from "./cards/EmptyState";
-export { default as Card } from "./cards/Card";
 export { default as StepCard } from "./cards/StepCard";
 
-// Modals
-export { default as Modal } from "./modals/Modal";
-export { default as ConfirmModal } from "./modals/ConfirmModal";
-export { default as CreateServerModal } from "./modals/CreateServerModal";
-export { default as ServerSettingsModal } from "./modals/ServerSettingsModal";
-export { default as CreateChannelModal } from "./modals/CreateChannelModal";
-export { default as RenameChannelModal } from "./modals/RenameChannelModal";
-export { default as InviteModal } from "./modals/InviteModal";
-export { default as AddFriendModal } from "./modals/AddFriendModal";
-export { default as JoinInviteModal } from "./modals/JoinInviteModal";
-export { default as UserSettingsModal } from "./modals/UserSettingsModal";
-export { default as UsernamePromptModal } from "./modals/UsernamePromptModal";
-export { default as CreateTab } from "./modals/CreateTab";
-export { default as JoinTab } from "./modals/JoinTab";
-export { default as ProfileSettings } from "./modals/ProfileSettings";
-export { default as VoiceVideoSettings } from "./modals/VoiceVideoSettings";
+// Channel
+export { default as CategoryHeader } from "./channel/CategoryHeader";
+export { default as ChannelHeader } from "./channel/ChannelHeader";
+export { default as ChannelItem } from "./channel/ChannelItem";
+export { default as ChannelList } from "./channel/ChannelList";
+export { default as ChannelPane } from "./channel/ChannelPane";
+export { default as ChannelSidebar } from "./channel/ChannelSidebar";
+export { default as ChannelWelcome } from "./channel/ChannelWelcome";
+
+// DM
+export { default as DmHeader } from "./dm/DmHeader";
+export { default as DmRow } from "./dm/DmRow";
+export { default as DmSidebar } from "./dm/DmSidebar";
+export { default as HomeTopbar } from "./dm/HomeTopbar";
+export { default as NavRow } from "./dm/NavRow";
+
+// Friends
+export { default as ActiveFriendRow } from "./friends/ActiveFriendRow";
+export { default as FriendRow } from "./friends/FriendRow";
+export { default as RequestRow } from "./friends/RequestRow";
 
 // Inputs
 export { default as Input } from "./inputs/Input";
@@ -57,47 +54,68 @@ export { default as SearchInput } from "./inputs/SearchInput";
 // Dropdowns
 export { default as ContextMenu } from "./dropdowns/ContextMenu";
 export { default as ContextMenuItem } from "./dropdowns/ContextMenuItem";
-export { default as RadioMenuItem } from "./dropdowns/RadioMenuItem";
-export { default as Tooltip } from "./dropdowns/Tooltip";
-export { default as QuickDmSwitcher } from "./dropdowns/QuickDmSwitcher";
+export { default as DropdownItem } from "./dropdowns/DropdownItem";
 export { default as EmojiPicker } from "./dropdowns/EmojiPicker";
 export { default as IncomingRequestsPopover } from "./dropdowns/IncomingRequestsPopover";
-export { default as DropdownItem } from "./dropdowns/DropdownItem";
+export { default as QuickDmSwitcher } from "./dropdowns/QuickDmSwitcher";
+export { default as RadioMenuItem } from "./dropdowns/RadioMenuItem";
+export { default as Tooltip } from "./dropdowns/Tooltip";
 
-// Layouts
+// Layouts (root level)
 export { default as Topbar } from "./layouts/Topbar";
-export { default as ChannelPane } from "./layouts/ChannelPane";
-export { default as ChannelSidebar } from "./layouts/ChannelSidebar";
-export { default as DmSidebar } from "./layouts/DmSidebar";
-export { default as MemberSidebar } from "./layouts/MemberSidebar";
-export { default as ServerRail } from "./layouts/ServerRail";
-export { default as UnifiedSidebar } from "./layouts/UnifiedSidebar";
-export { default as MobileContentPane } from "./layouts/MobileContentPane";
-export { default as UserPanel } from "./layouts/UserPanel";
-export { default as ServerHeader } from "./layouts/ServerHeader";
-export { default as ChannelHeader } from "./layouts/ChannelHeader";
-export { default as DmHeader } from "./layouts/DmHeader";
-export { default as HomeTopbar } from "./layouts/HomeTopbar";
-export { default as ActiveNowPanel } from "./layouts/ActiveNowPanel";
-export { default as ChannelList } from "./layouts/ChannelList";
-export { default as MessageList } from "./layouts/MessageList";
-export { default as MessageGroup } from "./layouts/MessageGroup";
-export { default as Message } from "./layouts/Message";
-export { default as MessageContent } from "./layouts/MessageContent";
-export { default as ReplyPreview } from "./layouts/ReplyPreview";
-export { default as ChannelWelcome } from "./layouts/ChannelWelcome";
-export { default as ReactionBar } from "./layouts/ReactionBar";
-export { default as MessageActions } from "./layouts/MessageActions";
-export { default as VoiceChannelView } from "./layouts/VoiceChannelView";
-export { default as VoiceControls } from "./layouts/VoiceControls";
-export { default as MobileVoiceStatusBar } from "./layouts/MobileVoiceStatusBar";
+
+// Layouts — Message
+export { default as Message } from "./layouts/message/Message";
+export { default as MessageActions } from "./layouts/message/MessageActions";
+export { default as MessageContent } from "./layouts/message/MessageContent";
+export { default as MessageGroup } from "./layouts/message/MessageGroup";
+export { default as MessageList } from "./layouts/message/MessageList";
+export { default as ReactionBar } from "./layouts/message/ReactionBar";
+export { default as ReplyPreview } from "./layouts/message/ReplyPreview";
+
+// Layouts — Mobile
+export { default as MobileContentPane } from "./layouts/mobile/MobileContentPane";
+export { default as MobileVoiceStatusBar } from "./layouts/mobile/MobileVoiceStatusBar";
+
+// Layouts — Server/Sidebar
+export { default as ActiveNowPanel } from "./layouts/server/ActiveNowPanel";
+export { default as MemberSidebar } from "./layouts/server/MemberSidebar";
+export { default as ServerHeader } from "./layouts/server/ServerHeader";
+export { default as ServerRail } from "./layouts/server/ServerRail";
+export { default as UnifiedSidebar } from "./layouts/server/UnifiedSidebar";
+export { default as UserPanel } from "./layouts/server/UserPanel";
+
+// Layouts — Voice
+export { default as VoiceChannelView } from "./layouts/voice/VoiceChannelView";
+export { default as VoiceControls } from "./layouts/voice/VoiceControls";
 
 // Media
 export { default as Avatar } from "./media/Avatar";
-export { default as StatusDot } from "./media/StatusDot";
 export { default as GoogleLogo } from "./media/GoogleLogo";
-export { default as ServerIcon } from "./media/ServerIcon";
 export { default as Logo } from "./media/Logo";
+export { default as ServerIcon } from "./media/ServerIcon";
+export { default as StatusDot } from "./media/StatusDot";
+
+// Modals (root level)
+export { default as Modal } from "./modals/Modal";
+export { default as ConfirmModal } from "./modals/ConfirmModal";
+export { default as CreateTab } from "./modals/CreateTab";
+export { default as JoinTab } from "./modals/JoinTab";
+
+// Modals — Server
+export { default as CreateChannelModal } from "./modals/server/CreateChannelModal";
+export { default as CreateServerModal } from "./modals/server/CreateServerModal";
+export { default as InviteModal } from "./modals/server/InviteModal";
+export { default as JoinInviteModal } from "./modals/server/JoinInviteModal";
+export { default as RenameChannelModal } from "./modals/server/RenameChannelModal";
+export { default as ServerSettingsModal } from "./modals/server/ServerSettingsModal";
+
+// Modals — User
+export { default as AddFriendModal } from "./modals/user/AddFriendModal";
+export { default as ProfileSettings } from "./modals/user/ProfileSettings";
+export { default as UsernamePromptModal } from "./modals/user/UsernamePromptModal";
+export { default as UserSettingsModal } from "./modals/user/UserSettingsModal";
+export { default as VoiceVideoSettings } from "./modals/user/VoiceVideoSettings";
 
 // Text
 export { default as MarkdownText } from "./text/MarkdownText";

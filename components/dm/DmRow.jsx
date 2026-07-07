@@ -1,15 +1,41 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import {
-  ChatsCircle,
-  ChatCircleText,
-  XCircle,
-} from "@phosphor-icons/react";
+import { ChatsCircle, ChatCircleText, XCircle } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import { subscribeToUser, ensureDm, closeDm } from "@/lib";
-import { useUnread, useFriendActions, useIsDesktop, useLongPress } from "@/hooks";
+import {
+  useUnread,
+  useFriendActions,
+  useIsDesktop,
+  useLongPress,
+} from "@/hooks";
 import { Avatar, ContextMenu, DotMenu } from "@/components";
+
+const STATUS_LABELS = {
+  online: "Online",
+  busy: "Beschäftigt",
+  idle: "Abwesend",
+  offline: "Offline",
+};
+
+const STATUS_COLORS = {
+  online: "#4ac263",
+  busy: "#f59e0b",
+  idle: "#f59e0b",
+  offline: "#686868",
+};
+
+const MENU_WIDTH = 220;
+const MENU_GAP = 4;
+
+function getMenuPosFromAnchor(el, menuWidth) {
+  const rect = el.getBoundingClientRect();
+  return {
+    x: rect.right - menuWidth - MENU_GAP,
+    y: rect.top,
+  };
+}
 
 export default function DmRow({ dm, otherUid, active }) {
   const { firebaseUser } = useAuth();
@@ -38,18 +64,20 @@ export default function DmRow({ dm, otherUid, active }) {
     await closeDm(dm.id, firebaseUser.uid);
   }
 
-  const longPress = useLongPress(openMenu);
+  const longPress = useLongPress(openMenuFromAnchor);
 
-  function openMenu(e) {
-    e.preventDefault();
-    e.stopPropagation();
+  function openMenuFromAnchor() {
     const row = rowRef.current?.querySelector("a");
-    const rect = (row ?? e.currentTarget).getBoundingClientRect();
-    const menuWidth = 220;
-    const gap = 4;
+    if (!row) return;
+    setMenuPos(getMenuPosFromAnchor(row, MENU_WIDTH));
+    setMenuOpen(true);
+  }
+
+  function openMenuAtCursor(e) {
+    e.preventDefault();
     setMenuPos({
-      x: rect.right - menuWidth - gap,
-      y: rect.top,
+      x: e.clientX - MENU_WIDTH / 2,
+      y: e.clientY,
     });
     setMenuOpen(true);
   }
@@ -70,28 +98,12 @@ export default function DmRow({ dm, otherUid, active }) {
     },
   ];
 
-  const STATUS_LABELS = {
-    online: "Online",
-    busy: "Beschäftigt",
-    idle: "Abwesend",
-    offline: "Offline",
-  };
-
   return (
     <div
       ref={rowRef}
       {...longPress.handlers}
       className="group relative"
-      onContextMenu={(e) => {
-        e.preventDefault();
-        const menuWidth = 220;
-        const gap = 4;
-        setMenuPos({
-          x: e.clientX - menuWidth / 2,
-          y: e.clientY,
-        });
-        setMenuOpen(true);
-      }}
+      onContextMenu={openMenuAtCursor}
     >
       <a
         href={`/channels/dm/${dm.id}`}
@@ -112,23 +124,20 @@ export default function DmRow({ dm, otherUid, active }) {
             size="lg"
           />
           <span
-            className="absolute bottom-0 right-0 size-2.5 rounded-full border-2 border-[#05050b]"
+            className="absolute bottom-0 right-0 size-2.5 rounded-full border-2 border-surface-sidebar"
             style={{
-              background:
-                user?.status === "online"
-                  ? "#4ac263"
-                  : user?.status === "busy"
-                    ? "#f59e0b"
-                    : "#686868",
+              background: STATUS_COLORS[user?.status] ?? STATUS_COLORS.offline,
             }}
           />
         </div>
         <div className="flex-1 min-w-0">
-          <p className={`text-[15px] truncate ${
-            active || isUnread(dm.id, dm.updatedAt)
-              ? "text-white font-semibold"
-              : "text-zinc-300 font-medium"
-          }`}>
+          <p
+            className={`text-[15px] truncate ${
+              active || isUnread(dm.id, dm.updatedAt)
+                ? "text-white font-semibold"
+                : "text-zinc-300 font-medium"
+            }`}
+          >
             {user?.displayName ?? "..."}
           </p>
           {dm.lastMessage ? (
@@ -145,9 +154,15 @@ export default function DmRow({ dm, otherUid, active }) {
         </div>
       </a>
 
-      <div className={isDesktop ? "absolute right-2 top-1/2 -translate-y-1/2" : "absolute right-4 bottom-2 z-10"}>
+      <div
+        className={
+          isDesktop
+            ? "absolute right-2 top-1/2 -translate-y-1/2"
+            : "absolute right-4 bottom-2 z-10"
+        }
+      >
         <DotMenu
-          onClick={openMenu}
+          onClick={openMenuFromAnchor}
           className={isDesktop ? "" : "!opacity-100"}
         />
       </div>
@@ -156,7 +171,7 @@ export default function DmRow({ dm, otherUid, active }) {
         open={menuOpen}
         onClose={() => setMenuOpen(false)}
         position={menuPos}
-        width={220}
+        width={MENU_WIDTH}
         items={menuItems}
       />
 

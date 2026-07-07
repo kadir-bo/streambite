@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { User, Microphone, Shield, Lock, Trash } from "@phosphor-icons/react";
@@ -36,11 +36,7 @@ export default function UserSettingsModal({ open, onClose }) {
               <button
                 key={t.id}
                 onClick={() => setTab(t.id)}
-                className={`relative whitespace-nowrap border-none bg-transparent px-4 py-3 text-[15px] font-medium cursor-pointer transition-colors duration-150 ${
-                  active
-                    ? "text-white"
-                    : "text-zinc-500 hover:text-zinc-300"
-                }`}
+                className="relative whitespace-nowrap border-none bg-transparent px-4 py-3 text-[15px] font-medium cursor-pointer transition-colors duration-150"
               >
                 {t.label}
                 {active && (

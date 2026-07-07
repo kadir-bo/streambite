@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { Warning, Key, CaretDown } from "@phosphor-icons/react";
@@ -136,7 +136,7 @@ export default function ProfileSettings({ open }) {
             className="w-full flex items-center justify-between rounded-xl bg-surface-hover border border-white/5 px-4 py-3 text-left cursor-pointer"
           >
             <span className="text-[15px] text-white">{selectedStatus?.label}</span>
-            <CaretDown className={`text-zinc-400 transition-transform ${statusDropdownOpen ? "rotate-180" : ""}`} />
+            <CaretDown className="text-zinc-400 transition-transform" />
           </button>
           {statusDropdownOpen && (
             <div className="absolute top-full left-0 right-0 mt-1 rounded-xl bg-surface-hover border border-white/5 overflow-hidden z-10">
@@ -148,11 +148,7 @@ export default function ProfileSettings({ open }) {
                     setStatus(opt.value);
                     setStatusDropdownOpen(false);
                   }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 text-left cursor-pointer border-none ${
-                    status === opt.value
-                      ? "bg-white/10 text-white"
-                      : "bg-transparent text-zinc-400 hover:bg-white/5"
-                  }`}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-left cursor-pointer border-none"
                 >
                   <span className="size-2 rounded-full" style={{ backgroundColor: opt.color }} />
                   <span className="text-[15px]">{opt.label}</span>

@@ -25,8 +25,10 @@ export default function RailButton({
         <motion.div
           animate={state}
           variants={serverIcon}
-          className={`flex size-12 items-center justify-center overflow-hidden cursor-pointer rounded-2xl transition-colors duration-150 ${
-            active ? "bg-surface-hover" : "bg-surface-deep hover:bg-surface-hover"
+          className={`flex size-10 border items-center justify-center overflow-hidden cursor-pointer rounded-2xl transition-colors duration-150 ${
+            active
+              ? "bg-surface-hover border-surface-border"
+              : "bg-surface-deep hover:bg-surface-hover border-transparent"
           }`}
         >
           {children}

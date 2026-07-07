@@ -40,12 +40,15 @@ export default function ServerRail({ onOpenCreate }) {
       const outerRect = outerRef.current.getBoundingClientRect();
       const elRect = el.getBoundingClientRect();
       // +4px for the RailButton's py-1 padding so the pill aligns with the icon
-      setActiveTop(elRect.top - outerRect.top + 4);
+      setActiveTop(elRect.top - outerRect.top + 8);
     }
   }, [activeServerId, pathname]);
 
   return (
-    <div ref={outerRef} className="relative flex w-max shrink-0 flex-col items-center gap-2 overflow-y-auto overflow-x-hidden bg-surface-sidebar py-3 px-1.5">
+    <div
+      ref={outerRef}
+      className="relative flex w-max shrink-0 flex-col items-center gap-2 overflow-y-auto overflow-x-hidden bg-surface-sidebar py-3 px-1.5 border-r border-white/5"
+    >
       {/* Single active pill */}
       <motion.div
         animate={{
@@ -54,7 +57,7 @@ export default function ServerRail({ onOpenCreate }) {
           opacity: hasActive ? 1 : 0,
         }}
         transition={springs.snappy}
-        className="absolute left-0 w-1 rounded-r-full bg-white z-10 pointer-events-none"
+        className="absolute left-0 w-0.5 rounded-r-full bg-white z-10 pointer-events-none"
       />
 
       <div ref={railRef} className="flex flex-col items-center gap-2">
@@ -69,19 +72,26 @@ export default function ServerRail({ onOpenCreate }) {
           >
             <ChatCircleText
               weight={isDM ? "fill" : "regular"}
-              className={`h-6 w-6 ${isDM ? "text-[#8a38f5]" : "text-zinc-500"}`}
+              className={`h-6 w-6 ${isDM ? "text-white" : "text-zinc-500"}`}
             />
           </RailButton>
         </div>
 
         {servers.map((server) => (
-          <div key={server.id} data-active={server.id === activeServerId ? "true" : "false"}>
+          <div
+            key={server.id}
+            data-active={server.id === activeServerId ? "true" : "false"}
+          >
             <RailButton
               href={`/servers/${server.id}`}
               active={server.id === activeServerId}
               tooltip={server.name}
             >
-              <ServerIcon name={server.name} iconUrl={server.iconUrl} size={34} />
+              <ServerIcon
+                name={server.name}
+                iconUrl={server.iconUrl}
+                size={34}
+              />
             </RailButton>
           </div>
         ))}

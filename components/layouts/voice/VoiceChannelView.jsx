@@ -158,7 +158,6 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
           )}
         </div>
       ) : (
-        /* Not connected */
         <div className="flex flex-1 items-center justify-center px-6">
           <button
             onClick={() => connect(serverId, channel.id, channel.name)}
