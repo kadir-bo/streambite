@@ -4,10 +4,12 @@ import { useEffect, useRef } from 'react'
 import { updateUserDocument } from '@/lib'
 
 const PROJECT_ID = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
+const DEBOUNCE_MS = 10_000 // 10 s zwischen zwei Visibility-Writes
 
 /**
  * Setzt den Firestore-Status über die REST API (keepalive-fähig).
  * Diese Funktion MUSS synchron aufrufbar sein (kein await).
+ * Zählt als ein Write – aber ohne SDK-Overhead und Backpressure.
  */
 function firestoreKeepalive(uid, token, status) {
   fetch(
@@ -32,12 +34,15 @@ function firestoreKeepalive(uid, token, status) {
  *  - Tab versteckt          → 'idle' (nur wenn vorher 'online' war)
  *  - Browser geschlossen    → 'offline' (per Firestore REST API + keepalive)
  *
- * Ruft keine useAuth() auf – die Werte werden von AuthProvider übergeben,
- * damit SSR/Prerendering nicht abstürzt.
+ * Optimiert für minimalen Write-Verbrauch:
+ *  - SDK-Writes NUR beim initialen Setzen + Cleanup (2× pro Session)
+ *  - Visibility-Änderungen laufen über die REST API (kein SDK-Backlog)
+ *  - 10 s Debounce verhindert Rapid-Fire bei schnellen Tab-Wechseln
  */
 export function usePresence({ firebaseUser, userDoc }) {
   const intendedStatus = useRef('online')
   const tokenRef = useRef(null)
+  const lastVisibilityWrite = useRef(0)
 
   // Behält den zuletzt vom User gewählten Status (setzt voraus, dass
   // userDoc live per Firestore-Snapshot aktualisiert wird).
@@ -66,25 +71,32 @@ export function usePresence({ firebaseUser, userDoc }) {
     const tokenInterval = setInterval(refreshToken, 5 * 60 * 1000)
 
     // ---------- Initialen Status setzen ----------
+    // Einmaliger SDK-Write pro Session um sicherzustellen, dass das
+    // Dokument existiert und der Status gesetzt ist.
     const current = userDoc?.status ?? 'online'
     if (current === 'online' || current === 'idle') {
       updateUserDocument(uid, { status: 'online' }).catch(() => {})
     }
 
-    // ---------- Visibility-Handler ----------
+    // ---------- Visibility-Handler (REST API only + Debounce) ----------
+    // Nutzt ausschließlich die REST API, um den SDK-internen Write-Limit
+    // und die client-seitige Backoff-Logik zu umgehen. Der 10s-Debounce
+    // verhindert, dass schnelle Tab-Wechsel dutzende Writes verursachen.
     const handleVisibility = () => {
+      const now = Date.now()
+      if (now - lastVisibilityWrite.current < DEBOUNCE_MS) return
+      lastVisibilityWrite.current = now
+
+      if (!tokenRef.current) return
+
       if (document.hidden) {
         if (intendedStatus.current === 'online') {
-          updateUserDocument(uid, { status: 'idle' }).catch(() => {})
-          // Fallback per REST API (falls der SDK-Write blockiert)
-          if (tokenRef.current) {
-            firestoreKeepalive(uid, tokenRef.current, 'idle')
-          }
+          firestoreKeepalive(uid, tokenRef.current, 'idle')
         }
       } else {
         const restore =
           intendedStatus.current === 'offline' ? 'offline' : 'online'
-        updateUserDocument(uid, { status: restore }).catch(() => {})
+        firestoreKeepalive(uid, tokenRef.current, restore)
       }
     }
 
@@ -92,7 +104,6 @@ export function usePresence({ firebaseUser, userDoc }) {
     const handleBeforeUnload = () => {
       const token = tokenRef.current
       if (!token) {
-        // Fallback: versuche trotzdem asynchron (best-effort)
         firebaseUser.getIdToken().then((t) => {
           firestoreKeepalive(uid, t, 'offline')
         })
@@ -108,6 +119,7 @@ export function usePresence({ firebaseUser, userDoc }) {
       clearInterval(tokenInterval)
       document.removeEventListener('visibilitychange', handleVisibility)
       window.removeEventListener('beforeunload', handleBeforeUnload)
+      // SDK-Write beim Verlassen (einmalig pro Session)
       updateUserDocument(uid, { status: 'offline' }).catch(() => {})
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
