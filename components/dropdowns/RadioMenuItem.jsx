@@ -6,7 +6,7 @@ export default function RadioMenuItem({ label, active, disabled, onClick }) {
       onClick={disabled ? undefined : onClick}
       disabled={disabled}
       className={
-        "flex w-full items-center justify-between gap-3 rounded-[8px] border-none bg-transparent px-3 py-2 text-left text-sm font-medium max-sm:py-2.5 " +
+        "flex w-full items-center justify-between gap-3 rounded-lg border-none bg-transparent px-3 py-2 text-left text-sm font-medium max-sm:py-2.5 " +
         (disabled
           ? "text-zinc-500 opacity-40 cursor-not-allowed"
           : "text-zinc-400 hover:bg-white/5 cursor-pointer")

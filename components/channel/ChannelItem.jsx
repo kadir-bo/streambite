@@ -171,9 +171,7 @@ export default function ChannelItem({ channel, serverId, isActive, isOwner }) {
           >
             {channel.name}
           </span>
-          {unread && (
-            <span className="size-2 rounded-full bg-white shrink-0" />
-          )}
+          {unread && <span className="size-2 rounded-full bg-white shrink-0" />}
         </Link>
 
         {menuItems.length > 0 && (
@@ -192,7 +190,7 @@ export default function ChannelItem({ channel, serverId, isActive, isOwner }) {
                 if (isDesktop) connect(serverId, channel.id, channel.name);
                 if (!isDesktop) showContent();
               }}
-              className="flex select-none items-center gap-1.5 no-underline rounded-[8px] px-1 py-1 hover:bg-white/5"
+              className="flex select-none items-center gap-1.5 no-underline rounded-lg px-1 py-1 hover:bg-white/5"
             >
               <Avatar src={m.avatarUrl} name={m.name} size="xs" />
               <span className="truncate text-xs text-zinc-500 group-hover:text-zinc-400">

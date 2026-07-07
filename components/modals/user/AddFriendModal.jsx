@@ -82,18 +82,13 @@ export default function AddFriendModal({ open, onClose }) {
       <div className="flex flex-col gap-5">
         <p className="text-sm text-zinc-500">
           Suche nach dem Nutzernamen mit Tag - z.B.{" "}
-          <span className="font-mono text-zinc-400">
-            Max#1234
-          </span>
+          <span className="font-mono text-zinc-400">Max#1234</span>
         </p>
 
         {/* Search input */}
         <form onSubmit={handleSearch} className="flex gap-2">
-          <div className="flex-1 flex items-center gap-2.5 bg-(--surface-deep) border border-white/5 rounded-[8px] px-3">
-            <MagnifyingGlass
-              size={16}
-              className="text-zinc-500 shrink-0"
-            />
+          <div className="flex-1 flex items-center gap-2.5 bg-(--surface-deep) border border-white/5 rounded-lg px-3">
+            <MagnifyingGlass size={16} className="text-zinc-500 shrink-0" />
             <input
               value={query}
               onChange={(e) => {
@@ -118,7 +113,7 @@ export default function AddFriendModal({ open, onClose }) {
 
         {/* Error */}
         {error && (
-          <div className="flex items-center gap-2 px-3 py-2.5 bg-red-500/10 rounded-[8px]">
+          <div className="flex items-center gap-2 px-3 py-2.5 bg-red-500/10 rounded-lg">
             <Warning size={16} className="text-red-500 shrink-0" />
             <p className="text-sm text-red-500">{error}</p>
           </div>
@@ -133,7 +128,7 @@ export default function AddFriendModal({ open, onClose }) {
 
         {/* Found user */}
         {result && result !== "not_found" && (
-          <div className="flex items-center gap-3 p-3.5 bg-(--surface-deep) rounded-[8px] border border-white/5">
+          <div className="flex items-center gap-3 p-3.5 bg-(--surface-deep) rounded-lg border border-white/5">
             <Avatar
               src={result.avatarUrl}
               name={result.displayName}
@@ -155,13 +150,9 @@ export default function AddFriendModal({ open, onClose }) {
                 Gesendet
               </div>
             ) : alreadyFriend ? (
-              <span className="text-xs text-zinc-500">
-                Bereits befreundet
-              </span>
+              <span className="text-xs text-zinc-500">Bereits befreundet</span>
             ) : requestPending ? (
-              <span className="text-xs text-zinc-500">
-                Anfrage ausstehend
-              </span>
+              <span className="text-xs text-zinc-500">Anfrage ausstehend</span>
             ) : isSelf ? (
               <span className="text-xs text-zinc-500">Das bist du</span>
             ) : (

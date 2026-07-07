@@ -166,7 +166,7 @@ export default function ScreenShareTile({ participant }) {
     <div className="flex h-full w-full min-h-0 flex-col gap-2">
       <div
         ref={containerRef}
-        className={`group relative flex-1 overflow-hidden rounded-[8px] border border-white/5 bg-black ${
+        className={`group relative flex-1 overflow-hidden rounded-lg border border-white/5 bg-black ${
           maximized
             ? "fixed inset-0 z-50 flex items-center justify-center bg-black"
             : ""
@@ -236,7 +236,7 @@ export default function ScreenShareTile({ participant }) {
             </p>
             <button
               onClick={handleJoinStream}
-              className="flex cursor-pointer items-center gap-2 rounded-[8px] bg-(--accent) px-5 py-2.5 text-sm font-semibold text-white border-none hover:opacity-90 active:opacity-80"
+              className="flex cursor-pointer items-center gap-2 rounded-lg bg-(--accent) px-5 py-2.5 text-sm font-semibold text-white border-none hover:opacity-90 active:opacity-80"
             >
               <PlayCircle size={20} weight="fill" />
               Stream beitreten

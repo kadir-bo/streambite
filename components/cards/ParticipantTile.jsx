@@ -1,10 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  MicrophoneSlash,
-  UserMinus,
-} from "@phosphor-icons/react";
+import { MicrophoneSlash, UserMinus } from "@phosphor-icons/react";
 import { useVoice } from "@/context";
 import { useLongPress } from "@/hooks";
 import { Avatar, ContextMenu, ConfirmModal, DotMenu } from "@/components";
@@ -43,13 +40,10 @@ export default function ParticipantTile({ participant, isOwner }) {
   return (
     <div
       {...longPress.handlers}
-      className="group relative flex select-none flex-col items-center gap-3 rounded-[8px] bg-zinc-800 border border-white/5 aspect-video p-4 w-full min-w-0 justify-center"
+      className="group relative flex select-none flex-col items-center gap-3 rounded-lg bg-zinc-800 border border-white/5 aspect-video p-4 w-full min-w-0 justify-center"
     >
       {canManage && (
-        <DotMenu
-          onClick={openMenu}
-          className="absolute right-1.5 top-1.5"
-        />
+        <DotMenu onClick={openMenu} className="absolute right-1.5 top-1.5" />
       )}
 
       <div

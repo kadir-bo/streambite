@@ -50,7 +50,7 @@ export default function QuickDmSwitcher({ open, onClose }) {
       maxWidth={420}
     >
       <div className="flex flex-col gap-3.5">
-        <div className="flex items-center gap-2 bg-(--surface-deep) border border-white/5 rounded-[8px] px-3">
+        <div className="flex items-center gap-2 bg-(--surface-deep) border border-white/5 rounded-lg px-3">
           <MagnifyingGlass className="text-zinc-500 shrink-0 text-xl md:text-lg" />
           <input
             autoFocus
@@ -76,7 +76,7 @@ export default function QuickDmSwitcher({ open, onClose }) {
                 key={friend.id}
                 onClick={() => openDm(friend)}
                 disabled={!!opening}
-                className={`flex items-center gap-2.5 py-2 px-2.5 rounded-[8px] border-none bg-transparent cursor-pointer text-left ${
+                className={`flex items-center gap-2.5 py-2 px-2.5 rounded-lg border-none bg-transparent cursor-pointer text-left ${
                   opening && opening !== friend.id
                     ? "opacity-50"
                     : "opacity-100"
@@ -91,9 +91,7 @@ export default function QuickDmSwitcher({ open, onClose }) {
                 <span className="flex-1 text-sm font-medium text-zinc-100 truncate">
                   {friend.displayName}
                 </span>
-                <ChatCircleText
-                  className="text-zinc-500 shrink-0 text-xl md:text-lg"
-                />
+                <ChatCircleText className="text-zinc-500 shrink-0 text-xl md:text-lg" />
               </button>
             ))
           )}

@@ -87,14 +87,14 @@ export default function CreateChannelModal({ open, onClose, category }) {
                   key={t.value}
                   type="button"
                   onClick={() => setType(t.value)}
-                  className={`flex items-center gap-3 p-3 rounded-[8px] border cursor-pointer text-left transition-colors duration-150 ${
+                  className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer text-left transition-colors duration-150 ${
                     active
                       ? "bg-white/10 border-white/20"
                       : "bg-transparent border-white/5 hover:bg-white/5 hover:border-white/10"
                   }`}
                 >
                   <span
-                    className={`flex shrink-0 size-9 items-center justify-center rounded-[8px] ${
+                    className={`flex shrink-0 size-9 items-center justify-center rounded-lg ${
                       active
                         ? "bg-zinc-700 text-zinc-100"
                         : "bg-zinc-800 text-zinc-500"
@@ -122,7 +122,7 @@ export default function CreateChannelModal({ open, onClose, category }) {
             })}
           </div>
         ) : (
-          <div className="flex items-center gap-2 p-3 rounded-[8px] border border-white/5 bg-zinc-800">
+          <div className="flex items-center gap-2 p-3 rounded-lg border border-white/5 bg-zinc-800">
             {type === "text" ? <Hash size={20} /> : <SpeakerHigh size={20} />}
             <span className="text-sm text-zinc-400">
               {type === "text" ? "Textkanal" : "Sprachkanal"}

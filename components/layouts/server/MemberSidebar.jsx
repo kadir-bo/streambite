@@ -46,7 +46,7 @@ export default function MemberSidebar() {
       {isDesktop ? (
         <motion.aside
           initial={false}
-          className="bg-(--surface-deep) border-l border-white/5 shrink-0 py-2.5 overflow-y-auto overflow-x-hidden"
+          className="bg-surface-sidebar border-l border-white/5 shrink-0 py-2.5 overflow-y-auto overflow-x-hidden"
           animate={{
             width: showMembers
               ? `${maxSidebarWidth}px`
@@ -67,7 +67,12 @@ export default function MemberSidebar() {
                   <h2 className="text-base font-bold text-zinc-100">
                     Mitglieder
                   </h2>
-                  <IconBtn icon={X} onClick={toggleMembers} title="Schließen" size="sm" />
+                  <IconBtn
+                    icon={X}
+                    onClick={toggleMembers}
+                    title="Schließen"
+                    size="sm"
+                  />
                 </div>
                 <div className="mx-4 mt-3 h-px bg-white/5" />
 
@@ -77,7 +82,7 @@ export default function MemberSidebar() {
                     <p className="text-2xs font-semibold uppercase tracking-wider text-zinc-500 mb-1">
                       Online — {online.length}
                     </p>
-                    <div className="flex flex-col gap-0.5">
+                    <div className="flex flex-col gap-1">
                       {online.map((m) => (
                         <MemberRow
                           key={m.id}

@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { ChatsCircle, ChatCircleText, XCircle } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
-import { subscribeToUser, ensureDm, closeDm } from "@/lib";
+import { subscribeToUser, ensureDm, closeDm, cn } from "@/lib";
 import { useUnread, useFriendActions, useLongPress } from "@/hooks";
 import { Avatar, ContextMenu, DotMenu } from "@/components";
 
@@ -96,7 +96,12 @@ export default function DmRow({ dm, otherUid, active }) {
     <div
       ref={rowRef}
       {...longPress.handlers}
-      className="group flex items-center mx-2"
+      className={cn(
+        "group flex items-center mx-2 rounded-xl",
+        active
+          ? "bg-surface-hover"
+          : "bg-transparent hover:bg-surface-hover/50",
+      )}
       onContextMenu={openMenuAtCursor}
     >
       <a
@@ -105,11 +110,7 @@ export default function DmRow({ dm, otherUid, active }) {
           e.preventDefault();
           openDm();
         }}
-        className={`flex items-center gap-3 px-3 py-2.5 flex-1 min-w-0 rounded-xl no-underline transition-colors duration-100 ${
-          active
-            ? "bg-surface-hover"
-            : "bg-transparent hover:bg-surface-hover/50"
-        }`}
+        className="flex items-center gap-3 px-3 py-2.5 flex-1 min-w-0 no-underline transition-colors duration-100"
       >
         <div className="relative shrink-0">
           <Avatar
@@ -150,7 +151,7 @@ export default function DmRow({ dm, otherUid, active }) {
 
       <DotMenu
         onClick={openMenuFromAnchor}
-        className="shrink-0 ml-auto"
+        className="shrink-0 ml-auto hover:bg-transparent!"
       />
 
       <ContextMenu

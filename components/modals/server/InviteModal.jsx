@@ -98,9 +98,7 @@ export default function InviteModal({ open, onClose, server }) {
               <p className="text-sm font-semibold text-zinc-100 truncate">
                 {server?.name ?? "..."}
               </p>
-              <p className="text-xs text-zinc-500">
-                Einladungslink teilen
-              </p>
+              <p className="text-xs text-zinc-500">Einladungslink teilen</p>
             </div>
           </div>
 
@@ -108,7 +106,7 @@ export default function InviteModal({ open, onClose, server }) {
             whileTap={{ scale: 0.9 }}
             onClick={handleCopy}
             title={inviteLink}
-            className={`flex items-center gap-1.5 px-3 py-1.75 rounded-[8px] border text-sm font-semibold shrink-0 transition-colors duration-150 ${
+            className={`flex items-center gap-1.5 px-3 py-1.75 rounded-lg border text-sm font-semibold shrink-0 transition-colors duration-150 ${
               copied
                 ? "bg-white/10 text-green-500 border-green-500 cursor-default"
                 : "bg-(--surface-deep) text-zinc-100 border-white/5 hover:bg-zinc-800 cursor-pointer"
@@ -152,11 +150,8 @@ export default function InviteModal({ open, onClose, server }) {
             An Freund senden
           </p>
 
-          <div className="flex items-center gap-2 bg-(--surface-deep) border border-white/5 rounded-[8px] px-3 mb-2.5">
-            <MagnifyingGlass
-              size={14}
-              className="text-zinc-500 shrink-0"
-            />
+          <div className="flex items-center gap-2 bg-(--surface-deep) border border-white/5 rounded-lg px-3 mb-2.5">
+            <MagnifyingGlass size={14} className="text-zinc-500 shrink-0" />
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -183,7 +178,7 @@ export default function InviteModal({ open, onClose, server }) {
                 return (
                   <div
                     key={friend.id}
-                    className="flex items-center gap-2.5 px-1 py-1.5 rounded-[8px]"
+                    className="flex items-center gap-2.5 px-1 py-1.5 rounded-lg"
                   >
                     <Avatar
                       src={friend.avatarUrl}

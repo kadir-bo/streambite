@@ -2,10 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { usePathname, useParams, useRouter } from "next/navigation";
-import {
-  MagnifyingGlass,
-  Plus,
-} from "@phosphor-icons/react";
+import { MagnifyingGlass, Plus } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import { useFriends } from "@/hooks";
 import { subscribeToUserDms, ensureDm } from "@/lib";
@@ -54,9 +51,7 @@ export default function DmSidebar() {
           className="w-full flex items-center gap-2 py-3 px-3 rounded-xl border border-white/5 bg-surface-deep text-zinc-500 text-sm cursor-pointer text-left truncate hover:text-zinc-400"
         >
           <MagnifyingGlass className="shrink-0 text-lg" />
-          <span className="truncate">
-            Finde oder starte ein Gespräch
-          </span>
+          <span className="truncate">Finde oder starte ein Gespräch</span>
         </button>
       </div>
 

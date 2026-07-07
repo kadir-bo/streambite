@@ -21,7 +21,7 @@ export default function ContextMenuItem({
       disabled={disabled}
       title={title}
       className={
-        "w-full text-left px-3 py-2 rounded-[8px] border-none bg-transparent flex items-center gap-2 text-sm font-medium max-sm:py-2.5 " +
+        "w-full text-left px-3 py-2 rounded-lg border-none bg-transparent flex items-center gap-2 text-sm font-medium max-sm:py-2.5 " +
         (disabled
           ? "text-zinc-500 opacity-40 cursor-not-allowed"
           : danger

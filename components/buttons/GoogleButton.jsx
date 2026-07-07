@@ -18,7 +18,9 @@ export default function GoogleButton({
       await onClick();
     } catch (err) {
       if (err?.code !== "auth/popup-closed-by-user") {
-        setError(`Google-Anmeldung fehlgeschlagen (${err?.code || err?.message || 'unbekannter Fehler'})`);
+        setError(
+          `Google-Anmeldung fehlgeschlagen (${err?.code || err?.message || "unbekannter Fehler"})`,
+        );
       }
     } finally {
       setLoading(false);
@@ -32,7 +34,7 @@ export default function GoogleButton({
         whileTap={{ scale: loading ? 1 : 0.97 }}
         onClick={handleClick}
         disabled={loading}
-        className="w-full flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-[8px] border border-white/10 bg-zinc-800 text-zinc-100 text-sm font-medium hover:bg-white/5"
+        className="w-full flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-lg border border-white/10 bg-zinc-800 text-zinc-100 text-sm font-medium hover:bg-white/5"
         style={{
           cursor: loading ? "not-allowed" : "pointer",
           opacity: loading ? 0.6 : 1,

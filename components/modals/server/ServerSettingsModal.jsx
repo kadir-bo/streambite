@@ -4,7 +4,12 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Camera, Link, CopySimple, Check } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
-import { updateServer, leaveServer, deleteServer, uploadToCloudinary } from "@/lib";
+import {
+  updateServer,
+  leaveServer,
+  deleteServer,
+  uploadToCloudinary,
+} from "@/lib";
 import { Modal, Input, Button, ServerIcon, SectionLabel } from "@/components";
 
 export default function ServerSettingsModal({ open, onClose, server }) {
@@ -204,7 +209,7 @@ export default function ServerSettingsModal({ open, onClose, server }) {
         )}
 
         {error && (
-          <p className="text-xs text-red-500 px-3 py-2 bg-red-500/10 rounded-[8px]">
+          <p className="text-xs text-red-500 px-3 py-2 bg-red-500/10 rounded-lg">
             {error}
           </p>
         )}
@@ -212,7 +217,7 @@ export default function ServerSettingsModal({ open, onClose, server }) {
         {/* Invite link */}
         <div>
           <SectionLabel>Einladungslink</SectionLabel>
-          <div className="flex items-center gap-2.5 bg-(--surface-deep) rounded-[8px] border border-white/5 px-3.5 py-2.5">
+          <div className="flex items-center gap-2.5 bg-(--surface-deep) rounded-lg border border-white/5 px-3.5 py-2.5">
             <Link className="text-zinc-500 shrink-0 text-sm" />
             <span className="flex-1 text-sm text-zinc-500 truncate font-mono">
               {inviteLink || "..."}
@@ -248,19 +253,16 @@ export default function ServerSettingsModal({ open, onClose, server }) {
             </Button>
 
             {isOwner && !confirmDelete && (
-              <Button
-                variant="danger"
-                onClick={() => setConfirmDelete(true)}
-              >
+              <Button variant="danger" onClick={() => setConfirmDelete(true)}>
                 Server löschen
               </Button>
             )}
 
             {isOwner && confirmDelete && (
-              <div className="flex flex-col gap-2 p-3 rounded-[8px] border border-red-500 bg-red-500/10">
+              <div className="flex flex-col gap-2 p-3 rounded-lg border border-red-500 bg-red-500/10">
                 <p className="text-xs text-red-500 font-semibold">
-                  Wirklich löschen? Alle Kanäle, Nachrichten und Dateien
-                  werden unwiderruflich gelöscht.
+                  Wirklich löschen? Alle Kanäle, Nachrichten und Dateien werden
+                  unwiderruflich gelöscht.
                 </p>
                 <div className="flex gap-2">
                   <Button

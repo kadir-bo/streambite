@@ -174,14 +174,14 @@ export default function Message({
                 }}
                 onKeyDown={handleEditKeyDown}
                 disabled={savingEdit}
-                className="w-full resize-none bg-(--surface-deep) border border-white/20 rounded-[8px] px-3 py-2 text-base text-zinc-100 outline-none leading-normal min-h-10 overflow-y-hidden"
+                className="w-full resize-none bg-(--surface-deep) border border-white/20 rounded-lg px-3 py-2 text-base text-zinc-100 outline-none leading-normal min-h-10 overflow-y-hidden"
               />
               <p className="text-xs text-zinc-500 mt-1">
                 Enter zum Speichern · Escape zum Abbrechen
               </p>
             </div>
           ) : (
-            <p className="text-[15px] text-zinc-200 leading-relaxed break-words">
+            <p className="text-[15px] text-zinc-200 leading-relaxed wrap-break-word">
               <MessageContent content={message.content} />
               {message.editedAt && !isDeleted && (
                 <span className="text-2xs text-zinc-600 ml-1.5 italic">
@@ -202,7 +202,7 @@ export default function Message({
                     src={att.url}
                     alt={att.name}
                     loading="lazy"
-                    className="max-w-90 max-h-75 rounded-[8px] border border-white/5 cursor-pointer object-cover block"
+                    className="max-w-90 max-h-75 rounded-lg border border-white/5 cursor-pointer object-cover block"
                     onClick={() => window.open(att.url, "_blank")}
                   />
                 ) : (
@@ -211,7 +211,7 @@ export default function Message({
                     href={att.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-2 px-3 py-2 bg-zinc-800 border border-white/5 rounded-[8px] text-sm text-zinc-400 no-underline"
+                    className="inline-flex items-center gap-2 px-3 py-2 bg-zinc-800 border border-white/5 rounded-lg text-sm text-zinc-400 no-underline"
                   >
                     📎 {att.name}
                   </a>
@@ -235,7 +235,7 @@ export default function Message({
         {/* Hover actions */}
         <AnimatePresence>
           {hovered && !editing && !isDeleted && (
-            <div className="absolute -top-5 right-4 z-[10]">
+            <div className="absolute top-0 right-4 z-10">
               <MessageActions
                 message={message}
                 serverId={serverId}

@@ -1,60 +1,112 @@
-"use client"
+"use client";
 
-import { useState, useRef } from "react"
-import { motion, useInView } from "motion/react"
-import { motionTokens } from "@/lib/motion-tokens"
+import { useState, useRef } from "react";
+import { motion, useInView } from "motion/react";
+import { motionTokens } from "@/lib/motion-tokens";
 
-const channels = ["Willkommen", "Ankündigungen", "Chat", "Voice", "Stream"]
+const channels = ["Willkommen", "Ankündigungen", "Chat", "Voice", "Stream"];
 
 const channelData = {
   Willkommen: {
     icon: "#",
     messages: [
-      { name: "Lena", msg: "Herzlich willkommen auf dem Server! 🎉", color: "text-(--accent)" },
-      { name: "ServerBot", msg: "Schau dir die Regeln in #Ankündigungen an.", color: "text-emerald-400" },
-      { name: "Marcel", msg: "Endlich ist der Server online!", color: "text-amber-400" },
+      {
+        name: "Lena",
+        msg: "Herzlich willkommen auf dem Server! 🎉",
+        color: "text-(--accent)",
+      },
+      {
+        name: "ServerBot",
+        msg: "Schau dir die Regeln in #Ankündigungen an.",
+        color: "text-emerald-400",
+      },
+      {
+        name: "Marcel",
+        msg: "Endlich ist der Server online!",
+        color: "text-amber-400",
+      },
     ],
   },
   Ankündigungen: {
     icon: "📢",
     messages: [
-      { name: "Admin", msg: "Server-Update 2.0 ist live! 🚀", color: "text-red-400" },
-      { name: "Admin", msg: "Neue Voice-Channels mit besserer Audio-Qualität.", color: "text-red-400" },
-      { name: "Admin", msg: "Wartung these week – kurze Downtime geplant.", color: "text-red-400" },
+      {
+        name: "Admin",
+        msg: "Server-Update 2.0 ist live! 🚀",
+        color: "text-red-400",
+      },
+      {
+        name: "Admin",
+        msg: "Neue Voice-Channels mit besserer Audio-Qualität.",
+        color: "text-red-400",
+      },
+      {
+        name: "Admin",
+        msg: "Wartung these week – kurze Downtime geplant.",
+        color: "text-red-400",
+      },
     ],
   },
   Chat: {
     icon: "#",
     messages: [
-      { name: "Lena", msg: "Hat jemand den Server-Link?", color: "text-(--accent)" },
-      { name: "Tobias", msg: "Ja, schick ich dir per DM!", color: "text-emerald-400" },
+      {
+        name: "Lena",
+        msg: "Hat jemand den Server-Link?",
+        color: "text-(--accent)",
+      },
+      {
+        name: "Tobias",
+        msg: "Ja, schick ich dir per DM!",
+        color: "text-emerald-400",
+      },
       { name: "Marcel", msg: "Wann geht's los? 🎮", color: "text-amber-400" },
     ],
   },
   Voice: {
     icon: "🔊",
     messages: [
-      { name: "Tobias", msg: "Bin im Voice-Channel, wer kommt?", color: "text-emerald-400" },
-      { name: "Lena", msg: "Bin gleich da, hol nur Kopfhörer!", color: "text-(--accent)" },
-      { name: "Marcel", msg: "Audio klingt super heute!", color: "text-amber-400" },
+      {
+        name: "Tobias",
+        msg: "Bin im Voice-Channel, wer kommt?",
+        color: "text-emerald-400",
+      },
+      {
+        name: "Lena",
+        msg: "Bin gleich da, hol nur Kopfhörer!",
+        color: "text-(--accent)",
+      },
+      {
+        name: "Marcel",
+        msg: "Audio klingt super heute!",
+        color: "text-amber-400",
+      },
     ],
   },
   Stream: {
     icon: "🖥️",
     messages: [
-      { name: "Marcel", msg: "Starte gleich den Stream – Code-Review auf dem Plan! 🔴", color: "text-amber-400" },
+      {
+        name: "Marcel",
+        msg: "Starte gleich den Stream – Code-Review auf dem Plan! 🔴",
+        color: "text-amber-400",
+      },
       { name: "Lena", msg: "Cool, schau zu!", color: "text-(--accent)" },
-      { name: "Tobias", msg: "1080p/60fps Screen-Share läuft perfekt!", color: "text-emerald-400" },
+      {
+        name: "Tobias",
+        msg: "1080p/60fps Screen-Share läuft perfekt!",
+        color: "text-emerald-400",
+      },
     ],
   },
-}
+};
 
 export default function ProductShowcase() {
-  const sectionRef = useRef(null)
-  const isInView = useInView(sectionRef, { once: true, margin: "-80px" })
-  const [activeChannel, setActiveChannel] = useState("Chat")
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
+  const [activeChannel, setActiveChannel] = useState("Chat");
 
-  const current = channelData[activeChannel]
+  const current = channelData[activeChannel];
 
   return (
     <section ref={sectionRef} className="max-w-6xl mx-auto px-6 pb-24 md:pb-32">
@@ -70,7 +122,10 @@ export default function ProductShowcase() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : {}}
-        transition={{ duration: motionTokens.duration.normal, ease: motionTokens.easing.glide }}
+        transition={{
+          duration: motionTokens.duration.normal,
+          ease: motionTokens.easing.glide,
+        }}
         className="relative mx-auto max-w-5xl"
       >
         {/* Browser-Fenster Mockup */}
@@ -83,7 +138,9 @@ export default function ProductShowcase() {
               <div className="size-2.5 rounded-full bg-green-500/80" />
             </div>
             <div className="flex-1 text-center">
-              <span className="text-[11px] text-zinc-500 font-medium">Streambite — {activeChannel}</span>
+              <span className="text-[11px] text-zinc-500 font-medium">
+                Streambite — {activeChannel}
+              </span>
             </div>
           </div>
 
@@ -116,7 +173,9 @@ export default function ProductShowcase() {
                         : "text-zinc-400 hover:bg-zinc-800/40"
                     }`}
                   >
-                    <span className="text-zinc-600 shrink-0">{channelData[ch].icon}</span>
+                    <span className="text-zinc-600 shrink-0">
+                      {channelData[ch].icon}
+                    </span>
                     {ch}
                   </button>
                 ))}
@@ -128,12 +187,16 @@ export default function ProductShowcase() {
               {/* Chat-Header */}
               <div className="h-12 border-b border-white/5 flex items-center px-4 shrink-0">
                 <span className="text-sm font-semibold flex items-center gap-2">
-                  <span className="text-zinc-500">{current.icon}</span> {activeChannel}
+                  <span className="text-zinc-500">{current.icon}</span>{" "}
+                  {activeChannel}
                 </span>
               </div>
 
               {/* Messages – animiert bei Channel-Wechsel */}
-              <div key={activeChannel} className="flex-1 p-4 space-y-4 overflow-hidden">
+              <div
+                key={activeChannel}
+                className="flex-1 p-4 space-y-4 overflow-hidden"
+              >
                 {current.messages.map((m, i) => (
                   <motion.div
                     key={i}
@@ -151,10 +214,14 @@ export default function ProductShowcase() {
                     </div>
                     <div className="min-w-0">
                       <div className="flex items-baseline gap-2">
-                        <span className={`text-sm font-semibold ${m.color}`}>{m.name}</span>
+                        <span className={`text-sm font-semibold ${m.color}`}>
+                          {m.name}
+                        </span>
                         <span className="text-[10px] text-zinc-600">heute</span>
                       </div>
-                      <p className="text-sm text-zinc-300 mt-0.5 break-words">{m.msg}</p>
+                      <p className="text-sm text-zinc-300 mt-0.5 wrap-break-word">
+                        {m.msg}
+                      </p>
                     </div>
                   </motion.div>
                 ))}
@@ -177,5 +244,5 @@ export default function ProductShowcase() {
         </div>
       </motion.div>
     </section>
-  )
+  );
 }

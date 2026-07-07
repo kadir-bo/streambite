@@ -14,16 +14,14 @@ export default function Select({ label, className, children, ...props }) {
       <div className="relative">
         <select
           className={cn(
-            "w-full appearance-none outline-none transition-colors bg-zinc-800 rounded-[8px] px-3 py-2.5 pr-9 text-sm text-zinc-100 border border-white/10 focus:border-white/20 cursor-pointer",
+            "w-full appearance-none outline-none transition-colors bg-zinc-800 rounded-lg px-3 py-2.5 pr-9 text-sm text-zinc-100 border border-white/10 focus:border-white/20 cursor-pointer",
             className,
           )}
           {...props}
         >
           {children}
         </select>
-        <CaretDown
-          className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 text-sm md:text-base"
-        />
+        <CaretDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 text-sm md:text-base" />
       </div>
     </div>
   );

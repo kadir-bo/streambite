@@ -34,7 +34,7 @@ export default function ActiveFriendRow({ friend }) {
     <button
       onClick={openDm}
       disabled={opening}
-      className="w-full flex items-center gap-2.5 p-2 rounded-[8px] border-none bg-transparent text-left cursor-pointer hover:bg-white/5 max-sm:min-h-12"
+      className="w-full flex items-center gap-2.5 p-2 rounded-lg border-none bg-transparent text-left cursor-pointer hover:bg-white/5 max-sm:min-h-12"
     >
       <Avatar
         src={friend.avatarUrl}

@@ -61,7 +61,7 @@ export default function MemberRow({ member, isOffline, serverId, canManage }) {
     <>
       <div
         {...longPress.handlers}
-        className={`group flex items-center gap-2 px-2 py-1.25 rounded-[8px] cursor-default hover:bg-white/5 border border-white/5 h-14 md:h-12 ${
+        className={`group flex items-center gap-2 px-2 py-1.25 rounded-lg cursor-default hover:bg-white/5 border border-white/5 h-14 md:h-12  ${
           isOffline ? "opacity-45" : "opacity-100"
         }`}
       >

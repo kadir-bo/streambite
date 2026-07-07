@@ -63,7 +63,7 @@ export default function IconBtn({
   };
 
   const roundedClasses = {
-    base: "rounded-[8px]",
+    base: "rounded-lg",
     sm: "rounded-[4px]",
     full: "rounded-full",
     none: "",
@@ -88,7 +88,7 @@ export default function IconBtn({
   // sein (z.B. "size-4" oder "size-16"). Gleiches gilt für mobileSize.
   const sizeClass = sizeClasses[size] ?? size ?? sizeClasses.md;
   const mobClass = mobileSize
-    ? mobileSizeClasses[mobileSize] ?? mobileSize
+    ? (mobileSizeClasses[mobileSize] ?? mobileSize)
     : "max-sm:size-11";
 
   // Icon-Größe über Map: size="sm" → text-sm, size="xl" → text-xl, Raw → text-xl
@@ -105,12 +105,10 @@ export default function IconBtn({
         "flex shrink-0 items-center justify-center border-none cursor-pointer transition-all duration-100",
         sizeClass,
         mobClass,
-        roundedClasses[rounded] ?? "rounded-[8px]",
+        roundedClasses[rounded] ?? "rounded-lg",
         variantClasses[variant] ?? variantClasses.ghost,
         // Active-Override für ghost
-        active &&
-          variant === "ghost" &&
-          "bg-white/10 text-zinc-100",
+        active && variant === "ghost" && "bg-white/10 text-zinc-100",
         mobileOnly && "md:hidden",
         desktopOnly && "hidden md:flex",
         disabled && "opacity-40 cursor-not-allowed",

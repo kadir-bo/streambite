@@ -75,7 +75,7 @@ export default function UsernamePromptModal({ open, uid, tag, onDone }) {
               />
 
               {error && (
-                <p className="text-xs text-red-500 px-3 py-2 bg-red-500/10 rounded-[8px]">
+                <p className="text-xs text-red-500 px-3 py-2 bg-red-500/10 rounded-lg">
                   {error}
                 </p>
               )}
