@@ -101,8 +101,8 @@ export default function DmRow({ dm, otherUid, active }) {
         }}
         className={`flex items-center gap-3 px-3 py-2.5 mx-2 rounded-xl no-underline transition-colors duration-100 ${
           active
-            ? "bg-[#1c1c28]"
-            : "bg-transparent hover:bg-[#1c1c28]/50"
+            ? "bg-surface-hover"
+            : "bg-transparent hover:bg-surface-hover/50"
         }`}
       >
         <div className="relative shrink-0">

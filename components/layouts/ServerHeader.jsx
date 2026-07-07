@@ -65,7 +65,7 @@ export default function ServerHeader({
           <button
             onClick={onOpenSettings}
             title="Servereinstellungen"
-            className="flex items-center justify-center size-10 rounded-full border-none bg-[#1c1c28] text-zinc-400 cursor-pointer transition-colors hover:text-white"
+            className="flex items-center justify-center size-10 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
           >
             <GearSix weight="regular" className="text-xl" />
           </button>
@@ -89,7 +89,7 @@ export default function ServerHeader({
         <button
           onClick={onOpenInvite}
           title="Mitglieder"
-          className="flex items-center justify-center size-10 rounded-full border-none bg-[#1c1c28] text-zinc-400 cursor-pointer transition-colors hover:text-white"
+          className="flex items-center justify-center size-10 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
         >
           <UsersThree weight="regular" className="text-xl" />
         </button>

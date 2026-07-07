@@ -41,7 +41,7 @@ export default function ServerRail({ onOpenCreate }) {
   }, [activeServerId, pathname]);
 
   return (
-    <div className="relative flex w-max shrink-0 flex-col items-center gap-2 overflow-y-auto overflow-x-hidden bg-[#05050b] py-3 px-1.5">
+    <div className="relative flex w-max shrink-0 flex-col items-center gap-2 overflow-y-auto overflow-x-hidden bg-surface-sidebar py-3 px-1.5">
       {/* Single active pill */}
       <motion.div
         animate={{

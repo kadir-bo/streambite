@@ -44,12 +44,12 @@ export default function HomeTopbar() {
             title="Zurück"
             size="xl"
             mobileOnly
-            className="bg-[#1c1c28]!"
+            className="bg-surface-hover!"
           />
           <button
             type="button"
             title="Suche"
-            className="flex items-center justify-center size-10 rounded-full border-none bg-[#1c1c28] text-zinc-400 cursor-pointer transition-colors hover:text-white hidden md:flex"
+            className="flex items-center justify-center size-10 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white hidden md:flex"
           >
             <MagnifyingGlass weight="regular" className="text-xl" />
           </button>
@@ -65,7 +65,7 @@ export default function HomeTopbar() {
           type="button"
           onClick={() => setAddOpen(true)}
           title="Freund hinzufügen"
-          className="flex items-center justify-center size-10 rounded-full border-none bg-[#1c1c28] text-zinc-400 cursor-pointer transition-colors hover:text-white"
+          className="flex items-center justify-center size-10 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
         >
           <UserPlus weight="regular" className="text-xl" />
         </button>

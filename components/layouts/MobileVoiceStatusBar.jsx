@@ -40,11 +40,11 @@ export default function MobileVoiceStatusBar() {
 
   return (
     <div className="flex shrink-0 items-center justify-center px-3 pb-2 pt-1 md:hidden">
-      <div className="flex w-full max-w-md items-center justify-center gap-2 rounded-3xl bg-[#111119] p-3">
+      <div className="flex w-full max-w-md items-center justify-center gap-2 rounded-3xl bg-surface-deep p-3">
         {/* Speaker */}
         <Link
           href={`/servers/${connection.serverId}/${connection.channelId}`}
-          className="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#1c1c28] text-white no-underline transition-colors hover:bg-[#252535]"
+          className="flex size-12 shrink-0 items-center justify-center rounded-full bg-surface-hover text-white no-underline transition-colors hover:bg-surface-raised"
         >
           <SpeakerHigh weight="regular" className="text-xl" />
         </Link>
@@ -56,8 +56,8 @@ export default function MobileVoiceStatusBar() {
           title={muted ? "Stummschaltung aufheben" : "Stummschalten"}
           className={`flex size-12 shrink-0 items-center justify-center rounded-full border-none cursor-pointer transition-all duration-150 ${
             muted
-              ? "bg-[#7d1021] text-white hover:bg-[#9a1a2d]"
-              : "bg-[#1c1c28] text-white hover:bg-[#252535]"
+              ? "bg-red text-white hover:bg-red-hover"
+              : "bg-surface-hover text-white hover:bg-surface-raised"
           }`}
         >
           {muted ? (
@@ -74,8 +74,8 @@ export default function MobileVoiceStatusBar() {
           title={deafened ? "Hörgerät aktivieren" : "Tauben schalten"}
           className={`flex size-12 shrink-0 items-center justify-center rounded-full border-none cursor-pointer transition-all duration-150 ${
             deafened
-              ? "bg-[#7d1021] text-white hover:bg-[#9a1a2d]"
-              : "bg-[#1c1c28] text-white hover:bg-[#252535]"
+              ? "bg-red text-white hover:bg-red-hover"
+              : "bg-surface-hover text-white hover:bg-surface-raised"
           }`}
         >
           <Headphones weight="regular" className="text-xl" />
@@ -92,8 +92,8 @@ export default function MobileVoiceStatusBar() {
           }
           className={`flex size-12 shrink-0 items-center justify-center rounded-full border-none cursor-pointer transition-all duration-150 ${
             screenShare
-              ? "bg-[#8a38f5] text-white hover:bg-[#7a2de0]"
-              : "bg-[#1c1c28] text-white hover:bg-[#252535]"
+              ? "bg-accent text-white hover:bg-accent-hover"
+              : "bg-surface-hover text-white hover:bg-surface-raised"
           }`}
         >
           <MonitorPlay weight="regular" className="text-xl" />
@@ -104,7 +104,7 @@ export default function MobileVoiceStatusBar() {
           type="button"
           onClick={disconnect}
           title="Sprachkanal verlassen"
-          className="flex size-12 shrink-0 items-center justify-center rounded-full border-none cursor-pointer bg-[#7d1021] text-white transition-all duration-150 hover:bg-[#9a1a2d]"
+          className="flex size-12 shrink-0 items-center justify-center rounded-full border-none cursor-pointer bg-red text-white transition-all duration-150 hover:bg-red-hover"
         >
           <PhoneDisconnect weight="regular" className="text-xl" />
         </button>

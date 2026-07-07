@@ -36,6 +36,36 @@
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* SURFACES */
+  --color-surface-app: #030309;
+  --color-surface-deep: #111119;
+  --color-surface-card: #111119;
+  --color-surface-hover: #1c1c28;
+  --color-surface-raised: #252535;
+  --color-surface-sidebar: #05050b;
+  --color-surface-input: #111119;
+  --color-surface-border: #323232;
+
+  /* ACCENT */
+  --color-accent: #8a38f5;
+  --color-accent-hover: #7a2de0;
+  --color-accent-subtle: rgba(138, 56, 245, 0.12);
+
+  /* STATUS */
+  --color-green: #4ac263;
+  --color-red: #7d1021;
+  --color-red-hover: #9a1a2d;
+  --color-red-subtle: rgba(125, 16, 33, 0.3);
+
+  --color-state-hover: rgba(255, 255, 255, 0.04);
+  --color-warning: #f59e0b;
+  --color-warning-subtle: rgba(245, 158, 11, 0.1);
+
+  /* TEXT */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #686868;
+  --color-text-muted: #4a4a4a;
 }
 
 @theme {

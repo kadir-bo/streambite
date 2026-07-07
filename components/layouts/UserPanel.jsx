@@ -200,9 +200,9 @@ export default function UserPanel() {
     <>
       <div
         data-user-panel
-        className="shrink-0 px-3 pb-3 pt-1 max-sm:px-4 max-sm:pb-4 bg-[surface-deep]"
+        className="shrink-0 px-3 pb-3 pt-1 max-sm:px-4 max-sm:pb-4"
       >
-        <div className="flex items-center gap-3 rounded-2xl bg-[#111119] p-3">
+        <div className="flex items-center gap-3 rounded-2xl bg-surface-deep p-3">
           {/* Avatar + Name + Status */}
           <button
             {...longPress.handlers}
@@ -255,7 +255,7 @@ export default function UserPanel() {
           <button
             type="button"
             title="Benachrichtigungen"
-            className="flex shrink-0 items-center justify-center size-10 rounded-full border-none bg-[#1c1c28] text-zinc-400 cursor-pointer transition-colors hover:text-white"
+            className="flex shrink-0 items-center justify-center size-10 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
           >
             <BellSimple weight="regular" className="text-xl" />
           </button>

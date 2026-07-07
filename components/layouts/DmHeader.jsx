@@ -53,7 +53,7 @@ export default function DmHeader({ user, dmId }) {
       <button
         onClick={showList}
         title="Zurück"
-        className="flex items-center justify-center size-10 rounded-full border-none bg-[#1c1c28] text-zinc-400 cursor-pointer transition-colors hover:text-white md:hidden"
+        className="flex items-center justify-center size-10 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white md:hidden"
       >
         <CaretLeft weight="regular" className="text-xl" />
       </button>

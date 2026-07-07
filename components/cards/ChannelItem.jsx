@@ -145,8 +145,8 @@ export default function ChannelItem({ channel, serverId, isActive, isOwner }) {
         {...longPress.handlers}
         className={`group flex select-none items-center gap-2 mx-2 my-px rounded-xl transition-colors duration-100 ${
           isActive
-            ? "bg-[#1c1c28]"
-            : "bg-transparent hover:bg-[#1c1c28]/50"
+            ? "bg-surface-hover"
+            : "bg-transparent hover:bg-surface-hover/50"
         }`}
       >
         <Link

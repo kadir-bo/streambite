@@ -51,7 +51,7 @@ export default function DmSidebar() {
       <div className="px-2 py-3">
         <button
           onClick={() => setSwitcherOpen(true)}
-          className="w-full flex items-center gap-2 py-3 px-3 rounded-xl border border-white/5 bg-[#111119] text-zinc-500 text-sm cursor-pointer text-left truncate hover:text-zinc-400"
+          className="w-full flex items-center gap-2 py-3 px-3 rounded-xl border border-white/5 bg-surface-deep text-zinc-500 text-sm cursor-pointer text-left truncate hover:text-zinc-400"
         >
           <MagnifyingGlass className="shrink-0 text-lg" />
           <span className="truncate">

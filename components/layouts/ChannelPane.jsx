@@ -29,7 +29,7 @@ export default function ChannelPane() {
     <>
       <div
         data-channel-pane
-        className="flex flex-1 shrink-0 flex-col overflow-hidden bg-[#05050b]"
+        className="flex flex-1 shrink-0 flex-col overflow-hidden bg-surface-sidebar"
       >
         <div className="h-14 shrink-0 border-b border-white/5">
           {serverId ? (

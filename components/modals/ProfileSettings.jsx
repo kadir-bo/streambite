@@ -133,13 +133,13 @@ export default function ProfileSettings({ open }) {
           <button
             type="button"
             onClick={() => setStatusDropdownOpen((v) => !v)}
-            className="w-full flex items-center justify-between rounded-xl bg-[#1c1c28] border border-white/5 px-4 py-3 text-left cursor-pointer"
+            className="w-full flex items-center justify-between rounded-xl bg-surface-hover border border-white/5 px-4 py-3 text-left cursor-pointer"
           >
             <span className="text-[15px] text-white">{selectedStatus?.label}</span>
             <CaretDown className={`text-zinc-400 transition-transform ${statusDropdownOpen ? "rotate-180" : ""}`} />
           </button>
           {statusDropdownOpen && (
-            <div className="absolute top-full left-0 right-0 mt-1 rounded-xl bg-[#1c1c28] border border-white/5 overflow-hidden z-10">
+            <div className="absolute top-full left-0 right-0 mt-1 rounded-xl bg-surface-hover border border-white/5 overflow-hidden z-10">
               {STATUS_OPTIONS.map((opt) => (
                 <button
                   key={opt.value}
@@ -177,7 +177,7 @@ export default function ProfileSettings({ open }) {
               maxLength={20}
               minLength={3}
               placeholder="benutzername"
-              className="w-full rounded-xl bg-[#1c1c28] border border-white/5 px-4 py-3 text-[15px] text-white outline-none placeholder:text-zinc-600 focus:border-[#8a38f5]/50"
+              className="w-full rounded-xl bg-surface-hover border border-white/5 px-4 py-3 text-[15px] text-white outline-none placeholder:text-zinc-600 focus:border-[#8a38f5]/50"
             />
           </div>
 
@@ -188,7 +188,7 @@ export default function ProfileSettings({ open }) {
               type="email"
               value={firebaseUser?.email ?? ""}
               disabled
-              className="w-full rounded-xl bg-[#1c1c28] border border-white/5 px-4 py-3 text-[15px] text-white outline-none opacity-60 cursor-not-allowed"
+              className="w-full rounded-xl bg-surface-hover border border-white/5 px-4 py-3 text-[15px] text-white outline-none opacity-60 cursor-not-allowed"
             />
           </div>
         </div>
@@ -213,7 +213,7 @@ export default function ProfileSettings({ open }) {
         <button
           type="submit"
           disabled={saving || !displayName.trim()}
-          className="w-full rounded-xl bg-[#8a38f5] px-4 py-3 text-[15px] font-semibold text-white border-none cursor-pointer hover:bg-[#7a2de0] disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full rounded-xl bg-accent px-4 py-3 text-[15px] font-semibold text-white border-none cursor-pointer hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {saving ? "Speichern…" : "Änderungen speichern"}
         </button>
@@ -228,7 +228,7 @@ export default function ProfileSettings({ open }) {
         <button
           type="button"
           onClick={() => setDeleteOpen(true)}
-          className="w-full flex items-center justify-between rounded-xl bg-[#7d1021] px-4 py-3 text-[15px] font-semibold text-white border-none cursor-pointer hover:bg-[#9a1a2d]"
+          className="w-full flex items-center justify-between rounded-xl bg-red px-4 py-3 text-[15px] font-semibold text-white border-none cursor-pointer hover:bg-red-hover"
         >
           <span>Account Löschen</span>
           <Trash weight="regular" className="text-lg" />
@@ -268,7 +268,7 @@ export default function ProfileSettings({ open }) {
               onKeyDown={(e) => {
                 if (e.key === "Enter") handleReauthAndDelete();
               }}
-              className="w-full rounded-xl border border-white/10 bg-[#111119] px-3 py-2 text-sm text-white outline-none placeholder:text-zinc-600"
+              className="w-full rounded-xl border border-white/10 bg-surface-deep px-3 py-2 text-sm text-white outline-none placeholder:text-zinc-600"
             />
             {deleteError && (
               <p className="text-xs text-red-500">{deleteError}</p>
@@ -278,7 +278,7 @@ export default function ProfileSettings({ open }) {
                 type="button"
                 onClick={handleReauthAndDelete}
                 disabled={reauthSaving}
-                className="rounded-xl bg-[#7d1021] px-4 py-2 text-sm font-medium text-white border-none cursor-pointer hover:bg-[#9a1a2d] disabled:opacity-50"
+                className="rounded-xl bg-red px-4 py-2 text-sm font-medium text-white border-none cursor-pointer hover:bg-red-hover disabled:opacity-50"
               >
                 {reauthSaving ? "Lösche…" : "Account löschen"}
               </button>

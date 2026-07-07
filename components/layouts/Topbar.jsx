@@ -16,7 +16,7 @@ export default function Topbar({ children, className, ...props }) {
   return (
     <header
       className={cn(
-        "px-2 py-3 gap-2 flex shrink-0 items-center border-b border-white/5 bg-[#030309] md:h-14",
+        "px-2 py-3 gap-2 flex shrink-0 items-center border-b border-white/5 bg-surface-app md:h-14",
         className,
       )}
       {...props}

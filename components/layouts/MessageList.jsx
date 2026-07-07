@@ -60,7 +60,7 @@ export default function MessageList({ serverId, channelId, channel, dmUser, onRe
   }, [messages.length]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="flex-1 flex flex-col min-h-0 relative bg-[#030309]">
+    <div className="flex-1 flex flex-col min-h-0 relative bg-surface-app">
       <div
         ref={containerRef}
         onScroll={handleScroll}
@@ -103,7 +103,7 @@ export default function MessageList({ serverId, channelId, channel, dmUser, onRe
             exit={{ opacity: 0, y: 8, scale: 0.9 }}
             transition={{ duration: 0.15 }}
             onClick={() => { scrollToBottom('smooth'); setShowNewMsg(false) }}
-            className="absolute bottom-4 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 px-4 py-2 bg-[#1c1c28] border border-white/10 rounded-full text-sm font-medium text-white shadow-[0_8px_24px_rgba(0,0,0,0.5)] cursor-pointer whitespace-nowrap"
+            className="absolute bottom-4 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 px-4 py-2 bg-surface-hover border border-white/10 rounded-full text-sm font-medium text-white shadow-[0_8px_24px_rgba(0,0,0,0.5)] cursor-pointer whitespace-nowrap"
           >
             <ArrowDown weight="bold" />
             Neue Nachricht

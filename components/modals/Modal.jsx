@@ -48,7 +48,7 @@ export default function Modal({
             exit="exit"
             variants={modal}
             onClick={(e) => e.stopPropagation()}
-            className={`bg-[#030309] border border-white/5 w-full relative overflow-hidden ${
+            className={`bg-surface-app border border-white/5 w-full relative overflow-hidden ${
               mobileFullScreen
                 ? "h-full rounded-none sm:h-auto sm:rounded-2xl"
                 : "rounded-2xl"

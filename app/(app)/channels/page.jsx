@@ -68,7 +68,7 @@ export default function ChannelsHomePage() {
   }
 
   return (
-    <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-[#030309]">
+    <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-surface-app">
       <HomeTopbar />
 
       {friends.length === 0 ? (
@@ -94,14 +94,14 @@ export default function ChannelsHomePage() {
               <button
                 type="button"
                 title="Suche"
-                className="flex items-center justify-center size-9 rounded-full border-none bg-[#1c1c28] text-zinc-400 cursor-pointer transition-colors hover:text-white"
+                className="flex items-center justify-center size-9 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
               >
                 <MagnifyingGlass weight="regular" className="text-lg" />
               </button>
               <button
                 type="button"
                 title="Teilen"
-                className="flex items-center justify-center size-9 rounded-full border-none bg-[#1c1c28] text-zinc-400 cursor-pointer transition-colors hover:text-white"
+                className="flex items-center justify-center size-9 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
               >
                 <ArrowBendUpRight weight="regular" className="text-lg" />
               </button>
@@ -120,7 +120,7 @@ export default function ChannelsHomePage() {
                   className="flex flex-col items-center gap-1.5 border-none bg-transparent cursor-pointer group"
                 >
                   <div className="relative">
-                    <div className="rounded-2xl bg-[#1c1c28] p-2 transition-colors group-hover:bg-[#252535]">
+                    <div className="rounded-2xl bg-surface-hover p-2 transition-colors group-hover:bg-surface-raised">
                       <Avatar
                         src={friend.avatarUrl}
                         name={friend.displayName}
@@ -152,7 +152,7 @@ export default function ChannelsHomePage() {
                 type="button"
                 onClick={() => openDm(friend)}
                 disabled={opening === friend.id}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border-none bg-transparent cursor-pointer transition-colors hover:bg-[#1c1c28] text-left"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border-none bg-transparent cursor-pointer transition-colors hover:bg-surface-hover text-left"
               >
                 <div className="relative shrink-0">
                   <Avatar

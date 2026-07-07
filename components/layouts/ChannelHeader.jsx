@@ -29,7 +29,7 @@ export default function ChannelHeader({
         title="Zurück"
         size="xl"
         mobileOnly
-        className="bg-[#1c1c28]!"
+        className="bg-surface-hover!"
       />
 
       <div className="flex items-center gap-2 flex-1 min-w-0">
@@ -59,7 +59,7 @@ export default function ChannelHeader({
             title="Bildschirmfreigabe beenden"
             size="xl"
             variant="active"
-            className="bg-[#1c1c28] !text-white"
+            className="bg-surface-hover !text-white"
           />
         )}
 
@@ -69,8 +69,8 @@ export default function ChannelHeader({
           title="Mitglieder"
           className={`flex items-center justify-center size-10 rounded-full border-none cursor-pointer transition-all duration-150 ${
             showMembers
-              ? "bg-[#1c1c28] text-white"
-              : "bg-transparent text-zinc-400 hover:bg-[#1c1c28] hover:text-white"
+              ? "bg-surface-hover text-white"
+              : "bg-transparent text-zinc-400 hover:bg-surface-hover hover:text-white"
           }`}
         >
           <UsersThree weight="regular" className="text-xl" />
