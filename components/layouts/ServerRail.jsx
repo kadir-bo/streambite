@@ -23,6 +23,7 @@ export default function ServerRail({ onOpenCreate }) {
   const [activeInvite, setActiveInvite] = useState(null);
   const pendingInvites = userDoc?.pendingInvites ?? [];
   const railRef = useRef(null);
+  const outerRef = useRef(null);
   const [activeTop, setActiveTop] = useState(0);
 
   // Determine pill visibility + active index
@@ -33,15 +34,18 @@ export default function ServerRail({ onOpenCreate }) {
   const hasActive = items.some((i) => i.active);
 
   useEffect(() => {
-    if (!railRef.current) return;
+    if (!outerRef.current || !railRef.current) return;
     const el = railRef.current.querySelector("[data-active=true]");
     if (el) {
-      setActiveTop(el.offsetTop);
+      const outerRect = outerRef.current.getBoundingClientRect();
+      const elRect = el.getBoundingClientRect();
+      // +4px for the RailButton's py-1 padding so the pill aligns with the icon
+      setActiveTop(elRect.top - outerRect.top + 4);
     }
   }, [activeServerId, pathname]);
 
   return (
-    <div className="relative flex w-max shrink-0 flex-col items-center gap-2 overflow-y-auto overflow-x-hidden bg-surface-sidebar py-3 px-1.5">
+    <div ref={outerRef} className="relative flex w-max shrink-0 flex-col items-center gap-2 overflow-y-auto overflow-x-hidden bg-surface-sidebar py-3 px-1.5">
       {/* Single active pill */}
       <motion.div
         animate={{

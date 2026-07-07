@@ -14,8 +14,8 @@
   --surface-border: #323232;
 
   /* ACCENT (Purple — Figma Design) */
-  --accent: #8a38f5;
-  --accent-hover: #7a2de0;
+  --accent: #261f2e;
+  --accent-hover: #261f2e;
   --accent-subtle: rgba(138, 56, 245, 0.12);
 
   /* STATUS */
@@ -227,10 +227,16 @@
 
 /* Fallback for browsers without env() support */
 @supports not (padding-bottom: env(safe-area-inset-bottom)) {
-  .pb-safe { padding-bottom: 0; }
-  .pb-safe-2 { padding-bottom: 8px; }
+  .pb-safe {
+    padding-bottom: 0;
+  }
+  .pb-safe-2 {
+    padding-bottom: 8px;
+  }
 
-  .pt-safe { padding-top: 0; }
+  .pt-safe {
+    padding-top: 0;
+  }
 }
 
 @keyframes spin {
