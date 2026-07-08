@@ -38,13 +38,13 @@ export default function Avatar({ src, name, size = "md", status, className }) {
             alt={name ?? ""}
             referrerPolicy="no-referrer"
             onError={() => setFailed(true)}
-            className="rounded-full object-cover block border border-white/5"
+            className="rounded-full object-cover block border border-white/5 aspect-square"
             style={{ width: px, height: px }}
           />
         </>
       ) : (
         <span
-          className="rounded-full bg-surface-card border border-white/10 flex items-center justify-center font-semibold text-zinc-400 select-none"
+          className="rounded-full bg-surface-card border border-white/10 flex items-center justify-center font-semibold text-zinc-400 select-none aspect-square"
           style={{
             width: px,
             height: px,
@@ -54,11 +54,13 @@ export default function Avatar({ src, name, size = "md", status, className }) {
           {initials}
         </span>
       )}
-      <StatusDot
-        color={STATUS_COLORS[status]}
-        width={Math.round(px * 0.25)}
-        height={Math.round(px * 0.25)}
-      />
+      {status && (
+        <StatusDot
+          color={STATUS_COLORS[status]}
+          width={Math.round(px * 0.25)}
+          height={Math.round(px * 0.25)}
+        />
+      )}
     </span>
   );
 }

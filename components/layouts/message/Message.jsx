@@ -102,7 +102,7 @@ export default function Message({
         )}
       >
         {/* Avatar column — larger with colored bg */}
-        <div className="w-max shrink-0 ml-4 relative">
+        <div className="shrink-0 ml-4 relative">
           {isFirst ? (
             <Avatar
               src={message.authorAvatar}
