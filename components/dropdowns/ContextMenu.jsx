@@ -17,6 +17,10 @@ export default function ContextMenu({
   items,
   anchor,
   width,
+  mode = "floating", // "floating" | "inline"
+  triggerRef, // optional — wird in useClickOutside eingeschlossen, sodass
+              // Klick auf den Trigger NICHT als "outside" zählt (wichtig
+              // für toggle-Buttons im inline-Modus)
 }) {
   const onCloseRef = useRef(onClose);
   const closeTimerRef = useRef(null);
@@ -30,10 +34,12 @@ export default function ContextMenu({
   useEffect(() => () => clearTimeout(closeTimerRef.current), []);
 
   const handleOutsideClick = useCallback(() => onCloseRef.current(), []);
-  // Registered on the capture phase (see the hook), so opening a SECOND
-  // context menu elsewhere closes this one first - the two can't both end
-  // up open.
-  useClickOutside([menuRef, submenuRef], handleOutsideClick, open);
+  // Im inline-Modus den triggerRef in die Liste aufnehmen, damit
+  // der toggle-Button das Menü nicht ungewollt schließt & wieder öffnet.
+  const outsideRefs = triggerRef
+    ? [menuRef, submenuRef, triggerRef]
+    : [menuRef, submenuRef];
+  useClickOutside(outsideRefs, handleOutsideClick, open);
 
   useEffect(() => {
     if (!open) return;
@@ -43,16 +49,19 @@ export default function ContextMenu({
     function onKey(e) {
       if (e.key === "Escape") close();
     }
-    window.addEventListener("scroll", close, true);
+    // Floating: bei Scroll schließen. Inline: nicht — Dropdown scrollt mit.
+    if (mode !== "inline") {
+      window.addEventListener("scroll", close, true);
+    }
     window.addEventListener("keydown", onKey);
     return () => {
       window.removeEventListener("scroll", close, true);
       window.removeEventListener("keydown", onKey);
       setSubmenu(null);
     };
-  }, [open]);
+  }, [open, mode]);
 
-  if (typeof document === "undefined") return null;
+  if (mode !== "inline" && typeof document === "undefined") return null;
 
   function openSubmenu(e, i, submenuItems) {
     clearTimeout(closeTimerRef.current);
@@ -85,6 +94,71 @@ export default function ContextMenu({
     clearTimeout(closeTimerRef.current);
   }
 
+  const menuItems = (closeSubmenuFn) =>
+    items.map((item, i) =>
+      item.divider ? (
+        <div
+          key={i}
+          className="h-px bg-white/5 my-1"
+          onMouseEnter={closeSubmenuFn}
+        />
+      ) : item.custom ? (
+        <div key={i} className="px-3 py-2" onMouseEnter={closeSubmenuFn}>
+          {item.custom}
+        </div>
+      ) : item.submenu ? (
+        <ContextMenuItem
+          key={i}
+          icon={item.icon}
+          label={item.label}
+          subtitle={item.subtitle}
+          chevron
+          active={submenu?.index === i}
+          onMouseEnter={(e) => openSubmenu(e, i, item.submenu)}
+          onClick={(e) => e.stopPropagation()}
+        />
+      ) : (
+        <ContextMenuItem
+          key={i}
+          icon={item.icon}
+          label={item.label}
+          danger={item.danger}
+          active={item.active}
+          disabled={item.disabled}
+          title={item.title}
+          onMouseEnter={closeSubmenuFn}
+          onClick={() => {
+            item.onClick?.();
+            onClose();
+          }}
+        />
+      ),
+    );
+
+  if (mode === "inline") {
+    return (
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            ref={menuRef}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            variants={dropdown}
+            onClick={(e) => e.stopPropagation()}
+            className={twMerge(
+              "absolute top-full left-0 right-0 mt-1 z-50 bg-zinc-900 border border-white/5 rounded-lg p-1 shadow-xl",
+              !width && "min-w-50",
+            )}
+            style={width ? { width } : undefined}
+          >
+            {menuItems(undefined)}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    );
+  }
+
   return createPortal(
     <AnimatePresence>
       {open && (
@@ -115,45 +189,7 @@ export default function ContextMenu({
               : { top: position?.y ?? 0 }),
           }}
         >
-          {items.map((item, i) =>
-            item.divider ? (
-              <div
-                key={i}
-                className="h-px bg-white/5 my-1"
-                onMouseEnter={closeSubmenu}
-              />
-            ) : item.custom ? (
-              <div key={i} className="px-3 py-2" onMouseEnter={closeSubmenu}>
-                {item.custom}
-              </div>
-            ) : item.submenu ? (
-              <ContextMenuItem
-                key={i}
-                icon={item.icon}
-                label={item.label}
-                subtitle={item.subtitle}
-                chevron
-                active={submenu?.index === i}
-                onMouseEnter={(e) => openSubmenu(e, i, item.submenu)}
-                onClick={(e) => e.stopPropagation()}
-              />
-            ) : (
-              <ContextMenuItem
-                key={i}
-                icon={item.icon}
-                label={item.label}
-                danger={item.danger}
-                active={item.active}
-                disabled={item.disabled}
-                title={item.title}
-                onMouseEnter={closeSubmenu}
-                onClick={() => {
-                  item.onClick?.();
-                  onClose();
-                }}
-              />
-            ),
-          )}
+          {menuItems(submenu ? scheduleCloseSubmenu : undefined)}
         </motion.div>
       )}
 

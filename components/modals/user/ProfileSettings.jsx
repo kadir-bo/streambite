@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Warning, Key, CaretDown, Trash } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import {
@@ -11,7 +11,7 @@ import {
   ReAuthRequiredError,
   logoutUser,
 } from "@/lib";
-import { Avatar, Button, ConfirmModal } from "@/components";
+import { Avatar, Button, ConfirmModal, ContextMenu } from "@/components";
 
 const STATUS_OPTIONS = [
   { value: "online", label: "Online", color: "#4ac263" },
@@ -34,6 +34,19 @@ export default function ProfileSettings({ open }) {
   const [reauthPassword, setReauthPassword] = useState("");
   const [reauthSaving, setReauthSaving] = useState(false);
   const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
+  const statusTriggerRef = useRef(null);
+
+  const statusMenuItems = STATUS_OPTIONS.map((opt) => ({
+    icon: (
+      <span
+        className="size-2.5 rounded-full"
+        style={{ backgroundColor: opt.color }}
+      />
+    ),
+    label: opt.label,
+    active: status === opt.value,
+    onClick: () => setStatus(opt.value),
+  }));
 
   useEffect(() => {
     if (open) {
@@ -133,6 +146,7 @@ export default function ProfileSettings({ open }) {
         <h3 className="text-base font-bold text-white mb-3">Sichtbarkeit</h3>
         <div className="relative">
           <button
+            ref={statusTriggerRef}
             type="button"
             onClick={() => setStatusDropdownOpen((v) => !v)}
             className="w-full flex items-center justify-between rounded-xl bg-surface-hover border border-white/5 px-4 py-3 text-left cursor-pointer"
@@ -142,27 +156,13 @@ export default function ProfileSettings({ open }) {
             </span>
             <CaretDown className="text-zinc-400 transition-transform" />
           </button>
-          {statusDropdownOpen && (
-            <div className="absolute top-full left-0 right-0 mt-1 rounded-xl bg-surface-hover border border-white/5 overflow-hidden z-10">
-              {STATUS_OPTIONS.map((opt) => (
-                <button
-                  key={opt.value}
-                  type="button"
-                  onClick={() => {
-                    setStatus(opt.value);
-                    setStatusDropdownOpen(false);
-                  }}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-left cursor-pointer border-none"
-                >
-                  <span
-                    className="size-2 rounded-full"
-                    style={{ backgroundColor: opt.color }}
-                  />
-                  <span className="text-base">{opt.label}</span>
-                </button>
-              ))}
-            </div>
-          )}
+          <ContextMenu
+            mode="inline"
+            open={statusDropdownOpen}
+            onClose={() => setStatusDropdownOpen(false)}
+            triggerRef={statusTriggerRef}
+            items={statusMenuItems}
+          />
         </div>
       </div>
 

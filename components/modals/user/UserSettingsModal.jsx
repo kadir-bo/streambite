@@ -37,8 +37,8 @@ export default function UserSettingsModal({ open, onClose }) {
                 key={t.id}
                 onClick={() => setTab(t.id)}
                 className={twMerge(
-                  "relative whitespace-nowrap border-none bg-transparent px-4 py-3 text-base font-medium cursor-pointer transition-colors duration-150 md:w-full md:text-left md:rounded-md md:hover:bg-white/5",
-                  active ? "md:bg-surface-border" : "",
+                  "relative whitespace-nowrap border-none bg-transparent px-4 py-3 text-base font-medium cursor-pointer transition-colors duration-150 md:w-full md:text-left md:rounded-md",
+                  active ? "md:bg-surface-border" : "md:hover:bg-white/5",
                 )}
               >
                 {t.label}

@@ -14,12 +14,12 @@ import { CaretLeft } from "@phosphor-icons/react";
  *
  * Jede Topbar kann per className eigene Werte overriden (z.B. justify-between, gap, px).
  */
-export default function Topbar({ children, className, ...props }) {
+export default function Topbar({ children, hideBack, className, ...props }) {
   const { showList } = useLayout();
   return (
     <header
       className={twMerge(
-        "px-2 py-3 gap-2 flex shrink-0 items-center border-b border-white/5 bg-surface-app md:h-14",
+        "px-2 py-3 gap-2 flex shrink-0 items-center border-b border-white/5 bg-surface-app md:h-16",
         className,
       )}
       {...props}

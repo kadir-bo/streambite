@@ -32,7 +32,7 @@ export default function ChannelPane() {
         data-channel-pane
         className="flex flex-1 shrink-0 flex-col overflow-hidden bg-surface-sidebar border-r border-white/5"
       >
-        <div className="h-14 shrink-0 border-b border-white/5">
+        <div className="h-16 shrink-0 border-b border-white/5">
           {serverId ? (
             <ServerHeader
               server={server}
