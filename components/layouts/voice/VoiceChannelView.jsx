@@ -51,7 +51,7 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
   const hiddenCount = participants.length - MAX_VISIBLE;
 
   const screenSharers = participants.filter(
-    (p) => p.isScreenSharing && p.screenShareTrack,
+    (p) => p.isScreenSharing,
   );
   const hasScreenShare = screenSharers.length > 0;
   const showAudioWarning =

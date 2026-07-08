@@ -2,7 +2,12 @@
 
 import { useState } from "react";
 import { User, Microphone, Shield, Lock, Trash } from "@phosphor-icons/react";
-import { Modal, Select, ProfileSettings, VoiceVideoSettings } from "@/components";
+import {
+  Modal,
+  Select,
+  ProfileSettings,
+  VoiceVideoSettings,
+} from "@/components";
 
 const TABS = [
   { id: "profile", label: "Account", icon: User },
@@ -22,25 +27,25 @@ export default function UserSettingsModal({ open, onClose }) {
       bodyClassName=""
       mobileFullScreen
     >
-      <div className="flex h-full flex-col">
+      <div className="flex h-full flex-col md:flex-row">
         {/* Pull handle */}
         <div className="flex justify-center pt-3 pb-2 sm:hidden">
           <div className="w-10 h-1 rounded-full bg-zinc-600" />
         </div>
 
         {/* Tab Navigation — horizontal scroll on mobile */}
-        <div className="flex items-center gap-1 border-b border-white/5 px-4 overflow-x-auto scrollbar-none">
+        <div className="flex items-center gap-1 border-b border-white/5 px-4 overflow-x-auto scrollbar-none md:flex-col md:pt-4">
           {TABS.map((t) => {
             const active = tab === t.id;
             return (
               <button
                 key={t.id}
                 onClick={() => setTab(t.id)}
-                className="relative whitespace-nowrap border-none bg-transparent px-4 py-3 text-base font-medium cursor-pointer transition-colors duration-150"
+                className="relative whitespace-nowrap border-none bg-transparent px-4 py-3 text-base font-medium cursor-pointer transition-colors duration-150 md:w-full"
               >
                 {t.label}
                 {active && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-white rounded-full" />
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-white rounded-full md:hidden" />
                 )}
               </button>
             );
@@ -55,14 +60,18 @@ export default function UserSettingsModal({ open, onClose }) {
             <div className="flex flex-col items-center justify-center h-full text-center">
               <Shield size={48} className="text-zinc-600 mb-4" />
               <p className="text-lg font-semibold text-zinc-400">Datenschutz</p>
-              <p className="text-sm text-zinc-500 mt-1">Einstellungen folgen bald</p>
+              <p className="text-sm text-zinc-500 mt-1">
+                Einstellungen folgen bald
+              </p>
             </div>
           )}
           {tab === "security" && (
             <div className="flex flex-col items-center justify-center h-full text-center">
               <Lock size={48} className="text-zinc-600 mb-4" />
               <p className="text-lg font-semibold text-zinc-400">Sicherheit</p>
-              <p className="text-sm text-zinc-500 mt-1">Einstellungen folgen bald</p>
+              <p className="text-sm text-zinc-500 mt-1">
+                Einstellungen folgen bald
+              </p>
             </div>
           )}
         </div>

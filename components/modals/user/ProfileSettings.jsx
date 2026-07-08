@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import { useState, useEffect } from "react";
-import { Warning, Key, CaretDown } from "@phosphor-icons/react";
+import { Warning, Key, CaretDown, Trash } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import {
   updateUserDocument,
