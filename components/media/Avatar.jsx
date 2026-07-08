@@ -6,11 +6,11 @@ import { twMerge } from "tailwind-merge";
 import { StatusDot } from "..";
 
 const sizes = {
-  xs: { size: 20, font: "10px" },
-  sm: { size: 28, font: "11px" },
-  md: { size: 32, font: "13px" },
-  lg: { size: 40, font: "15px" },
-  xl: { size: 56, font: "18px" },
+  xs: { size: 20, font: "10px", dotSize: "size-1" },
+  sm: { size: 28, font: "11px", dotSize: "size-1.5" },
+  md: { size: 32, font: "13px", dotSize: "size-2" },
+  lg: { size: 40, font: "15px", dotSize: "size-2.5" },
+  xl: { size: 56, font: "18px", dotSize: "size-3" },
 };
 
 export default function Avatar({
@@ -21,7 +21,7 @@ export default function Avatar({
   className,
   isSpeaking = false,
 }) {
-  const { size: px, font } = sizes[size] ?? sizes.md;
+  const { size: px, font, dotSize } = sizes[size] ?? sizes.md;
   const initials = getInitials(name);
   const [failed, setFailed] = useState(false);
 
@@ -72,6 +72,7 @@ export default function Avatar({
           color={STATUS_COLORS[status]}
           width={Math.round(px * 0.25)}
           height={Math.round(px * 0.25)}
+          size={dotSize}
         />
       )}
     </span>

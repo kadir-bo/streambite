@@ -1,10 +1,10 @@
 ﻿"use client";
 
-import { useState } from "react";
-import { User, Microphone, Shield, Lock, Trash } from "@phosphor-icons/react";
+import { useEffect, useRef, useState, useCallback } from "react";
+import { motion, animate, useMotionValue } from "motion/react";
+import { User, Microphone, Shield, Lock } from "@phosphor-icons/react";
 import {
   Modal,
-  Select,
   ProfileSettings,
   VoiceVideoSettings,
 } from "@/components";
@@ -19,39 +19,107 @@ const TABS = [
 
 export default function UserSettingsModal({ open, onClose }) {
   const [tab, setTab] = useState("profile");
+  const x = useMotionValue(0);
+  const contentRef = useRef(null);
+  const maskRef = useRef(null);
+  const [dragCons, setDragCons] = useState({ left: 0, right: 0 });
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    setIsMobile(mq.matches);
+    const handler = (e) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  /* Drag-Constraints an Content-Breite anpassen */
+  const measure = useCallback(() => {
+    if (!contentRef.current || !maskRef.current) return;
+    const cw = maskRef.current.offsetWidth;
+    const sw = contentRef.current.scrollWidth;
+    if (sw > cw) {
+      setDragCons({ left: -(sw - cw) - 20, right: 20 });
+    } else {
+      setDragCons({ left: 0, right: 0 });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    /* Kurzes Delay, damit DOM gemounted ist */
+    requestAnimationFrame(measure);
+  }, [open, measure]);
+
+  /* Programmgesteuerter Sprung zum aktiven Tab */
+  useEffect(() => {
+    if (!contentRef.current || !maskRef.current) return;
+    const btn = contentRef.current.querySelector("[data-active-tab=true]");
+    if (btn) {
+      const cw = maskRef.current.offsetWidth;
+      const offset = btn.offsetLeft;
+      const bw = btn.offsetWidth;
+      const target = Math.max(dragCons.left, Math.min(dragCons.right, -(offset - cw / 2 + bw / 2)));
+
+      const controls = animate(x, target, {
+        type: "spring",
+        stiffness: 350,
+        damping: 20,
+      });
+      return () => controls.stop();
+    }
+  }, [tab, dragCons, x]);
 
   return (
-    <Modal open={open} onClose={onClose} maxWidth={840} mobileFullScreen>
+    <Modal
+      open={open}
+      onClose={onClose}
+      maxWidth={840}
+      mobileFullScreen
+      bodyClassName="p-3 md:p-5"
+    >
       <div className="flex h-full flex-col md:flex-row md:h-160 md:overflow-y-scroll">
-        {/* Pull handle */}
-        <div className="flex justify-center pt-3 pb-2 md:hidden">
-          <div className="w-10 h-1 rounded-full bg-zinc-600" />
-        </div>
-
-        {/* Tab Navigation — horizontal scroll on mobile */}
-        <div className="flex items-center gap-1 border-b md:border-none border-white/5 px-4 overflow-x-auto scrollbar-none md:flex-col md:pt-4 md:min-w-max md:px-0">
-          {TABS.map((t) => {
-            const active = tab === t.id;
-            return (
-              <button
-                key={t.id}
-                onClick={() => setTab(t.id)}
-                className={twMerge(
-                  "relative whitespace-nowrap border-none bg-transparent px-4 py-3 text-base font-medium cursor-pointer transition-colors duration-150 md:w-full md:text-left md:rounded-md",
-                  active ? "md:bg-surface-border" : "md:hover:bg-white/5",
-                )}
-              >
-                {t.label}
-                {active && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-white rounded-full md:hidden" />
-                )}
-              </button>
-            );
-          })}
+        {/* Tab Navigation — mobile drag, desktop column */}
+        <div
+          ref={maskRef}
+          className="relative overflow-hidden md:overflow-visible md:flex-col border-b md:border-none border-white/5 px-4 md:pt-4 md:px-0"
+        >
+          <motion.div
+            ref={contentRef}
+            drag={isMobile ? "x" : false}
+            style={{ x }}
+            dragConstraints={dragCons}
+            dragElastic={0.2}
+            className="flex items-center gap-1 md:flex-col md:min-w-max"
+          >
+            {TABS.map((t) => {
+              const active = tab === t.id;
+              return (
+                <button
+                  key={t.id}
+                  data-active-tab={active ? "true" : "false"}
+                  onClick={() => setTab(t.id)}
+                  className={twMerge(
+                    "relative whitespace-nowrap border-none bg-transparent px-4 py-3 text-base font-medium cursor-pointer transition-colors duration-150 md:w-full md:text-left md:rounded-md",
+                    active ? "md:bg-surface-border" : "md:hover:bg-white/5",
+                  )}
+                >
+                  {t.label}
+                  {active && (
+                    <motion.div
+                      layoutId="mobile-tab-underline"
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-white rounded-full md:hidden"
+                      transition={{ type: "spring", stiffness: 500, damping: 35 }}
+                    />
+                  )}
+                </button>
+              );
+            })}
+          </motion.div>
         </div>
 
         {/* Content */}
-        <div className="relative flex-1 overflow-y-auto px-4 py-6 sm:px-8">
+        <div className="relative flex-1 overflow-y-auto py-6 sm:px-8 pb-20 md:pb-0">
           {tab === "profile" && <ProfileSettings open={open} />}
           {tab === "voice" && <VoiceVideoSettings />}
           {tab === "privacy" && (

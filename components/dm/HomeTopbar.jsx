@@ -42,7 +42,7 @@ export default function HomeTopbar() {
         {/* Center: "Nachrichten" title */}
         <div className="">
           {isDesktop ? (
-            <Button className={"py-2"}>
+            <Button className={"py-2"} onClick={() => setAddOpen(true)}>
               Freund Hinzufügen
               <UserPlus weight="regular" className="text-xl" />
             </Button>

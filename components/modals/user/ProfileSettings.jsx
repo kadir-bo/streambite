@@ -33,9 +33,7 @@ export default function ProfileSettings({ open }) {
   const { userDoc, firebaseUser } = useAuth();
 
   // Profile form state
-  const [displayName, setDisplayName] = useState(
-    userDoc?.displayName ?? "",
-  );
+  const [displayName, setDisplayName] = useState(userDoc?.displayName ?? "");
   const [username, setUsernameState] = useState(userDoc?.username ?? "");
   const [status, setStatus] = useState(userDoc?.status ?? "online");
 
@@ -58,18 +56,18 @@ export default function ProfileSettings({ open }) {
 
   // ── derived data ──
 
-  const handle =
-    userDoc?.username
-      ? `${userDoc.username}${userDoc?.tag ? `#${userDoc.tag}` : ""}`
-      : null;
+  const handle = userDoc?.username
+    ? `${userDoc.username}${userDoc?.tag ? `#${userDoc.tag}` : ""}`
+    : null;
 
   const selectedStatus = STATUS_OPTIONS.find((o) => o.value === status);
 
   const memberSince = firebaseUser?.metadata?.creationTime
-    ? new Date(firebaseUser.metadata.creationTime).toLocaleDateString(
-        "de-DE",
-        { day: "2-digit", month: "2-digit", year: "numeric" },
-      )
+    ? new Date(firebaseUser.metadata.creationTime).toLocaleDateString("de-DE", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      })
     : null;
 
   const hasChanges =
@@ -92,7 +90,7 @@ export default function ProfileSettings({ open }) {
   // ── status menu items ──
 
   const statusMenuItems = STATUS_OPTIONS.map((opt) => ({
-    icon: <StatusDot color={opt.color} />,
+    icon: <StatusDot relative color={opt.color} />,
     label: opt.label,
     active: status === opt.value,
     onClick: () => setStatus(opt.value),
@@ -186,9 +184,7 @@ export default function ProfileSettings({ open }) {
           <p className="text-lg font-bold text-white truncate">
             {displayName || "Unbekannt"}
           </p>
-          {handle && (
-            <p className="text-sm text-zinc-400 truncate">{handle}</p>
-          )}
+          {handle && <p className="text-sm text-zinc-400 truncate">{handle}</p>}
           {memberSince && (
             <p className="text-xs text-zinc-500 mt-0.5">
               Mitglied seit {memberSince}
@@ -211,7 +207,7 @@ export default function ProfileSettings({ open }) {
             className="w-full flex items-center justify-between rounded-xl bg-surface-hover border border-white/5 px-4 py-3 text-left cursor-pointer"
           >
             <span className="flex items-center gap-3 text-base text-white">
-              <StatusDot color={selectedStatus?.color} />
+              <StatusDot color={selectedStatus?.color} relative />
               {selectedStatus?.label}
             </span>
             <CaretDown className="text-zinc-400 transition-transform shrink-0" />
@@ -237,11 +233,9 @@ export default function ProfileSettings({ open }) {
         <div className="flex flex-col gap-4">
           {/* Anzeigename */}
           <div>
-            <label className="block text-xs text-zinc-500 mb-1.5">
-              Anzeigename
-            </label>
             <Input
               variant="surface"
+              label="Anzeigename"
               type="text"
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
@@ -252,24 +246,19 @@ export default function ProfileSettings({ open }) {
 
           {/* Handle */}
           <div>
-            <label className="block text-xs text-zinc-500 mb-1.5">
-              Handle
-            </label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 text-base pointer-events-none">
-                #
-              </span>
-              <input
+              <Input
                 type="text"
+                label="Benutzername"
+                variant="surface"
                 value={username}
                 onChange={(e) => setUsernameState(e.target.value)}
                 maxLength={20}
                 minLength={3}
                 placeholder="benutzername"
-                className="w-full rounded-xl bg-surface-hover border border-white/5 pl-8 pr-4 py-3 text-base text-white outline-none placeholder:text-zinc-600 focus:border-accent/50"
               />
               {userDoc?.tag && (
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 text-sm pointer-events-none">
+                <span className="absolute right-4 top-1/2 text-zinc-500 text-sm pointer-events-none">
                   #{userDoc.tag}
                 </span>
               )}
@@ -281,11 +270,9 @@ export default function ProfileSettings({ open }) {
 
           {/* E-Mail */}
           <div>
-            <label className="block text-xs text-zinc-500 mb-1.5">
-              E-Mail Adresse
-            </label>
             <Input
               variant="surface"
+              label="E-Mail Adresse"
               type="email"
               value={firebaseUser?.email ?? ""}
               disabled
@@ -368,8 +355,8 @@ export default function ProfileSettings({ open }) {
           </span>
         </div>
         <p className="text-xs text-zinc-400 mb-3 leading-relaxed">
-          Aus Sicherheitsgründen musst du dein Passwort erneut eingeben, um
-          den Account zu löschen.
+          Aus Sicherheitsgründen musst du dein Passwort erneut eingeben, um den
+          Account zu löschen.
         </p>
         <div className="flex flex-col gap-2">
           <input
@@ -383,9 +370,7 @@ export default function ProfileSettings({ open }) {
             }}
             className="w-full rounded-xl border border-white/10 bg-surface-deep px-3 py-2 text-sm text-white outline-none placeholder:text-zinc-600"
           />
-          {deleteError && (
-            <p className="text-xs text-red-500">{deleteError}</p>
-          )}
+          {deleteError && <p className="text-xs text-red-500">{deleteError}</p>}
           <div className="flex gap-2">
             <button
               type="button"

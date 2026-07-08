@@ -1,5 +1,9 @@
 import { LoadingSpinner } from "@/components";
 
 export default function Loading() {
-  return <LoadingSpinner />;
+  return (
+    <div className="flex items-center justify-center w-full py-32">
+      <LoadingSpinner />
+    </div>
+  );
 }

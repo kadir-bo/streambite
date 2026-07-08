@@ -11,8 +11,10 @@ import {
   CaretUp,
   BellSimple,
   CaretDownIcon,
+  UserPlus,
 } from "@phosphor-icons/react";
 import { useAuth, useVoice } from "@/context";
+import { useFriends } from "@/hooks";
 import {
   updateUserDocument,
   logoutUser,
@@ -38,6 +40,7 @@ const STATUS_OPTIONS = [
 
 export default function UserPanel() {
   const { userDoc, firebaseUser } = useAuth();
+  const { incomingRequests } = useFriends();
   const {
     connection,
     audioInputs,
@@ -66,6 +69,9 @@ export default function UserPanel() {
   const [outputMenuOpen, setOutputMenuOpen] = useState(false);
   const [outputMenuPos, setOutputMenuPos] = useState({ x: 0, y: 0 });
   const [showSettings, setShowSettings] = useState(false);
+  const [bellOpen, setBellOpen] = useState(false);
+  const [bellPos, setBellPos] = useState({ x: 0, y: 0 });
+  const [bellWidth, setBellWidth] = useState(200);
   const displayName =
     userDoc?.displayName ?? firebaseUser?.displayName ?? "Nutzer";
   const status = userDoc?.status ?? "online";
@@ -77,22 +83,6 @@ export default function UserPanel() {
     // Volle Panel-Breite minus 12px links + 12px rechts Padding
     setMenuWidth(rect.width - 24);
     setMenuOpen(true);
-  }
-
-  function openInputMenu(e) {
-    e.stopPropagation();
-    const rect = e.currentTarget.getBoundingClientRect();
-    setInputMenuPos({ x: rect.left, y: rect.top - 4 });
-    loadAudioInputs();
-    setInputMenuOpen(true);
-  }
-
-  function openOutputMenu(e) {
-    e.stopPropagation();
-    const rect = e.currentTarget.getBoundingClientRect();
-    setOutputMenuPos({ x: rect.left, y: rect.top - 4 });
-    loadAudioOutputs();
-    setOutputMenuOpen(true);
   }
 
   async function setStatus(newStatus) {
@@ -128,6 +118,28 @@ export default function UserPanel() {
   const activeOutputLabel =
     audioOutputs.find((d) => d.deviceId === activeAudioOutputId)?.label ??
     "Standard";
+
+  const pendingInvites = userDoc?.pendingInvites ?? [];
+  const totalNotifications = incomingRequests.length + pendingInvites.length;
+
+  function openBellMenu(e) {
+    const panel = e.currentTarget.closest("[data-user-panel]");
+    const rect = (panel ?? e.currentTarget).getBoundingClientRect();
+    setBellPos({ x: rect.left + 12, y: rect.top - 4 });
+    setBellWidth(rect.width - 24);
+    setBellOpen(true);
+  }
+
+  const bellMenuItems = totalNotifications > 0
+    ? [
+        ...(incomingRequests.length > 0
+          ? [{ icon: <UserPlus className="text-lg" />, label: `${incomingRequests.length} Freundschaftsanfrage${incomingRequests.length > 1 ? "n" : ""}`, onClick: () => { setBellOpen(false); } }]
+          : []),
+        ...(pendingInvites.length > 0
+          ? [{ icon: <CaretUp className="text-lg" />, label: `${pendingInvites.length} Servereinladung${pendingInvites.length > 1 ? "en" : ""}`, onClick: () => { setBellOpen(false); } }]
+          : []),
+      ]
+    : [{ label: "Keine Benachrichtigungen", disabled: true }];
 
   const inputMenuItems = [
     {
@@ -233,6 +245,7 @@ export default function UserPanel() {
             rounded="full"
             size="xl"
             mobileOnly
+            onClick={openBellMenu}
           />
         </div>
       </div>
@@ -262,6 +275,15 @@ export default function UserPanel() {
         anchor="bottom"
         width={190}
         items={outputMenuItems}
+      />
+
+      <ContextMenu
+        open={bellOpen}
+        onClose={() => setBellOpen(false)}
+        position={bellPos}
+        anchor="bottom"
+        width={bellWidth}
+        items={bellMenuItems}
       />
 
       <UserSettingsModal
