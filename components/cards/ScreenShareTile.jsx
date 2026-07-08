@@ -180,50 +180,6 @@ export default function ScreenShareTile({ participant }) {
               // object-cover auf Mobile (füllt ohne Balken), object-contain auf Desktop (zeigt alles)
               className="h-full w-full max-sm:object-cover object-contain"
             />
-
-            {/* Mobile Stream-Controls: Mute/Stop + Fullscreen */}
-            <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center gap-3 bg-gradient-to-t from-black/70 to-transparent px-4 pb-4 pt-12 opacity-0 transition-opacity duration-150 sm:group-hover:opacity-100 max-sm:opacity-100">
-              {participant.isLocal && (
-                <>
-                  {/* Mic muten/entmuten */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleMute();
-                    }}
-                    title={muted ? "Stummschaltung aufheben" : "Stummschalten"}
-                    className="flex size-10 cursor-pointer items-center justify-center rounded-full border-none bg-white/20 text-white backdrop-blur-sm hover:bg-white/30"
-                  >
-                    {muted ? (
-                      <MicrophoneSlash size={20} />
-                    ) : (
-                      <Microphone size={20} />
-                    )}
-                  </button>
-
-                  {/* Stream stoppen */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleScreenShare();
-                    }}
-                    title="Bildschirmfreigabe beenden"
-                    className="flex size-10 cursor-pointer items-center justify-center rounded-full border-none bg-red-500/80 text-white backdrop-blur-sm hover:bg-red-500"
-                  >
-                    <StopCircle size={22} weight="fill" />
-                  </button>
-                </>
-              )}
-
-              {/* Fullscreen */}
-              <button
-                onClick={toggleMaximize}
-                title={maximized ? "Vollbild beenden" : "Maximieren"}
-                className="flex size-10 cursor-pointer items-center justify-center rounded-full border-none bg-white/20 text-white backdrop-blur-sm hover:bg-white/30"
-              >
-                {maximized ? <ArrowsIn size={20} /> : <ArrowsOut size={20} />}
-              </button>
-            </div>
           </>
         ) : (
           /* Overlay: "Stream beitreten"-Button (nur für Remote) */

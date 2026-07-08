@@ -23,6 +23,7 @@ import {
   VoiceControls,
   VoiceParticipantCard,
 } from "@/components";
+import { cn } from "@/lib";
 
 const MAX_VISIBLE = 4;
 
@@ -69,38 +70,39 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
   return (
     <div className="relative flex flex-1 flex-col overflow-hidden bg-surface-app">
       {/* Topbar */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-white/5">
-        <button
-          onClick={showList}
-          className="flex items-center justify-center size-10 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
-        >
-          <CaretLeftIcon className="text-xl" weight="regular" />
-        </button>
-
-        <div className="flex items-center gap-2">
-          <SpeakerHigh weight="fill" className="text-white text-xl" />
-          <span className="text-lg font-bold text-white">
-            {channel?.name ?? "..."}
-          </span>
-        </div>
-
-        <div className="flex items-center gap-2">
+      {isConnected && (
+        <div className="flex items-center justify-between px-4 py-3 border-b border-white/5 md:hidden">
           <button
-            onClick={() => setInviteOpen(true)}
-            title="Freunde einladen"
+            onClick={showList}
             className="flex items-center justify-center size-10 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
           >
-            <UserPlus weight="regular" className="text-xl" />
+            <CaretLeftIcon className="text-xl" weight="regular" />
           </button>
-          <button
-            title="Mitglieder"
-            className="flex items-center justify-center size-10 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
-          >
-            <UsersThree weight="regular" className="text-xl" />
-          </button>
-        </div>
-      </div>
 
+          <div className="flex items-center gap-2">
+            <SpeakerHigh weight="fill" className="text-white text-xl" />
+            <span className="text-lg font-bold text-white">
+              {channel?.name ?? "..."}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setInviteOpen(true)}
+              title="Freunde einladen"
+              className="flex items-center justify-center size-10 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
+            >
+              <UserPlus weight="regular" className="text-xl" />
+            </button>
+            <button
+              title="Mitglieder"
+              className="flex items-center justify-center size-10 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
+            >
+              <UsersThree weight="regular" className="text-xl" />
+            </button>
+          </div>
+        </div>
+      )}
       {/* Error */}
       {connection.error && (status === "error" || isConnected) && (
         <div className="mx-6 mb-2 shrink-0 flex max-w-md flex-col items-center gap-2.5 rounded-2xl border border-red-500 bg-red-500/10 px-5 py-4 text-center">
@@ -133,12 +135,7 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
           )}
 
           {/* Participant Grid */}
-          <div
-            className="grid gap-3"
-            style={{
-              gridTemplateColumns: `repeat(${Math.min(Math.max(Math.ceil(Math.sqrt(visibleParticipants.length + 1)), 2), 2)}, 1fr)`,
-            }}
-          >
+          <div className="grid grid-cols-2 gap-3 justify-center max-w-lg mx-auto w-full">
             {visibleParticipants.map((p) => (
               <VoiceParticipantCard
                 key={p.identity}

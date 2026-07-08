@@ -4,8 +4,13 @@ import { useState } from "react";
 import { MicrophoneSlashIcon } from "@phosphor-icons/react";
 import { useVoice } from "@/context";
 import { Avatar } from "@/components";
+import { cn } from "@/lib";
 
-export default function VoiceParticipantCard({ participant, isOwner }) {
+export default function VoiceParticipantCard({
+  participant,
+  isOwner,
+  className = "",
+}) {
   const { removeFromVoice } = useVoice();
   const [confirmRemove, setConfirmRemove] = useState(false);
 
@@ -14,9 +19,13 @@ export default function VoiceParticipantCard({ participant, isOwner }) {
 
   return (
     <div
-      className={`flex flex-col items-center justify-center gap-3 rounded-2xl max-w-sm bg-surface-deep border aspect-square p-4 transition-all duration-200 ${
-        isActiveSpeaker ? "border-green ring-2 ring-green/30" : "border-white/5"
-      }`}
+      className={cn(
+        "flex flex-col items-center justify-center gap-3 rounded-2xl bg-surface-deep border aspect-square p-4 w-full transition-all duration-200",
+        isActiveSpeaker
+          ? "border-green ring-2 ring-green/30"
+          : "border-white/5",
+        className,
+      )}
     >
       <div className="flex flex-col gap-3 items-center justify-between w-full">
         <Avatar name={participant.name} size="xl" />
