@@ -28,6 +28,31 @@ export default function ScreenShareTile({ participant }) {
   // Lokaler Stream: sofort beitreten. Remote: Overlay.
   const [streamJoined, setStreamJoined] = useState(participant.isLocal);
 
+  // Video-Events loggen um zu sehen ob der Stream läuft
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el || !streamJoined) return;
+    function onMeta() {
+      console.log(
+        `[ScreenShareTile] loadedmetadata — videoSize=${el.videoWidth}x${el.videoHeight} clientSize=${el.clientWidth}x${el.clientHeight}`,
+      );
+    }
+    function onPlay() {
+      console.log("[ScreenShareTile] playing event");
+    }
+    function onVideoErr() {
+      console.warn("[ScreenShareTile] video error:", el.error);
+    }
+    el.addEventListener("loadedmetadata", onMeta);
+    el.addEventListener("playing", onPlay);
+    el.addEventListener("error", onVideoErr);
+    return () => {
+      el.removeEventListener("loadedmetadata", onMeta);
+      el.removeEventListener("playing", onPlay);
+      el.removeEventListener("error", onVideoErr);
+    };
+  }, [streamJoined]);
+
   // Track koppeln/entkoppeln.
   // ⚠️ timing: snapshotParticipants kann laufen bevor der Track vollständig
   // publiziert ist → track ist null → streamJoined wird zurückgesetzt.
@@ -40,22 +65,28 @@ export default function ScreenShareTile({ participant }) {
       // Bei Local: streamJoined bleibt true (wartet auf Track).
       if (!participant.isLocal) setStreamJoined(false);
       console.log(
-        `[ScreenShareTile] effect — kein Track (identity=${participant.identity} isLocal=${participant.isLocal} streamJoined=${streamJoined})`,
+        `[ScreenShareTile] effect — kein Track (identity=${participant.identity} isLocal=${participant.isLocal})`,
       );
       return;
     }
     console.log(
-      `[ScreenShareTile] effect — Track gefunden! Attache... (identity=${participant.identity} isLocal=${participant.isLocal} streamJoined=${streamJoined})`,
+      `[ScreenShareTile] effect — Attache... (identity=${participant.identity} kind=${track.kind} trackReady=${track.mediaStreamTrack?.readyState} mst=${!!track.mediaStreamTrack})`,
     );
     // Lokale Teilnehmer werden automatisch attached, sobald der Track da ist.
       // Remote: erst nach Klick auf "Stream beitreten".
       if (streamJoined || participant.isLocal) {
         track.attach(el);
+        console.log(
+          `[ScreenShareTile] after attach — srcObject=${!!el.srcObject} videoSize=${el.videoWidth}x${el.videoHeight} clientSize=${el.clientWidth}x${el.clientHeight}`,
+        );
         // play() per rAF verzögern — React Strict Mode ruft Effekte 2× auf,
         // die detach → attach Sequenz löst einen Browser-Load-Reset aus,
         // und ein sofortiges play() fliegt mit AbortError raus.
         // rAF gibt dem srcObject-Change Zeit zum Settlen.
         requestAnimationFrame(() => {
+          console.log(
+            `[ScreenShareTile] rAF play — videoSize=${el.videoWidth}x${el.videoHeight} clientSize=${el.clientWidth}x${el.clientHeight}`,
+          );
           el.play().catch((err) =>
             console.warn("[ScreenShareTile] el.play() failed:", err),
           );
@@ -63,7 +94,7 @@ export default function ScreenShareTile({ participant }) {
       }
     return () => {
       console.log(
-        `[ScreenShareTile] cleanup — detach track (identity=${participant.identity})`,
+        `[ScreenShareTile] cleanup — detach (identity=${participant.identity})`,
       );
       track?.detach(el);
     };

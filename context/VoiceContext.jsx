@@ -303,6 +303,12 @@ export function VoiceProvider({ children }) {
       room.localParticipant,
       ...Array.from(room.remoteParticipants.values()),
     ];
+    // DEBUG: Screen-Share-State des lokalen Teilnehmers loggen
+    const local = room.localParticipant;
+    const ssPub = local.getTrackPublication?.(Track.Source.ScreenShare);
+    console.log(
+      `[voice] snapshotParticipants — local isScreenEnabled=${local.isScreenShareEnabled} ssPub=${!!ssPub} ssTrack=${!!ssPub?.track}`,
+    );
     setParticipants(
       all.map((p) => ({
         identity: p.identity,
@@ -495,6 +501,22 @@ export function VoiceProvider({ children }) {
         });
 
         await room.connect(data.url, data.token);
+
+        // Stale Screen-Share aufräumen: Wenn der Server noch eine alte
+        // Screen-Share-Publikation aus einer vorherigen Session hat (z.B.
+        // nach Tab-Close oder Browser-Crash), wird isScreenShareEnabled
+        // fälschlich true. Wir stoppen sie hier, damit das Tile nicht
+        // ohne aktiven Screen-Share rendert.
+        if (room.localParticipant.isScreenShareEnabled) {
+          console.log(
+            "[voice] stale screen share detected — stopping",
+          );
+          await room.localParticipant
+            .setScreenShareEnabled(false)
+            .catch(() => {});
+          setScreenShare(false);
+          setScreenShareHasAudio(false);
+        }
 
         // Audio-Tracks von Teilnehmern, die bereits vor uns im Raum waren,
         // wurden vor unserem on(TrackSubscribed)-Listener subscribt - also
