@@ -5,13 +5,14 @@ import {
   GearSix,
   UserPlus,
   SignOut,
-  UsersThree,
+  UserPlusIcon,
 } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import { leaveServer } from "@/lib";
 import { ContextMenu, ServerIcon } from "@/components";
 import { useLongPress } from "@/hooks";
 import { useRouter } from "next/navigation";
+import { twMerge } from "tailwind-merge";
 
 export default function ServerHeader({
   server,
@@ -70,12 +71,13 @@ export default function ServerHeader({
         <button
           {...longPress.handlers}
           onClick={openMenu}
-          className="flex items-center gap-2 border-none bg-transparent cursor-pointer w-full"
+          className={twMerge(
+            "flex items-center gap-1 border-none bg-transparent hover:bg-surface-raised/50 cursor-pointer py-2 px-4 rounded-lg",
+            menuOpen ? "bg-surface-raised/50" : "",
+          )}
         >
-          <span className="text-lg font-bold text-white">
-            {server?.name ?? "..."}
-          </span>
-          <CaretDown className="text-zinc-400 text-xl" />
+          <span className="font-bold text-white">{server?.name ?? "..."}</span>
+          <CaretDown className="text-white text-md" weight="bold" />
         </button>
 
         {/* Right: People icon */}
@@ -84,7 +86,7 @@ export default function ServerHeader({
           title="Mitglieder"
           className="flex items-center justify-center size-10 aspect-square rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
         >
-          <UsersThree weight="regular" className="text-xl" />
+          <UserPlusIcon weight="regular" className="text-xl" />
         </button>
       </div>
 

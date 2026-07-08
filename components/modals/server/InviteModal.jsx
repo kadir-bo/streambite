@@ -164,7 +164,7 @@ export default function InviteModal({ open, onClose, server }) {
 
           <div className="max-h-55 overflow-y-auto flex flex-col gap-0.5">
             {friends.length === 0 ? (
-              <div className="px-1 py-4 text-center">
+              <div className="px-1 py-4 text-center flex flex-col items-center">
                 <UsersThree size={24} className="text-zinc-600 mb-1.5" />
                 <p className="text-xs text-zinc-600">
                   Du hast noch keine Freunde
@@ -218,10 +218,6 @@ export default function InviteModal({ open, onClose, server }) {
             )}
           </div>
         </div>
-
-        <p className="text-xs text-zinc-600 text-center">
-          Jeder mit diesem Link kann dem Server beitreten.
-        </p>
       </div>
     </Modal>
   );

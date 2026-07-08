@@ -36,6 +36,8 @@ const STATUS_OPTIONS = [
   { value: "offline", label: "Offline" },
 ];
 
+const MENU_WIDTH = 200; // ← Breite des Status-/Einstellungs-Menüs – einfach anpassen
+
 export default function UserPanel() {
   const { userDoc, firebaseUser } = useAuth();
   const {
@@ -63,7 +65,6 @@ export default function UserPanel() {
   const inVoice = connection.status === "connected";
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuPos, setMenuPos] = useState({ x: 0, y: 0 });
-  const [menuWidth, setMenuWidth] = useState(0);
   const longPress = useLongPress(openMenu);
   const [inputMenuOpen, setInputMenuOpen] = useState(false);
   const [inputMenuPos, setInputMenuPos] = useState({ x: 0, y: 0 });
@@ -74,13 +75,10 @@ export default function UserPanel() {
     userDoc?.displayName ?? firebaseUser?.displayName ?? "Nutzer";
   const status = userDoc?.status ?? "online";
 
-  // Measured (not hardcoded) so the dropdown always matches the sidebar's
-  // actual rendered width, even if that width changes elsewhere later.
   function openMenu(e) {
     const panel = e.currentTarget.closest("[data-user-panel]");
     const rect = (panel ?? e.currentTarget).getBoundingClientRect();
     setMenuPos({ x: rect.left, y: rect.top - 4 });
-    setMenuWidth(rect.width);
     setMenuOpen(true);
   }
 
@@ -107,20 +105,20 @@ export default function UserPanel() {
 
   const menuItems = [
     ...STATUS_OPTIONS.map((opt) => ({
-      icon: <StatusDot color={STATUS_COLORS[opt.value]} />,
+      icon: <StatusDot relative color={STATUS_COLORS[opt.value]} />,
       label: opt.label,
       active: status === opt.value,
       onClick: () => setStatus(opt.value),
     })),
     { divider: true },
     {
-      icon: <Gear />,
+      icon: <Gear className="text-lg" />,
       label: "Profileinstellungen",
       onClick: () => setShowSettings(true),
     },
     { divider: true },
     {
-      icon: <SignOut />,
+      icon: <SignOut className="text-lg" />,
       label: "Abmelden",
       danger: true,
       onClick: () => logoutUser(),
@@ -245,7 +243,7 @@ export default function UserPanel() {
         onClose={() => setMenuOpen(false)}
         position={menuPos}
         anchor="bottom"
-        width={menuWidth}
+        width={MENU_WIDTH}
         items={menuItems}
       />
 

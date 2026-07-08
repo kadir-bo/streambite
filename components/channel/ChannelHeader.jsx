@@ -2,6 +2,7 @@
 
 import { Hash, SpeakerHigh, UsersThree } from "@phosphor-icons/react";
 import { Topbar } from "@/components";
+import { twMerge } from "tailwind-merge";
 
 const TYPE_ICON = { text: Hash, voice: SpeakerHigh };
 
@@ -34,7 +35,7 @@ export default function ChannelHeader({
           type="button"
           onClick={onToggleMembers}
           title="Mitglieder"
-          className={cn(
+          className={twMerge(
             "flex items-center justify-center size-10 rounded-full border-none cursor-pointer transition-all duration-150",
             showMembers
               ? "bg-surface-hover text-white"
