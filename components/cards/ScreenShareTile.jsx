@@ -24,24 +24,29 @@ export default function ScreenShareTile({ participant }) {
   // Lokaler Stream: sofort beitreten. Remote: Overlay.
   const [streamJoined, setStreamJoined] = useState(participant.isLocal);
 
-  // Track koppeln/entkoppeln. Wenn der Track verschwindet (Stream-Ende),
-  // setze den "joined"-Zustand zurück, damit der Overlay-Button erscheint.
+  // Track koppeln/entkoppeln.
+  // ⚠️ timing: snapshotParticipants kann laufen bevor der Track vollständig
+  // publiziert ist → track ist null → streamJoined wird zurückgesetzt.
+  // Sobald der Track eintrifft, muss sich der lokale Teilnehmer neu joinen.
   useEffect(() => {
     const el = videoRef.current;
     if (!el) return;
     if (!track) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setStreamJoined(false);
+      // Bei Remote: Overlay anzeigen ("Stream beitreten").
+      // Bei Local: streamJoined bleibt true (wartet auf Track).
+      if (!participant.isLocal) setStreamJoined(false);
       return;
     }
-    if (streamJoined) {
+    // Lokale Teilnehmer werden automatisch attached, sobald der Track da ist.
+    // Remote: erst nach Klick auf "Stream beitreten".
+    if (streamJoined || participant.isLocal) {
       track.attach(el);
       el.play().catch(() => {});
     }
     return () => {
       track?.detach(el);
     };
-  }, [track, streamJoined]);
+  }, [track, streamJoined, participant.isLocal]);
 
   // iOS Rotation-Fix: Bei orientationchange/resize Video neu attachen
   useEffect(() => {

@@ -1,6 +1,8 @@
 export function LoadingSpinner({ label, accent, className = "" }) {
   return (
-    <div className={`flex h-full w-full items-center justify-center bg-zinc-950 ${className}`}>
+    <div
+      className={`flex h-full w-full items-center justify-center bg-surface-app ${className}`}
+    >
       <div className="flex flex-col items-center gap-3">
         <div
           className={`size-6 rounded-full border-2 border-white/10 animate-spin ${
