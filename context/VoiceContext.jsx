@@ -777,6 +777,12 @@ export function VoiceProvider({ children }) {
       });
       setScreenShare(next);
       if (next) {
+        // Warten bis der Screen-Share-Video-Track wirklich registriert ist,
+        // damit snapshotParticipants ihn erfasst → ScreenShareTile rendert.
+        for (let i = 0; i < 30; i++) {
+          if (room.localParticipant.getTrackPublication(Track.Source.ScreenShare)?.track) break;
+          await new Promise((r) => setTimeout(r, 50));
+        }
         // Kurz warten bis LiveKit den Audio-Track publiziert hat
         await new Promise((r) => setTimeout(r, 500));
         const audioPub = room.localParticipant.getTrackPublication(
