@@ -12,6 +12,7 @@ export default function ControlButton({
   accent,
   onClick,
   mobileOnly,
+  disabled = false,
   className = "",
 }) {
   // danger/active/accent bleiben als Rückwärtskompatibilität
@@ -29,13 +30,14 @@ export default function ControlButton({
     active: "bg-gray-800 hover:bg-accent-hover",
     accent: "bg-accent hover:bg-accent-hover",
   };
-
+  const isScreenButton = variantClasses[variant] === "screen";
   return (
     <button
       type="button"
+      disabled={disabled}
       onClick={onClick}
       className={twMerge(
-        "flex size-12 shrink-0 cursor-pointer items-center justify-center rounded-full border-none text-white transition-colors",
+        "flex size-12 shrink-0 cursor-pointer items-center justify-center rounded-full border-none text-white transition-colors disabled:opacity-50",
         mobileOnly ? "flex md:hidden" : "",
         variantClasses[variant],
         className,

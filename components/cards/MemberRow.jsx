@@ -8,7 +8,6 @@ import {
   Avatar,
   ContextMenu,
   DotMenu,
-  RoleBadge,
   ConfirmModal,
 } from "@/components";
 import { twMerge } from "tailwind-merge";
@@ -34,7 +33,7 @@ export default function MemberRow({ member, isOffline, serverId, canManage }) {
   function openMenu(e) {
     e.stopPropagation();
     const rect = e.currentTarget.getBoundingClientRect();
-    setMenuPos({ x: rect.right - 200, y: rect.bottom + 4 });
+    setMenuPos({ x: rect.right - 220, y: rect.bottom - 8 });
     setMenuOpen(true);
   }
 
@@ -100,7 +99,7 @@ export default function MemberRow({ member, isOffline, serverId, canManage }) {
         {...longPress.handlers}
         onContextMenu={!isSelf ? openMenu : undefined}
         className={twMerge(
-          "group flex items-center gap-1.5 px-2 py-1.25 rounded-lg cursor-default justify-between hover:bg-surface-card/50",
+          "group flex items-center gap-1.5 md:px-2 py-1.25 rounded-lg cursor-default justify-between hover:bg-surface-card/50 max-sm:h-14 h-10",
           isOffline ? "opacity-45" : "opacity-100",
         )}
       >
@@ -112,7 +111,6 @@ export default function MemberRow({ member, isOffline, serverId, canManage }) {
             status={isOffline ? "offline" : (member.status ?? "online")}
           />
           <div className="flex flex-col">
-            <RoleBadge roles={member.roles} />
             <span className="text-xs font-medium text-zinc-400 truncate flex-1">
               {member.displayName ?? "Nutzer"}
             </span>
@@ -120,7 +118,7 @@ export default function MemberRow({ member, isOffline, serverId, canManage }) {
         </div>
         {!isSelf && (
           <DotMenu
-            className="opacity-0 group-hover:opacity-100 transition-opacity duration-100"
+            className="md:opacity-0 group-hover:opacity-100 transition-opacity duration-100"
             onClick={openMenu}
           />
         )}

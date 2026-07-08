@@ -40,8 +40,6 @@ export default function UserPanel() {
   const { userDoc, firebaseUser } = useAuth();
   const {
     connection,
-    muted,
-    deafened,
     audioInputs,
     activeAudioInputId,
     audioOutputs,
@@ -52,13 +50,11 @@ export default function UserPanel() {
     setMicSensitivity,
     setInputVolume,
     setOutputVolume,
-    toggleMute,
-    toggleDeafen,
-    disconnect,
     loadAudioInputs,
     selectAudioInput,
     loadAudioOutputs,
     selectAudioOutput,
+    isSpeaking,
   } = useVoice();
   const inVoice = connection.status === "connected";
   const [menuOpen, setMenuOpen] = useState(false);
@@ -191,7 +187,7 @@ export default function UserPanel() {
     <>
       <div
         data-user-panel
-        className="shrink-0 px-3 pb-3 pt-1 max-sm:px-4 max-sm:pb-4"
+        className="shrink-0 px-3 pt-1 max-sm:px-4 max-sm:pb-8 pb-4"
       >
         <div className="flex items-center gap-3 rounded-2xl bg-surface-deep p-3">
           {/* Avatar + Name + Status */}
@@ -206,6 +202,7 @@ export default function UserPanel() {
                 name={displayName}
                 size="md"
                 status={status}
+                isSpeaking={isSpeaking}
               />
             </div>
             <div className="min-w-0 flex-1">

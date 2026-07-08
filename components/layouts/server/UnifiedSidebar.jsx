@@ -32,6 +32,7 @@ export default function UnifiedSidebar() {
               <ServerRail onOpenCreate={() => setCreateOpen(true)} />
               <ChannelPane />
             </div>
+            {connection.status === "connected" && <UserConntectedPanel />}
             <UserPanel />
           </motion.aside>
         )}
@@ -43,7 +44,7 @@ export default function UnifiedSidebar() {
           <ServerRail onOpenCreate={() => setCreateOpen(true)} />
           <ChannelPane />
         </div>
-        <div className="absolute flex flex-col bottom-0 w-full gap-px">
+        <div className="absolute flex flex-col bottom-0 w-full">
           {connection.status === "connected" && <UserConntectedPanel />}
           <UserPanel />
         </div>

@@ -12,6 +12,7 @@ import {
 import { ControlButton } from "@/components";
 import { useVoice } from "@/context";
 import { twMerge } from "tailwind-merge";
+import { useIsDesktop } from "@/hooks";
 
 /**
  * VoiceControls – Konfigurierbare Button-Leiste für Sprachkanal-Steuerung.
@@ -34,7 +35,7 @@ export default function VoiceControls({
   buttonClassName = "",
 }) {
   const voice = useVoice();
-
+  const isDesktop = useIsDesktop();
   const buttons = {
     speaker: (
       <ControlButton
@@ -77,6 +78,7 @@ export default function VoiceControls({
         key="screen"
         active={voice.screenShare}
         onClick={voice.toggleScreenShare}
+        disabled={!isDesktop}
       >
         {voice.screenShare ? (
           <Stop weight="fill" className="text-xl" />

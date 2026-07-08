@@ -4,7 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import { Plus, ChatCircleText, ChatCircleIcon } from "@phosphor-icons/react";
 import { springs } from "@/lib";
-import { useAuth, useLayout, useServer } from "@/context";
+import { useAuth, useLayout, useServer, useVoice } from "@/context";
 import {
   RailButton,
   PendingInviteButton,
@@ -18,6 +18,7 @@ export default function ServerRail({ onOpenCreate }) {
   const pathname = usePathname();
   const router = useRouter();
   const { servers, activeServerId } = useServer();
+  const { connection } = useVoice();
   const { showContent } = useLayout();
   const { userDoc } = useAuth();
   const isDM = pathname.startsWith("/channels");
@@ -90,6 +91,10 @@ export default function ServerRail({ onOpenCreate }) {
               href={`/servers/${server.id}`}
               active={server.id === activeServerId}
               tooltip={server.name}
+              voiceActive={
+                connection.status === "connected" &&
+                connection.serverId === server.id
+              }
             >
               <ServerIcon
                 name={server.name}

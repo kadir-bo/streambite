@@ -8,6 +8,43 @@ import { useMediaQuery } from "@/hooks";
 import { subscribeToServerMembers } from "@/lib";
 import { MemberRow, IconBtn } from "@/components";
 
+function MemberSection({ label, count, prefix, gap, groups, isOffline, serverId, canManage }) {
+  const roleLabel = { owner: "Owner", admin: "Admin", member: "Mitglied" };
+  const roleOrder = ["owner", "admin", "member"];
+
+  if (count === 0) return null;
+
+  return (
+    <div className={prefix}>
+      <p className="text-2xs font-semibold uppercase tracking-wider text-zinc-500 mb-1">
+        {label} — {count}
+      </p>
+      {roleOrder.map((role) => {
+        const list = groups[role];
+        if (list.length === 0) return null;
+        return (
+          <div key={role} className="mb-2 last:mb-0">
+            <p className="text-2xs font-medium uppercase tracking-wider text-zinc-600 mb-0.5 ml-1">
+              {roleLabel[role]}
+            </p>
+            <div className={`flex flex-col ${gap}`}>
+              {list.map((m) => (
+                <MemberRow
+                  key={m.id}
+                  member={m}
+                  isOffline={isOffline ?? false}
+                  serverId={serverId}
+                  canManage={canManage}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function MemberSidebar() {
   const { servers, activeServerId, showMembers, toggleMembers } = useServer();
   const { firebaseUser } = useAuth();
@@ -36,10 +73,19 @@ export default function MemberSidebar() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeServerId, memberIdsKey]);
 
-  // Online bucket = anything that isn't explicitly offline (online/busy/idle all
-  // count as "active"; idle was previously excluded from both buckets entirely).
+  // Online bucket = anything that isn't explicitly offline
   const online = members.filter((m) => (m.status ?? "online") !== "offline");
   const offline = members.filter((m) => (m.status ?? "online") === "offline");
+
+  function groupByRole(list) {
+    const groups = { owner: [], admin: [], member: [] };
+    for (const m of list) {
+      if (m.roles?.includes("owner")) groups.owner.push(m);
+      else if (m.roles?.includes("admin")) groups.admin.push(m);
+      else groups.member.push(m);
+    }
+    return groups;
+  }
 
   return (
     <>
@@ -76,47 +122,26 @@ export default function MemberSidebar() {
                 </div>
                 <div className="mx-4 mt-3 h-px bg-white/5" />
 
-                {/* Online */}
-                {online.length > 0 && (
-                  <div className="px-4 mt-3 mb-4">
-                    <p className="text-2xs font-semibold uppercase tracking-wider text-zinc-500 mb-1">
-                      Online — {online.length}
-                    </p>
-                    <div className="flex flex-col gap-1">
-                      {online.map((m) => (
-                        <MemberRow
-                          key={m.id}
-                          member={m}
-                          isOffline={false}
-                          serverId={activeServerId}
-                          canManage={canManage}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Offline */}
-                {offline.length > 0 && (
-                  <div className="px-4 mb-4">
-                    <p className="text-2xs font-semibold uppercase tracking-wider text-zinc-500 mb-1">
-                      Offline — {offline.length}
-                    </p>
-                    <div className="flex flex-col gap-0.5">
-                      {offline.map((m) => (
-                        <MemberRow
-                          key={m.id}
-                          member={m}
-                          isOffline
-                          serverId={activeServerId}
-                          canManage={canManage}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Leerer State */}
+                {/* Member-Sektionen */}
+                <MemberSection
+                  label="Online"
+                  count={online.length}
+                  prefix="px-4 mt-3 mb-4"
+                  gap="gap-1"
+                  groups={groupByRole(online)}
+                  serverId={activeServerId}
+                  canManage={canManage}
+                />
+                <MemberSection
+                  label="Offline"
+                  count={offline.length}
+                  prefix="px-4 mb-4"
+                  gap="gap-0.5"
+                  groups={groupByRole(offline)}
+                  isOffline
+                  serverId={activeServerId}
+                  canManage={canManage}
+                />
                 {members.length === 0 && (
                   <div className="px-4 pt-8">
                     <p className="text-xs text-zinc-500 text-center">
@@ -148,44 +173,25 @@ export default function MemberSidebar() {
               </div>
 
               <div className="flex-1 overflow-y-auto pb-safe">
-                {online.length > 0 && (
-                  <div className="px-4 mt-3 mb-4">
-                    <p className="text-2xs font-semibold uppercase tracking-wider text-zinc-500 mb-1">
-                      Online — {online.length}
-                    </p>
-                    <div className="flex flex-col gap-0.5">
-                      {online.map((m) => (
-                        <MemberRow
-                          key={m.id}
-                          member={m}
-                          isOffline={false}
-                          serverId={activeServerId}
-                          canManage={canManage}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {offline.length > 0 && (
-                  <div className="px-4 mb-4">
-                    <p className="text-2xs font-semibold uppercase tracking-wider text-zinc-500 mb-1">
-                      Offline — {offline.length}
-                    </p>
-                    <div className="flex flex-col gap-0.5">
-                      {offline.map((m) => (
-                        <MemberRow
-                          key={m.id}
-                          member={m}
-                          isOffline
-                          serverId={activeServerId}
-                          canManage={canManage}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )}
-
+                <MemberSection
+                  label="Online"
+                  count={online.length}
+                  prefix="px-4 mt-3 mb-4"
+                  gap="gap-0.5"
+                  groups={groupByRole(online)}
+                  serverId={activeServerId}
+                  canManage={canManage}
+                />
+                <MemberSection
+                  label="Offline"
+                  count={offline.length}
+                  prefix="px-4 mb-4"
+                  gap="gap-0.5"
+                  groups={groupByRole(offline)}
+                  isOffline
+                  serverId={activeServerId}
+                  canManage={canManage}
+                />
                 {members.length === 0 && (
                   <div className="px-4 pt-8">
                     <p className="text-xs text-zinc-500 text-center">

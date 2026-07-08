@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import Link from "next/link";
+import { SpeakerHigh } from "@phosphor-icons/react";
 import { serverIcon } from "@/lib";
 import { Tooltip } from "@/components";
 import { twMerge } from "tailwind-merge";
@@ -12,6 +13,7 @@ export default function RailButton({
   active,
   tooltip,
   onClick,
+  voiceActive = false,
 }) {
   const [hovered, setHovered] = useState(false);
   const state = active ? "active" : hovered ? "hover" : "idle";
@@ -22,7 +24,7 @@ export default function RailButton({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div className="px-1.5">
+      <div className="px-1.5 relative">
         <motion.div
           animate={state}
           variants={serverIcon}
@@ -35,6 +37,13 @@ export default function RailButton({
         >
           {children}
         </motion.div>
+
+        {/* Voice-Active-Badge */}
+        {voiceActive && (
+          <div className="absolute -top-0.5 -right-0.5 size-4 flex items-center justify-center rounded-full bg-green-500 shadow-md">
+            <SpeakerHigh weight="fill" className="size-2.5 text-white" />
+          </div>
+        )}
       </div>
       {tooltip && <Tooltip label={tooltip} visible={hovered} />}
     </div>
