@@ -17,7 +17,7 @@ export default function ChannelHeader({
     <Topbar className="gap-3 px-4">
       <div className="flex items-center gap-2 flex-1 min-w-0">
         <Icon weight="regular" className="text-zinc-500 shrink-0 text-base" />
-        <div className="flex flex-col md:flex-row gap-0 md:gap-2 items-start">
+        <div className="flex flex-col md:flex-row gap-0 md:gap-2 items-start md:items-center">
           <span className="text-lg font-semibold text-white truncate">
             {channel?.name ?? "..."}
           </span>
