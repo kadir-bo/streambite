@@ -1,6 +1,12 @@
 "use client";
 import { useState } from "react";
-import { CaretDown, GearSix, UserPlus, SignOut, UsersThree } from "@phosphor-icons/react";
+import {
+  CaretDown,
+  GearSix,
+  UserPlus,
+  SignOut,
+  UsersThree,
+} from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import { leaveServer } from "@/lib";
 import { ContextMenu, ServerIcon } from "@/components";
@@ -60,36 +66,23 @@ export default function ServerHeader({
   return (
     <>
       <div className="flex h-full items-center justify-between px-4">
-        {/* Left: Gear icon (owner only) */}
-        {isOwner ? (
-          <button
-            onClick={onOpenSettings}
-            title="Servereinstellungen"
-            className="flex items-center justify-center size-10 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
-          >
-            <GearSix weight="regular" className="text-xl" />
-          </button>
-        ) : (
-          <div className="size-10" />
-        )}
-
         {/* Center: Server name with chevron */}
         <button
           {...longPress.handlers}
           onClick={openMenu}
-          className="flex items-center gap-2 border-none bg-transparent cursor-pointer"
+          className="flex items-center gap-2 border-none bg-transparent cursor-pointer w-full"
         >
           <span className="text-lg font-bold text-white">
             {server?.name ?? "..."}
           </span>
-          <CaretDown className="text-zinc-400 text-sm" />
+          <CaretDown className="text-zinc-400 text-xl" />
         </button>
 
         {/* Right: People icon */}
         <button
           onClick={onOpenInvite}
           title="Mitglieder"
-          className="flex items-center justify-center size-10 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
+          className="flex items-center justify-center size-10 aspect-square rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
         >
           <UsersThree weight="regular" className="text-xl" />
         </button>
