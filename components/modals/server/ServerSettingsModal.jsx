@@ -7,6 +7,7 @@ import {
   Camera,
   Link,
   CopySimple,
+  Copy,
   Check,
   Gear,
   Users,
@@ -44,7 +45,8 @@ export default function ServerSettingsModal({ open, onClose, server }) {
   const [uploadingIcon, setUploadingIcon] = useState(false);
   const [iconPreview, setIconPreview] = useState(null);
   const [error, setError] = useState("");
-  const [copied, setCopied] = useState(false);
+  const [copiedCode, setCopiedCode] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
   const fileInputRef = useRef(null);
 
   // server is passed in before it's loaded (mount happens ahead of the
@@ -156,11 +158,16 @@ export default function ServerSettingsModal({ open, onClose, server }) {
     }
   }
 
-  async function copyInvite() {
-    if (!inviteLink) return;
-    await navigator.clipboard.writeText(inviteLink);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
+  async function copyToClipboard(string, type) {
+    if (!string) return;
+    await navigator.clipboard.writeText(string);
+    if (type === "code") {
+      setCopiedCode(true);
+      setTimeout(() => setCopiedCode(false), 2500);
+    } else {
+      setCopiedLink(true);
+      setTimeout(() => setCopiedLink(false), 2500);
+    }
   }
 
   const currentIcon = iconPreview ?? server?.iconUrl;
@@ -261,6 +268,24 @@ export default function ServerSettingsModal({ open, onClose, server }) {
                     <p className="text-xs text-zinc-500 mt-0.5">
                       Klicke auf das Icon zum Ändern
                     </p>
+                    <button
+                      className="text-zinc-500 text-sm flex items-center gap-1 mt-2"
+                      onClick={() =>
+                        copyToClipboard(server?.inviteCode, "code")
+                      }
+                    >
+                      <motion.div
+                        animate={{ scale: copiedCode ? [1, 1.3, 1] : 1 }}
+                        transition={{ duration: 0.3, ease: "easeOut" }}
+                      >
+                        {copiedCode ? (
+                          <Check className="text-sm text-green-500" />
+                        ) : (
+                          <Copy className="text-sm" />
+                        )}
+                      </motion.div>
+                      {server?.inviteCode}
+                    </button>
                     {server?.iconUrl && (
                       <button
                         type="button"
@@ -320,25 +345,27 @@ export default function ServerSettingsModal({ open, onClose, server }) {
                   <span className="flex-1 text-sm text-zinc-500 truncate font-mono">
                     {inviteLink || "..."}
                   </span>
-                  <button
-                    onClick={copyInvite}
+                  <motion.button
+                    onClick={() => copyToClipboard(inviteLink, "link")}
                     className={twMerge(
-                      "flex items-center justify-center size-8 rounded-sm border-none text-xs font-semibold cursor-pointer shrink-0 transition-all duration-150",
-                      copied
+                      "flex items-center justify-center size-8 rounded-sm border-none text-xs font-semibold cursor-pointer shrink-0 transition-colors duration-150",
+                      copiedLink
                         ? "bg-white/10 text-green-500"
                         : "bg-surface-card text-zinc-400",
                     )}
+                    animate={
+                      copiedLink
+                        ? { scale: [1, 1.2, 1] }
+                        : { scale: 1 }
+                    }
+                    transition={{ duration: 0.3, ease: "easeOut" }}
                   >
-                    {copied ? (
-                      <>
-                        <Check weight="regular" className="text-lg" />
-                      </>
+                    {copiedLink ? (
+                      <Check weight="regular" className="text-lg" />
                     ) : (
-                      <>
-                        <CopySimple weight="regular" className="text-lg" />
-                      </>
+                      <CopySimple weight="regular" className="text-lg" />
                     )}
-                  </button>
+                  </motion.button>
                 </div>
               </div>
 
