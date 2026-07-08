@@ -11,7 +11,7 @@ import {
   ReAuthRequiredError,
   logoutUser,
 } from "@/lib";
-import { Avatar, ConfirmModal } from "@/components";
+import { Avatar, Button, ConfirmModal } from "@/components";
 
 const STATUS_OPTIONS = [
   { value: "online", label: "Online", color: "#4ac263" },
@@ -227,20 +227,17 @@ export default function ProfileSettings({ open }) {
       )}
 
       {/* Account löschen */}
-      <div className="mt-4">
+      <div className="mt-8 border p-4 rounded-xl border-white/5 bg-red-900/5">
         <h3 className="text-base font-bold text-white mb-2">Account Löschen</h3>
         <p className="text-sm text-zinc-500 mb-4">
           Um Ihren Account unwiderruflich zu löschen können Sie auf den
           nachfolgenden Button klicken.
         </p>
-        <button
-          type="button"
-          onClick={() => setDeleteOpen(true)}
-          className="w-full flex items-center justify-between rounded-xl bg-red px-4 py-3 text-base font-semibold text-white border-none cursor-pointer hover:bg-red-hover"
-        >
+
+        <Button variant="danger" onClick={() => setDeleteOpen(true)}>
           <span>Account Löschen</span>
           <Trash weight="regular" className="text-lg" />
-        </button>
+        </Button>
       </div>
 
       <ConfirmModal

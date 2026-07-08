@@ -21,6 +21,10 @@ export default function ScreenShareTile({ participant }) {
   const maximizedRef = useRef(false);
   const track = participant.screenShareTrack;
 
+  console.log(
+    `[ScreenShareTile] RENDER: identity=${participant.identity} isLocal=${participant.isLocal} hasTrack=${!!track} streamJoined=initial`,
+  );
+
   // Lokaler Stream: sofort beitreten. Remote: Overlay.
   const [streamJoined, setStreamJoined] = useState(participant.isLocal);
 
@@ -35,15 +39,26 @@ export default function ScreenShareTile({ participant }) {
       // Bei Remote: Overlay anzeigen ("Stream beitreten").
       // Bei Local: streamJoined bleibt true (wartet auf Track).
       if (!participant.isLocal) setStreamJoined(false);
+      console.log(
+        `[ScreenShareTile] effect — kein Track (identity=${participant.identity} isLocal=${participant.isLocal} streamJoined=${streamJoined})`,
+      );
       return;
     }
+    console.log(
+      `[ScreenShareTile] effect — Track gefunden! Attache... (identity=${participant.identity} isLocal=${participant.isLocal} streamJoined=${streamJoined})`,
+    );
     // Lokale Teilnehmer werden automatisch attached, sobald der Track da ist.
     // Remote: erst nach Klick auf "Stream beitreten".
     if (streamJoined || participant.isLocal) {
       track.attach(el);
-      el.play().catch(() => {});
+      el.play().catch((err) =>
+        console.warn("[ScreenShareTile] el.play() failed:", err),
+      );
     }
     return () => {
+      console.log(
+        `[ScreenShareTile] cleanup — detach track (identity=${participant.identity})`,
+      );
       track?.detach(el);
     };
   }, [track, streamJoined, participant.isLocal]);
@@ -57,7 +72,9 @@ export default function ScreenShareTile({ participant }) {
       try {
         track.detach(el);
         track.attach(el);
-        el.play().catch(() => {});
+        el.play().catch((err) =>
+          console.warn("[ScreenShareTile] reattach play() failed:", err),
+        );
       } catch (_) {
         /* ignore */
       }
@@ -178,16 +195,18 @@ export default function ScreenShareTile({ participant }) {
             "fixed inset-0 z-50 flex items-center justify-center bg-black",
         )}
       >
-        {streamJoined ? (
-          <>
-            <video
-              ref={videoRef}
-              playsInline
-              // object-cover auf Mobile (füllt ohne Balken), object-contain auf Desktop (zeigt alles)
-              className="h-full w-full max-sm:object-cover object-contain"
-            />
-          </>
-        ) : (
+          {streamJoined ? (
+            <>
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted
+                // object-cover auf Mobile (füllt ohne Balken), object-contain auf Desktop (zeigt alles)
+                className="h-full w-full max-sm:object-cover object-contain"
+              />
+            </>
+          ) : (
           /* Overlay: "Stream beitreten"-Button (nur für Remote) */
           <div className="flex h-full w-full flex-col items-center justify-center gap-4 px-6">
             <div className="flex size-16 items-center justify-center rounded-full bg-(--accent)/20">
