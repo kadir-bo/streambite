@@ -1,14 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import {
-  motion,
-  AnimatePresence,
-  useDragControls,
-} from "motion/react";
+import { motion, AnimatePresence, useDragControls } from "motion/react";
 import { X } from "@phosphor-icons/react";
 import { IconBtn } from "@/components";
+import { useMediaQuery } from "@/hooks";
 import { modal, backdrop } from "@/lib";
 import { twMerge } from "tailwind-merge";
 
@@ -21,6 +18,7 @@ export default function Modal({
   bodyClassName = "p-5",
   mobileFullScreen = false,
 }) {
+  const isMobile = useMediaQuery("(max-width: 767px)");
   const dragControls = useDragControls();
 
   useEffect(() => {
@@ -46,9 +44,7 @@ export default function Modal({
           onClick={onClose}
           className={twMerge(
             "fixed inset-0 z-200 bg-black/80 flex items-center justify-center",
-            mobileFullScreen
-              ? "p-0 sm:p-5 items-end sm:items-center"
-              : "p-5",
+            mobileFullScreen ? "p-0 sm:p-5 items-end sm:items-center" : "p-5",
           )}
         >
           <motion.div
@@ -58,7 +54,7 @@ export default function Modal({
             exit="exit"
             variants={modal}
             onClick={(e) => e.stopPropagation()}
-            drag={mobileFullScreen ? "y" : false}
+            drag={mobileFullScreen && isMobile ? "y" : false}
             dragControls={dragControls}
             dragSnapToOrigin
             dragElastic={0.3}
@@ -66,7 +62,7 @@ export default function Modal({
               if (info.offset.y > 80) onClose();
             }}
             className={twMerge(
-              "bg-surface-app border border-white/5 w-full relative overflow-hidden",
+              "bg-surface-app border border-white/10 w-full relative overflow-hidden",
               mobileFullScreen
                 ? "h-[95dvh] rounded-t-2xl sm:h-auto sm:rounded-2xl flex flex-col"
                 : "rounded-2xl",
@@ -92,8 +88,8 @@ export default function Modal({
                   icon={X}
                   onClick={onClose}
                   title="Schließen"
-                  size="sm"
-                  className="mt-0.5"
+                  size="lg"
+                  className="mt-0.5 absolute top-0 right-0"
                 />
               </div>
             )}

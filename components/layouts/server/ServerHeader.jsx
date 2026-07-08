@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   CaretDown,
   GearSix,
@@ -10,24 +10,35 @@ import {
 import { useAuth } from "@/context";
 import { leaveServer } from "@/lib";
 import { ContextMenu, ServerIcon, IconBtn } from "@/components";
-import { useLongPress } from "@/hooks";
 import { useRouter } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 
 export default function ServerHeader({
   server,
-  isOwner,
+  canManage,
   onOpenSettings,
   onOpenInvite,
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuPos, setMenuPos] = useState({ x: 0, y: 0 });
   const [menuWidth, setMenuWidth] = useState(0);
-  const longPress = useLongPress(openMenu);
+  const [isMobile, setIsMobile] = useState(false);
   const { firebaseUser } = useAuth();
   const router = useRouter();
 
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    setIsMobile(mq.matches);
+    const handler = (e) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
   function openMenu(e) {
+    if (isMobile) {
+      onOpenSettings();
+      return;
+    }
     const rect = e.currentTarget.getBoundingClientRect();
     setMenuPos({ x: rect.left, y: rect.bottom + 4 });
     setMenuWidth(rect.width);
@@ -41,7 +52,7 @@ export default function ServerHeader({
   }
 
   const menuItems = [
-    ...(isOwner
+    ...(canManage
       ? [
           {
             icon: <GearSix />,
@@ -69,7 +80,6 @@ export default function ServerHeader({
       <div className="flex h-full items-center justify-between px-2 md:px-4 gap-2">
         {/* Center: Server name with chevron */}
         <button
-          {...longPress.handlers}
           onClick={openMenu}
           className={twMerge(
             "flex items-center gap-1 border-none bg-transparent hover:bg-surface-raised/50 cursor-pointer py-2 px-4 rounded-lg w-full md:w-max",

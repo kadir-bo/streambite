@@ -9,7 +9,7 @@ export default function CategoryHeader({
   category,
   isCollapsed,
   onToggle,
-  isOwner,
+  canManage,
   onAddChannel,
 }) {
   return (
@@ -30,7 +30,7 @@ export default function CategoryHeader({
         </span>
       </div>
 
-      {isOwner && (
+      {canManage && (
         <Button
           onClick={(e) => {
             e.stopPropagation();

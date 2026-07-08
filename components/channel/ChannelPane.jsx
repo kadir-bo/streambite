@@ -17,7 +17,7 @@ export default function ChannelPane() {
   const params = useParams();
   const serverId = params?.serverId;
   const channelId = params?.channelId;
-  const { servers, channels, categories } = useServer();
+  const { servers, channels, categories, userRoles } = useServer();
   const { firebaseUser } = useAuth();
   const [showSettings, setShowSettings] = useState(false);
   const [showInvite, setShowInvite] = useState(false);
@@ -25,6 +25,7 @@ export default function ChannelPane() {
 
   const server = servers.find((s) => s.id === serverId);
   const isOwner = server?.ownerId === firebaseUser?.uid;
+  const canManage = isOwner || userRoles?.includes("admin");
 
   return (
     <>
@@ -36,7 +37,7 @@ export default function ChannelPane() {
           {serverId ? (
             <ServerHeader
               server={server}
-              isOwner={isOwner}
+              canManage={canManage}
               onOpenSettings={() => setShowSettings(true)}
               onOpenInvite={() => setShowInvite(true)}
             />
@@ -58,7 +59,7 @@ export default function ChannelPane() {
               channels={channels}
               categories={categories}
               activeChannelId={channelId}
-              isOwner={isOwner}
+              canManage={canManage}
               serverId={serverId}
               onAddChannel={(cat) => {
                 setAddChannelCategory(cat);

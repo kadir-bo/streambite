@@ -37,7 +37,7 @@ export default function ServerInviteRow({ invite, uid }) {
 
   return (
     <div className="flex items-center gap-2.5 px-3 py-2">
-      <div className="size-8 shrink-0 overflow-hidden rounded-md">
+      <div className="size-8 shrink-0 overflow-hidden rounded-md flex items-center justify-center">
         <ServerIcon
           name={invite.serverName}
           iconUrl={invite.serverIconUrl}

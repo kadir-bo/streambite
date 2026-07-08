@@ -27,7 +27,7 @@ const TYPE_ICON = {
   voice: SpeakerHigh,
 };
 
-export default function ChannelItem({ channel, serverId, isActive, isOwner }) {
+export default function ChannelItem({ channel, serverId, isActive, canManage }) {
   const { firebaseUser } = useAuth();
   const { voicePresence, channels } = useServer();
   const { participants: liveParticipants, connection, connect } = useVoice();
@@ -114,7 +114,7 @@ export default function ChannelItem({ channel, serverId, isActive, isOwner }) {
           },
         ]
       : []),
-    ...(isOwner
+    ...(canManage
       ? [
           { divider: true },
           {

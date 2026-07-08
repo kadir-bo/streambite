@@ -1,11 +1,7 @@
 ﻿"use client";
 
 import { useState } from "react";
-import {
-  UserPlus,
-  Check,
-  Warning,
-} from "@phosphor-icons/react";
+import { UserPlus, Check, Warning } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import { getUserByTag, sendFriendRequest } from "@/lib";
 import { Modal, Button, Avatar, SearchInput } from "@/components";
@@ -80,12 +76,15 @@ export default function AddFriendModal({ open, onClose }) {
     >
       <div className="flex flex-col gap-5">
         <p className="text-sm text-zinc-500">
-          Suche nach dem Nutzernamen mit Tag - z.B.{" "}
-          <span className="font-mono text-zinc-400">Max#1234</span>
+          Suche nach dem Nutzernamen mit Tag:
+          <span className=" text-zinc-400 block">z.B. Max#1234</span>
         </p>
 
         {/* Search input */}
-        <form onSubmit={handleSearch} className="flex gap-2">
+        <form
+          onSubmit={handleSearch}
+          className="flex flex-col md:flex-row gap-2"
+        >
           <SearchInput
             value={query}
             onChange={(e) => {

@@ -46,7 +46,7 @@ function MemberSection({ label, count, prefix, gap, groups, isOffline, serverId,
 }
 
 export default function MemberSidebar() {
-  const { servers, activeServerId, showMembers, toggleMembers } = useServer();
+  const { servers, activeServerId, showMembers, toggleMembers, userRoles } = useServer();
   const { firebaseUser } = useAuth();
   const [members, setMembers] = useState([]);
   // Below md there's no room for a 3rd column - the member list becomes a
@@ -55,7 +55,8 @@ export default function MemberSidebar() {
 
   const activeServer = servers.find((s) => s.id === activeServerId);
   const memberIdsKey = (activeServer?.memberIds ?? []).join("|");
-  const canManage = activeServer?.ownerId === firebaseUser?.uid;
+  const isOwner = activeServer?.ownerId === firebaseUser?.uid;
+  const canManage = isOwner || userRoles?.includes("admin");
 
   // Wie ActiveNowPanel: komplett ausgeblendet wenn collapsed
   const minSidebarWidth = 0;

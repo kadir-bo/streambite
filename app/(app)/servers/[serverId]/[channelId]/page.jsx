@@ -9,13 +9,14 @@ import { ChannelHeader, MessageList, MessageInput, VoiceChannelView } from "@/co
 export default function ChannelPage() {
   const { serverId, channelId } = useParams();
   const { firebaseUser } = useAuth();
-  const { channels, servers, showMembers, toggleMembers } = useServer();
+  const { channels, servers, showMembers, toggleMembers, userRoles } = useServer();
   const [replyTarget, setReplyTarget] = useState(null);
 
   const channel = channels.find((ch) => ch.id === channelId);
   const isVoice = channel?.type === "voice";
   const server = servers.find((s) => s.id === serverId);
   const isOwner = server?.ownerId === firebaseUser?.uid;
+  const canManage = isOwner || userRoles?.includes("admin");
 
   useEffect(() => {
     if (firebaseUser && channelId && !isVoice)
@@ -40,7 +41,7 @@ export default function ChannelPage() {
           <VoiceChannelView
             serverId={serverId}
             channel={channel}
-            isOwner={isOwner}
+            isOwner={canManage}
           />
         )
       ) : (

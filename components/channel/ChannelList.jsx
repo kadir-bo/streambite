@@ -8,7 +8,7 @@ export default function ChannelList({
   channels,
   categories,
   activeChannelId,
-  isOwner,
+  canManage,
   serverId,
   onAddChannel,
 }) {
@@ -39,7 +39,7 @@ export default function ChannelList({
               category={cat}
               isCollapsed={isCollapsed}
               onToggle={() => toggleCategory(cat.id)}
-              isOwner={isOwner}
+              canManage={canManage}
               onAddChannel={onAddChannel}
             />
 
@@ -51,7 +51,7 @@ export default function ChannelList({
                     channel={ch}
                     serverId={serverId}
                     isActive={ch.id === activeChannelId}
-                    isOwner={isOwner}
+                    canManage={canManage}
                   />
                 ))}
             </AnimatePresence>

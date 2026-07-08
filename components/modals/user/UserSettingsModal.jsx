@@ -1,13 +1,14 @@
 ﻿"use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
-import { motion, animate, useMotionValue } from "motion/react";
+import { useEffect, useState } from "react";
+import { motion, animate } from "motion/react";
 import { User, Microphone, Shield, Lock } from "@phosphor-icons/react";
 import {
   Modal,
   ProfileSettings,
   VoiceVideoSettings,
 } from "@/components";
+import { useMediaQuery, useTabDragScroll } from "@/hooks";
 import { twMerge } from "tailwind-merge";
 
 const TABS = [
@@ -19,37 +20,8 @@ const TABS = [
 
 export default function UserSettingsModal({ open, onClose }) {
   const [tab, setTab] = useState("profile");
-  const x = useMotionValue(0);
-  const contentRef = useRef(null);
-  const maskRef = useRef(null);
-  const [dragCons, setDragCons] = useState({ left: 0, right: 0 });
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 767px)");
-    setIsMobile(mq.matches);
-    const handler = (e) => setIsMobile(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
-
-  /* Drag-Constraints an Content-Breite anpassen */
-  const measure = useCallback(() => {
-    if (!contentRef.current || !maskRef.current) return;
-    const cw = maskRef.current.offsetWidth;
-    const sw = contentRef.current.scrollWidth;
-    if (sw > cw) {
-      setDragCons({ left: -(sw - cw) - 20, right: 20 });
-    } else {
-      setDragCons({ left: 0, right: 0 });
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!open) return;
-    /* Kurzes Delay, damit DOM gemounted ist */
-    requestAnimationFrame(measure);
-  }, [open, measure]);
+  const isMobile = useMediaQuery("(max-width: 767px)");
+  const { x, contentRef, maskRef, dragCons } = useTabDragScroll(open);
 
   /* Programmgesteuerter Sprung zum aktiven Tab */
   useEffect(() => {

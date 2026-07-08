@@ -6,6 +6,7 @@ import {
   subscribeToUserServers,
   subscribeToServerChannels,
   subscribeToServerVoicePresence,
+  subscribeToMemberRoles,
   createServer as fsCreateServer,
   joinServerByCode,
 } from '@/lib'
@@ -22,6 +23,7 @@ export function ServerProvider({ children }) {
   // auto-opening it would otherwise ambush mobile users on every channel visit.
   const [showMembers, setShowMembers] = useState(false)
   const [voicePresence, setVoicePresence] = useState({})
+  const [userRoles, setUserRoles] = useState([])
 
   const serverIdsKey = (userDoc?.servers ?? []).join('|')
 
@@ -54,6 +56,16 @@ export function ServerProvider({ children }) {
     return unsubscribe
   }, [activeServerId])
 
+  useEffect(() => {
+    if (!activeServerId || !firebaseUser) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setUserRoles([])
+      return
+    }
+    const unsubscribe = subscribeToMemberRoles(activeServerId, firebaseUser.uid, setUserRoles)
+    return unsubscribe
+  }, [activeServerId, firebaseUser])
+
   const createServer = useCallback(
     async (name) => {
       if (!firebaseUser) throw new Error('Nicht authentifiziert')
@@ -79,6 +91,7 @@ export function ServerProvider({ children }) {
     channels,
     categories,
     voicePresence,
+    userRoles,
     createServer,
     joinServer,
     showMembers,

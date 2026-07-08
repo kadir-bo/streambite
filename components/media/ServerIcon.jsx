@@ -26,7 +26,7 @@ export default function ServerIcon({ name = "", iconUrl, size = 48 }) {
 
   return (
     <span
-      className="font-bold text-white tracking-tight select-none leading-none"
+      className="flex items-center justify-center font-bold text-white tracking-tight select-none"
       style={{ fontSize }}
     >
       {initials || name.slice(0, 2).toUpperCase()}

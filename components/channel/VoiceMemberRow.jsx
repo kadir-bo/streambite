@@ -26,7 +26,7 @@ export default function VoiceMemberRow({
   const { connect, isSpeaking } = useVoice();
   const { showContent } = useLayout();
   const { firebaseUser } = useAuth();
-  const { servers } = useServer();
+  const { servers, userRoles } = useServer();
   const isDesktop = useIsDesktop();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -34,6 +34,7 @@ export default function VoiceMemberRow({
 
   const activeServer = servers.find((s) => s.id === serverId);
   const isOwner = activeServer?.ownerId === firebaseUser?.uid;
+  const canManage = isOwner || userRoles?.includes("admin");
   const isSelf = member.uid === firebaseUser?.uid;
 
   const longPress = useLongPress(openMenu, 500);
@@ -87,7 +88,7 @@ export default function VoiceMemberRow({
       label: "Nachricht senden",
       onClick: handleSendDm,
     },
-    ...(isOwner && !isSelf
+    ...(canManage && !isSelf
       ? [
           {
             icon: <User />,
