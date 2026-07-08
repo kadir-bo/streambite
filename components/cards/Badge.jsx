@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { cn } from "@/lib";
+import { twMerge } from "tailwind-merge";
 
 /**
  * Badge – Runder Benachrichtigungs-Zähler
@@ -20,7 +20,7 @@ export default function Badge({ count, className }) {
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
       transition={{ type: "spring", stiffness: 500, damping: 30, mass: 0.5 }}
-      className={cn(
+      className={twMerge(
         "absolute flex min-w-5 aspect-square items-center justify-center",
         "rounded-full border-2 border-zinc-900 bg-red-500",
         "px-1 py-0.5 text-2xs font-bold leading-none text-white",

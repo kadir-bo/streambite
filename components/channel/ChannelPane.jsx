@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 import { useServer } from "@/context";
 import { useAuth } from "@/context";
-import { cn } from "@/lib";
+import { twMerge } from "tailwind-merge";
 import {
   ServerHeader,
   ChannelList,
@@ -50,7 +50,10 @@ export default function ChannelPane() {
         </div>
 
         <div
-          className={cn("flex-1 overflow-y-auto", serverId ? "py-1.5" : "p-0")}
+          className={twMerge(
+            "flex-1 overflow-y-auto",
+            serverId ? "py-1.5" : "p-0",
+          )}
         >
           {serverId ? (
             <ChannelList

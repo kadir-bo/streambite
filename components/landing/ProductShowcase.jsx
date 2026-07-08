@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { motion, useInView } from "motion/react";
-import { cn } from "@/lib";
+import { twMerge } from "tailwind-merge";
 import { motionTokens } from "@/lib/motion-tokens";
 
 const channels = ["Willkommen", "Ankündigungen", "Chat", "Voice", "Stream"];
@@ -168,7 +168,12 @@ export default function ProductShowcase() {
                   <button
                     key={ch}
                     onClick={() => setActiveChannel(ch)}
-                    className={cn("flex items-center gap-2 w-full px-2 py-1.5 rounded-md text-sm text-left transition-all duration-150", ch === activeChannel ? "bg-(--accent)/10 text-(--accent) font-medium" : "text-zinc-400 hover:bg-zinc-800/40")}
+                    className={twMerge(
+                      "flex items-center gap-2 w-full px-2 py-1.5 rounded-md text-sm text-left transition-all duration-150",
+                      ch === activeChannel
+                        ? "bg-(--accent)/10 text-(--accent) font-medium"
+                        : "text-zinc-400 hover:bg-zinc-800/40",
+                    )}
                   >
                     <span className="text-zinc-600 shrink-0">
                       {channelData[ch].icon}
@@ -211,7 +216,9 @@ export default function ProductShowcase() {
                     </div>
                     <div className="min-w-0">
                       <div className="flex items-baseline gap-2">
-                        <span className={cn("text-sm font-semibold", m.color)}>
+                        <span
+                          className={twMerge("text-sm font-semibold", m.color)}
+                        >
                           {m.name}
                         </span>
                         <span className="text-2xs text-zinc-600">heute</span>
@@ -235,7 +242,7 @@ export default function ProductShowcase() {
         </div>
 
         {/* Floating-Badge – dezenter Label-Stil, kein Button-Look */}
-        <div className="absolute -bottom-3 -right-3 md:-bottom-4 md:-right-4 rounded-full border border-white/[0.08] bg-zinc-900/80 backdrop-blur-sm px-4 py-1.5 text-xs font-medium text-zinc-300 shadow-lg shadow-black/30">
+        <div className="absolute -bottom-3 -right-3 md:-bottom-4 md:-right-4 rounded-full border border-white/[0.08] bg-zinc-900/80 backdrop-blur-sm px-4 py-1.5 text-xs font-medium text-zinc-300 shadow-xl shadow-black/30">
           <span className="inline-block size-1.5 rounded-full bg-emerald-400 mr-1.5 align-middle" />
           Echtzeit • überall
         </div>

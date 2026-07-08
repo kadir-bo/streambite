@@ -10,20 +10,16 @@ import {
   CaretUp,
   UserPlus,
   UsersThree,
-  MicrophoneSlash,
-  MicrophoneIcon,
-  MicrophoneSlashIcon,
   CaretLeftIcon,
 } from "@phosphor-icons/react";
 import { useVoice, useLayout } from "@/context";
 import {
-  Avatar,
   ScreenShareTile,
   InviteModal,
   VoiceControls,
   VoiceParticipantCard,
 } from "@/components";
-import { cn } from "@/lib";
+import { twMerge } from "tailwind-merge";
 
 const MAX_VISIBLE = 4;
 
@@ -135,7 +131,7 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
           )}
 
           {/* Participant Grid */}
-          <div className="grid grid-cols-2 gap-3 justify-center max-w-lg mx-auto w-full">
+          <div className="grid grid-cols-2 gap-3 justify-center max-w-lg mx-auto w-full h-full items-center">
             {visibleParticipants.map((p) => (
               <VoiceParticipantCard
                 key={p.identity}
@@ -147,7 +143,9 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
             {/* Einladen Card */}
             <button
               onClick={() => setInviteOpen(true)}
-              className="flex flex-col items-center justify-center gap-2 rounded-2xl bg-surface-deep border border-white/5 aspect-square cursor-pointer transition-colors hover:bg-surface-hover"
+              className={twMerge(
+                "flex flex-col items-center justify-center gap-2 rounded-2xl bg-surface-deep border border-white/5 aspect-square cursor-pointer transition-colors hover:bg-surface-hover",
+              )}
             >
               <div className="flex items-center justify-center size-16 rounded-full border-2 border-zinc-600">
                 <UserPlus weight="regular" className="text-2xl text-zinc-400" />

@@ -12,13 +12,13 @@ import {
 import { useAuth } from "@/context";
 import { useFriends } from "@/hooks";
 import {
-  cn,
   ensureDm,
   sendMessage,
   touchDmLastMessage,
   inviteToServer,
 } from "@/lib";
 import { ServerIcon, Avatar, Modal } from "@/components";
+import { twMerge } from "tailwind-merge";
 
 export default function InviteModal({ open, onClose, server }) {
   const { firebaseUser, userDoc } = useAuth();
@@ -107,7 +107,12 @@ export default function InviteModal({ open, onClose, server }) {
             whileTap={{ scale: 0.9 }}
             onClick={handleCopy}
             title={inviteLink}
-            className={cn("flex items-center gap-1.5 px-3 py-1.75 rounded-lg border text-sm font-semibold shrink-0 transition-colors duration-150", copied ? "bg-white/10 text-green-500 border-green-500 cursor-default" : "bg-(--surface-deep) text-zinc-100 border-white/5 hover:bg-zinc-800 cursor-pointer")}
+            className={twMerge(
+              "flex items-center gap-1.5 px-3 py-1.75 rounded-lg border text-sm font-semibold shrink-0 transition-colors duration-150",
+              copied
+                ? "bg-white/10 text-green-500 border-green-500 cursor-default"
+                : "bg-(--surface-deep) text-zinc-100 border-white/5 hover:bg-zinc-800 cursor-pointer",
+            )}
           >
             <AnimatePresence mode="wait" initial={false}>
               {copied ? (
@@ -189,7 +194,13 @@ export default function InviteModal({ open, onClose, server }) {
                     <button
                       onClick={() => handleSendToFriend(friend)}
                       disabled={sent || sendingTo === friend.id}
-                      className={cn("flex items-center gap-1 px-2.5 py-1.25 rounded-sm border text-xs font-semibold shrink-0", sent ? "bg-white/10 text-green-500 border-white/10 cursor-default" : "bg-zinc-800 text-zinc-400 border-white/10 cursor-pointer", sendingTo === friend.id && "opacity-60")}
+                      className={twMerge(
+                        "flex items-center gap-1 px-2.5 py-1.25 rounded-sm border text-xs font-semibold shrink-0",
+                        sent
+                          ? "bg-white/10 text-green-500 border-white/10 cursor-default"
+                          : "bg-zinc-800 text-zinc-400 border-white/10 cursor-pointer",
+                        sendingTo === friend.id && "opacity-60",
+                      )}
                     >
                       {sent ? (
                         <>

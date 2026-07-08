@@ -1,7 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getInitials, cn, STATUS_COLORS } from "@/lib";
+import { getInitials, STATUS_COLORS } from "@/lib";
+import { twMerge } from "tailwind-merge";
+import { StatusDot } from "..";
 
 const sizes = {
   xs: { size: 20, font: "10px" },
@@ -23,20 +25,9 @@ export default function Avatar({ src, name, size = "md", status, className }) {
     setFailed(false);
   }, [src]);
 
-  const statusDot = status && (
-    <span
-      className="absolute bottom-px right-px rounded-full border-2 border-zinc-950"
-      style={{
-        width: Math.round(px * 0.35),
-        height: Math.round(px * 0.35),
-        background: STATUS_COLORS[status],
-      }}
-    />
-  );
-
   return (
     <span
-      className={cn("relative inline-flex shrink-0", className)}
+      className={twMerge("relative inline-flex shrink-0", className)}
       style={{ width: px, height: px }}
     >
       {src && !failed ? (
@@ -63,7 +54,11 @@ export default function Avatar({ src, name, size = "md", status, className }) {
           {initials}
         </span>
       )}
-      {statusDot}
+      <StatusDot
+        color={STATUS_COLORS[status]}
+        width={Math.round(px * 0.25)}
+        height={Math.round(px * 0.25)}
+      />
     </span>
   );
 }

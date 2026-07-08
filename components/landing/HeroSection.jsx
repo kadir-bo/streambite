@@ -69,7 +69,7 @@ export default function HeroSection() {
           <Button
             variant="primary"
             size="lg"
-            className="text-base gap-2 px-8 shadow-lg shadow-(--accent)/20"
+            className="text-base gap-2 px-8 shadow-xl shadow-(--accent)/20"
             style={{ background: "var(--accent)", color: "#fff" }}
             onClick={() => router.push("/register")}
           >

@@ -12,7 +12,7 @@ import {
 } from "@phosphor-icons/react";
 import { useAuth, useServer, useVoice, useLayout } from "@/context";
 import { useUnread, useIsDesktop, useLongPress } from "@/hooks";
-import { cn, markRead, deleteChannel } from "@/lib";
+import { markRead, deleteChannel } from "@/lib";
 import {
   ContextMenu,
   DotMenu,
@@ -20,6 +20,7 @@ import {
   RenameChannelModal,
   Avatar,
 } from "@/components";
+import { twMerge } from "tailwind-merge";
 
 const TYPE_ICON = {
   text: Hash,
@@ -143,7 +144,12 @@ export default function ChannelItem({ channel, serverId, isActive, isOwner }) {
     >
       <div
         {...longPress.handlers}
-        className={cn("group flex select-none items-center gap-2 mx-2 my-px rounded-xl transition-colors duration-100", isActive ? "bg-surface-hover" : "bg-transparent hover:bg-surface-hover/50")}
+        className={twMerge(
+          "group flex select-none items-center gap-2 mx-2 my-px rounded-xl transition-colors duration-100",
+          isActive
+            ? "bg-surface-hover"
+            : "bg-transparent hover:bg-surface-hover/50",
+        )}
       >
         <Link
           href={`/servers/${serverId}/${channel.id}`}
@@ -152,10 +158,20 @@ export default function ChannelItem({ channel, serverId, isActive, isOwner }) {
         >
           <Icon
             weight={isActive ? "fill" : "regular"}
-            className={cn("shrink-0 text-lg transition-colors duration-100", isActive || unread ? "text-white" : "text-zinc-500 group-hover:text-zinc-400")}
+            className={twMerge(
+              "shrink-0 text-lg transition-colors duration-100",
+              isActive || unread
+                ? "text-white"
+                : "text-zinc-500 group-hover:text-zinc-400",
+            )}
           />
           <span
-            className={cn("text-base truncate flex-1 transition-colors duration-100", isActive || unread ? "text-white font-semibold" : "text-zinc-400 font-medium group-hover:text-zinc-300")}
+            className={twMerge(
+              "text-base truncate flex-1 transition-colors duration-100",
+              isActive || unread
+                ? "text-white font-semibold"
+                : "text-zinc-400 font-medium group-hover:text-zinc-300",
+            )}
           >
             {channel.name}
           </span>

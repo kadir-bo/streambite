@@ -10,9 +10,15 @@ import {
   WifiHigh,
   CaretUp,
   BellSimple,
+  CaretDownIcon,
 } from "@phosphor-icons/react";
 import { useAuth, useVoice } from "@/context";
-import { updateUserDocument, logoutUser, STATUS_COLORS, STATUS_LABELS } from "@/lib";
+import {
+  updateUserDocument,
+  logoutUser,
+  STATUS_COLORS,
+  STATUS_LABELS,
+} from "@/lib";
 import { useLongPress } from "@/hooks";
 import {
   Avatar,
@@ -199,7 +205,7 @@ export default function UserPanel() {
               <Avatar
                 src={userDoc?.avatarUrl}
                 name={displayName}
-                size="lg"
+                size="md"
                 status={status}
               />
             </div>
@@ -208,21 +214,7 @@ export default function UserPanel() {
                 <p className="truncate text-base font-bold text-white">
                   {displayName}
                 </p>
-                <svg
-                  className="shrink-0 text-zinc-400"
-                  width="12"
-                  height="12"
-                  viewBox="0 0 12 12"
-                  fill="none"
-                >
-                  <path
-                    d="M3 4.5L6 7.5L9 4.5"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <CaretDownIcon weight="regular" />
               </div>
               {inVoice ? (
                 <p className="flex items-center gap-1 truncate text-xs font-medium text-accent">
@@ -241,7 +233,7 @@ export default function UserPanel() {
           <button
             type="button"
             title="Benachrichtigungen"
-            className="flex shrink-0 items-center justify-center size-10 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
+            className="flex shrink-0 items-center justify-center size-10 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white md:hidden"
           >
             <BellSimple weight="regular" className="text-xl" />
           </button>

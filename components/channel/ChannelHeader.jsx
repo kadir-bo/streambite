@@ -7,7 +7,7 @@ import {
   CaretLeft,
   MonitorPlay,
 } from "@phosphor-icons/react";
-import { cn } from "@/lib";
+import { twMerge } from "tailwind-merge";
 import { IconBtn, Topbar } from "@/components";
 import { useLayout, useVoice } from "@/context";
 
@@ -42,7 +42,7 @@ export default function ChannelHeader({
           type="button"
           onClick={onToggleMembers}
           title="Mitglieder"
-          className={cn(
+          className={twMerge(
             "flex items-center justify-center size-10 rounded-full border-none cursor-pointer transition-all duration-150",
             showMembers
               ? "bg-surface-hover text-white"

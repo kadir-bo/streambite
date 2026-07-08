@@ -11,11 +11,12 @@ export { default as TabBtn } from "./buttons/TabBtn";
 export { default as RailButton } from "./buttons/RailButton";
 export { default as PendingInviteButton } from "./buttons/PendingInviteButton";
 export { default as ActionBtn } from "./buttons/ActionBtn";
+export { default as ControlButton } from "./buttons/ControlButton";
 
 // Cards (remaining shared)
 export { default as Badge } from "./cards/Badge";
 export { default as Card } from "./cards/Card";
-export { default as EmptyState } from "./cards/EmptyState";
+
 export { default as MemberRow } from "./cards/MemberRow";
 export { default as ParticipantTile } from "./cards/ParticipantTile";
 export { default as RoleBadge } from "./cards/RoleBadge";
@@ -29,7 +30,7 @@ export { default as ChannelHeader } from "./channel/ChannelHeader";
 export { default as ChannelItem } from "./channel/ChannelItem";
 export { default as ChannelList } from "./channel/ChannelList";
 export { default as ChannelPane } from "./channel/ChannelPane";
-export { default as ChannelSidebar } from "./channel/ChannelSidebar";
+
 export { default as ChannelWelcome } from "./channel/ChannelWelcome";
 
 // DM
@@ -37,11 +38,11 @@ export { default as DmHeader } from "./dm/DmHeader";
 export { default as DmRow } from "./dm/DmRow";
 export { default as DmSidebar } from "./dm/DmSidebar";
 export { default as HomeTopbar } from "./dm/HomeTopbar";
-export { default as NavRow } from "./dm/NavRow";
+
 
 // Friends
 export { default as ActiveFriendRow } from "./friends/ActiveFriendRow";
-export { default as FriendRow } from "./friends/FriendRow";
+
 export { default as RequestRow } from "./friends/RequestRow";
 
 // Inputs
@@ -49,7 +50,7 @@ export { default as Input } from "./inputs/Input";
 export { default as Select } from "./inputs/Select";
 export { default as MessageInput } from "./inputs/MessageInput";
 export { default as VolumeSlider } from "./inputs/VolumeSlider";
-export { default as SearchInput } from "./inputs/SearchInput";
+
 
 // Dropdowns
 export { default as ContextMenu } from "./dropdowns/ContextMenu";
@@ -78,7 +79,7 @@ export { default as MobileContentPane } from "./layouts/mobile/MobileContentPane
 export { default as MobileVoiceStatusBar } from "./layouts/mobile/MobileVoiceStatusBar";
 
 // Layouts — Server/Sidebar
-export { default as ActiveNowPanel } from "./layouts/server/ActiveNowPanel";
+
 export { default as MemberSidebar } from "./layouts/server/MemberSidebar";
 export { default as ServerHeader } from "./layouts/server/ServerHeader";
 export { default as ServerRail } from "./layouts/server/ServerRail";

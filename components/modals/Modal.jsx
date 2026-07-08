@@ -5,7 +5,8 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { X } from "@phosphor-icons/react";
 import { IconBtn } from "@/components";
-import { cn, modal, backdrop } from "@/lib";
+import { modal, backdrop } from "@/lib";
+import { twMerge } from "tailwind-merge";
 
 export default function Modal({
   open,
@@ -37,7 +38,10 @@ export default function Modal({
           exit="hidden"
           variants={backdrop}
           onClick={onClose}
-          className={cn("fixed inset-0 z-200 bg-black/80 flex pb-40 md:pb-0 items-center justify-center", mobileFullScreen ? "p-0 sm:p-5" : "p-5")}
+          className={twMerge(
+            "fixed inset-0 z-200 bg-black/80 flex pb-40 md:pb-0 items-center justify-center",
+            mobileFullScreen ? "p-0 sm:p-5" : "p-5",
+          )}
         >
           <motion.div
             key="card"
@@ -46,7 +50,12 @@ export default function Modal({
             exit="exit"
             variants={modal}
             onClick={(e) => e.stopPropagation()}
-            className={cn("bg-surface-app border border-white/5 w-full relative overflow-hidden", mobileFullScreen ? "h-full rounded-none sm:h-auto sm:rounded-2xl" : "rounded-2xl")}
+            className={twMerge(
+              "bg-surface-app border border-white/5 w-full relative overflow-hidden",
+              mobileFullScreen
+                ? "h-full rounded-none sm:h-auto sm:rounded-2xl"
+                : "rounded-2xl",
+            )}
             style={{ maxWidth }}
           >
             {title && (

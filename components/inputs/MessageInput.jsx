@@ -11,10 +11,10 @@ import {
   touchDmLastMessage,
   touchChannelLastMessage,
   markRead,
-  cn,
 } from "@/lib";
 import { EmojiPicker, ReplyPreview, IconBtn } from "@/components";
 import { useIsDesktop } from "@/hooks";
+import { twMerge } from "tailwind-merge";
 
 const MAX_FILE_SIZE = 8 * 1024 * 1024; // 8MB
 
@@ -213,7 +213,10 @@ export default function MessageInput({
       {/* Attachment previews */}
       {attachments.length > 0 && (
         <div
-          className={cn("flex flex-wrap gap-2 border-b border-white/5 bg-zinc-800 px-3.5 py-2.5", replyTarget ? "rounded-none" : "rounded-t-lg")}
+          className={twMerge(
+            "flex flex-wrap gap-2 border-b border-white/5 bg-zinc-800 px-3.5 py-2.5",
+            replyTarget ? "rounded-none" : "rounded-t-lg",
+          )}
         >
           {attachments.map((att, i) => (
             <div
@@ -253,7 +256,12 @@ export default function MessageInput({
 
       {/* Input container — Figma Design */}
       <div
-        className={cn("flex items-start gap-3 border border-white/5 bg-surface-deep min-h-14 pt-1 pr-1", replyTarget || attachments.length > 0 ? "rounded-b-2xl" : "rounded-2xl")}
+        className={twMerge(
+          "flex items-start gap-3 border border-white/5 bg-surface-deep min-h-14 pt-1 pr-1",
+          replyTarget || attachments.length > 0
+            ? "rounded-b-2xl"
+            : "rounded-2xl",
+        )}
       >
         {/* Attach / Plus icon */}
         <button
@@ -289,7 +297,7 @@ export default function MessageInput({
           }
           rows={1}
           disabled={pending}
-          className={cn(
+          className={twMerge(
             "flex-1 self-stretch resize-none border-none bg-transparent text-base leading-normal outline-none max-h-[30vh] overflow-y-auto py-3.5 placeholder:text-zinc-500",
           )}
         />
@@ -300,7 +308,10 @@ export default function MessageInput({
           onClick={handleSend}
           title="Senden"
           disabled={!hasContent || pending}
-          className={cn("bg-white text-black hover:bg-zinc-200 flex shrink-0 items-center justify-center size-11 rounded-xl border-none cursor-pointer transition-all duration-150", hasContent ? "opacity-100" : "opacity-0")}
+          className={twMerge(
+            "bg-white text-black hover:bg-zinc-200 flex shrink-0 items-center justify-center size-11 rounded-xl border-none cursor-pointer transition-all duration-150",
+            hasContent ? "opacity-100" : "opacity-0",
+          )}
         >
           {pending ? (
             <span className="block size-4 animate-spin rounded-full border-2 border-current border-t-transparent" />

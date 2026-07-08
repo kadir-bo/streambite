@@ -11,7 +11,6 @@ import { Avatar, ContextMenu, DotMenu, Topbar } from "@/components";
 
 export default function DmHeader({ user, dmId }) {
   const { firebaseUser } = useAuth();
-  const { showList } = useLayout();
   const router = useRouter();
   const friendActions = useFriendActions(user);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -43,14 +42,6 @@ export default function DmHeader({ user, dmId }) {
 
   return (
     <Topbar className="gap-3 px-4">
-      <button
-        onClick={showList}
-        title="Zurück"
-        className="flex items-center justify-center size-10 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white md:hidden"
-      >
-        <CaretLeft weight="regular" className="text-xl" />
-      </button>
-
       <div
         {...longPress.handlers}
         className="flex items-center gap-3 flex-1 min-w-0"

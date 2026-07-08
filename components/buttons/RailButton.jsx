@@ -2,8 +2,9 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import Link from "next/link";
-import { cn, serverIcon } from "@/lib";
+import { serverIcon } from "@/lib";
 import { Tooltip } from "@/components";
+import { twMerge } from "tailwind-merge";
 
 export default function RailButton({
   children,
@@ -25,7 +26,12 @@ export default function RailButton({
         <motion.div
           animate={state}
           variants={serverIcon}
-          className={cn("flex size-10 border items-center justify-center overflow-hidden cursor-pointer rounded-2xl transition-colors duration-150", active ? "bg-surface-hover border-surface-border" : "bg-surface-deep hover:bg-surface-hover border-transparent")}
+          className={twMerge(
+            "flex size-10 border items-center justify-center overflow-hidden cursor-pointer rounded-2xl transition-colors duration-150",
+            active
+              ? "bg-surface-hover border-surface-border"
+              : "bg-surface-deep hover:bg-surface-hover border-transparent",
+          )}
         >
           {children}
         </motion.div>

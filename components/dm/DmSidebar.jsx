@@ -6,7 +6,7 @@ import { MagnifyingGlass, Plus } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import { useFriends } from "@/hooks";
 import { subscribeToUserDms, ensureDm } from "@/lib";
-import { QuickDmSwitcher, DmRow } from "@/components";
+import { QuickDmSwitcher, DmRow, Button } from "@/components";
 
 export default function DmSidebar() {
   const { firebaseUser } = useAuth();
@@ -45,7 +45,8 @@ export default function DmSidebar() {
   return (
     <div className="py-2">
       {/* Search bar */}
-      <div className="px-2 py-3">
+      <div className="px-2 py-3 flex flex-col gap-2">
+        <Button className={"w-full"}>Freunde</Button>
         <button
           onClick={() => setSwitcherOpen(true)}
           className="w-full flex items-center gap-2 py-3 px-3 rounded-xl border border-white/5 bg-surface-deep text-zinc-500 text-sm cursor-pointer text-left truncate hover:text-zinc-400"

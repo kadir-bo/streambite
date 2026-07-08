@@ -4,7 +4,7 @@ import { useState } from "react";
 import { MicrophoneSlashIcon } from "@phosphor-icons/react";
 import { useVoice } from "@/context";
 import { Avatar } from "@/components";
-import { cn } from "@/lib";
+import { twMerge } from "tailwind-merge";
 
 export default function VoiceParticipantCard({
   participant,
@@ -19,7 +19,7 @@ export default function VoiceParticipantCard({
 
   return (
     <div
-      className={cn(
+      className={twMerge(
         "flex flex-col items-center justify-center gap-3 rounded-2xl bg-surface-deep border aspect-square p-4 w-full transition-all duration-200",
         isActiveSpeaker
           ? "border-green ring-2 ring-green/30"
@@ -33,9 +33,14 @@ export default function VoiceParticipantCard({
           {participant.name}
           {participant.isLocal ? " (Du)" : ""}
         </span>
-        {!isMuted && (
-          <MicrophoneSlashIcon className="text-zinc-500 shrink-0" size={16} />
-        )}
+        <div className="relative w-full flex justify-center">
+          {isMuted && (
+            <MicrophoneSlashIcon
+              className="absolute text-zinc-500 shrink-0"
+              size={16}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

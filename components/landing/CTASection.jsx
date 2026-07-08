@@ -53,7 +53,7 @@ export default function CTASection() {
             {/* Primary CTA – mit mehr Präsenz */}
             <button
               onClick={() => router.push("/register")}
-              className="group relative inline-flex items-center justify-center gap-2.5 rounded-xl bg-(--accent) px-8 py-4 text-white text-base font-semibold leading-none shadow-lg shadow-(--accent)/25 hover:shadow-xl hover:shadow-(--accent)/30 transition-all duration-200"
+              className="group relative inline-flex items-center justify-center gap-2.5 rounded-xl bg-(--accent) px-8 py-4 text-white text-base font-semibold leading-none shadow-xl shadow-(--accent)/25 hover:shadow-xl hover:shadow-(--accent)/30 transition-all duration-200"
             >
               <Sparkle
                 className="size-5 group-hover:rotate-12 transition-transform duration-300"

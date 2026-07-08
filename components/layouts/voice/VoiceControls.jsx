@@ -1,6 +1,5 @@
 "use client";
 
-import { cn } from "@/lib";
 import {
   SpeakerHigh,
   MicrophoneSlash,
@@ -9,6 +8,7 @@ import {
   MonitorPlay,
   PhoneDisconnect,
 } from "@phosphor-icons/react";
+import { ControlButton } from "@/components";
 
 /**
  * Floating voice controls bar.
@@ -35,18 +35,12 @@ export default function VoiceControls({
     <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center px-4">
       <div className="flex items-center gap-2 rounded-3xl bg-surface-deep p-3">
         {/* Speaker / Deafen */}
-        <ControlButton
-          active={!deafened}
-          onClick={onToggleDeafen}
-        >
+        <ControlButton active={deafened} onClick={onToggleDeafen} mobileOnly>
           <SpeakerHigh weight="regular" className="text-xl" />
         </ControlButton>
 
         {/* Microphone */}
-        <ControlButton
-          danger={muted}
-          onClick={onToggleMute}
-        >
+        <ControlButton danger={muted} onClick={onToggleMute}>
           {muted ? (
             <MicrophoneSlash weight="regular" className="text-xl" />
           ) : (
@@ -60,10 +54,7 @@ export default function VoiceControls({
         </ControlButton>
 
         {/* Screen Share */}
-        <ControlButton
-          active={screenShare}
-          onClick={onToggleScreenShare}
-        >
+        <ControlButton active={screenShare} onClick={onToggleScreenShare}>
           <MonitorPlay weight="regular" className="text-xl" />
         </ControlButton>
 
@@ -73,18 +64,5 @@ export default function VoiceControls({
         </ControlButton>
       </div>
     </div>
-  );
-}
-
-/* ─── Single pill button ─── */
-function ControlButton({ children, danger, active, onClick }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={cn("flex size-12 shrink-0 cursor-pointer items-center justify-center rounded-full border-none text-white transition-colors", danger ? "bg-red hover:bg-red-hover" : active ? "bg-accent hover:bg-accent-hover" : "bg-surface-hover hover:bg-surface-raised")}
-    >
-      {children}
-    </button>
   );
 }

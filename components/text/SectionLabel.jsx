@@ -1,4 +1,4 @@
-import { cn } from "@/lib";
+import { twMerge } from "tailwind-merge";
 
 export default function SectionLabel({ children, label, count, danger }) {
   if (label !== undefined) {
@@ -14,7 +14,10 @@ export default function SectionLabel({ children, label, count, danger }) {
   }
   return (
     <span
-      className={cn("mb-2 block text-2xs font-semibold tracking-widest uppercase", danger ? "text-red-500" : "text-zinc-400")}
+      className={twMerge(
+        "mb-2 block text-2xs font-semibold tracking-widest uppercase",
+        danger ? "text-red-500" : "text-zinc-400",
+      )}
     >
       {children}
     </span>

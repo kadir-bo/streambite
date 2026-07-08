@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Shield, UserMinus } from "@phosphor-icons/react";
-import { cn, setMemberRoles, kickMember } from "@/lib";
+import { setMemberRoles, kickMember } from "@/lib";
 import { useLongPress } from "@/hooks";
 import {
   Avatar,
@@ -10,6 +10,7 @@ import {
   RoleBadge,
   ConfirmModal,
 } from "@/components";
+import { twMerge } from "tailwind-merge";
 
 export default function MemberRow({ member, isOffline, serverId, canManage }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -61,7 +62,10 @@ export default function MemberRow({ member, isOffline, serverId, canManage }) {
     <>
       <div
         {...longPress.handlers}
-        className={cn("group flex items-center gap-1.5 px-2 py-1.25 rounded-lg cursor-default", isOffline ? "opacity-45" : "opacity-100")}
+        className={twMerge(
+          "group flex items-center gap-1.5 px-2 py-1.25 rounded-lg cursor-default",
+          isOffline ? "opacity-45" : "opacity-100",
+        )}
       >
         <Avatar
           src={member.avatarUrl}

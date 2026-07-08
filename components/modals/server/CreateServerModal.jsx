@@ -25,7 +25,7 @@ export default function CreateServerModal({ open, onClose }) {
       title={tab === "create" ? "Server erstellen" : "Server beitreten"}
     >
       {/* Tabs */}
-      <div className="flex items-center gap-1 p-1 mb-5 bg-(--surface-deep) rounded-lg">
+      <div className="flex items-center gap-1 mb-5 bg-surface-card rounded-lg">
         <TabBtn
           label="Erstellen"
           active={tab === "create"}

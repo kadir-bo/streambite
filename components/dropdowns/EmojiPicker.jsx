@@ -93,7 +93,7 @@ export default function EmojiPicker({ onSelect, onClose }) {
       initial="hidden"
       animate="visible"
       exit="hidden"
-      className="absolute bottom-[calc(100%+8px)] right-0 w-70 bg-zinc-800 border border-white/10 rounded-lg shadow-lg z-100 overflow-hidden"
+      className="absolute bottom-[calc(100%+8px)] right-0 w-70 bg-zinc-800 border border-white/10 rounded-lg shadow-xl z-100 overflow-hidden"
     >
       <div className="px-2.5 py-2 border-b border-white/5">
         <div className="flex items-center gap-1.5 bg-(--surface-deep) rounded-lg p-2">

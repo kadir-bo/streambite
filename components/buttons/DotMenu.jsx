@@ -1,7 +1,7 @@
 "use client";
 
 import { DotsThreeVertical } from "@phosphor-icons/react";
-import { cn } from "@/lib";
+import { twMerge } from "tailwind-merge";
 import { IconBtn } from "@/components";
 
 /**
@@ -22,7 +22,7 @@ export default function DotMenu({ onClick, title = "Mehr", className }) {
       mobileSize="xl"
       rounded="sm"
       iconWeight="bold"
-      className={cn("text-sm md:text-base", className)}
+      className={twMerge("text-sm md:text-base", className)}
     />
   );
 }

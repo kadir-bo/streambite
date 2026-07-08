@@ -1,8 +1,8 @@
-export default function StatusDot({ color }) {
+export default function StatusDot({ color, width, height }) {
   return (
     <span
-      className="inline-block size-1.75 shrink-0 rounded-full"
-      style={{ background: color }}
+      className="inline-block size-2 shrink-0 rounded-full absolute right-px bottom-px"
+      style={{ background: color, width: width, height: height }}
     />
   );
 }

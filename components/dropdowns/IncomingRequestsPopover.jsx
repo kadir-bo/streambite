@@ -49,7 +49,7 @@ export default function IncomingRequestsPopover({
           exit="hidden"
           variants={dropdown}
           onClick={(e) => e.stopPropagation()}
-          className="fixed z-[500] w-85 overflow-y-auto rounded-lg border border-white/5 bg-zinc-800 shadow-lg"
+          className="fixed z-500 w-85 overflow-y-auto rounded-lg border border-white/5 bg-zinc-800 shadow-xl"
           style={{
             top: (anchorRect?.bottom ?? 0) + 8,
             right: anchorRect ? window.innerWidth - anchorRect.right : 0,
@@ -58,13 +58,8 @@ export default function IncomingRequestsPopover({
         >
           {!hasAny ? (
             <div className="px-4 py-6 text-center">
-              <BellSimple
-                size={28}
-                className="mx-auto mb-2 text-zinc-600"
-              />
-              <p className="text-xs text-zinc-600">
-                Keine offenen Anfragen
-              </p>
+              <BellSimple size={28} className="mx-auto mb-2 text-zinc-600" />
+              <p className="text-xs text-zinc-600">Keine offenen Anfragen</p>
             </div>
           ) : (
             <>

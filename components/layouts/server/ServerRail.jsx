@@ -3,7 +3,7 @@ import { useRef, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import { Plus, ChatCircleText, ChatCircleIcon } from "@phosphor-icons/react";
-import { cn, springs } from "@/lib";
+import { springs } from "@/lib";
 import { useAuth, useLayout, useServer } from "@/context";
 import {
   RailButton,
@@ -12,6 +12,7 @@ import {
   ServerIcon,
   Logo,
 } from "@/components";
+import { twMerge } from "tailwind-merge";
 
 export default function ServerRail({ onOpenCreate }) {
   const pathname = usePathname();
@@ -72,7 +73,10 @@ export default function ServerRail({ onOpenCreate }) {
           >
             <ChatCircleIcon
               weight={isDM ? "fill" : "regular"}
-              className={cn("h-6 w-6", isDM ? "text-white" : "text-zinc-500")}
+              className={twMerge(
+                "h-6 w-6",
+                isDM ? "text-white" : "text-zinc-500",
+              )}
             />
           </RailButton>
         </div>

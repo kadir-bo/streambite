@@ -1,23 +1,23 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { Button, Logo } from "@/components"
-import { cn } from "@/lib"
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Button, Logo } from "@/components";
+import { twMerge } from "tailwind-merge";
 
 export default function Navbar() {
-  const router = useRouter()
-  const [scrolled, setScrolled] = useState(false)
+  const router = useRouter();
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
-  }, [])
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <nav
-      className={cn(
+      className={twMerge(
         "fixed top-0 left-0 right-0 z-50",
         scrolled
           ? "bg-zinc-950/80 backdrop-blur-lg border-b border-white/5"
@@ -35,15 +35,24 @@ export default function Navbar() {
 
         <div className="flex items-center gap-2 sm:gap-3">
           <div className="hidden sm:block">
-            <Button variant="ghost" size="sm" onClick={() => router.push("/login")}>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => router.push("/login")}
+            >
               Anmelden
             </Button>
           </div>
-          <Button variant="primary" size="sm" onClick={() => router.push("/register")} className="max-sm:py-2">
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={() => router.push("/register")}
+            className="max-sm:py-2"
+          >
             Loslegen
           </Button>
         </div>
       </div>
     </nav>
-  )
+  );
 }

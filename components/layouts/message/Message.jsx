@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowBendUpLeft } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
-import { cn, formatTime, editMessage, deleteMessage } from "@/lib";
+import { formatTime, editMessage, deleteMessage } from "@/lib";
 import {
   Avatar,
   MessageActions,
@@ -13,6 +13,7 @@ import {
   MarkdownText,
   MessageContent,
 } from "@/components";
+import { twMerge } from "tailwind-merge";
 
 export default function Message({
   message,
@@ -95,10 +96,13 @@ export default function Message({
         // Hover doesn't fire on touch devices, so the action bar would
         // otherwise be unreachable on mobile - a tap toggles it there too.
         onClick={() => setHovered((h) => !h)}
-        className={cn("flex gap-4 relative hover:bg-white/5 transition-colors duration-100", isFirst ? "px-4 pt-5 pb-1" : "px-4 py-1")}
+        className={twMerge(
+          "flex gap-4 relative hover:bg-white/5 transition-colors duration-100",
+          isFirst ? "px-4 pt-5 pb-1" : "px-4 py-1",
+        )}
       >
         {/* Avatar column — larger with colored bg */}
-        <div className="w-max shrink-0 ml-4">
+        <div className="w-max shrink-0 ml-4 relative">
           {isFirst ? (
             <Avatar
               src={message.authorAvatar}
@@ -114,7 +118,7 @@ export default function Message({
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.1 }}
-                  className="block text-right text-2xs font-mono text-zinc-600 pt-0.75 select-none"
+                  className="block text-right text-2xs font-mono text-zinc-600 pt-0.75 select-none absolute -bottom-5 left-4 w-max"
                 >
                   {formatTime(message.createdAt)}
                 </motion.span>

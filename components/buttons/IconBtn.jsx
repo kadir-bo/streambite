@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib";
+import { twMerge } from "tailwind-merge";
 
 /**
  * IconBtn – Einheitlicher Icon-Button (ersetzt ~50+ Inline-Klassen)
@@ -70,11 +70,11 @@ export default function IconBtn({
   };
 
   const variantClasses = {
-    ghost: cn(
+    ghost: twMerge(
       "bg-transparent text-zinc-500",
       "hover:bg-white/5 hover:text-zinc-400",
     ),
-    danger: cn(
+    danger: twMerge(
       "bg-transparent text-red-500",
       "hover:bg-red-500/10 hover:text-red-500",
     ),
@@ -100,7 +100,7 @@ export default function IconBtn({
       onClick={disabled ? undefined : onClick}
       title={title}
       disabled={disabled}
-      className={cn(
+      className={twMerge(
         // Base
         "flex shrink-0 items-center justify-center border-none cursor-pointer transition-all duration-100",
         sizeClass,

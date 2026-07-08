@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "motion/react";
 import { motionTokens, springs } from "@/lib/motion-tokens";
-import { cn } from "@/lib";
+import { twMerge } from "tailwind-merge";
 
 /**
  * Generische Card mit animiertem Entrance.
@@ -40,7 +40,7 @@ export default function Card({
         delay: index * motionTokens.stagger.delay,
         ease: motionTokens.easing.stagger,
       }}
-      className={cn(
+      className={twMerge(
         "group transition-all duration-300",
         isHorizontal &&
           "flex gap-4 rounded-2xl border border-white/6 bg-white/2 p-5 hover:border-(--accent)/20 hover:bg-white/4",
@@ -56,7 +56,7 @@ export default function Card({
         <motion.div
           whileHover={{ scale: motionTokens.scale.pop }}
           transition={springs.snappy}
-          className={cn(
+          className={twMerge(
             "flex items-center justify-center group-hover:bg-(--accent)/20 transition-colors",
             isHorizontal &&
               "size-10 rounded-xl bg-(--accent)/10 shrink-0 mt-0.5",
@@ -68,7 +68,7 @@ export default function Card({
           )}
         >
           <Icon
-            className={cn(
+            className={twMerge(
               "text-(--accent)",
               isHorizontal && "text-lg",
               isCenter && "text-xl",

@@ -1,7 +1,7 @@
 "use client";
 
 import { CaretDown } from "@phosphor-icons/react";
-import { cn } from "@/lib";
+import { twMerge } from "tailwind-merge";
 
 export default function Select({ label, className, children, ...props }) {
   return (
@@ -13,7 +13,7 @@ export default function Select({ label, className, children, ...props }) {
       )}
       <div className="relative">
         <select
-          className={cn(
+          className={twMerge(
             "w-full appearance-none outline-none transition-colors bg-zinc-800 rounded-lg px-3 py-2.5 pr-9 text-sm text-zinc-100 border border-white/10 focus:border-white/20 cursor-pointer",
             className,
           )}

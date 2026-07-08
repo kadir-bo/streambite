@@ -5,8 +5,9 @@ import { useRouter } from "next/navigation";
 import { MagnifyingGlass, ChatCircleText } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import { useFriends } from "@/hooks";
-import { cn, ensureDm } from "@/lib";
+import { ensureDm } from "@/lib";
 import { Modal, Avatar } from "@/components";
+import { twMerge } from "tailwind-merge";
 
 export default function QuickDmSwitcher({ open, onClose }) {
   const { firebaseUser } = useAuth();
@@ -76,7 +77,12 @@ export default function QuickDmSwitcher({ open, onClose }) {
                 key={friend.id}
                 onClick={() => openDm(friend)}
                 disabled={!!opening}
-                className={cn("flex items-center gap-2.5 py-2 px-2.5 rounded-lg border-none bg-transparent cursor-pointer text-left hover:bg-white/5", opening && opening !== friend.id ? "opacity-50" : "opacity-100")}
+                className={twMerge(
+                  "flex items-center gap-2.5 py-2 px-2.5 rounded-lg border-none bg-transparent cursor-pointer text-left hover:bg-white/5",
+                  opening && opening !== friend.id
+                    ? "opacity-50"
+                    : "opacity-100",
+                )}
               >
                 <Avatar
                   src={friend.avatarUrl}

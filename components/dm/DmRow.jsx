@@ -3,9 +3,16 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { ChatsCircle, ChatCircleText, XCircle } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
-import { subscribeToUser, ensureDm, closeDm, cn, STATUS_COLORS, STATUS_LABELS } from "@/lib";
+import {
+  subscribeToUser,
+  ensureDm,
+  closeDm,
+  STATUS_COLORS,
+  STATUS_LABELS,
+} from "@/lib";
 import { useUnread, useFriendActions, useLongPress } from "@/hooks";
 import { Avatar, ContextMenu, DotMenu } from "@/components";
+import { twMerge } from "tailwind-merge";
 
 const MENU_WIDTH = 220;
 const MENU_GAP = 4;
@@ -82,7 +89,7 @@ export default function DmRow({ dm, otherUid, active }) {
     <div
       ref={rowRef}
       {...longPress.handlers}
-      className={cn(
+      className={twMerge(
         "group flex items-center mx-2 rounded-xl",
         active
           ? "bg-surface-hover"
@@ -102,18 +109,18 @@ export default function DmRow({ dm, otherUid, active }) {
           <Avatar
             src={user?.avatarUrl}
             name={user?.displayName ?? "?"}
-            size="lg"
-          />
-          <span
-            className="absolute bottom-0 right-0 size-2.5 rounded-full border-2 border-surface-sidebar"
-            style={{
-              background: STATUS_COLORS[user?.status] ?? STATUS_COLORS.offline,
-            }}
+            size="md"
+            status={user?.status}
           />
         </div>
         <div className="flex-1 min-w-0">
           <p
-            className={cn("text-base truncate", active || isUnread(dm.id, dm.updatedAt) ? "text-white font-semibold" : "text-zinc-300 font-medium")}
+            className={twMerge(
+              "text-base truncate",
+              active || isUnread(dm.id, dm.updatedAt)
+                ? "text-white font-semibold"
+                : "text-zinc-300 font-medium",
+            )}
           >
             {user?.displayName ?? "..."}
           </p>

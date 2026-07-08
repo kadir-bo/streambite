@@ -3,9 +3,10 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "motion/react";
-import { cn, dropdown } from "@/lib";
+import { dropdown } from "@/lib";
 import { useClickOutside } from "@/hooks";
 import { ContextMenuItem, RadioMenuItem } from "@/components";
+import { twMerge } from "tailwind-merge";
 
 const SUBMENU_WIDTH = 220;
 
@@ -96,7 +97,10 @@ export default function ContextMenu({
           variants={dropdown}
           onClick={(e) => e.stopPropagation()}
           onMouseLeave={submenu ? scheduleCloseSubmenu : undefined}
-          className={cn("z-500 bg-zinc-900 border border-white/5 rounded-lg p-1 shadow-lg", !width && "min-w-50")}
+          className={twMerge(
+            "z-500 bg-zinc-900 border border-white/5 rounded-lg p-1 shadow-xl",
+            !width && "min-w-50",
+          )}
           style={{
             position: "fixed",
             left: position?.x ?? 0,
@@ -164,7 +168,7 @@ export default function ContextMenu({
           onClick={(e) => e.stopPropagation()}
           onMouseEnter={cancelCloseSubmenu}
           onMouseLeave={scheduleCloseSubmenu}
-          className="z-500 rounded-lg border border-white/5 bg-zinc-900 p-1 shadow-lg"
+          className="z-500 rounded-lg border border-white/5 bg-zinc-900 p-1 shadow-xl"
           style={{
             position: "fixed",
             left: submenu.left,

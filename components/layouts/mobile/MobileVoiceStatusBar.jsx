@@ -10,7 +10,7 @@ import {
   MonitorPlay,
   PhoneDisconnect,
 } from "@phosphor-icons/react";
-import { cn } from "@/lib";
+import { twMerge } from "tailwind-merge";
 import { useVoice } from "@/context";
 
 /**
@@ -55,7 +55,12 @@ export default function MobileVoiceStatusBar() {
           type="button"
           onClick={toggleMute}
           title={muted ? "Stummschaltung aufheben" : "Stummschalten"}
-          className={cn("flex size-12 shrink-0 items-center justify-center rounded-full border-none cursor-pointer transition-all duration-150", muted ? "bg-red text-white hover:bg-red-hover" : "bg-surface-hover text-white hover:bg-surface-raised")}
+          className={twMerge(
+            "flex size-12 shrink-0 items-center justify-center rounded-full border-none cursor-pointer transition-all duration-150",
+            muted
+              ? "bg-red text-white hover:bg-red-hover"
+              : "bg-surface-hover text-white hover:bg-surface-raised",
+          )}
         >
           {muted ? (
             <MicrophoneSlash weight="regular" className="text-xl" />
@@ -69,7 +74,12 @@ export default function MobileVoiceStatusBar() {
           type="button"
           onClick={toggleDeafen}
           title={deafened ? "Hörgerät aktivieren" : "Tauben schalten"}
-          className={cn("flex size-12 shrink-0 items-center justify-center rounded-full border-none cursor-pointer transition-all duration-150", deafened ? "bg-red text-white hover:bg-red-hover" : "bg-surface-hover text-white hover:bg-surface-raised")}
+          className={twMerge(
+            "flex size-12 shrink-0 items-center justify-center rounded-full border-none cursor-pointer transition-all duration-150",
+            deafened
+              ? "bg-red text-white hover:bg-red-hover"
+              : "bg-surface-hover text-white hover:bg-surface-raised",
+          )}
         >
           <Headphones weight="regular" className="text-xl" />
         </button>
@@ -79,11 +89,14 @@ export default function MobileVoiceStatusBar() {
           type="button"
           onClick={toggleScreenShare}
           title={
-            screenShare
-              ? "Bildschirmfreigabe beenden"
-              : "Bildschirm teilen"
+            screenShare ? "Bildschirmfreigabe beenden" : "Bildschirm teilen"
           }
-          className={cn("flex size-12 shrink-0 items-center justify-center rounded-full border-none cursor-pointer transition-all duration-150", screenShare ? "bg-accent text-white hover:bg-accent-hover" : "bg-surface-hover text-white hover:bg-surface-raised")}
+          className={twMerge(
+            "flex size-12 shrink-0 items-center justify-center rounded-full border-none cursor-pointer transition-all duration-150",
+            screenShare
+              ? "bg-accent text-white hover:bg-accent-hover"
+              : "bg-surface-hover text-white hover:bg-surface-raised",
+          )}
         >
           <MonitorPlay weight="regular" className="text-xl" />
         </button>

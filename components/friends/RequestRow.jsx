@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { Check, X } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
-import { cn, acceptFriendRequest, declineFriendRequest } from "@/lib";
+import { acceptFriendRequest, declineFriendRequest } from "@/lib";
 import { Avatar } from "@/components";
+import { twMerge } from "tailwind-merge";
 
 export default function RequestRow({ user }) {
   const { firebaseUser } = useAuth();
@@ -29,7 +30,7 @@ export default function RequestRow({ user }) {
   }
 
   return (
-      <div className="flex items-center gap-2.5 px-3 py-2 max-sm:py-3 max-sm:min-h-12">
+    <div className="flex items-center gap-2.5 px-3 py-2 max-sm:py-3 max-sm:min-h-12">
       <Avatar src={user.avatarUrl} name={user.displayName} size="sm" />
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-medium text-zinc-100">
@@ -42,7 +43,12 @@ export default function RequestRow({ user }) {
           onClick={handleAccept}
           disabled={!!loading}
           title="Annehmen"
-          className={cn("flex size-6.5 max-sm:size-10 cursor-pointer items-center justify-center rounded-full border border-white/5 text-green-500", loading === "accept" ? "bg-white/10" : "bg-zinc-800 hover:bg-white/5")}
+          className={twMerge(
+            "flex size-6.5 max-sm:size-10 cursor-pointer items-center justify-center rounded-full border border-white/5 text-green-500",
+            loading === "accept"
+              ? "bg-white/10"
+              : "bg-zinc-800 hover:bg-white/5",
+          )}
         >
           <Check size={13} weight="bold" className="max-sm:size-4" />
         </button>
@@ -50,7 +56,12 @@ export default function RequestRow({ user }) {
           onClick={handleDecline}
           disabled={!!loading}
           title="Ablehnen"
-          className={cn("flex size-6.5 max-sm:size-10 cursor-pointer items-center justify-center rounded-full border border-white/5 text-red-500", loading === "decline" ? "bg-white/10" : "bg-zinc-800 hover:bg-white/5")}
+          className={twMerge(
+            "flex size-6.5 max-sm:size-10 cursor-pointer items-center justify-center rounded-full border border-white/5 text-red-500",
+            loading === "decline"
+              ? "bg-white/10"
+              : "bg-zinc-800 hover:bg-white/5",
+          )}
         >
           <X size={13} weight="bold" className="max-sm:size-4" />
         </button>
