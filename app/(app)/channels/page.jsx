@@ -11,7 +11,7 @@ import {
 import { useLayout, useAuth } from "@/context";
 import { useFriends } from "@/hooks";
 import { ensureDm } from "@/lib";
-import { HomeTopbar, Avatar, DmRow } from "@/components";
+import { HomeTopbar, Avatar, DmRow, FriendCard } from "@/components";
 
 export default function ChannelsHomePage() {
   const { friends } = useFriends();
@@ -85,58 +85,20 @@ export default function ChannelsHomePage() {
           {/* "X Freunde Online" Header */}
           <div className="flex items-center justify-between px-4 pt-4 pb-3">
             <span className="text-base font-semibold text-white">
-              {onlineFriends.length} Freunde Online
+              {`${onlineFriends.length} ${onlineFriends.length < 2 ? "Freund" : "Freunde"} Online`}
             </span>
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                title="Suche"
-                className="flex items-center justify-center size-9 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
-              >
-                <MagnifyingGlass weight="regular" className="text-lg" />
-              </button>
-              <button
-                type="button"
-                title="Teilen"
-                className="flex items-center justify-center size-9 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
-              >
-                <ArrowBendUpRight weight="regular" className="text-lg" />
-              </button>
-            </div>
           </div>
 
           {/* Online friends avatar row */}
           {onlineFriends.length > 0 && (
-            <div className="flex gap-3 px-4 pb-5 overflow-x-auto">
+            <div className="flex gap-3 px-4 pb-5 overflow-x-auto md:hidden">
               {onlineFriends.map((friend) => (
-                <button
+                <FriendCard
                   key={friend.id}
-                  type="button"
-                  onClick={() => openDm(friend)}
-                  disabled={opening === friend.id}
-                  className="flex flex-col items-center gap-1.5 border-none bg-transparent cursor-pointer group"
-                >
-                  <div className="relative">
-                    <div className="rounded-2xl bg-surface-hover p-2 transition-colors group-hover:bg-surface-raised">
-                      <Avatar
-                        src={friend.avatarUrl}
-                        name={friend.displayName}
-                        size="xl"
-                      />
-                    </div>
-                    <span
-                      className="absolute bottom-1 right-1 size-3 rounded-full border-2 border-surface-hover"
-                      style={{
-                        background:
-                          friend.status === "online"
-                            ? "#4ac263"
-                            : friend.status === "busy"
-                              ? "#f5340b"
-                              : "#686868",
-                      }}
-                    />
-                  </div>
-                </button>
+                  friend={friend}
+                  opening={opening}
+                  onClick={openDm}
+                />
               ))}
             </div>
           )}

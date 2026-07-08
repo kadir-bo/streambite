@@ -66,18 +66,18 @@ export default function ServerHeader({
 
   return (
     <>
-      <div className="flex h-full items-center justify-between px-4">
+      <div className="flex h-full items-center justify-between px-2 md:px-4 gap-2">
         {/* Center: Server name with chevron */}
         <button
           {...longPress.handlers}
           onClick={openMenu}
           className={twMerge(
-            "flex items-center gap-1 border-none bg-transparent hover:bg-surface-raised/50 cursor-pointer py-2 px-4 rounded-lg",
+            "flex items-center gap-1 border-none bg-transparent hover:bg-surface-raised/50 cursor-pointer py-2 px-4 rounded-lg w-full md:w-max",
             menuOpen ? "bg-surface-raised/50" : "",
           )}
         >
-          <span className="font-bold text-white">{server?.name ?? "..."}</span>
-          <CaretDown className="text-white text-md" weight="bold" />
+          <span>{server?.name ?? "..."}</span>
+          <CaretDown className="text-white" weight="bold" />
         </button>
 
         {/* Right: People icon */}

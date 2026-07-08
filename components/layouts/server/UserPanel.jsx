@@ -36,8 +36,6 @@ const STATUS_OPTIONS = [
   { value: "offline", label: "Offline" },
 ];
 
-const MENU_WIDTH = 200; // ← Breite des Status-/Einstellungs-Menüs – einfach anpassen
-
 export default function UserPanel() {
   const { userDoc, firebaseUser } = useAuth();
   const {
@@ -65,6 +63,7 @@ export default function UserPanel() {
   const inVoice = connection.status === "connected";
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuPos, setMenuPos] = useState({ x: 0, y: 0 });
+  const [menuWidth, setMenuWidth] = useState(200);
   const longPress = useLongPress(openMenu);
   const [inputMenuOpen, setInputMenuOpen] = useState(false);
   const [inputMenuPos, setInputMenuPos] = useState({ x: 0, y: 0 });
@@ -78,7 +77,9 @@ export default function UserPanel() {
   function openMenu(e) {
     const panel = e.currentTarget.closest("[data-user-panel]");
     const rect = (panel ?? e.currentTarget).getBoundingClientRect();
-    setMenuPos({ x: rect.left, y: rect.top - 4 });
+    setMenuPos({ x: rect.left + 12, y: rect.top - 4 });
+    // Volle Panel-Breite minus 12px links + 12px rechts Padding
+    setMenuWidth(rect.width - 24);
     setMenuOpen(true);
   }
 
@@ -243,7 +244,7 @@ export default function UserPanel() {
         onClose={() => setMenuOpen(false)}
         position={menuPos}
         anchor="bottom"
-        width={MENU_WIDTH}
+        width={menuWidth}
         items={menuItems}
       />
 

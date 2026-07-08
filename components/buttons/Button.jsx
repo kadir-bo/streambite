@@ -30,7 +30,6 @@ export default function Button({
 
   return (
     <motion.button
-      whileTap={!isDisabled ? { scale: 0.98 } : {}}
       className={twMerge(
         "inline-flex items-center justify-center gap-2 font-semibold leading-none select-none",
         "transition-all duration-150",

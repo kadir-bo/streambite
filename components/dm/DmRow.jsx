@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { ChatsCircle, ChatCircleText, XCircle } from "@phosphor-icons/react";
+import { ChatCircle, ChatsCircle, XCircle } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import {
   subscribeToUser,
@@ -71,7 +71,7 @@ export default function DmRow({ dm, otherUid, active }) {
 
   const menuItems = [
     {
-      icon: <ChatCircleText />,
+      icon: <ChatCircle />,
       label: "Nachricht senden",
       onClick: openDm,
     },

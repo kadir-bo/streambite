@@ -23,16 +23,6 @@ export default function DmSidebar() {
     return subscribeToUserDms(firebaseUser.uid, setDms);
   }, [firebaseUser]);
 
-  const isHome = pathname === "/channels";
-
-  const navigateHome = () => {
-    router.push("/channels");
-  };
-
-  const onlineFriends = friends.filter(
-    (f) => f.status === "online" || f.status === "busy" || f.status === "idle",
-  );
-
   async function openDm(friend) {
     if (!firebaseUser || opening) return;
     setOpening(friend.id);
@@ -50,14 +40,6 @@ export default function DmSidebar() {
     <div className="py-2">
       {/* Search bar */}
       <div className="px-2 py-3 flex flex-col gap-2">
-        <Button
-          onClick={navigateHome}
-          className={
-            "w-full bg-surface-deep border border-surface-raised justify-start text-base py-2.5 rounded-md"
-          }
-        >
-          Freunde
-        </Button>
         <button
           onClick={() => setSwitcherOpen(true)}
           className="w-full flex items-center gap-2 py-3 px-3 rounded-md border border-white/5 bg-surface-deep text-zinc-500 text-sm cursor-pointer text-left truncate hover:text-zinc-400"

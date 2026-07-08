@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { MagnifyingGlass, ChatCircleText } from "@phosphor-icons/react";
+import { MagnifyingGlass, ChatCircleIcon } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import { useFriends } from "@/hooks";
 import { ensureDm } from "@/lib";
@@ -93,7 +93,7 @@ export default function QuickDmSwitcher({ open, onClose }) {
                 <span className="flex-1 text-sm font-medium text-zinc-100 truncate">
                   {friend.displayName}
                 </span>
-                <ChatCircleText className="text-zinc-500 shrink-0 text-xl md:text-lg" />
+                <ChatCircleIcon className="text-zinc-500 shrink-0 text-xl md:text-lg" />
               </button>
             ))
           )}

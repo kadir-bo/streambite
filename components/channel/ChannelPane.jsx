@@ -42,9 +42,7 @@ export default function ChannelPane() {
             />
           ) : (
             <div className="flex h-full items-center px-3.5">
-              <span className="font-semibold text-white">
-                Direktnachrichten
-              </span>
+              <span>Direktnachrichten</span>
             </div>
           )}
         </div>

@@ -47,17 +47,11 @@ export default function DmHeader({ user, dmId }) {
         className="flex items-center gap-3 flex-1 min-w-0"
       >
         <div className="relative shrink-0">
-          <Avatar src={user?.avatarUrl} name={user?.displayName} size="md" />
-          <span
-            className="absolute bottom-0 right-0 size-2.5 rounded-full border-2 border-surface-app"
-            style={{
-              background:
-                user?.status === "online"
-                  ? "#4ac263"
-                  : user?.status === "busy"
-                    ? "#f5340b"
-                    : "#686868",
-            }}
+          <Avatar
+            src={user?.avatarUrl}
+            name={user?.displayName}
+            status={user?.status}
+            size="md"
           />
         </div>
         <div className="min-w-0 flex-1">

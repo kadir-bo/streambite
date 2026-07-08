@@ -23,6 +23,7 @@ export { default as RoleBadge } from "./cards/RoleBadge";
 export { default as ScreenShareTile } from "./cards/ScreenShareTile";
 export { default as ServerInviteRow } from "./cards/ServerInviteRow";
 export { default as StepCard } from "./cards/StepCard";
+export { default as FriendCard } from "./cards/FriendCard";
 
 // Channel
 export { default as CategoryHeader } from "./channel/CategoryHeader";
@@ -39,7 +40,6 @@ export { default as DmRow } from "./dm/DmRow";
 export { default as DmSidebar } from "./dm/DmSidebar";
 export { default as HomeTopbar } from "./dm/HomeTopbar";
 
-
 // Friends
 export { default as ActiveFriendRow } from "./friends/ActiveFriendRow";
 
@@ -50,7 +50,6 @@ export { default as Input } from "./inputs/Input";
 export { default as Select } from "./inputs/Select";
 export { default as MessageInput } from "./inputs/MessageInput";
 export { default as VolumeSlider } from "./inputs/VolumeSlider";
-
 
 // Dropdowns
 export { default as ContextMenu } from "./dropdowns/ContextMenu";
