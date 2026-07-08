@@ -117,21 +117,11 @@ export default function ChannelsHomePage() {
                   <Avatar
                     src={friend.avatarUrl}
                     name={friend.displayName}
+                    status={friend.status}
                     size="lg"
                   />
-                  <span
-                    className="absolute bottom-0 right-0 size-2.5 rounded-full border-2 border-surface-app"
-                    style={{
-                      background:
-                        friend.status === "online"
-                          ? "#4ac263"
-                          : friend.status === "busy"
-                            ? "#f5340b"
-                            : "#686868",
-                    }}
-                  />
                 </div>
-                <div className="flex-1 min-w-0">
+                <div className="flex-1 min-w-0 ">
                   <p className="text-base font-semibold text-white truncate">
                     {friend.displayName}
                   </p>
