@@ -108,10 +108,16 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
       )}
 
       {isConnected ? (
-        <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-4 py-4 pb-28">
+        <div
+          className={
+            hasScreenShare
+              ? "flex flex-1 flex-col overflow-hidden px-4 py-4 pb-28"
+              : "flex flex-1 flex-col overflow-y-auto px-4 py-4 pb-28"
+          }
+        >
           {/* Audio Warning */}
           {showAudioWarning && (
-            <div className="shrink-0 flex max-w-md items-center gap-3 rounded-2xl border border-yellow-500 bg-yellow-500/10 px-5 py-3 text-sm text-zinc-100">
+            <div className="shrink-0 flex max-w-md items-center gap-3 mb-4 rounded-2xl border border-yellow-500 bg-yellow-500/10 px-5 py-3 text-sm text-zinc-100">
               <Warning size={20} className="shrink-0 text-yellow-500" />
               <span>
                 Kein Audio beim Teilen. Teile einen <strong>Chrome-Tab</strong>{" "}
@@ -121,55 +127,89 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
             </div>
           )}
 
-          {/* Screen Share */}
+          {/* Screen Share — echte Höhe durch flex-1 im non-scroll Parent */}
           {hasScreenShare && (
-            <div className="flex-1 min-h-0 rounded-2xl overflow-hidden bg-surface-deep">
+            <div className="flex-1 min-h-0 mb-4 rounded-2xl overflow-hidden bg-surface-deep">
               {screenSharers.map((p) => (
                 <ScreenShareTile key={`${p.identity}-screen`} participant={p} />
               ))}
             </div>
           )}
 
-          {/* Participant Grid */}
-          <div className="grid grid-cols-2 gap-3 justify-center max-w-lg mx-auto w-full h-full items-center">
-            {visibleParticipants.map((p) => (
-              <VoiceParticipantCard
-                key={p.identity}
-                participant={p}
-                isOwner={isOwner}
-              />
-            ))}
-
-            {/* Einladen Card */}
-            <button
-              onClick={() => setInviteOpen(true)}
-              className={twMerge(
-                "flex flex-col items-center justify-center gap-2 rounded-2xl bg-surface-deep border border-white/5 aspect-square cursor-pointer transition-colors hover:bg-surface-hover",
-              )}
-            >
-              <div className="flex items-center justify-center size-16 rounded-full border-2 border-zinc-600">
-                <UserPlus weight="regular" className="text-2xl text-zinc-400" />
+          {hasScreenShare ? (
+            /* === ScreenShare aktiv: unterer Bereich scrollbar === */
+            <div className="shrink-0 overflow-y-auto">
+              <div className="grid grid-cols-2 gap-3 justify-center max-w-lg mx-auto w-full items-center">
+                {visibleParticipants.map((p) => (
+                  <VoiceParticipantCard
+                    key={p.identity}
+                    participant={p}
+                    isOwner={isOwner}
+                  />
+                ))}
+                <button
+                  onClick={() => setInviteOpen(true)}
+                  className={twMerge(
+                    "flex flex-col items-center justify-center gap-2 rounded-2xl bg-surface-deep border border-white/5 aspect-square cursor-pointer transition-colors hover:bg-surface-hover",
+                  )}
+                >
+                  <div className="flex items-center justify-center size-16 rounded-full border-2 border-zinc-600">
+                    <UserPlus weight="regular" className="text-2xl text-zinc-400" />
+                  </div>
+                  <span className="text-sm text-zinc-400">Einladen</span>
+                </button>
               </div>
-              <span className="text-sm text-zinc-400">Einladen</span>
-            </button>
-          </div>
-
-          {/* Show more/less */}
-          {hasHidden && (
-            <button
-              onClick={() => setShowAll((v) => !v)}
-              className="shrink-0 flex cursor-pointer items-center justify-center gap-1.5 self-center rounded-2xl border border-white/5 bg-surface-deep px-4 py-2 text-xs font-medium text-zinc-400 hover:bg-surface-hover"
-            >
-              {showAll ? (
-                <>
-                  <CaretUp size={14} /> Weniger anzeigen
-                </>
-              ) : (
-                <>
-                  <CaretDown size={14} /> {hiddenCount} weitere anzeigen
-                </>
+              {hasHidden && (
+                <button
+                  onClick={() => setShowAll((v) => !v)}
+                  className={twMerge(
+                    "mt-3 shrink-0 flex cursor-pointer items-center justify-center gap-1.5 self-center rounded-2xl border border-white/5 bg-surface-deep px-4 py-2 text-xs font-medium text-zinc-400 hover:bg-surface-hover",
+                  )}
+                >
+                  {showAll ? (
+                    <><CaretUp size={14} /> Weniger anzeigen</>
+                  ) : (
+                    <><CaretDown size={14} /> {hiddenCount} weitere anzeigen</>
+                  )}
+                </button>
               )}
-            </button>
+            </div>
+          ) : (
+            /* === Kein ScreenShare: Grid füllt Höhe (original) === */
+            <>
+              <div className="grid grid-cols-2 gap-3 justify-center max-w-lg mx-auto w-full h-full items-center">
+                {visibleParticipants.map((p) => (
+                  <VoiceParticipantCard
+                    key={p.identity}
+                    participant={p}
+                    isOwner={isOwner}
+                  />
+                ))}
+                <button
+                  onClick={() => setInviteOpen(true)}
+                  className={twMerge(
+                    "flex flex-col items-center justify-center gap-2 rounded-2xl bg-surface-deep border border-white/5 aspect-square cursor-pointer transition-colors hover:bg-surface-hover",
+                  )}
+                >
+                  <div className="flex items-center justify-center size-16 rounded-full border-2 border-zinc-600">
+                    <UserPlus weight="regular" className="text-2xl text-zinc-400" />
+                  </div>
+                  <span className="text-sm text-zinc-400">Einladen</span>
+                </button>
+              </div>
+              {hasHidden && (
+                <button
+                  onClick={() => setShowAll((v) => !v)}
+                  className="shrink-0 flex cursor-pointer items-center justify-center gap-1.5 self-center rounded-2xl border border-white/5 bg-surface-deep px-4 py-2 text-xs font-medium text-zinc-400 hover:bg-surface-hover"
+                >
+                  {showAll ? (
+                    <><CaretUp size={14} /> Weniger anzeigen</>
+                  ) : (
+                    <><CaretDown size={14} /> {hiddenCount} weitere anzeigen</>
+                  )}
+                </button>
+              )}
+            </>
           )}
         </div>
       ) : (
