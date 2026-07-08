@@ -60,44 +60,6 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
   const isConnecting = status === "connecting";
   return (
     <div className="relative flex flex-1 flex-col overflow-hidden bg-surface-app">
-      {/* Topbar */}
-      {isConnected && (
-        <div className="flex items-center justify-between px-4 py-3 border-b border-white/5 md:hidden">
-          <IconBtn
-            icon={CaretLeftIcon}
-            onClick={showList}
-            title="Zurück"
-            variant="surface"
-            rounded="full"
-            size="xl"
-          />
-
-          <div className="flex items-center gap-2">
-            <SpeakerHigh weight="fill" className="text-white text-xl" />
-            <span className="text-lg font-bold text-white">
-              {channel?.name ?? "..."}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <IconBtn
-              icon={UserPlus}
-              onClick={() => setInviteOpen(true)}
-              title="Freunde einladen"
-              variant="surface"
-              rounded="full"
-              size="xl"
-            />
-            <IconBtn
-              icon={UsersThree}
-              title="Mitglieder"
-              variant="surface"
-              rounded="full"
-              size="xl"
-            />
-          </div>
-        </div>
-      )}
       {/* Error */}
       {connection.error && (status === "error" || isConnected) && (
         <div className="mx-6 mb-2 shrink-0 flex max-w-md flex-col items-center gap-2.5 rounded-2xl border border-red-500 bg-red-500/10 px-5 py-4 text-center">
@@ -195,7 +157,7 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
       {/* Floating Voice Controls */}
       {isConnected && (
         <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center px-4">
-          <VoiceControls />
+          <VoiceControls items={["speaker", "mute", "deafen", "screen", "disconnect"]} />
         </div>
       )}
 

@@ -656,6 +656,7 @@ export function VoiceProvider({ children }) {
       await roomRef.current.disconnect();
       roomRef.current = null;
     }
+
     clearPresence();
     // Gesammelte Audio-Elemente freigeben
     audioElementsRef.current.forEach((el) => {
