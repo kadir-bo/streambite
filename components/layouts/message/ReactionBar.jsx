@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "motion/react";
-import { toggleReaction } from "@/lib";
+import { cn, toggleReaction } from "@/lib";
 
 export default function ReactionBar({
   reactions,
@@ -49,17 +49,11 @@ export default function ReactionBar({
             onClick={() => handleToggle(emoji, data)}
             disabled={!!pending}
             title={(data?.users ?? []).join(", ")}
-            className={`inline-flex items-center gap-1.25 px-2 py-0.5 rounded-full text-sm font-medium text-zinc-400 transition-colors duration-100 ${
-              pending === emoji ? "opacity-60" : "opacity-100"
-            } ${pending ? "cursor-wait" : "cursor-pointer"} ${
-              hasReacted
-                ? "bg-white/12 border border-white/20"
-                : "bg-zinc-800 border border-white/5"
-            }`}
+            className={cn("inline-flex items-center gap-1.25 px-2 py-0.5 rounded-full text-sm font-medium text-zinc-400 transition-colors duration-100", pending === emoji ? "opacity-60" : "opacity-100", pending ? "cursor-wait" : "cursor-pointer", hasReacted ? "bg-white/12 border border-white/20" : "bg-zinc-800 border border-white/5")}
           >
             <span className="text-base">{emoji}</span>
             <span
-              className={`text-xs ${hasReacted ? "text-zinc-100" : "text-zinc-500"}`}
+              className={cn("text-xs", hasReacted ? "text-zinc-100" : "text-zinc-500")}
             >
               {data?.count ?? 0}
             </span>

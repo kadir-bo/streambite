@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Shield, UserMinus } from "@phosphor-icons/react";
-import { setMemberRoles, kickMember } from "@/lib";
+import { cn, setMemberRoles, kickMember } from "@/lib";
 import { useLongPress } from "@/hooks";
 import {
   Avatar,
@@ -61,9 +61,7 @@ export default function MemberRow({ member, isOffline, serverId, canManage }) {
     <>
       <div
         {...longPress.handlers}
-        className={`group flex items-center gap-1.5 px-2 py-1.25 rounded-lg cursor-default ${
-          isOffline ? "opacity-45" : "opacity-100"
-        }`}
+        className={cn("group flex items-center gap-1.5 px-2 py-1.25 rounded-lg cursor-default", isOffline ? "opacity-45" : "opacity-100")}
       >
         <Avatar
           src={member.avatarUrl}

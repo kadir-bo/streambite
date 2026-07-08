@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Camera, Link, CopySimple, Check } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import {
+  cn,
   updateServer,
   leaveServer,
   deleteServer,
@@ -140,11 +141,7 @@ export default function ServerSettingsModal({ open, onClose, server }) {
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploadingIcon}
-                className={`absolute inset-0 rounded-lg flex items-center justify-center border-none cursor-pointer text-white transition-opacity duration-150 ${
-                  uploadingIcon
-                    ? "bg-black/55 opacity-100"
-                    : "bg-transparent opacity-0"
-                } hover:bg-black/55 hover:opacity-100`}
+                className={cn("absolute inset-0 rounded-lg flex items-center justify-center border-none cursor-pointer text-white transition-opacity duration-150 hover:bg-black/55 hover:opacity-100", uploadingIcon ? "bg-black/55 opacity-100" : "bg-transparent opacity-0")}
               >
                 <Camera size={20} weight="bold" />
               </button>
@@ -224,11 +221,7 @@ export default function ServerSettingsModal({ open, onClose, server }) {
             </span>
             <button
               onClick={copyInvite}
-              className={`flex items-center gap-1.25 px-2.5 py-1 rounded-sm border border-white/10 text-xs font-semibold cursor-pointer shrink-0 transition-all duration-150 ${
-                copied
-                  ? "bg-white/10 text-green-500"
-                  : "bg-zinc-800 text-zinc-400"
-              }`}
+              className={cn("flex items-center gap-1.25 px-2.5 py-1 rounded-sm border border-white/10 text-xs font-semibold cursor-pointer shrink-0 transition-all duration-150", copied ? "bg-white/10 text-green-500" : "bg-zinc-800 text-zinc-400")}
             >
               {copied ? (
                 <>

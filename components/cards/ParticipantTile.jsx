@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { MicrophoneSlash, UserMinus } from "@phosphor-icons/react";
 import { useVoice } from "@/context";
+import { cn } from "@/lib";
 import { useLongPress } from "@/hooks";
 import { Avatar, ContextMenu, ConfirmModal, DotMenu } from "@/components";
 
@@ -47,9 +48,7 @@ export default function ParticipantTile({ participant, isOwner }) {
       )}
 
       <div
-        className={`rounded-full p-1.5 transition-colors duration-150 ${
-          participant.isSpeaking ? "ring-2 ring-(--accent)" : ""
-        }`}
+        className={cn("rounded-full p-1.5 transition-colors duration-150", participant.isSpeaking && "ring-2 ring-(--accent)")}
       >
         <Avatar name={participant.name} size="xl" />
       </div>

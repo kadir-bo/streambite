@@ -12,7 +12,7 @@ import {
 } from "@phosphor-icons/react";
 import { useAuth, useServer, useVoice, useLayout } from "@/context";
 import { useUnread, useIsDesktop, useLongPress } from "@/hooks";
-import { markRead, deleteChannel } from "@/lib";
+import { cn, markRead, deleteChannel } from "@/lib";
 import {
   ContextMenu,
   DotMenu,
@@ -143,11 +143,7 @@ export default function ChannelItem({ channel, serverId, isActive, isOwner }) {
     >
       <div
         {...longPress.handlers}
-        className={`group flex select-none items-center gap-2 mx-2 my-px rounded-xl transition-colors duration-100 ${
-          isActive
-            ? "bg-surface-hover"
-            : "bg-transparent hover:bg-surface-hover/50"
-        }`}
+        className={cn("group flex select-none items-center gap-2 mx-2 my-px rounded-xl transition-colors duration-100", isActive ? "bg-surface-hover" : "bg-transparent hover:bg-surface-hover/50")}
       >
         <Link
           href={`/servers/${serverId}/${channel.id}`}
@@ -156,18 +152,10 @@ export default function ChannelItem({ channel, serverId, isActive, isOwner }) {
         >
           <Icon
             weight={isActive ? "fill" : "regular"}
-            className={`shrink-0 text-lg transition-colors duration-100 ${
-              isActive || unread
-                ? "text-white"
-                : "text-zinc-500 group-hover:text-zinc-400"
-            }`}
+            className={cn("shrink-0 text-lg transition-colors duration-100", isActive || unread ? "text-white" : "text-zinc-500 group-hover:text-zinc-400")}
           />
           <span
-            className={`text-base truncate flex-1 transition-colors duration-100 ${
-              isActive || unread
-                ? "text-white font-semibold"
-                : "text-zinc-400 font-medium group-hover:text-zinc-300"
-            }`}
+            className={cn("text-base truncate flex-1 transition-colors duration-100", isActive || unread ? "text-white font-semibold" : "text-zinc-400 font-medium group-hover:text-zinc-300")}
           >
             {channel.name}
           </span>

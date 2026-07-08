@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { motion, useInView } from "motion/react";
+import { cn } from "@/lib";
 import { motionTokens } from "@/lib/motion-tokens";
 
 const channels = ["Willkommen", "Ankündigungen", "Chat", "Voice", "Stream"];
@@ -167,11 +168,7 @@ export default function ProductShowcase() {
                   <button
                     key={ch}
                     onClick={() => setActiveChannel(ch)}
-                    className={`flex items-center gap-2 w-full px-2 py-1.5 rounded-md text-sm text-left transition-all duration-150 ${
-                      ch === activeChannel
-                        ? "bg-(--accent)/10 text-(--accent) font-medium"
-                        : "text-zinc-400 hover:bg-zinc-800/40"
-                    }`}
+                    className={cn("flex items-center gap-2 w-full px-2 py-1.5 rounded-md text-sm text-left transition-all duration-150", ch === activeChannel ? "bg-(--accent)/10 text-(--accent) font-medium" : "text-zinc-400 hover:bg-zinc-800/40")}
                   >
                     <span className="text-zinc-600 shrink-0">
                       {channelData[ch].icon}
@@ -214,7 +211,7 @@ export default function ProductShowcase() {
                     </div>
                     <div className="min-w-0">
                       <div className="flex items-baseline gap-2">
-                        <span className={`text-sm font-semibold ${m.color}`}>
+                        <span className={cn("text-sm font-semibold", m.color)}>
                           {m.name}
                         </span>
                         <span className="text-2xs text-zinc-600">heute</span>

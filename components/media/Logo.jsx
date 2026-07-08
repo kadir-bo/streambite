@@ -6,6 +6,8 @@
  * variant="icon" – Nur das Icon-Quadrat
  * variant="wordmark" – Nur der Schriftzug
  */
+import { cn } from "@/lib";
+
 export default function Logo({ variant = "full", className = "", ...props }) {
   if (variant === "icon") {
     return <Logomark className={className} {...props} />;
@@ -17,7 +19,7 @@ export default function Logo({ variant = "full", className = "", ...props }) {
 
   // "full": Icon + Wordmark nebeneinander
   return (
-    <span className={`inline-flex items-center gap-0 ${className}`} {...props}>
+    <span className={cn("inline-flex items-center gap-0", className)} {...props}>
       <Logomark className="h-10 w-10 shrink-0" />
       <Wordmark className="h-4 w-auto shrink-0" />
     </span>

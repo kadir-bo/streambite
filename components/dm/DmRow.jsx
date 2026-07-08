@@ -113,11 +113,7 @@ export default function DmRow({ dm, otherUid, active }) {
         </div>
         <div className="flex-1 min-w-0">
           <p
-            className={`text-base truncate ${
-              active || isUnread(dm.id, dm.updatedAt)
-                ? "text-white font-semibold"
-                : "text-zinc-300 font-medium"
-            }`}
+            className={cn("text-base truncate", active || isUnread(dm.id, dm.updatedAt) ? "text-white font-semibold" : "text-zinc-300 font-medium")}
           >
             {user?.displayName ?? "..."}
           </p>

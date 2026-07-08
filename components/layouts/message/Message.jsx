@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowBendUpLeft } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
-import { formatTime, editMessage, deleteMessage } from "@/lib";
+import { cn, formatTime, editMessage, deleteMessage } from "@/lib";
 import {
   Avatar,
   MessageActions,
@@ -95,9 +95,7 @@ export default function Message({
         // Hover doesn't fire on touch devices, so the action bar would
         // otherwise be unreachable on mobile - a tap toggles it there too.
         onClick={() => setHovered((h) => !h)}
-        className={`flex gap-4 relative hover:bg-white/5 transition-colors duration-100 ${
-          isFirst ? "px-4 pt-5 pb-1" : "px-4 py-1"
-        }`}
+        className={cn("flex gap-4 relative hover:bg-white/5 transition-colors duration-100", isFirst ? "px-4 pt-5 pb-1" : "px-4 py-1")}
       >
         {/* Avatar column — larger with colored bg */}
         <div className="w-max shrink-0 ml-4">

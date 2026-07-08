@@ -1,3 +1,5 @@
+import { cn } from "@/lib";
+
 export default function SectionLabel({ children, label, count, danger }) {
   if (label !== undefined) {
     // MemberSidebar variant: shows label with optional count
@@ -12,7 +14,7 @@ export default function SectionLabel({ children, label, count, danger }) {
   }
   return (
     <span
-      className={`mb-2 block text-2xs font-semibold tracking-widest uppercase ${danger ? "text-red-500" : "text-zinc-400"}`}
+      className={cn("mb-2 block text-2xs font-semibold tracking-widest uppercase", danger ? "text-red-500" : "text-zinc-400")}
     >
       {children}
     </span>

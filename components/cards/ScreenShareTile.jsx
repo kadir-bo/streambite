@@ -10,6 +10,7 @@ import {
   Microphone,
   StopCircle,
 } from "@phosphor-icons/react";
+import { cn } from "@/lib";
 import { useVoice } from "@/context";
 
 export default function ScreenShareTile({ participant }) {
@@ -166,11 +167,7 @@ export default function ScreenShareTile({ participant }) {
     <div className="flex h-full w-full min-h-0 flex-col gap-2">
       <div
         ref={containerRef}
-        className={`group relative flex-1 overflow-hidden rounded-lg border border-white/5 bg-black ${
-          maximized
-            ? "fixed inset-0 z-50 flex items-center justify-center bg-black"
-            : ""
-        }`}
+        className={cn("group relative flex-1 overflow-hidden rounded-lg border border-white/5 bg-black", maximized && "fixed inset-0 z-50 flex items-center justify-center bg-black")}
       >
         {streamJoined ? (
           <>

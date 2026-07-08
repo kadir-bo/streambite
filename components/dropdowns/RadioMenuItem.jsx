@@ -1,5 +1,7 @@
 "use client";
 
+import { cn } from "@/lib";
+
 export default function RadioMenuItem({ label, active, disabled, onClick }) {
   return (
     <button
@@ -14,9 +16,7 @@ export default function RadioMenuItem({ label, active, disabled, onClick }) {
     >
       <span className="truncate">{label}</span>
       <span
-        className={`flex size-4 shrink-0 items-center justify-center rounded-full border-2 ${
-          active ? "border-(--accent)" : "border-zinc-500"
-        }`}
+        className={cn("flex size-4 shrink-0 items-center justify-center rounded-full border-2", active ? "border-(--accent)" : "border-zinc-500")}
       >
         {active && <span className="size-2 rounded-full bg-(--accent)" />}
       </span>

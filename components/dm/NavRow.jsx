@@ -1,4 +1,5 @@
 "use client";
+import { cn } from "@/lib";
 import Link from "next/link";
 
 export default function NavRow({
@@ -14,14 +15,12 @@ export default function NavRow({
   return (
     <Link
       href={href}
-      className={`flex items-center gap-2.5 px-2.5 py-2 my-0.5 mx-2 rounded-lg no-underline transition-colors duration-100 max-sm:py-2.5 max-sm:min-h-11 ${
-        active ? "bg-white/10" : "bg-transparent hover:bg-white/5"
-      }${className}`}
+      className={cn("flex items-center gap-2.5 px-2.5 py-2 my-0.5 mx-2 rounded-lg no-underline transition-colors duration-100 max-sm:py-2.5 max-sm:min-h-11", active ? "bg-white/10" : "bg-transparent hover:bg-white/5", className)}
     >
       {icon}
-      <div className={`min-w-0 flex-1 ${textClassName}`}>
+      <div className={cn("min-w-0 flex-1", textClassName)}>
         <p
-          className={`truncate text-sm ${active || unread ? "font-semibold text-zinc-100" : "font-medium text-zinc-400"}`}
+          className={cn("truncate text-sm", active || unread ? "font-semibold text-zinc-100" : "font-medium text-zinc-400")}
         >
           {label}
         </p>

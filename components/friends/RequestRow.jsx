@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Check, X } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
-import { acceptFriendRequest, declineFriendRequest } from "@/lib";
+import { cn, acceptFriendRequest, declineFriendRequest } from "@/lib";
 import { Avatar } from "@/components";
 
 export default function RequestRow({ user }) {
@@ -42,7 +42,7 @@ export default function RequestRow({ user }) {
           onClick={handleAccept}
           disabled={!!loading}
           title="Annehmen"
-          className={`flex size-6.5 max-sm:size-10 cursor-pointer items-center justify-center rounded-full border border-white/5 text-green-500 ${loading === "accept" ? "bg-white/10" : "bg-zinc-800 hover:bg-white/5"}`}
+          className={cn("flex size-6.5 max-sm:size-10 cursor-pointer items-center justify-center rounded-full border border-white/5 text-green-500", loading === "accept" ? "bg-white/10" : "bg-zinc-800 hover:bg-white/5")}
         >
           <Check size={13} weight="bold" className="max-sm:size-4" />
         </button>
@@ -50,7 +50,7 @@ export default function RequestRow({ user }) {
           onClick={handleDecline}
           disabled={!!loading}
           title="Ablehnen"
-          className={`flex size-6.5 max-sm:size-10 cursor-pointer items-center justify-center rounded-full border border-white/5 text-red-500 ${loading === "decline" ? "bg-white/10" : "bg-zinc-800 hover:bg-white/5"}`}
+          className={cn("flex size-6.5 max-sm:size-10 cursor-pointer items-center justify-center rounded-full border border-white/5 text-red-500", loading === "decline" ? "bg-white/10" : "bg-zinc-800 hover:bg-white/5")}
         >
           <X size={13} weight="bold" className="max-sm:size-4" />
         </button>

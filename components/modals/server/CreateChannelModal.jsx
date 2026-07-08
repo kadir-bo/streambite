@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { createChannel } from "@/lib";
+import { cn, createChannel } from "@/lib";
 import { Modal, Input, Button } from "@/components";
 import { Hash, SpeakerHigh, CheckCircle } from "@phosphor-icons/react";
 
@@ -87,24 +87,16 @@ export default function CreateChannelModal({ open, onClose, category }) {
                   key={t.value}
                   type="button"
                   onClick={() => setType(t.value)}
-                  className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer text-left transition-colors duration-150 ${
-                    active
-                      ? "bg-white/10 border-white/20"
-                      : "bg-transparent border-white/5 hover:bg-white/5 hover:border-white/10"
-                  }`}
+                  className={cn("flex items-center gap-3 p-3 rounded-lg border cursor-pointer text-left transition-colors duration-150", active ? "bg-white/10 border-white/20" : "bg-transparent border-white/5 hover:bg-white/5 hover:border-white/10")}
                 >
                   <span
-                    className={`flex shrink-0 size-9 items-center justify-center rounded-lg ${
-                      active
-                        ? "bg-zinc-700 text-zinc-100"
-                        : "bg-zinc-800 text-zinc-500"
-                    }`}
+                    className={cn("flex shrink-0 size-9 items-center justify-center rounded-lg", active ? "bg-zinc-700 text-zinc-100" : "bg-zinc-800 text-zinc-500")}
                   >
                     {t.icon}
                   </span>
                   <div className="flex-1 min-w-0">
                     <p
-                      className={`text-sm font-semibold ${active ? "text-zinc-100" : "text-zinc-400"}`}
+                      className={cn("text-sm font-semibold", active ? "text-zinc-100" : "text-zinc-400")}
                     >
                       {t.label}
                     </p>
@@ -115,7 +107,7 @@ export default function CreateChannelModal({ open, onClose, category }) {
                   <CheckCircle
                     size={20}
                     weight="fill"
-                    className={`shrink-0 transition-opacity duration-150 ${active ? "text-zinc-100 opacity-100" : "opacity-0"}`}
+                    className={cn("shrink-0 transition-opacity duration-150", active ? "text-zinc-100 opacity-100" : "opacity-0")}
                   />
                 </button>
               );

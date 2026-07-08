@@ -2,8 +2,8 @@
 import { useRef, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "motion/react";
-import { Plus, ChatCircleText } from "@phosphor-icons/react";
-import { springs } from "@/lib";
+import { Plus, ChatCircleText, ChatCircleIcon } from "@phosphor-icons/react";
+import { cn, springs } from "@/lib";
 import { useAuth, useLayout, useServer } from "@/context";
 import {
   RailButton,
@@ -70,9 +70,9 @@ export default function ServerRail({ onOpenCreate }) {
             active={isDM}
             tooltip="Direktnachrichten"
           >
-            <ChatCircleText
+            <ChatCircleIcon
               weight={isDM ? "fill" : "regular"}
-              className={`h-6 w-6 ${isDM ? "text-white" : "text-zinc-500"}`}
+              className={cn("h-6 w-6", isDM ? "text-white" : "text-zinc-500")}
             />
           </RailButton>
         </div>

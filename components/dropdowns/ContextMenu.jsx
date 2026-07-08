@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "motion/react";
-import { dropdown } from "@/lib";
+import { cn, dropdown } from "@/lib";
 import { useClickOutside } from "@/hooks";
 import { ContextMenuItem, RadioMenuItem } from "@/components";
 
@@ -96,7 +96,7 @@ export default function ContextMenu({
           variants={dropdown}
           onClick={(e) => e.stopPropagation()}
           onMouseLeave={submenu ? scheduleCloseSubmenu : undefined}
-          className={`z-500 bg-zinc-900 border border-white/5 rounded-lg p-1 shadow-lg ${width ? "" : "min-w-50"}`}
+          className={cn("z-500 bg-zinc-900 border border-white/5 rounded-lg p-1 shadow-lg", !width && "min-w-50")}
           style={{
             position: "fixed",
             left: position?.x ?? 0,

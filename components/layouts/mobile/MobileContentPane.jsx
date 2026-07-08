@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib";
 import { useLayout } from "@/context";
 import { MobileVoiceStatusBar } from "@/components";
 
@@ -11,9 +12,7 @@ export default function MobileContentPane({ children }) {
 
   return (
     <div
-      className={`min-w-0 flex-1 flex-col overflow-hidden ${
-        mobilePane === "content" ? "flex" : "hidden md:flex"
-      }`}
+      className={cn("min-w-0 flex-1 flex-col overflow-hidden", mobilePane === "content" ? "flex" : "hidden md:flex")}
     >
       <div className="flex min-h-0 flex-1">{children}</div>
       {/* Sidebar (and its persistent voice controls) is hidden on mobile

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { MagnifyingGlass, ChatCircleText } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import { useFriends } from "@/hooks";
-import { ensureDm } from "@/lib";
+import { cn, ensureDm } from "@/lib";
 import { Modal, Avatar } from "@/components";
 
 export default function QuickDmSwitcher({ open, onClose }) {
@@ -76,11 +76,7 @@ export default function QuickDmSwitcher({ open, onClose }) {
                 key={friend.id}
                 onClick={() => openDm(friend)}
                 disabled={!!opening}
-                className={`flex items-center gap-2.5 py-2 px-2.5 rounded-lg border-none bg-transparent cursor-pointer text-left ${
-                  opening && opening !== friend.id
-                    ? "opacity-50"
-                    : "opacity-100"
-                } hover:bg-white/5`}
+                className={cn("flex items-center gap-2.5 py-2 px-2.5 rounded-lg border-none bg-transparent cursor-pointer text-left hover:bg-white/5", opening && opening !== friend.id ? "opacity-50" : "opacity-100")}
               >
                 <Avatar
                   src={friend.avatarUrl}
