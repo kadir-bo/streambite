@@ -7,8 +7,10 @@ import {
   Headphones,
   MonitorPlay,
   PhoneDisconnect,
+  X,
 } from "@phosphor-icons/react";
 import { ControlButton } from "@/components";
+import { Stop } from "@phosphor-icons/react/dist/ssr";
 
 /**
  * Floating voice controls bar.
@@ -49,13 +51,17 @@ export default function VoiceControls({
         </ControlButton>
 
         {/* Headphones */}
-        <ControlButton>
+        <ControlButton danger={deafened} onClick={onToggleDeafen}>
           <Headphones weight="regular" className="text-xl" />
         </ControlButton>
 
         {/* Screen Share */}
         <ControlButton active={screenShare} onClick={onToggleScreenShare}>
-          <MonitorPlay weight="regular" className="text-xl" />
+          {screenShare ? (
+            <Stop weight="fill" className="text-xl" />
+          ) : (
+            <MonitorPlay weight="regular" className="text-xl" />
+          )}
         </ControlButton>
 
         {/* Disconnect */}

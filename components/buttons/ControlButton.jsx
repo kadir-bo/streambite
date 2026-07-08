@@ -13,11 +13,11 @@ export default function ControlButton({
       onClick={onClick}
       className={twMerge(
         "flex size-12 shrink-0 cursor-pointer items-center justify-center rounded-full border-none text-white transition-colors",
-        mobileOnly ? "hidden md:flex" : "",
+        mobileOnly ? "flex md:hidden" : "",
         danger
           ? "bg-red hover:bg-red-hover"
           : active
-            ? "bg-accent hover:bg-accent-hover"
+            ? "bg-gray-800 hover:bg-accent-hover"
             : "bg-surface-hover hover:bg-surface-raised",
       )}
     >

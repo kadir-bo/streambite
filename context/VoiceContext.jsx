@@ -661,9 +661,9 @@ export function VoiceProvider({ children }) {
       mutedRef.current = next;
       setMuted(next);
       if (!next) {
+        // Manuelles Unmuten hebt nicht den Taubschalt-Modus auf;
+        // nur explizites Undeafen darf das. (Discord-Verhalten)
         mutedByDeafenRef.current = false;
-        deafenedRef.current = false;
-        setDeafened(false);
       }
       return;
     }
@@ -673,9 +673,8 @@ export function VoiceProvider({ children }) {
       setMuted(next);
       if (!next) {
         // UNMUTE: sicherstellen, dass LiveKit den neuen Track bereit hat
+        // Manuelles Unmuten hebt nicht den Taubschalt-Modus auf.
         mutedByDeafenRef.current = false;
-        deafenedRef.current = false;
-        setDeafened(false);
         await waitForMicTrack(room);
         startMicPipeline(room);
       } else {
