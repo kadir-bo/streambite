@@ -17,6 +17,7 @@ import {
   ConfirmModal,
   ContextMenu,
   StatusDot,
+  Input,
 } from "@/components";
 
 const STATUS_OPTIONS = [
@@ -239,13 +240,13 @@ export default function ProfileSettings({ open }) {
             <label className="block text-xs text-zinc-500 mb-1.5">
               Anzeigename
             </label>
-            <input
+            <Input
+              variant="surface"
               type="text"
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
               maxLength={32}
               placeholder="Dein Name"
-              className="w-full rounded-xl bg-surface-hover border border-white/5 px-4 py-3 text-base text-white outline-none placeholder:text-zinc-600 focus:border-accent/50"
             />
           </div>
 
@@ -283,11 +284,12 @@ export default function ProfileSettings({ open }) {
             <label className="block text-xs text-zinc-500 mb-1.5">
               E-Mail Adresse
             </label>
-            <input
+            <Input
+              variant="surface"
               type="email"
               value={firebaseUser?.email ?? ""}
               disabled
-              className="w-full rounded-xl bg-surface-hover border border-white/5 px-4 py-3 text-base text-white outline-none opacity-60 cursor-not-allowed"
+              className="opacity-60 cursor-not-allowed"
             />
           </div>
         </div>

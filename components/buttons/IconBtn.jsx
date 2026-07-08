@@ -74,6 +74,10 @@ export default function IconBtn({
       "bg-transparent text-zinc-500",
       "hover:bg-white/5 hover:text-zinc-400",
     ),
+    surface: twMerge(
+      "bg-surface-hover text-zinc-400",
+      "hover:bg-surface-raised hover:text-white",
+    ),
     danger: twMerge(
       "bg-transparent text-red-500",
       "hover:bg-red-500/10 hover:text-red-500",

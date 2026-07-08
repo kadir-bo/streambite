@@ -9,7 +9,7 @@ import {
 } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import { leaveServer } from "@/lib";
-import { ContextMenu, ServerIcon } from "@/components";
+import { ContextMenu, ServerIcon, IconBtn } from "@/components";
 import { useLongPress } from "@/hooks";
 import { useRouter } from "next/navigation";
 import { twMerge } from "tailwind-merge";
@@ -81,13 +81,7 @@ export default function ServerHeader({
         </button>
 
         {/* Right: People icon */}
-        <button
-          onClick={onOpenInvite}
-          title="Mitglieder"
-          className="flex items-center justify-center size-10 aspect-square rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
-        >
-          <UserPlusIcon weight="regular" className="text-xl" />
-        </button>
+        <IconBtn icon={UserPlusIcon} onClick={onOpenInvite} title="Mitglieder" variant="surface" rounded="full" size="xl" />
       </div>
 
       <ContextMenu

@@ -3,6 +3,7 @@
 import { useLayout } from "@/context";
 import { twMerge } from "tailwind-merge";
 import { CaretLeft } from "@phosphor-icons/react";
+import { IconBtn } from "@/components";
 
 /**
  * Gemeinsames Basis-Styling für alle Topbars/Header-Leisten.
@@ -24,13 +25,7 @@ export default function Topbar({ children, hideBack, className, ...props }) {
       )}
       {...props}
     >
-      <button
-        onClick={showList}
-        title="Zurück"
-        className="md:hidden flex items-center justify-center size-10 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
-      >
-        <CaretLeft weight="regular" className="text-xl" />
-      </button>
+      <IconBtn icon={CaretLeft} onClick={showList} title="Zurück" variant="surface" rounded="full" size="xl" mobileOnly />
       {children}
     </header>
   );

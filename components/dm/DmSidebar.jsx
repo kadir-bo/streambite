@@ -1,41 +1,27 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { usePathname, useParams, useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { MagnifyingGlass, Plus } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
-import { useFriends } from "@/hooks";
-import { subscribeToUserDms, ensureDm } from "@/lib";
-import { QuickDmSwitcher, DmRow, Button } from "@/components";
+import { subscribeToUserDms } from "@/lib";
+import { QuickDmSwitcher, DmRow } from "@/components";
 
 export default function DmSidebar() {
   const { firebaseUser } = useAuth();
-  const pathname = usePathname();
   const params = useParams();
   const router = useRouter();
   const [dms, setDms] = useState([]);
   const [switcherOpen, setSwitcherOpen] = useState(false);
-  const { friends } = useFriends();
-  const [opening, setOpening] = useState(null);
 
   useEffect(() => {
     if (!firebaseUser) return;
     return subscribeToUserDms(firebaseUser.uid, setDms);
   }, [firebaseUser]);
 
-  async function openDm(friend) {
-    if (!firebaseUser || opening) return;
-    setOpening(friend.id);
-    try {
-      const dmId = await ensureDm(firebaseUser.uid, friend.id);
-      router.push(`/channels/dm/${dmId}`);
-    } catch (err) {
-      console.error("[dm] openDm failed:", err.code, err.message);
-    } finally {
-      setOpening(null);
-    }
-  }
-
+  const navigateToChannels = () => {
+    router.push("/channels");
+  };
   return (
     <div className="py-2">
       {/* Search bar */}
@@ -52,7 +38,7 @@ export default function DmSidebar() {
       {/* Direktnachrichten header */}
       <div className="px-4 py-2">
         <button
-          onClick={() => setSwitcherOpen(true)}
+          onClick={navigateToChannels}
           title="Neues Gespräch starten"
           className="p-0 text-xs flex w-full items-center justify-between border-none bg-transparent text-zinc-500 cursor-pointer rounded-sm hover:text-zinc-400"
         >

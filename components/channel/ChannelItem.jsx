@@ -18,7 +18,7 @@ import {
   DotMenu,
   ConfirmModal,
   RenameChannelModal,
-  Avatar,
+  VoiceMemberRow,
 } from "@/components";
 import { twMerge } from "tailwind-merge";
 
@@ -169,7 +169,7 @@ export default function ChannelItem({ channel, serverId, isActive, isOwner }) {
             className={twMerge(
               "text-base truncate flex-1 transition-colors duration-100",
               isActive || unread
-                ? "text-white font-semibold"
+                ? "text-white font-medium"
                 : "text-zinc-400 font-medium group-hover:text-zinc-300",
             )}
           >
@@ -184,23 +184,15 @@ export default function ChannelItem({ channel, serverId, isActive, isOwner }) {
       </div>
 
       {channel.type === "voice" && voiceMembers.length > 0 && (
-        <div className="flex flex-col gap-1 pl-5 pr-2 pb-2">
+        <div className="flex flex-col gap-1 px-3 pb-2 pt-1.5">
           {voiceMembers.map((m) => (
-            <Link
+            <VoiceMemberRow
               key={m.uid}
-              href={`/servers/${serverId}/${channel.id}`}
-              onClick={(e) => {
-                e.stopPropagation();
-                if (isDesktop) connect(serverId, channel.id, channel.name);
-                if (!isDesktop) showContent();
-              }}
-              className="flex select-none items-center gap-1.5 no-underline rounded-lg px-1 py-1 hover:bg-white/5"
-            >
-              <Avatar src={m.avatarUrl} name={m.name} size="xs" />
-              <span className="truncate text-xs text-zinc-500 group-hover:text-zinc-400">
-                {m.name}
-              </span>
-            </Link>
+              member={m}
+              serverId={serverId}
+              channelId={channel.id}
+              channelName={channel.name}
+            />
           ))}
         </div>
       )}

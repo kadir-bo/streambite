@@ -10,8 +10,8 @@ import {
   MonitorPlay,
   PhoneDisconnect,
 } from "@phosphor-icons/react";
-import { twMerge } from "tailwind-merge";
 import { useVoice } from "@/context";
+import { ControlButton } from "@/components";
 
 /**
  * MobileVoiceBar — Figma Design
@@ -51,65 +51,44 @@ export default function MobileVoiceStatusBar() {
         </Link>
 
         {/* Mic */}
-        <button
-          type="button"
+        <ControlButton
+          danger={muted}
           onClick={toggleMute}
           title={muted ? "Stummschaltung aufheben" : "Stummschalten"}
-          className={twMerge(
-            "flex size-12 shrink-0 items-center justify-center rounded-full border-none cursor-pointer transition-all duration-150",
-            muted
-              ? "bg-red text-white hover:bg-red-hover"
-              : "bg-surface-hover text-white hover:bg-surface-raised",
-          )}
         >
           {muted ? (
             <MicrophoneSlash weight="regular" className="text-xl" />
           ) : (
             <Microphone weight="regular" className="text-xl" />
           )}
-        </button>
+        </ControlButton>
 
         {/* Headphones / Deafen */}
-        <button
-          type="button"
+        <ControlButton
+          danger={deafened}
           onClick={toggleDeafen}
           title={deafened ? "Hörgerät aktivieren" : "Tauben schalten"}
-          className={twMerge(
-            "flex size-12 shrink-0 items-center justify-center rounded-full border-none cursor-pointer transition-all duration-150",
-            deafened
-              ? "bg-red text-white hover:bg-red-hover"
-              : "bg-surface-hover text-white hover:bg-surface-raised",
-          )}
         >
           <Headphones weight="regular" className="text-xl" />
-        </button>
+        </ControlButton>
 
         {/* Screen Share */}
-        <button
-          type="button"
+        <ControlButton
+          accent={screenShare}
           onClick={toggleScreenShare}
-          title={
-            screenShare ? "Bildschirmfreigabe beenden" : "Bildschirm teilen"
-          }
-          className={twMerge(
-            "flex size-12 shrink-0 items-center justify-center rounded-full border-none cursor-pointer transition-all duration-150",
-            screenShare
-              ? "bg-accent text-white hover:bg-accent-hover"
-              : "bg-surface-hover text-white hover:bg-surface-raised",
-          )}
+          title={screenShare ? "Bildschirmfreigabe beenden" : "Bildschirm teilen"}
         >
           <MonitorPlay weight="regular" className="text-xl" />
-        </button>
+        </ControlButton>
 
         {/* Hangup */}
-        <button
-          type="button"
+        <ControlButton
+          danger
           onClick={disconnect}
           title="Sprachkanal verlassen"
-          className="flex size-12 shrink-0 items-center justify-center rounded-full border-none cursor-pointer bg-red text-white transition-all duration-150 hover:bg-red-hover"
         >
           <PhoneDisconnect weight="regular" className="text-xl" />
-        </button>
+        </ControlButton>
       </div>
     </div>
   );

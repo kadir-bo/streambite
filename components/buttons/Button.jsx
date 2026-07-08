@@ -7,12 +7,12 @@ const variantStyles = {
   primary:
     "bg-surface-raised text-white hover:brightness-110 shadow-xl shadow-deep/20",
   ghost:
-    "bg-surface-card text-zinc-300 border border-white/[0.08] hover:bg-zinc-700 hover:text-white",
+    "bg-surface-card text-zinc-300 border border-white/[0.08] hover:bg-surface-raised/60 hover:text-white",
   danger: "bg-red-500 text-white hover:bg-red-600",
 };
 
 const sizeStyles = {
-  sm: "px-4 py-3.5 text-sm rounded-md max-sm:min-h-12",
+  sm: "px-3 py-2 text-sm rounded-md max-sm:min-h-12",
   md: "px-5 py-3.5 text-sm rounded-lg max-sm:min-h-12",
   lg: "px-7 py-4 text-base rounded-xl max-sm:min-h-12",
 };

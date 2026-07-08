@@ -2,14 +2,13 @@
 
 import { useState } from "react";
 import {
-  MagnifyingGlass,
   UserPlus,
   Check,
   Warning,
 } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import { getUserByTag, sendFriendRequest } from "@/lib";
-import { Modal, Button, Avatar } from "@/components";
+import { Modal, Button, Avatar, SearchInput } from "@/components";
 
 export default function AddFriendModal({ open, onClose }) {
   const { firebaseUser, userDoc } = useAuth();
@@ -87,20 +86,18 @@ export default function AddFriendModal({ open, onClose }) {
 
         {/* Search input */}
         <form onSubmit={handleSearch} className="flex gap-2">
-          <div className="flex-1 flex items-center gap-2.5 bg-(--surface-deep) border border-white/5 rounded-lg px-3">
-            <MagnifyingGlass size={16} className="text-zinc-500 shrink-0" />
-            <input
-              value={query}
-              onChange={(e) => {
-                setQuery(e.target.value);
-                setResult(null);
-                setSent(false);
-                setError("");
-              }}
-              placeholder="Nutzername#1234"
-              className="flex-1 w-full bg-transparent border-none outline-none text-sm text-zinc-100 py-2.5 font-mono"
-            />
-          </div>
+          <SearchInput
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setResult(null);
+              setSent(false);
+              setError("");
+            }}
+            placeholder="Nutzername#1234"
+            inputClassName="font-mono"
+            className="flex-1"
+          />
           <Button
             type="submit"
             loading={searching}

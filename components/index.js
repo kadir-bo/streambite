@@ -24,6 +24,8 @@ export { default as ScreenShareTile } from "./cards/ScreenShareTile";
 export { default as ServerInviteRow } from "./cards/ServerInviteRow";
 export { default as StepCard } from "./cards/StepCard";
 export { default as FriendCard } from "./cards/FriendCard";
+export { default as InviteTile } from "./cards/InviteTile";
+export { default as ShowMoreToggle } from "./cards/ShowMoreToggle";
 
 // Channel
 export { default as CategoryHeader } from "./channel/CategoryHeader";
@@ -33,6 +35,7 @@ export { default as ChannelList } from "./channel/ChannelList";
 export { default as ChannelPane } from "./channel/ChannelPane";
 
 export { default as ChannelWelcome } from "./channel/ChannelWelcome";
+export { default as VoiceMemberRow } from "./channel/VoiceMemberRow";
 
 // DM
 export { default as DmHeader } from "./dm/DmHeader";
@@ -49,7 +52,9 @@ export { default as RequestRow } from "./friends/RequestRow";
 export { default as Input } from "./inputs/Input";
 export { default as Select } from "./inputs/Select";
 export { default as MessageInput } from "./inputs/MessageInput";
+export { default as SearchInput } from "./inputs/SearchInput";
 export { default as VolumeSlider } from "./inputs/VolumeSlider";
+export { default as AttachmentPreview } from "./inputs/AttachmentPreview";
 
 // Dropdowns
 export { default as ContextMenu } from "./dropdowns/ContextMenu";
@@ -89,6 +94,7 @@ export { default as UserPanel } from "./layouts/server/UserPanel";
 export { default as VoiceChannelView } from "./layouts/voice/VoiceChannelView";
 export { default as VoiceControls } from "./layouts/voice/VoiceControls";
 export { default as VoiceParticipantCard } from "./layouts/voice/VoiceParticipantCard";
+export { default as UserConntectedPanel } from "./layouts/voice/UserConntectedPanel";
 
 // Media
 export { default as Avatar } from "./media/Avatar";

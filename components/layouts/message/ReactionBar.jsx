@@ -46,7 +46,6 @@ export default function ReactionBar({
         return (
           <motion.button
             key={emoji}
-            whileTap={{ scale: 0.88 }}
             onClick={() => handleToggle(emoji, data)}
             disabled={!!pending}
             title={(data?.users ?? []).join(", ")}

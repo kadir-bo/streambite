@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { CaretRight, Plus } from "@phosphor-icons/react";
 import { springs } from "@/lib";
+import { Button } from "@/components";
 
 export default function CategoryHeader({
   category,
@@ -30,16 +31,15 @@ export default function CategoryHeader({
       </div>
 
       {isOwner && (
-        <motion.button
-          whileTap={{ scale: 0.88 }}
+        <Button
           onClick={(e) => {
             e.stopPropagation();
             onAddChannel?.(category);
           }}
-          className="p-1 pr-3 bg-transparent border-none cursor-pointer rounded flex text-zinc-500 hover:text-zinc-400 transition-colors duration-100"
+          className="p-1 bg-transparent border-none cursor-pointer rounded flex text-zinc-500 hover:text-zinc-400 transition-colors duration-100"
         >
-          <Plus className="text-sm" />
-        </motion.button>
+          <Plus className="text-md" />
+        </Button>
       )}
     </div>
   );

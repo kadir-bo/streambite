@@ -31,7 +31,6 @@ export default function GoogleButton({
     <div className="flex flex-col gap-1.5">
       <motion.button
         type="button"
-        whileTap={{ scale: loading ? 1 : 0.97 }}
         onClick={handleClick}
         disabled={loading}
         className="w-full flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-lg border border-white/10 bg-surface-card text-zinc-100 text-sm font-medium hover:bg-white/5"

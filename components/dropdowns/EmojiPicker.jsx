@@ -2,8 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion } from "motion/react";
-import { MagnifyingGlass } from "@phosphor-icons/react";
 import { dropdown } from "@/lib";
+import { SearchInput } from "@/components";
 
 const EMOJI_GROUPS = [
   {
@@ -96,16 +96,12 @@ export default function EmojiPicker({ onSelect, onClose }) {
       className="absolute bottom-[calc(100%+8px)] right-0 w-70 bg-surface-card border border-white/10 rounded-lg shadow-xl z-100 overflow-hidden"
     >
       <div className="px-2.5 py-2 border-b border-white/5">
-        <div className="flex items-center gap-1.5 bg-(--surface-deep) rounded-lg p-2">
-          <MagnifyingGlass className="text-zinc-500 shrink-0 text-xl md:text-lg" />
-          <input
-            autoFocus
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Suchen…"
-            className="flex-1 bg-transparent border-none outline-none text-sm text-zinc-100"
-          />
-        </div>
+        <SearchInput
+          autoFocus
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Suchen…"
+        />
       </div>
 
       <div className="max-h-50 overflow-y-auto px-2 py-1.5">

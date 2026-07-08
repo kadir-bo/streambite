@@ -53,14 +53,7 @@ export default function HomeTopbar() {
 
         <div className="flex gap-2">
           {/* Add friend */}
-          <button
-            type="button"
-            onClick={() => setAddOpen(true)}
-            title="Freund hinzufügen"
-            className="md:hidden flex items-center justify-center size-10 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
-          >
-            <UserPlus weight="regular" className="text-xl" />
-          </button>
+          <IconBtn icon={UserPlus} onClick={() => setAddOpen(true)} title="Freund hinzufügen" variant="surface" rounded="full" size="xl" mobileOnly />
           {/* Notifications */}
           <button
             ref={inboxBtnRef}

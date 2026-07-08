@@ -13,7 +13,14 @@ const sizes = {
   xl: { size: 56, font: "18px" },
 };
 
-export default function Avatar({ src, name, size = "md", status, className }) {
+export default function Avatar({
+  src,
+  name,
+  size = "md",
+  status,
+  className,
+  isSpeaking = false,
+}) {
   const { size: px, font } = sizes[size] ?? sizes.md;
   const initials = getInitials(name);
   const [failed, setFailed] = useState(false);
@@ -38,13 +45,19 @@ export default function Avatar({ src, name, size = "md", status, className }) {
             alt={name ?? ""}
             referrerPolicy="no-referrer"
             onError={() => setFailed(true)}
-            className="rounded-full object-cover block border border-white/5 aspect-square"
+            className={twMerge(
+              "rounded-full object-cover block border  aspect-square",
+              isSpeaking ? "border-green" : "border-white/10",
+            )}
             style={{ width: px, height: px }}
           />
         </>
       ) : (
         <span
-          className="rounded-full bg-surface-card border border-white/10 flex items-center justify-center font-semibold text-zinc-400 select-none aspect-square"
+          className={twMerge(
+            "rounded-full bg-surface-card border  flex items-center justify-center font-semibold text-zinc-400 select-none aspect-square",
+            isSpeaking ? "border-green" : "border-white/10",
+          )}
           style={{
             width: px,
             height: px,

@@ -270,7 +270,9 @@ export function VoiceProvider({ children }) {
     els.forEach((el) => {
       el.play().catch(() => {});
     });
-    console.log(`[voice] resumed ${els.size} audio element(s) after startAudio()`);
+    console.log(
+      `[voice] resumed ${els.size} audio element(s) after startAudio()`,
+    );
   }
 
   const setMicSensitivity = useCallback((value) => {
@@ -485,7 +487,12 @@ export function VoiceProvider({ children }) {
           stopMicPipeline();
           clearPresence();
           audioElementsRef.current.forEach((el) => {
-            try { el.pause(); el.remove(); } catch (_) { /* ignore */ }
+            try {
+              el.pause();
+              el.remove();
+            } catch (_) {
+              /* ignore */
+            }
           });
           audioElementsRef.current.clear();
           setParticipants([]);
@@ -508,9 +515,7 @@ export function VoiceProvider({ children }) {
         // fälschlich true. Wir stoppen sie hier, damit das Tile nicht
         // ohne aktiven Screen-Share rendert.
         if (room.localParticipant.isScreenShareEnabled) {
-          console.log(
-            "[voice] stale screen share detected — stopping",
-          );
+          console.log("[voice] stale screen share detected — stopping");
           await room.localParticipant
             .setScreenShareEnabled(false)
             .catch(() => {});
@@ -654,7 +659,12 @@ export function VoiceProvider({ children }) {
     clearPresence();
     // Gesammelte Audio-Elemente freigeben
     audioElementsRef.current.forEach((el) => {
-      try { el.pause(); el.remove(); } catch (_) { /* ignore */ }
+      try {
+        el.pause();
+        el.remove();
+      } catch (_) {
+        /* ignore */
+      }
     });
     audioElementsRef.current.clear();
     setParticipants([]);
@@ -802,7 +812,11 @@ export function VoiceProvider({ children }) {
         // Warten bis der Screen-Share-Video-Track wirklich registriert ist,
         // damit snapshotParticipants ihn erfasst → ScreenShareTile rendert.
         for (let i = 0; i < 30; i++) {
-          if (room.localParticipant.getTrackPublication(Track.Source.ScreenShare)?.track) break;
+          if (
+            room.localParticipant.getTrackPublication(Track.Source.ScreenShare)
+              ?.track
+          )
+            break;
           await new Promise((r) => setTimeout(r, 50));
         }
         // Kurz warten bis LiveKit den Audio-Track publiziert hat
@@ -939,9 +953,13 @@ export function VoiceProvider({ children }) {
     };
   }, []);
 
+  const localParticipant = participants?.find((p) => p.isLocal);
+  const isSpeaking = localParticipant?.isSpeaking ?? false;
+
   const value = {
     connection,
     participants,
+    isSpeaking,
     muted,
     deafened,
     screenShare,

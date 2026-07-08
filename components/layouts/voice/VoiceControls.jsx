@@ -7,68 +7,104 @@ import {
   Headphones,
   MonitorPlay,
   PhoneDisconnect,
-  X,
+  Stop,
 } from "@phosphor-icons/react";
 import { ControlButton } from "@/components";
-import { Stop } from "@phosphor-icons/react/dist/ssr";
+import { useVoice } from "@/context";
+import { twMerge } from "tailwind-merge";
 
 /**
- * Floating voice controls bar.
+ * VoiceControls – Konfigurierbare Button-Leiste für Sprachkanal-Steuerung.
  *
- * @param {object}  props
- * @param {boolean} props.muted        – Mic currently muted
- * @param {boolean} props.deafened     – Speaker currently muted
- * @param {boolean} props.screenShare  – Screen share active
- * @param {Function} props.onToggleMute
- * @param {Function} props.onToggleDeafen
- * @param {Function} props.onToggleScreenShare
- * @param {Function} props.onDisconnect
+ * Bezieht State + Callbacks automatisch aus VoiceContext. Keine Props nötig.
+ * Der Parent wählt via `items` aus, welche Buttons erscheinen.
+ *
+ * @param {object}   props
+ * @param {string[]} [props.items] – Button-Keys in gewünschter Reihenfolge
+ *        "speaker"    Speaker-Icon (mobileOnly), toggelt Taubschalten
+ *        "mute"       Mikrofon stummschalten / aktivieren
+ *        "deafen"     Kopfhörer (Taubschalten an/aus)
+ *        "screen"     Bildschirm teilen / beenden
+ *        "disconnect" Sprachkanal verlassen
+ * @param {string}   [props.className]
  */
 export default function VoiceControls({
-  muted,
-  deafened,
-  screenShare,
-  onToggleMute,
-  onToggleDeafen,
-  onToggleScreenShare,
-  onDisconnect,
+  items = ["speaker", "mute", "deafen", "screen", "disconnect"],
+  className = "",
+  buttonClassName = "",
 }) {
+  const voice = useVoice();
+
+  const buttons = {
+    speaker: (
+      <ControlButton
+        className={buttonClassName}
+        key="speaker"
+        active={voice.deafened}
+        onClick={voice.toggleDeafen}
+        mobileOnly
+      >
+        <SpeakerHigh weight="regular" className="text-xl" />
+      </ControlButton>
+    ),
+    mute: (
+      <ControlButton
+        className={buttonClassName}
+        key="mute"
+        danger={voice.muted}
+        onClick={voice.toggleMute}
+      >
+        {voice.muted ? (
+          <MicrophoneSlash weight="regular" className="text-xl" />
+        ) : (
+          <Microphone weight="regular" className="text-xl" />
+        )}
+      </ControlButton>
+    ),
+    deafen: (
+      <ControlButton
+        className={buttonClassName}
+        key="deafen"
+        danger={voice.deafened}
+        onClick={voice.toggleDeafen}
+      >
+        <Headphones weight="regular" className="text-xl" />
+      </ControlButton>
+    ),
+    screen: (
+      <ControlButton
+        className={buttonClassName}
+        key="screen"
+        active={voice.screenShare}
+        onClick={voice.toggleScreenShare}
+      >
+        {voice.screenShare ? (
+          <Stop weight="fill" className="text-xl" />
+        ) : (
+          <MonitorPlay weight="regular" className="text-xl" />
+        )}
+      </ControlButton>
+    ),
+    disconnect: (
+      <ControlButton
+        className={buttonClassName}
+        key="disconnect"
+        danger
+        onClick={voice.disconnect}
+      >
+        <PhoneDisconnect weight="regular" className="text-xl" />
+      </ControlButton>
+    ),
+  };
+
   return (
-    <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center px-4">
-      <div className="flex items-center gap-2 rounded-3xl bg-surface-deep p-3">
-        {/* Speaker / Deafen */}
-        <ControlButton active={deafened} onClick={onToggleDeafen} mobileOnly>
-          <SpeakerHigh weight="regular" className="text-xl" />
-        </ControlButton>
-
-        {/* Microphone */}
-        <ControlButton danger={muted} onClick={onToggleMute}>
-          {muted ? (
-            <MicrophoneSlash weight="regular" className="text-xl" />
-          ) : (
-            <Microphone weight="regular" className="text-xl" />
-          )}
-        </ControlButton>
-
-        {/* Headphones */}
-        <ControlButton danger={deafened} onClick={onToggleDeafen}>
-          <Headphones weight="regular" className="text-xl" />
-        </ControlButton>
-
-        {/* Screen Share */}
-        <ControlButton active={screenShare} onClick={onToggleScreenShare}>
-          {screenShare ? (
-            <Stop weight="fill" className="text-xl" />
-          ) : (
-            <MonitorPlay weight="regular" className="text-xl" />
-          )}
-        </ControlButton>
-
-        {/* Disconnect */}
-        <ControlButton danger onClick={onDisconnect}>
-          <PhoneDisconnect weight="regular" className="text-xl" />
-        </ControlButton>
-      </div>
+    <div
+      className={twMerge(
+        "flex items-center gap-2 rounded-3xl bg-surface-deep p-3",
+        className,
+      )}
+    >
+      {items.map((key) => buttons[key])}
     </div>
   );
 }

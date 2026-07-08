@@ -2,17 +2,27 @@
 
 import { useState, useRef, useCallback } from "react";
 import { AnimatePresence } from "motion/react";
-import { Plus, PaperPlaneTilt, X, Prohibit } from "@phosphor-icons/react";
+import {
+  Plus,
+  PaperPlaneTilt,
+  X,
+  Prohibit,
+  Smiley,
+} from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import {
   sendMessage,
   uploadAttachment,
-  formatBytes,
   touchDmLastMessage,
   touchChannelLastMessage,
   markRead,
 } from "@/lib";
-import { EmojiPicker, ReplyPreview, IconBtn } from "@/components";
+import {
+  EmojiPicker,
+  ReplyPreview,
+  AttachmentPreview,
+  Button,
+} from "@/components";
 import { useIsDesktop } from "@/hooks";
 import { twMerge } from "tailwind-merge";
 
@@ -37,11 +47,12 @@ export default function MessageInput({
   const isDesktop = useIsDesktop();
   const [content, setContent] = useState("");
   const [pending, setPending] = useState(false);
-  const [attachments, setAttachments] = useState([]); // { file, preview, error }
+  const [attachments, setAttachments] = useState([]); // { file, preview }
   const [emojiOpen, setEmojiOpen] = useState(false);
   const [uploadError, setUploadError] = useState(null);
   const textareaRef = useRef(null);
   const fileInputRef = useRef(null);
+  const emojiBtnRef = useRef(null);
 
   function resizeTextarea() {
     const el = textareaRef.current;
@@ -73,7 +84,7 @@ export default function MessageInput({
     const toAdd = [];
     for (const file of files) {
       if (file.size > MAX_FILE_SIZE) {
-        setUploadError(`"${file.name}" ist zu gro\u00df (max. 8 MB).`);
+        setUploadError(`"${file.name}" ist zu groß (max. 8 MB).`);
         continue;
       }
       const preview = file.type.startsWith("image/")
@@ -142,15 +153,13 @@ export default function MessageInput({
 
       if (!serverId) {
         touchDmLastMessage(channelId, {
-          content:
-            trimmed ||
-            (uploadedAttachments.length ? "\uD83D\uDCCE Anhang" : ""),
+          content: trimmed || (uploadedAttachments.length ? "📎 Anhang" : ""),
           authorId: firebaseUser.uid,
         }).catch(console.error);
       } else {
         touchChannelLastMessage(serverId, channelId).catch(console.error);
       }
-      // Sending counts as having read up to this point \u2014 avoids the sender
+      // Sending counts as having read up to this point — avoids the sender
       // immediately seeing their own thread marked unread.
       markRead(firebaseUser.uid, channelId).catch(console.error);
 
@@ -211,50 +220,12 @@ export default function MessageInput({
       </AnimatePresence>
 
       {/* Attachment previews */}
-      {attachments.length > 0 && (
-        <div
-          className={twMerge(
-            "flex flex-wrap gap-2 border-b border-white/5 bg-surface-card px-3.5 py-2.5",
-            replyTarget ? "rounded-none" : "rounded-t-lg",
-          )}
-        >
-          {attachments.map((att, i) => (
-            <div
-              key={i}
-              className="relative overflow-hidden rounded-lg border border-white/5 bg-(--surface-deep)"
-            >
-              {att.preview ? (
-                <>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={att.preview}
-                    alt={att.file.name}
-                    className="block size-20 object-cover"
-                  />
-                </>
-              ) : (
-                <div className="flex size-20 flex-col items-center justify-center gap-1 p-2">
-                  <Paperclip className="text-zinc-500 text-xl md:text-lg" />
-                  <span className="break-all text-center text-2xs leading-tight text-zinc-500">
-                    {att.file.name}
-                  </span>
-                  <span className="text-2xs text-zinc-600">
-                    {formatBytes(att.file.size)}
-                  </span>
-                </div>
-              )}
-              <button
-                onClick={() => removeAttachment(i)}
-                className="absolute right-1 top-1 flex size-5 items-center justify-center rounded-full bg-black/70 text-white"
-              >
-                <X className="text-xl md:text-lg" />
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
+      <AttachmentPreview
+        attachments={attachments}
+        onRemove={removeAttachment}
+      />
 
-      {/* Input container — Figma Design */}
+      {/* Input container */}
       <div
         className={twMerge(
           "flex items-start gap-3 border border-white/5 bg-surface-deep min-h-14 pt-1 pr-1",
@@ -302,15 +273,38 @@ export default function MessageInput({
           )}
         />
 
-        {/* Send button — always visible */}
+        {/* Emoji button — opens popup on click */}
+        <div className="relative">
+          <button
+            ref={emojiBtnRef}
+            type="button"
+            onClick={() => setEmojiOpen((v) => !v)}
+            title="Emoji auswählen"
+            className="flex shrink-0 items-center justify-center size-12 border-none bg-transparent text-zinc-400 cursor-pointer transition-colors hover:text-zinc-200"
+          >
+            <Smiley weight="regular" className="text-2xl" />
+          </button>
+          <AnimatePresence>
+            {emojiOpen && (
+              <EmojiPicker
+                onSelect={insertEmoji}
+                onClose={() => setEmojiOpen(false)}
+              />
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Send button */}
         <button
-          type="button"
           onClick={handleSend}
           title="Senden"
           disabled={!hasContent || pending}
           className={twMerge(
-            "bg-white text-black hover:bg-zinc-200 flex shrink-0 items-center justify-center size-11 rounded-xl border-none cursor-pointer transition-all duration-150",
-            hasContent ? "opacity-100" : "opacity-0",
+            "flex shrink-0 items-center justify-center size-12 rounded-xl border-none transition-all duration-150",
+            "font-semibold leading-none select-none",
+            "bg-surface-raised text-white hover:brightness-110 shadow-xl shadow-deep/20",
+            hasContent ? "opacity-100" : "opacity-20 pointer-events-none",
+            pending && "opacity-50 cursor-not-allowed",
           )}
         >
           {pending ? (
@@ -322,7 +316,7 @@ export default function MessageInput({
       </div>
 
       {uploadError && (
-        <p className="mt-1.5 px-1 text-(--text-xs)">{uploadError}</p>
+        <p className="mt-1.5 px-1 text-xs text-red-400">{uploadError}</p>
       )}
     </div>
   );

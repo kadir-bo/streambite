@@ -14,6 +14,7 @@ import {
   MessageContent,
 } from "@/components";
 import { twMerge } from "tailwind-merge";
+import { useClickOutside } from "@/hooks";
 
 export default function Message({
   message,
@@ -32,6 +33,8 @@ export default function Message({
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const editRef = useRef(null);
+
+  useClickOutside(editRef, () => setEditing(false));
 
   // Auto-focus + resize edit textarea
   useEffect(() => {
@@ -102,33 +105,18 @@ export default function Message({
         )}
       >
         {/* Avatar column — larger with colored bg */}
-        <div className="shrink-0 ml-4 relative">
-          {isFirst ? (
+        <div className="shrink-0 ml-4 relative mb-4">
+          {isFirst && (
             <Avatar
               src={message.authorAvatar}
               name={message.authorName}
               size="lg"
             />
-          ) : (
-            /* Inline timestamp for grouped messages */
-            <AnimatePresence>
-              {hovered && (
-                <motion.span
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.1 }}
-                  className="block text-right text-2xs font-mono text-zinc-600 pt-0.75 select-none absolute -bottom-5 left-4 w-max"
-                >
-                  {formatTime(message.createdAt)}
-                </motion.span>
-              )}
-            </AnimatePresence>
           )}
         </div>
 
         {/* Content column */}
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 relative">
           {/* Reply reference */}
           {message.type === "reply" && message.replyTo && (
             <div className="flex items-center gap-1.5 mb-1 text-xs text-zinc-500 cursor-pointer">
@@ -183,7 +171,7 @@ export default function Message({
               </p>
             </div>
           ) : (
-            <p className="text-base text-zinc-200 leading-relaxed wrap-break-word">
+            <p className="text-base text-zinc-200 leading-relaxed wrap-break-word first:ml-10">
               <MessageContent content={message.content} />
               {message.editedAt && !isDeleted && (
                 <span className="text-2xs text-zinc-600 ml-1.5 italic">
@@ -232,12 +220,29 @@ export default function Message({
               userId={firebaseUser?.uid}
             />
           )}
+
+          {/* Inline timestamp for grouped messages */}
+          <AnimatePresence>
+            {hovered && !isFirst && !editing && (
+              <motion.span
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ duration: 0.1 }}
+                className={
+                  "block text-right text-2xs font-mono text-zinc-200 pt-0.75 select-none w-max border border-white/10 absolute z-10 bg-surface-card left-8 -top-6 px-2 pb-1 -ml-px rounded-md"
+                }
+              >
+                {formatTime(message.createdAt)}
+              </motion.span>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Hover actions */}
         <AnimatePresence>
           {hovered && !editing && !isDeleted && (
-            <div className="absolute top-0 right-4 z-10">
+            <div className="absolute top-0 right-4 z-10" onClick={(e) => e.stopPropagation()}>
               <MessageActions
                 message={message}
                 serverId={serverId}

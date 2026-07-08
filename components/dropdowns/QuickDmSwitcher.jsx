@@ -2,11 +2,11 @@
 
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { MagnifyingGlass, ChatCircleIcon } from "@phosphor-icons/react";
+import { ChatCircleIcon } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import { useFriends } from "@/hooks";
 import { ensureDm } from "@/lib";
-import { Modal, Avatar } from "@/components";
+import { Modal, Avatar, SearchInput } from "@/components";
 import { twMerge } from "tailwind-merge";
 
 export default function QuickDmSwitcher({ open, onClose }) {
@@ -51,16 +51,12 @@ export default function QuickDmSwitcher({ open, onClose }) {
       maxWidth={420}
     >
       <div className="flex flex-col gap-3.5">
-        <div className="flex items-center gap-2 bg-(--surface-deep) border border-white/5 rounded-lg px-3">
-          <MagnifyingGlass className="text-zinc-500 shrink-0 text-xl md:text-lg" />
-          <input
-            autoFocus
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Freund suchen…"
-            className="flex-1 bg-transparent border-none outline-none text-sm text-zinc-100 py-2.5"
-          />
-        </div>
+        <SearchInput
+          autoFocus
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Freund suchen…"
+        />
 
         <div className="max-h-80 overflow-y-auto flex flex-col gap-0.5">
           {friends.length === 0 ? (

@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "motion/react";
 import {
   CopySimple,
   Check,
-  MagnifyingGlass,
   PaperPlaneTilt,
   UsersThree,
 } from "@phosphor-icons/react";
@@ -17,7 +16,7 @@ import {
   touchDmLastMessage,
   inviteToServer,
 } from "@/lib";
-import { ServerIcon, Avatar, Modal } from "@/components";
+import { ServerIcon, Avatar, Modal, SearchInput, Button } from "@/components";
 import { twMerge } from "tailwind-merge";
 
 export default function InviteModal({ open, onClose, server }) {
@@ -104,7 +103,6 @@ export default function InviteModal({ open, onClose, server }) {
           </div>
 
           <motion.button
-            whileTap={{ scale: 0.9 }}
             onClick={handleCopy}
             title={inviteLink}
             className={twMerge(
@@ -152,15 +150,12 @@ export default function InviteModal({ open, onClose, server }) {
             An Freund senden
           </p>
 
-          <div className="flex items-center gap-2 bg-(--surface-deep) border border-white/5 rounded-lg px-3 mb-2.5">
-            <MagnifyingGlass size={14} className="text-zinc-500 shrink-0" />
-            <input
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Freund suchen..."
-              className="flex-1 bg-transparent border-none outline-none text-sm text-zinc-100 py-2.5"
-            />
-          </div>
+          <SearchInput
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Freund suchen..."
+            className="mb-2.5"
+          />
 
           <div className="max-h-55 overflow-y-auto flex flex-col gap-0.5">
             {friends.length === 0 ? (
@@ -191,27 +186,24 @@ export default function InviteModal({ open, onClose, server }) {
                     <span className="flex-1 text-sm font-medium text-zinc-100 truncate">
                       {friend.displayName}
                     </span>
-                    <button
+                    <Button
                       onClick={() => handleSendToFriend(friend)}
                       disabled={sent || sendingTo === friend.id}
-                      className={twMerge(
-                        "flex items-center gap-1 px-2.5 py-1.25 rounded-sm border text-xs font-semibold shrink-0",
-                        sent
-                          ? "bg-white/10 text-green-500 border-white/10 cursor-default"
-                          : "bg-surface-card text-zinc-400 border-white/10 cursor-pointer",
-                        sendingTo === friend.id && "opacity-60",
-                      )}
+                      size="sm"
+                      className={"py-2 px-3 text-xs"}
                     >
                       {sent ? (
                         <>
-                          <Check size={12} weight="bold" /> Gesendet
+                          <Check className="text-sm" weight="bold" />
+                          <span>Gesendet</span>
                         </>
                       ) : (
                         <>
-                          <PaperPlaneTilt size={12} weight="bold" /> Senden
+                          <PaperPlaneTilt className="text-sm" weight="bold" />
+                          <span>Senden</span>
                         </>
                       )}
-                    </button>
+                    </Button>
                   </div>
                 );
               })

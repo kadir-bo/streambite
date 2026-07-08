@@ -6,20 +6,20 @@ import {
   Warning,
   PhoneCall,
   PhoneDisconnect,
-  CaretDown,
-  CaretUp,
   UserPlus,
   UsersThree,
   CaretLeftIcon,
 } from "@phosphor-icons/react";
 import { useVoice, useLayout } from "@/context";
 import {
+  IconBtn,
+  InviteTile,
+  ShowMoreToggle,
   ScreenShareTile,
   InviteModal,
   VoiceControls,
   VoiceParticipantCard,
 } from "@/components";
-import { twMerge } from "tailwind-merge";
 
 const MAX_VISIBLE = 4;
 
@@ -28,14 +28,9 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
     connection,
     participants,
     screenShareHasAudio,
-    muted,
-    deafened,
     screenShare,
     connect,
     disconnect,
-    toggleMute,
-    toggleDeafen,
-    toggleScreenShare,
   } = useVoice();
   const { showList } = useLayout();
   const [showAll, setShowAll] = useState(false);
@@ -68,12 +63,14 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
       {/* Topbar */}
       {isConnected && (
         <div className="flex items-center justify-between px-4 py-3 border-b border-white/5 md:hidden">
-          <button
+          <IconBtn
+            icon={CaretLeftIcon}
             onClick={showList}
-            className="flex items-center justify-center size-10 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
-          >
-            <CaretLeftIcon className="text-xl" weight="regular" />
-          </button>
+            title="Zurück"
+            variant="surface"
+            rounded="full"
+            size="xl"
+          />
 
           <div className="flex items-center gap-2">
             <SpeakerHigh weight="fill" className="text-white text-xl" />
@@ -83,19 +80,21 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
           </div>
 
           <div className="flex items-center gap-2">
-            <button
+            <IconBtn
+              icon={UserPlus}
               onClick={() => setInviteOpen(true)}
               title="Freunde einladen"
-              className="flex items-center justify-center size-10 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
-            >
-              <UserPlus weight="regular" className="text-xl" />
-            </button>
-            <button
+              variant="surface"
+              rounded="full"
+              size="xl"
+            />
+            <IconBtn
+              icon={UsersThree}
               title="Mitglieder"
-              className="flex items-center justify-center size-10 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
-            >
-              <UsersThree weight="regular" className="text-xl" />
-            </button>
+              variant="surface"
+              rounded="full"
+              size="xl"
+            />
           </div>
         </div>
       )}
@@ -147,37 +146,20 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
                     isOwner={isOwner}
                   />
                 ))}
-                <button
-                  onClick={() => setInviteOpen(true)}
-                  className={twMerge(
-                    "flex flex-col items-center justify-center gap-2 rounded-2xl bg-surface-deep border border-white/5 aspect-square cursor-pointer transition-colors hover:bg-surface-hover",
-                  )}
-                >
-                  <div className="flex items-center justify-center size-16 rounded-full border-2 border-zinc-600">
-                    <UserPlus weight="regular" className="text-2xl text-zinc-400" />
-                  </div>
-                  <span className="text-sm text-zinc-400">Einladen</span>
-                </button>
+                <InviteTile onClick={() => setInviteOpen(true)} />
               </div>
               {hasHidden && (
-                <button
+                <ShowMoreToggle
+                  showAll={showAll}
+                  hiddenCount={hiddenCount}
                   onClick={() => setShowAll((v) => !v)}
-                  className={twMerge(
-                    "mt-3 shrink-0 flex cursor-pointer items-center justify-center gap-1.5 self-center rounded-2xl border border-white/5 bg-surface-deep px-4 py-2 text-xs font-medium text-zinc-400 hover:bg-surface-hover",
-                  )}
-                >
-                  {showAll ? (
-                    <><CaretUp size={14} /> Weniger anzeigen</>
-                  ) : (
-                    <><CaretDown size={14} /> {hiddenCount} weitere anzeigen</>
-                  )}
-                </button>
+                />
               )}
             </div>
           ) : (
             /* === Kein ScreenShare: Grid füllt Höhe (original) === */
             <>
-              <div className="grid grid-cols-2 gap-3 justify-center max-w-lg mx-auto w-full h-full items-center">
+              <div className="grid grid-cols-2 gap-3 justify-center max-w-lg mx-auto w-full h-max my-auto items-center">
                 {visibleParticipants.map((p) => (
                   <VoiceParticipantCard
                     key={p.identity}
@@ -185,29 +167,14 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
                     isOwner={isOwner}
                   />
                 ))}
-                <button
-                  onClick={() => setInviteOpen(true)}
-                  className={twMerge(
-                    "flex flex-col items-center justify-center gap-2 rounded-2xl bg-surface-deep border border-white/5 aspect-square cursor-pointer transition-colors hover:bg-surface-hover",
-                  )}
-                >
-                  <div className="flex items-center justify-center size-16 rounded-full border-2 border-zinc-600">
-                    <UserPlus weight="regular" className="text-2xl text-zinc-400" />
-                  </div>
-                  <span className="text-sm text-zinc-400">Einladen</span>
-                </button>
+                <InviteTile onClick={() => setInviteOpen(true)} />
               </div>
               {hasHidden && (
-                <button
+                <ShowMoreToggle
+                  showAll={showAll}
+                  hiddenCount={hiddenCount}
                   onClick={() => setShowAll((v) => !v)}
-                  className="shrink-0 flex cursor-pointer items-center justify-center gap-1.5 self-center rounded-2xl border border-white/5 bg-surface-deep px-4 py-2 text-xs font-medium text-zinc-400 hover:bg-surface-hover"
-                >
-                  {showAll ? (
-                    <><CaretUp size={14} /> Weniger anzeigen</>
-                  ) : (
-                    <><CaretDown size={14} /> {hiddenCount} weitere anzeigen</>
-                  )}
-                </button>
+                />
               )}
             </>
           )}
@@ -217,7 +184,7 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
           <button
             onClick={() => connect(serverId, channel.id, channel.name)}
             disabled={isConnecting}
-            className="flex items-center gap-2 rounded-2xl bg-surface-deep px-6 py-3 text-base font-semibold text-white cursor-pointer hover:bg-surface-hover disabled:opacity-60 disabled:cursor-not-allowed duration-100 border border-surface-border/5 hover:border-surface-border"
+            className="flex items-center gap-2 rounded-2xl bg-surface-deep px-6 py-3 text-base font-medium text-white cursor-pointer hover:bg-surface-hover disabled:opacity-60 disabled:cursor-not-allowed duration-100 border border-surface-border/5 hover:border-surface-border"
           >
             <PhoneCall weight="regular" className="text-xl" />
             {isConnecting ? "Verbinde…" : `${channel.name} beitreten`}
@@ -227,15 +194,9 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
 
       {/* Floating Voice Controls */}
       {isConnected && (
-        <VoiceControls
-          muted={muted}
-          deafened={deafened}
-          screenShare={screenShare}
-          onToggleMute={toggleMute}
-          onToggleDeafen={toggleDeafen}
-          onToggleScreenShare={toggleScreenShare}
-          onDisconnect={disconnect}
-        />
+        <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center px-4">
+          <VoiceControls />
+        </div>
       )}
 
       {/* Connected elsewhere */}
