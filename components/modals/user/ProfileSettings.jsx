@@ -16,6 +16,7 @@ import {
   Button,
   ConfirmModal,
   ContextMenu,
+  StatusDot,
 } from "@/components";
 
 const STATUS_OPTIONS = [
@@ -24,17 +25,6 @@ const STATUS_OPTIONS = [
   { value: "idle", label: "Abwesend", color: "#f5340b" },
   { value: "offline", label: "Offline", color: "#686868" },
 ];
-
-// ────────────────────────────── Helper ──────────────────────────────
-
-function StatusDot({ color }) {
-  return (
-    <span
-      className="size-2.5 rounded-full shrink-0"
-      style={{ backgroundColor: color }}
-    />
-  );
-}
 
 // ────────────────────────────── Component ──────────────────────────────
 

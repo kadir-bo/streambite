@@ -38,13 +38,13 @@ export default function Avatar({ src, name, size = "md", status, className }) {
             alt={name ?? ""}
             referrerPolicy="no-referrer"
             onError={() => setFailed(true)}
-            className="rounded-full object-cover block"
+            className="rounded-full object-cover block border border-white/5"
             style={{ width: px, height: px }}
           />
         </>
       ) : (
         <span
-          className="rounded-full bg-zinc-800 border border-white/10 flex items-center justify-center font-semibold text-zinc-400 select-none"
+          className="rounded-full bg-surface-card border border-white/10 flex items-center justify-center font-semibold text-zinc-400 select-none"
           style={{
             width: px,
             height: px,

@@ -52,7 +52,7 @@ export default function UsernamePromptModal({ open, uid, tag, onDone }) {
             animate="visible"
             exit="exit"
             variants={modal}
-            className="bg-zinc-800 rounded-xl border border-white/5 w-full max-w-100 p-6"
+            className="bg-surface-card rounded-xl border border-white/5 w-full max-w-100 p-6"
           >
             <div className="flex flex-col items-center gap-2.5 mb-5 text-center">
               <UserCircle size={36} className="text-zinc-500" />

@@ -100,7 +100,7 @@ export default function CreateChannelModal({ open, onClose, category }) {
                       "flex shrink-0 size-9 items-center justify-center rounded-lg",
                       active
                         ? "bg-zinc-700 text-zinc-100"
-                        : "bg-zinc-800 text-zinc-500",
+                        : "bg-surface-card text-zinc-500",
                     )}
                   >
                     {t.icon}
@@ -131,7 +131,7 @@ export default function CreateChannelModal({ open, onClose, category }) {
             })}
           </div>
         ) : (
-          <div className="flex items-center gap-2 p-3 rounded-lg border border-white/5 bg-zinc-800">
+          <div className="flex items-center gap-2 p-3 rounded-lg border border-white/5 bg-surface-card">
             {type === "text" ? <Hash size={20} /> : <SpeakerHigh size={20} />}
             <span className="text-sm text-zinc-400">
               {type === "text" ? "Textkanal" : "Sprachkanal"}

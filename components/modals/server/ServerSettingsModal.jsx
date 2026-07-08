@@ -230,7 +230,7 @@ export default function ServerSettingsModal({ open, onClose, server }) {
                 "flex items-center gap-1.25 px-2.5 py-1 rounded-sm border border-white/10 text-xs font-semibold cursor-pointer shrink-0 transition-all duration-150",
                 copied
                   ? "bg-white/10 text-green-500"
-                  : "bg-zinc-800 text-zinc-400",
+                  : "bg-surface-card text-zinc-400",
               )}
             >
               {copied ? (

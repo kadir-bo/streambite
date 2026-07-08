@@ -8,7 +8,7 @@ import { CaretLeft } from "@phosphor-icons/react";
  * Gemeinsames Basis-Styling für alle Topbars/Header-Leisten.
  *
  * - Höhe: h-12 (48px)
- * - Hintergrund: bg-zinc-900
+ * - Hintergrund: bg-surface-card
  * - Unterkante: border-b border-white/5
  * - Flex: shrink-0, items-center
  *

@@ -56,7 +56,7 @@ export default function ReactionBar({
               pending ? "cursor-wait" : "cursor-pointer",
               hasReacted
                 ? "bg-white/12 border border-white/20"
-                : "bg-zinc-800 border border-white/5",
+                : "bg-surface-card border border-white/5",
             )}
           >
             <span className="text-base">{emoji}</span>

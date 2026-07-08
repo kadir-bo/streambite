@@ -192,7 +192,7 @@ export default function MessageInput({
   if (blocked) {
     return (
       <div className="shrink-0 px-4 pb-5">
-        <div className="flex items-center gap-2.5 rounded-lg border border-white/5 bg-zinc-800 px-4 py-3 text-sm text-zinc-500">
+        <div className="flex items-center gap-2.5 rounded-lg border border-white/5 bg-surface-card px-4 py-3 text-sm text-zinc-500">
           <Prohibit className="shrink-0 text-xl md:text-lg" />
           {iBlockedThem
             ? "Du hast diese Person blockiert. Entblocke sie, um wieder Nachrichten zu senden."
@@ -214,7 +214,7 @@ export default function MessageInput({
       {attachments.length > 0 && (
         <div
           className={twMerge(
-            "flex flex-wrap gap-2 border-b border-white/5 bg-zinc-800 px-3.5 py-2.5",
+            "flex flex-wrap gap-2 border-b border-white/5 bg-surface-card px-3.5 py-2.5",
             replyTarget ? "rounded-none" : "rounded-t-lg",
           )}
         >

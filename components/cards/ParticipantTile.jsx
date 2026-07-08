@@ -41,7 +41,7 @@ export default function ParticipantTile({ participant, isOwner }) {
   return (
     <div
       {...longPress.handlers}
-      className="group relative flex select-none flex-col items-center gap-3 rounded-lg bg-zinc-800 border border-white/5 aspect-video p-4 w-full min-w-0 justify-center"
+      className="group relative flex select-none flex-col items-center gap-3 rounded-lg bg-surface-card border border-white/5 aspect-video p-4 w-full min-w-0 justify-center"
     >
       {canManage && (
         <DotMenu onClick={openMenu} className="absolute right-1.5 top-1.5" />

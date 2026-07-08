@@ -16,7 +16,7 @@ export default function PendingInviteButton({ invite, onOpen }) {
         className="block w-full bg-transparent border-none p-0"
       >
         <div className="px-1.5">
-          <div className="relative flex size-8 items-center justify-center overflow-hidden rounded-lg border-2 border-dashed border-(--accent) bg-zinc-800 cursor-pointer">
+          <div className="relative flex size-8 items-center justify-center overflow-hidden rounded-lg border-2 border-dashed border-(--accent) bg-surface-card cursor-pointer">
             <ServerIcon
               name={invite.serverName}
               iconUrl={invite.serverIconUrl}

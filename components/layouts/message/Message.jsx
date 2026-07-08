@@ -213,7 +213,7 @@ export default function Message({
                     href={att.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-2 px-3 py-2 bg-zinc-800 border border-white/5 rounded-lg text-sm text-zinc-400 no-underline"
+                    className="inline-flex items-center gap-2 px-3 py-2 bg-surface-card border border-white/5 rounded-lg text-sm text-zinc-400 no-underline"
                   >
                     📎 {att.name}
                   </a>

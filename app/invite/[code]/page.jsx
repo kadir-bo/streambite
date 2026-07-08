@@ -80,7 +80,7 @@ export default function InvitePage() {
       variants={pageTransition}
       className="min-h-dvh flex items-center justify-center bg-zinc-950 p-5"
     >
-      <div className="bg-zinc-800 rounded-xl border border-white/5 p-8 w-full max-w-100 text-center flex flex-col items-center gap-5">
+      <div className="bg-surface-card rounded-xl border border-white/5 p-8 w-full max-w-100 text-center flex flex-col items-center gap-5">
         {/* Server Icon */}
         <div className="size-20 rounded-xl bg-zinc-700 border border-white/5 flex items-center justify-center overflow-hidden">
           <ServerIcon name={server.name} iconUrl={server.iconUrl} size={80} />

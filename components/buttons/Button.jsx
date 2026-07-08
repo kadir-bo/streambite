@@ -7,7 +7,7 @@ const variantStyles = {
   primary:
     "bg-surface-raised text-white hover:brightness-110 shadow-xl shadow-deep/20",
   ghost:
-    "bg-zinc-800 text-zinc-300 border border-white/[0.08] hover:bg-zinc-700 hover:text-white",
+    "bg-surface-card text-zinc-300 border border-white/[0.08] hover:bg-zinc-700 hover:text-white",
   danger: "bg-red-500 text-white hover:bg-red-600",
 };
 

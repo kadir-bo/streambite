@@ -111,7 +111,7 @@ export default function InviteModal({ open, onClose, server }) {
               "flex items-center gap-1.5 px-3 py-1.75 rounded-lg border text-sm font-semibold shrink-0 transition-colors duration-150",
               copied
                 ? "bg-white/10 text-green-500 border-green-500 cursor-default"
-                : "bg-(--surface-deep) text-zinc-100 border-white/5 hover:bg-zinc-800 cursor-pointer",
+                : "bg-(--surface-deep) text-zinc-100 border-white/5 hover:bg-surface-card cursor-pointer",
             )}
           >
             <AnimatePresence mode="wait" initial={false}>
@@ -198,7 +198,7 @@ export default function InviteModal({ open, onClose, server }) {
                         "flex items-center gap-1 px-2.5 py-1.25 rounded-sm border text-xs font-semibold shrink-0",
                         sent
                           ? "bg-white/10 text-green-500 border-white/10 cursor-default"
-                          : "bg-zinc-800 text-zinc-400 border-white/10 cursor-pointer",
+                          : "bg-surface-card text-zinc-400 border-white/10 cursor-pointer",
                         sendingTo === friend.id && "opacity-60",
                       )}
                     >

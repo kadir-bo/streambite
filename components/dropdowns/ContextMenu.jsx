@@ -19,8 +19,8 @@ export default function ContextMenu({
   width,
   mode = "floating", // "floating" | "inline"
   triggerRef, // optional — wird in useClickOutside eingeschlossen, sodass
-              // Klick auf den Trigger NICHT als "outside" zählt (wichtig
-              // für toggle-Buttons im inline-Modus)
+  // Klick auf den Trigger NICHT als "outside" zählt (wichtig
+  // für toggle-Buttons im inline-Modus)
 }) {
   const onCloseRef = useRef(onClose);
   const closeTimerRef = useRef(null);
@@ -147,7 +147,7 @@ export default function ContextMenu({
             variants={dropdown}
             onClick={(e) => e.stopPropagation()}
             className={twMerge(
-              "absolute top-full left-0 right-0 mt-1 z-50 bg-zinc-900 border border-white/5 rounded-lg p-1 shadow-xl",
+              "absolute top-full left-0 right-0 mt-1 z-50 bg-surface-card border border-white/5 rounded-lg p-1 shadow-xl",
               !width && "min-w-50",
             )}
             style={width ? { width } : undefined}
@@ -172,7 +172,7 @@ export default function ContextMenu({
           onClick={(e) => e.stopPropagation()}
           onMouseLeave={submenu ? scheduleCloseSubmenu : undefined}
           className={twMerge(
-            "z-500 bg-zinc-900 border border-white/5 rounded-lg p-1 shadow-xl",
+            "z-500 bg-surface-card border border-white/5 rounded-lg p-1 shadow-xl",
             !width && "min-w-50",
           )}
           style={{
@@ -204,7 +204,7 @@ export default function ContextMenu({
           onClick={(e) => e.stopPropagation()}
           onMouseEnter={cancelCloseSubmenu}
           onMouseLeave={scheduleCloseSubmenu}
-          className="z-500 rounded-lg border border-white/5 bg-zinc-900 p-1 shadow-xl"
+          className="z-500 rounded-lg border border-white/5 bg-surface-card p-1 shadow-xl"
           style={{
             position: "fixed",
             left: submenu.left,

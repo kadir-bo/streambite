@@ -17,9 +17,9 @@ const Input = forwardRef(function Input(
       <input
         ref={ref}
         className={twMerge(
-          "w-full outline-none transition-all duration-150 bg-zinc-800 rounded-lg px-3 py-2.5 text-sm placeholder:text-sm text-zinc-100 border",
+          "w-full outline-none transition-all duration-150 bg-surface-card rounded-lg px-3 py-2.5 text-sm placeholder:text-sm text-zinc-100 border",
           error ? "border-red-500" : "border-white/10",
-          "focus:border-(--accent)/40 focus:ring-1 focus:ring-(--accent)/20 focus:bg-zinc-800/80",
+          "focus:border-(--accent)/40 focus:ring-1 focus:ring-(--accent)/20 focus:bg-surface-card/80",
           className,
         )}
         onFocus={(e) => {

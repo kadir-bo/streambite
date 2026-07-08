@@ -132,7 +132,7 @@ export default function ProductShowcase() {
         {/* Browser-Fenster Mockup */}
         <div className="rounded-xl overflow-hidden border border-white/10 shadow-2xl shadow-black/50">
           {/* Fenster-Titlebar */}
-          <div className="bg-zinc-900 px-4 py-3 flex items-center gap-2 border-b border-white/5">
+          <div className="bg-surface-card px-4 py-3 flex items-center gap-2 border-b border-white/5">
             <div className="flex gap-1.5">
               <div className="size-2.5 rounded-full bg-red-500/80" />
               <div className="size-2.5 rounded-full bg-yellow-500/80" />
@@ -152,10 +152,10 @@ export default function ProductShowcase() {
               <div className="size-10 rounded-2xl bg-(--accent) flex items-center justify-center text-white text-sm font-bold">
                 S
               </div>
-              <div className="w-8 h-px bg-zinc-800" />
-              <div className="size-10 rounded-2xl bg-zinc-800/60 border border-white/5" />
-              <div className="size-10 rounded-2xl bg-zinc-800/60 border border-white/5" />
-              <div className="size-10 rounded-2xl bg-zinc-800/60 border border-white/5" />
+              <div className="w-8 h-px bg-surface-card" />
+              <div className="size-10 rounded-2xl bg-surface-card/60 border border-white/5" />
+              <div className="size-10 rounded-2xl bg-surface-card/60 border border-white/5" />
+              <div className="size-10 rounded-2xl bg-surface-card/60 border border-white/5" />
             </div>
 
             {/* Channel-Seitenleiste – klickbar */}
@@ -172,7 +172,7 @@ export default function ProductShowcase() {
                       "flex items-center gap-2 w-full px-2 py-1.5 rounded-md text-sm text-left transition-all duration-150",
                       ch === activeChannel
                         ? "bg-(--accent)/10 text-(--accent) font-medium"
-                        : "text-zinc-400 hover:bg-zinc-800/40",
+                        : "text-zinc-400 hover:bg-surface-card/40",
                     )}
                   >
                     <span className="text-zinc-600 shrink-0">
@@ -211,7 +211,7 @@ export default function ProductShowcase() {
                     }}
                     className="flex gap-3"
                   >
-                    <div className="size-8 rounded-full bg-zinc-800 shrink-0 flex items-center justify-center text-xs font-medium text-zinc-400">
+                    <div className="size-8 rounded-full bg-surface-card shrink-0 flex items-center justify-center text-xs font-medium text-zinc-400">
                       {m.name[0]}
                     </div>
                     <div className="min-w-0">
@@ -233,7 +233,7 @@ export default function ProductShowcase() {
 
               {/* Input-Bereich */}
               <div className="px-4 pb-4 shrink-0">
-                <div className="rounded-lg bg-zinc-900 border border-white/5 px-4 py-2.5 text-sm text-zinc-500">
+                <div className="rounded-lg bg-surface-card border border-white/5 px-4 py-2.5 text-sm text-zinc-500">
                   Nachricht an #{activeChannel} …
                 </div>
               </div>
@@ -242,7 +242,7 @@ export default function ProductShowcase() {
         </div>
 
         {/* Floating-Badge – dezenter Label-Stil, kein Button-Look */}
-        <div className="absolute -bottom-3 -right-3 md:-bottom-4 md:-right-4 rounded-full border border-white/[0.08] bg-zinc-900/80 backdrop-blur-sm px-4 py-1.5 text-xs font-medium text-zinc-300 shadow-xl shadow-black/30">
+        <div className="absolute -bottom-3 -right-3 md:-bottom-4 md:-right-4 rounded-full border border-white/[0.08] bg-surface-card/80 backdrop-blur-sm px-4 py-1.5 text-xs font-medium text-zinc-300 shadow-xl shadow-black/30">
           <span className="inline-block size-1.5 rounded-full bg-emerald-400 mr-1.5 align-middle" />
           Echtzeit • überall
         </div>

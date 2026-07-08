@@ -1,13 +1,8 @@
-import { twMerge } from "tailwind-merge";
-
-export default function StatusDot({ color, width, height, relative = false }) {
+export default function StatusDot({ color }) {
   return (
     <span
-      className={twMerge(
-        "inline-block size-2 shrink-0 rounded-full",
-        relative ? "" : "absolute right-px bottom-px",
-      )}
-      style={{ background: color, width: width, height: height }}
+      className="size-2.5 rounded-full shrink-0"
+      style={{ backgroundColor: color }}
     />
   );
 }

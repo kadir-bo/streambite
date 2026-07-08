@@ -47,7 +47,7 @@ export default function RequestRow({ user }) {
             "flex size-6.5 max-sm:size-10 cursor-pointer items-center justify-center rounded-full border border-white/5 text-green-500",
             loading === "accept"
               ? "bg-white/10"
-              : "bg-zinc-800 hover:bg-white/5",
+              : "bg-surface-card hover:bg-white/5",
           )}
         >
           <Check size={13} weight="bold" className="max-sm:size-4" />
@@ -60,7 +60,7 @@ export default function RequestRow({ user }) {
             "flex size-6.5 max-sm:size-10 cursor-pointer items-center justify-center rounded-full border border-white/5 text-red-500",
             loading === "decline"
               ? "bg-white/10"
-              : "bg-zinc-800 hover:bg-white/5",
+              : "bg-surface-card hover:bg-white/5",
           )}
         >
           <X size={13} weight="bold" className="max-sm:size-4" />
