@@ -48,13 +48,19 @@ export default function ScreenShareTile({ participant }) {
       `[ScreenShareTile] effect — Track gefunden! Attache... (identity=${participant.identity} isLocal=${participant.isLocal} streamJoined=${streamJoined})`,
     );
     // Lokale Teilnehmer werden automatisch attached, sobald der Track da ist.
-    // Remote: erst nach Klick auf "Stream beitreten".
-    if (streamJoined || participant.isLocal) {
-      track.attach(el);
-      el.play().catch((err) =>
-        console.warn("[ScreenShareTile] el.play() failed:", err),
-      );
-    }
+      // Remote: erst nach Klick auf "Stream beitreten".
+      if (streamJoined || participant.isLocal) {
+        track.attach(el);
+        // play() per rAF verzögern — React Strict Mode ruft Effekte 2× auf,
+        // die detach → attach Sequenz löst einen Browser-Load-Reset aus,
+        // und ein sofortiges play() fliegt mit AbortError raus.
+        // rAF gibt dem srcObject-Change Zeit zum Settlen.
+        requestAnimationFrame(() => {
+          el.play().catch((err) =>
+            console.warn("[ScreenShareTile] el.play() failed:", err),
+          );
+        });
+      }
     return () => {
       console.log(
         `[ScreenShareTile] cleanup — detach track (identity=${participant.identity})`,
@@ -72,9 +78,11 @@ export default function ScreenShareTile({ participant }) {
       try {
         track.detach(el);
         track.attach(el);
-        el.play().catch((err) =>
-          console.warn("[ScreenShareTile] reattach play() failed:", err),
-        );
+        requestAnimationFrame(() => {
+          el.play().catch((err) =>
+            console.warn("[ScreenShareTile] reattach play() failed:", err),
+          );
+        });
       } catch (_) {
         /* ignore */
       }
