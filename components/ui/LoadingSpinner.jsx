@@ -1,0 +1,16 @@
+export function LoadingSpinner({ label, accent, className = "" }) {
+  return (
+    <div className={`flex h-full w-full items-center justify-center bg-zinc-950 ${className}`}>
+      <div className="flex flex-col items-center gap-3">
+        <div
+          className={`size-6 rounded-full border-2 border-white/10 animate-spin ${
+            accent ? "border-t-(--accent)" : "border-t-zinc-400"
+          }`}
+        />
+        {label && (
+          <span className="text-xs font-medium text-zinc-500">{label}</span>
+        )}
+      </div>
+    </div>
+  );
+}

@@ -123,5 +123,9 @@ export { default as VoiceVideoSettings } from "./modals/user/VoiceVideoSettings"
 export { default as MarkdownText } from "./text/MarkdownText";
 export { default as SectionLabel } from "./text/SectionLabel";
 
+// UI (shared fallbacks)
+export { ErrorFallback } from "./ui/ErrorFallback";
+export { LoadingSpinner } from "./ui/LoadingSpinner";
+
 // Providers
 export { default as Providers } from "./providers/Providers";
