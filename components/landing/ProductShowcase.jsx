@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import { motion, useInView } from "motion/react";
 import { twMerge } from "tailwind-merge";
-import { motionTokens } from "@/lib/motion-tokens";
+import { motionTokens } from "@/lib";
 
 const channels = ["Willkommen", "Ankündigungen", "Chat", "Voice", "Stream"];
 

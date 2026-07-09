@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { motion } from "motion/react";
 import { Button } from "@/components";
-import { motionTokens } from "@/lib/motion-tokens";
+import { motionTokens } from "@/lib";
 import { ArrowDownIcon } from "@phosphor-icons/react";
 
 export default function HeroSection() {

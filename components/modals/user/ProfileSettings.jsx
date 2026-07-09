@@ -3,14 +3,8 @@
 import { useState, useRef, useReducer } from "react";
 import { Key, CaretDown, Trash, Check } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
-import {
-  updateUserDocument,
-  setUsername,
-  deleteUserAccount,
-  reauthWithPasswordAndDelete,
-  ReAuthRequiredError,
-  logoutUser,
-} from "@/lib";
+import { updateUserDocument, setUsername } from "@/lib";
+import { useAccountDeletion } from "@/hooks";
 import {
   Avatar,
   Button,
@@ -46,13 +40,18 @@ export default function ProfileSettings({ open }) {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
-  // Delete account state
-  const [deleteOpen, setDeleteOpen] = useState(false);
-  const [deleting, setDeleting] = useState(false);
-  const [deleteError, setDeleteError] = useState("");
-  const [reauthEmail, setReauthEmail] = useState(null);
-  const [reauthPassword, setReauthPassword] = useState("");
-  const [reauthSaving, setReauthSaving] = useState(false);
+  const {
+    deleteOpen,
+    setDeleteOpen,
+    deleting,
+    deleteError,
+    reauthEmail,
+    reauthPassword,
+    setReauthPassword,
+    reauthSaving,
+    handleDeleteAccount,
+    handleReauthAndDelete,
+  } = useAccountDeletion(firebaseUser);
 
   // Status dropdown
   const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
@@ -123,41 +122,6 @@ export default function ProfileSettings({ open }) {
       setError(err?.message || "Fehler beim Speichern");
     } finally {
       setSaving(false);
-    }
-  }
-
-  async function handleDeleteAccount() {
-    setDeleteError("");
-    setDeleting(true);
-    try {
-      await deleteUserAccount(firebaseUser.uid);
-      await logoutUser();
-    } catch (err) {
-      if (err instanceof ReAuthRequiredError) {
-        setReauthEmail(err.email);
-        setDeleteOpen(false);
-        setDeleting(false);
-        return;
-      }
-      setDeleteError(err?.message || "Fehler beim Löschen des Accounts");
-      setDeleting(false);
-    }
-  }
-
-  async function handleReauthAndDelete() {
-    if (!reauthPassword.trim()) return;
-    setReauthSaving(true);
-    setDeleteError("");
-    try {
-      await reauthWithPasswordAndDelete(reauthPassword);
-      await logoutUser();
-    } catch (err) {
-      setDeleteError(
-        err?.message?.includes("invalid-credential")
-          ? "Falsches Passwort. Versuche es erneut."
-          : err?.message || "Fehler beim Löschen des Accounts",
-      );
-      setReauthSaving(false);
     }
   }
 

@@ -8,7 +8,7 @@ import {
   StackSimple,
   EyeSlash,
 } from "@phosphor-icons/react";
-import { motionTokens } from "@/lib/motion-tokens";
+import { motionTokens } from "@/lib";
 import { Card } from "@/components";
 
 const securityItems = [

@@ -4,13 +4,7 @@ import { useState, useRef, useCallback } from "react";
 import { AnimatePresence } from "motion/react";
 import { Plus, PaperPlaneTilt, Prohibit, Smiley } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
-import {
-  sendMessage,
-  uploadAttachment,
-  touchDmLastMessage,
-  touchChannelLastMessage,
-  markRead,
-} from "@/lib";
+import { sendMessageWithAttachments } from "@/lib";
 import {
   EmojiPicker,
   ReplyPreview,
@@ -110,52 +104,15 @@ export default function MessageInput({
     setUploadError(null);
 
     try {
-      // Upload attachments first
-      const uploadedAttachments = await Promise.all(
-        attachments.map(async (att) => {
-          const url = await uploadAttachment(serverId, channelId, att.file);
-          return {
-            url,
-            type: att.type,
-            name: att.file.name,
-            size: att.file.size,
-          };
-        }),
-      );
-
-      const replyTo = replyTarget
-        ? {
-            messageId: replyTarget.id,
-            authorId: replyTarget.authorId,
-            authorName: replyTarget.authorName,
-            authorAvatar: replyTarget.authorAvatar ?? null,
-            content: (replyTarget.content ?? "").slice(0, 100),
-          }
-        : null;
-
-      await sendMessage(serverId, channelId, {
+      await sendMessageWithAttachments({
+        serverId,
+        channelId,
         content: trimmed,
-        authorId: firebaseUser.uid,
-        authorName:
-          userDoc?.displayName ?? firebaseUser.displayName ?? "Nutzer",
-        authorAvatar: userDoc?.avatarUrl ?? null,
-        type: replyTo ? "reply" : "default",
-        replyTo,
-        attachments: uploadedAttachments,
-        reactions: {},
+        attachments,
+        replyTarget,
+        firebaseUser,
+        userDoc,
       });
-
-      if (!serverId) {
-        touchDmLastMessage(channelId, {
-          content: trimmed || (uploadedAttachments.length ? "📎 Anhang" : ""),
-          authorId: firebaseUser.uid,
-        }).catch(console.error);
-      } else {
-        touchChannelLastMessage(serverId, channelId).catch(console.error);
-      }
-      // Sending counts as having read up to this point — avoids the sender
-      // immediately seeing their own thread marked unread.
-      markRead(firebaseUser.uid, channelId).catch(console.error);
 
       setContent("");
       setAttachments([]);

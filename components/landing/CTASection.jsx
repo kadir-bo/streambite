@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import { Sparkle, ArrowRight } from "@phosphor-icons/react";
-import { motionTokens } from "@/lib/motion-tokens";
+import { motionTokens } from "@/lib";
 
 export default function CTASection() {
   const router = useRouter();

@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "motion/react";
 import { LockSimple, Lightning } from "@phosphor-icons/react";
-import { motionTokens } from "@/lib/motion-tokens";
+import { motionTokens } from "@/lib";
 
 const benefits = [
   {

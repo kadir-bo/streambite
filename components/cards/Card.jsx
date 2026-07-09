@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "motion/react";
-import { motionTokens, springs } from "@/lib/motion-tokens";
+import { motionTokens, springs } from "@/lib";
 import { twMerge } from "tailwind-merge";
 
 /**
