@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { XCircle, CaretLeft } from "@phosphor-icons/react";
-import { useAuth, useLayout } from "@/context";
+import { XCircle } from "@phosphor-icons/react";
+import { useAuth } from "@/context";
 import { useFriendActions } from "@/hooks";
 import { closeDm, STATUS_LABELS } from "@/lib";
 import { useLongPress } from "@/hooks";
-import { Avatar, ContextMenu, DotMenu, Topbar } from "@/components";
+import { Avatar, ContextMenu, DotMenu, Topbar, FriendActionModals } from "@/components";
 
 export default function DmHeader({ user, dmId }) {
   const { firebaseUser } = useAuth();
@@ -73,7 +73,7 @@ export default function DmHeader({ user, dmId }) {
         width={220}
         items={menuItems}
       />
-      {friendActions.modals}
+      <FriendActionModals state={friendActions} user={user} />
     </Topbar>
   );
 }

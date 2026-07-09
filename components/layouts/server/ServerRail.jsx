@@ -2,7 +2,7 @@
 import { useRef, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "motion/react";
-import { Plus, ChatCircleText, ChatCircleIcon } from "@phosphor-icons/react";
+import { Plus, ChatCircleIcon } from "@phosphor-icons/react";
 import { springs } from "@/lib";
 import { useAuth, useLayout, useServer, useVoice } from "@/context";
 import {

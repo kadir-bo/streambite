@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge";
 
 const variantStyles = {
   primary:
-    "bg-surface-raised text-white hover:brightness-110 shadow-xl shadow-deep/20",
+    "bg-surface-raised text-white hover:brightness-110 shadow-xl shadow-black/20",
   ghost:
     "bg-surface-card text-zinc-300 border border-white/[0.08] hover:bg-surface-raised/60 hover:text-white",
   danger: "bg-red-500 text-white hover:bg-red-600",

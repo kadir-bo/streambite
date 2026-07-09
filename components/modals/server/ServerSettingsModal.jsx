@@ -23,6 +23,7 @@ import {
 import { Modal, Input, Button, ServerIcon, SectionLabel } from "@/components";
 import { useMediaQuery, useTabDragScroll } from "@/hooks";
 import { twMerge } from "tailwind-merge";
+import { copyToClipboard } from "@/lib";
 
 const TABS = [
   { id: "general", label: "Allgemein", icon: Gear },
@@ -82,7 +83,7 @@ export default function ServerSettingsModal({ open, onClose, server }) {
       });
       return () => controls.stop();
     }
-  }, [tab, dragCons, x]);
+  }, [tab, dragCons, x, contentRef, maskRef]);
 
   async function handleIconChange(e) {
     const file = e.target.files?.[0];
@@ -158,9 +159,9 @@ export default function ServerSettingsModal({ open, onClose, server }) {
     }
   }
 
-  async function copyToClipboard(string, type) {
+  async function handleCopy(string, type) {
     if (!string) return;
-    await navigator.clipboard.writeText(string);
+    await copyToClipboard(string);
     if (type === "code") {
       setCopiedCode(true);
       setTimeout(() => setCopiedCode(false), 2500);
@@ -271,7 +272,7 @@ export default function ServerSettingsModal({ open, onClose, server }) {
                     <button
                       className="text-zinc-500 text-sm flex items-center gap-1 mt-2"
                       onClick={() =>
-                        copyToClipboard(server?.inviteCode, "code")
+                        handleCopy(server?.inviteCode, "code")
                       }
                     >
                       <motion.div
@@ -346,7 +347,7 @@ export default function ServerSettingsModal({ open, onClose, server }) {
                     {inviteLink || "..."}
                   </span>
                   <motion.button
-                    onClick={() => copyToClipboard(inviteLink, "link")}
+                    onClick={() => handleCopy(inviteLink, "link")}
                     className={twMerge(
                       "flex items-center justify-center size-8 rounded-sm border-none text-xs font-semibold cursor-pointer shrink-0 transition-colors duration-150",
                       copiedLink

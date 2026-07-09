@@ -10,7 +10,7 @@ import {
   DotsThree,
   Copy,
 } from "@phosphor-icons/react";
-import { messageActions, toggleReaction } from "@/lib";
+import { messageActions, toggleReaction, copyToClipboard } from "@/lib";
 import { EmojiPicker, ActionBtn, DropdownItem } from "@/components";
 
 export default function MessageActions({
@@ -52,7 +52,7 @@ export default function MessageActions({
   }
 
   function copyContent() {
-    navigator.clipboard.writeText(message.content ?? "").catch(() => {});
+    copyToClipboard(message.content);
     setMoreOpen(false);
   }
 
@@ -109,7 +109,7 @@ export default function MessageActions({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.92 }}
               transition={{ duration: 0.1 }}
-              className="absolute top-[calc(100%+4px)] right-0 min-w-40 bg-surface-card border border-white/10 rounded-lg shadow-md z-[100] overflow-hidden p-1"
+              className="absolute top-[calc(100%+4px)] right-0 min-w-40 bg-surface-card border border-white/10 rounded-lg shadow-md z-dropdown overflow-hidden p-1"
             >
               <DropdownItem
                 icon={Copy}

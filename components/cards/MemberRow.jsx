@@ -4,12 +4,7 @@ import { Shield, UserMinus, UserPlus } from "@phosphor-icons/react";
 import { setMemberRoles, kickMember, sendFriendRequest } from "@/lib";
 import { useAuth, useVoice } from "@/context";
 import { useLongPress } from "@/hooks";
-import {
-  Avatar,
-  ContextMenu,
-  DotMenu,
-  ConfirmModal,
-} from "@/components";
+import { Avatar, ContextMenu, DotMenu, ConfirmModal } from "@/components";
 import { twMerge } from "tailwind-merge";
 
 export default function MemberRow({ member, isOffline, serverId, canManage }) {
@@ -103,7 +98,7 @@ export default function MemberRow({ member, isOffline, serverId, canManage }) {
           isOffline ? "opacity-45" : "opacity-100",
         )}
       >
-        <div className="flex gap-1.5">
+        <div className="flex items-center gap-1.5">
           <Avatar
             src={member.avatarUrl}
             name={member.displayName ?? "?"}

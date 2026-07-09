@@ -9,21 +9,13 @@ import {
   closeDm,
   STATUS_COLORS,
   STATUS_LABELS,
+  getMenuPosFromAnchor,
 } from "@/lib";
 import { useUnread, useFriendActions, useLongPress } from "@/hooks";
-import { Avatar, ContextMenu, DotMenu } from "@/components";
+import { Avatar, ContextMenu, DotMenu, FriendActionModals } from "@/components";
 import { twMerge } from "tailwind-merge";
 
 const MENU_WIDTH = 220;
-const MENU_GAP = 4;
-
-function getMenuPosFromAnchor(el, menuWidth) {
-  const rect = el.getBoundingClientRect();
-  return {
-    x: rect.right - menuWidth - MENU_GAP,
-    y: rect.top,
-  };
-}
 
 export default function DmRow({ dm, otherUid, active }) {
   const { firebaseUser } = useAuth();
@@ -151,7 +143,7 @@ export default function DmRow({ dm, otherUid, active }) {
         items={menuItems}
       />
 
-      {friendActions.modals}
+      <FriendActionModals state={friendActions} user={user} />
     </div>
   );
 }

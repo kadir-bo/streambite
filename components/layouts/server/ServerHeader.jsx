@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useSyncExternalStore } from "react";
 import {
   CaretDown,
   GearSix,
@@ -22,17 +22,17 @@ export default function ServerHeader({
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuPos, setMenuPos] = useState({ x: 0, y: 0 });
   const [menuWidth, setMenuWidth] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
   const { firebaseUser } = useAuth();
   const router = useRouter();
 
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 767px)");
-    setIsMobile(mq.matches);
-    const handler = (e) => setIsMobile(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
+  const isMobile = useSyncExternalStore(
+    (onStoreChange) => {
+      const mq = window.matchMedia("(max-width: 767px)");
+      mq.addEventListener("change", onStoreChange);
+      return () => mq.removeEventListener("change", onStoreChange);
+    },
+    () => window.matchMedia("(max-width: 767px)").matches,
+  );
 
   function openMenu(e) {
     if (isMobile) {

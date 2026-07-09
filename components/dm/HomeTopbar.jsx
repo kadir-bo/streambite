@@ -1,12 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import {
-  MagnifyingGlass,
-  UserPlus,
-  CaretLeft,
-  BellSimple,
-} from "@phosphor-icons/react";
+import { UserPlus, BellSimple } from "@phosphor-icons/react";
 import { useFriends, useIsDesktop } from "@/hooks";
 import { useAuth } from "@/context";
 import {
@@ -17,12 +12,9 @@ import {
   Topbar,
   Button,
 } from "@/components";
-import { useLayout } from "@/context";
-
 export default function HomeTopbar() {
   const { incomingRequests, inboxOpen, setInboxOpen } = useFriends();
   const { userDoc } = useAuth();
-  const { setActiveNowSidebar, activeNowSidebar, showList } = useLayout();
   const pendingInvites = userDoc?.pendingInvites ?? [];
   const totalNotifications = incomingRequests.length + pendingInvites.length;
 
@@ -55,20 +47,22 @@ export default function HomeTopbar() {
           {/* Add friend */}
           <IconBtn icon={UserPlus} onClick={() => setAddOpen(true)} title="Freund hinzufügen" variant="surface" rounded="full" size="xl" mobileOnly />
           {/* Notifications */}
-          <button
-            ref={inboxBtnRef}
-            type="button"
-            title="Benachrichtigungen"
-            onClick={toggleInbox}
-            className="relative hidden md:flex shrink-0 items-center justify-center size-10 rounded-full border-none bg-surface-hover text-zinc-400 cursor-pointer transition-colors hover:text-white"
-          >
-            <BellSimple weight="regular" className="text-xl" />
+          <div ref={inboxBtnRef} className="relative hidden md:flex">
+            <IconBtn
+              icon={BellSimple}
+              onClick={toggleInbox}
+              variant="surface"
+              rounded="full"
+              size="xl"
+              desktopOnly
+              title="Benachrichtigungen"
+            />
             {totalNotifications > 0 && (
-              <Badge className="absolute -top-0.5 -right-0.5 size-4 text-2xs">
+              <Badge className="absolute -top-0.5 -right-0.5 size-4 text-2xs pointer-events-none">
                 {totalNotifications}
               </Badge>
             )}
-          </button>
+          </div>
         </div>
       </Topbar>
 

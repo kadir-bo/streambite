@@ -5,32 +5,16 @@
    ============================================================ */
 
 :root {
-  /* SURFACES */
+  /* Legacy aliases — mapped to @theme inline tokens for backward compat */
   --surface-deep: #111119;
   --surface-card: #111119;
   --surface-hover: #1c1c28;
   --surface-sidebar: #05050b;
-  --surface-input: #111119;
   --surface-border: #323232;
-
-  /* ACCENT (Purple) */
   --accent: #928bff;
   --accent-hover: #958fe6;
-  --accent-subtle: #e0deffab;
-
-  /* STATUS */
   --green: #4ac263;
   --red: #7d1021;
-  --red-subtle: rgba(125, 16, 33, 0.3);
-
-  --state-hover: rgba(255, 255, 255, 0.04);
-  --warning: #f5340b;
-  --warning-subtle: rgba(245, 158, 11, 0.1);
-
-  /* TEXT */
-  --text-primary: #ffffff;
-  --text-secondary: #686868;
-  --text-muted: #4a4a4a;
 }
 
 @theme inline {
@@ -44,23 +28,17 @@
   --color-surface-hover: #1c1c28;
   --color-surface-raised: #252535;
   --color-surface-sidebar: #05050b;
-  --color-surface-input: #111119;
   --color-surface-border: #323232;
 
   /* ACCENT */
   --accent: #928bff;
   --accent-hover: #958fe6;
-  --accent-subtle: #e0deffab;
 
   /* STATUS */
   --color-green: #4ac263;
   --color-red: #7d1021;
   --color-red-hover: #9a1a2d;
-  --color-red-subtle: rgba(125, 16, 33, 0.3);
-
-  --color-state-hover: rgba(255, 255, 255, 0.04);
   --color-warning: #f5340b;
-  --color-warning-subtle: rgba(245, 158, 11, 0.1);
 
   /* TEXT */
   --color-text-primary: #ffffff;
@@ -99,6 +77,10 @@
   /* Shadows — einheitliche Schatten für die gesamte App */
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
   --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
+
+  /* Z-Index — zentrale Steuerung */
+  --z-dropdown: 100;
+  --z-overlay: 200;
 }
 
 /* ============================================================
@@ -126,8 +108,8 @@
   }
 
   body {
-    background-color: #030309;
-    color: #f4f4f5;
+    background-color: var(--color-surface-app);
+    color: var(--color-text-primary);
     font-family: var(--font-geist-sans), system-ui, sans-serif;
     font-size: 15px;
     line-height: 1.5;
@@ -147,7 +129,7 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #323232;
+    background: var(--color-surface-border);
     border-radius: 9999px;
   }
 
@@ -158,12 +140,12 @@
   /* Selection */
   ::selection {
     background: rgba(255, 255, 255, 0.1);
-    color: #f4f4f5;
+    color: var(--color-text-primary);
   }
 
   /* Focus ring */
   :focus-visible {
-    outline: 2px solid rgba(255, 255, 255, 0.2);
+    outline: 2px solid var(--color-state-hover);
     outline-offset: 2px;
     border-radius: 4px;
   }
@@ -220,9 +202,6 @@
   .pb-safe {
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
-  .pb-safe-2 {
-    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
-  }
 
   .pt-safe {
     padding-top: env(safe-area-inset-top, 0px);
@@ -233,9 +212,6 @@
 @supports not (padding-bottom: env(safe-area-inset-bottom)) {
   .pb-safe {
     padding-bottom: 0;
-  }
-  .pb-safe-2 {
-    padding-bottom: 8px;
   }
 
   .pt-safe {

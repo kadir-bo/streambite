@@ -1,15 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  SpeakerHigh,
-  Warning,
-  PhoneCall,
-  PhoneDisconnect,
-  UserPlus,
-  UsersThree,
-  CaretLeftIcon,
-} from "@phosphor-icons/react";
+import { SpeakerHigh, Warning, PhoneCall, PhoneDisconnect } from "@phosphor-icons/react";
 import { useVoice, useLayout } from "@/context";
 import {
   IconBtn,
@@ -171,13 +163,14 @@ export default function VoiceChannelView({ serverId, channel, isOwner }) {
               {connection.channelName}
             </span>
           </span>
-          <button
+          <IconBtn
+            icon={PhoneDisconnect}
             onClick={disconnect}
             title="Sprachkanal verlassen"
-            className="flex items-center justify-center size-8 rounded-full bg-red text-white border-none cursor-pointer hover:bg-red-hover"
-          >
-            <PhoneDisconnect size={14} />
-          </button>
+            variant="danger-solid"
+            rounded="full"
+            size="md"
+          />
         </div>
       )}
 

@@ -14,6 +14,7 @@ export default function AttachmentPreview({ attachments, onRemove, replyTarget }
           className="relative overflow-hidden rounded-lg border border-white/5 bg-(--surface-deep)"
         >
           {att.preview ? (
+            // eslint-disable-next-line @next/next/no-img-element
             <img
               src={att.preview}
               alt={att.file.name}

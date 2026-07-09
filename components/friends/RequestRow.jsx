@@ -4,8 +4,7 @@ import { useState } from "react";
 import { Check, X } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import { acceptFriendRequest, declineFriendRequest } from "@/lib";
-import { Avatar } from "@/components";
-import { twMerge } from "tailwind-merge";
+import { Avatar, IconBtn } from "@/components";
 
 export default function RequestRow({ user }) {
   const { firebaseUser } = useAuth();
@@ -39,32 +38,26 @@ export default function RequestRow({ user }) {
         <p className="text-xs text-zinc-500">Möchte befreundet sein</p>
       </div>
       <div className="flex shrink-0 gap-1">
-        <button
+        <IconBtn
+          icon={Check}
           onClick={handleAccept}
           disabled={!!loading}
           title="Annehmen"
-          className={twMerge(
-            "flex size-6.5 max-sm:size-10 cursor-pointer items-center justify-center rounded-full border border-white/5 text-green-500",
-            loading === "accept"
-              ? "bg-white/10"
-              : "bg-surface-card hover:bg-white/5",
-          )}
-        >
-          <Check size={13} weight="bold" className="max-sm:size-4" />
-        </button>
-        <button
+          variant="ghost"
+          rounded="full"
+          size="xs"
+          className="text-green-500 border border-white/5 bg-surface-card hover:bg-white/5"
+        />
+        <IconBtn
+          icon={X}
           onClick={handleDecline}
           disabled={!!loading}
           title="Ablehnen"
-          className={twMerge(
-            "flex size-6.5 max-sm:size-10 cursor-pointer items-center justify-center rounded-full border border-white/5 text-red-500",
-            loading === "decline"
-              ? "bg-white/10"
-              : "bg-surface-card hover:bg-white/5",
-          )}
-        >
-          <X size={13} weight="bold" className="max-sm:size-4" />
-        </button>
+          variant="danger"
+          rounded="full"
+          size="xs"
+          className="border border-white/5 bg-surface-card"
+        />
       </div>
     </div>
   );

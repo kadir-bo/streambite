@@ -4,11 +4,12 @@ import { useState } from "react";
 import { Prohibit, UserCheck, UserMinus } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import { removeFriend, blockUser, unblockUser } from "@/lib";
-import ConfirmModal from "@/components/modals/ConfirmModal";
 
-// Shared Block/Unblock + Remove-friend menu items and their confirmation
-// modals, reused by the DM sidebar list, the Friends list, and the DM
-// header - so the three surfaces can't drift out of sync with each other.
+// Shared Block/Unblock + Remove-friend menu items, reused by the DM
+// sidebar list, the Friends list, and the DM header - so the three
+// surfaces can't drift out of sync with each other.
+//
+// Confirm-Modals werden separat über <FriendActionModals> gerendert.
 export function useFriendActions(user) {
   const { firebaseUser, userDoc } = useAuth();
   const [confirmRemove, setConfirmRemove] = useState(false);
@@ -72,30 +73,18 @@ export function useFriendActions(user) {
     },
   ];
 
-  const modals = (
-    <>
-      <ConfirmModal
-        open={confirmRemove}
-        onClose={() => setConfirmRemove(false)}
-        onConfirm={handleRemove}
-        title="Freund entfernen"
-        description={`Möchtest du ${user?.displayName ?? "diesen Nutzer"} wirklich aus deiner Freundesliste entfernen?`}
-        confirmLabel="Entfernen"
-        loading={removing}
-        error={error}
-      />
-      <ConfirmModal
-        open={confirmBlock}
-        onClose={() => setConfirmBlock(false)}
-        onConfirm={handleToggleBlock}
-        title="Nutzer blockieren"
-        description={`Möchtest du ${user?.displayName ?? "diesen Nutzer"} wirklich blockieren? Ihr werdet automatisch keine Freunde mehr sein und könnt euch keine Nachrichten mehr senden.`}
-        confirmLabel="Blockieren"
-        loading={blocking}
-        error={error}
-      />
-    </>
-  );
-
-  return { items, modals, isFriend, isBlocked };
+  return {
+    items,
+    isFriend,
+    isBlocked,
+    confirmRemove,
+    confirmBlock,
+    removing,
+    blocking,
+    error,
+    setConfirmRemove,
+    setConfirmBlock,
+    handleRemove,
+    handleToggleBlock,
+  };
 }

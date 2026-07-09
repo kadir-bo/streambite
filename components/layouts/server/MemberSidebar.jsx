@@ -163,7 +163,7 @@ export default function MemberSidebar() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 350 }}
-              className="fixed inset-0 z-[200] w-full bg-(--surface-deep) flex flex-col overflow-hidden"
+              className="fixed inset-0 z-overlay w-full bg-surface-deep flex flex-col overflow-hidden"
             >
               {/* Mobile Header mit Safe-Area */}
               <div className="flex items-center justify-between px-4 pt-safe pb-2 border-b border-white/5 shrink-0">

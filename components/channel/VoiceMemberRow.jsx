@@ -6,7 +6,7 @@ import Link from "next/link";
 import { User, ChatDots, Prohibit } from "@phosphor-icons/react";
 import { useVoice, useLayout, useAuth, useServer } from "@/context";
 import { useIsDesktop, useLongPress } from "@/hooks";
-import { ensureDm } from "@/lib";
+import { ensureDm, removeVoiceParticipant } from "@/lib";
 import { Avatar, ContextMenu } from "@/components";
 
 /**
@@ -69,14 +69,10 @@ export default function VoiceMemberRow({
     if (!firebaseUser) return;
     setMenuOpen(false);
     try {
-      await fetch("/api/voice-remove", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          roomName: `${serverId}:${channelId}`,
-          identity: member.uid,
-        }),
-      });
+      await removeVoiceParticipant(
+        `${serverId}:${channelId}`,
+        member.uid,
+      );
     } catch (err) {
       console.error("[voice] remove failed:", err);
     }

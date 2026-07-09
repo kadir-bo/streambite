@@ -85,15 +85,6 @@ export default function ContextMenu({
   // between them, so moving the mouse from one to the other briefly leaves
   // both - a short delay absorbs that without flickering closed. Hovering
   // either panel cancels the pending close.
-  function scheduleCloseSubmenu() {
-    clearTimeout(closeTimerRef.current);
-    closeTimerRef.current = setTimeout(() => setSubmenu(null), 200);
-  }
-
-  function cancelCloseSubmenu() {
-    clearTimeout(closeTimerRef.current);
-  }
-
   const menuItems = (closeSubmenuFn) =>
     items.map((item, i) =>
       item.divider ? (
@@ -170,7 +161,10 @@ export default function ContextMenu({
           exit="hidden"
           variants={dropdown}
           onClick={(e) => e.stopPropagation()}
-          onMouseLeave={submenu ? scheduleCloseSubmenu : undefined}
+          onMouseLeave={submenu ? () => {
+            clearTimeout(closeTimerRef.current);
+            closeTimerRef.current = setTimeout(() => setSubmenu(null), 200);
+          } : undefined}
           className={twMerge(
             "z-500 bg-surface-card border border-white/5 rounded-lg p-1 shadow-xl",
             !width && "min-w-50",
@@ -202,8 +196,11 @@ export default function ContextMenu({
           exit="hidden"
           variants={dropdown}
           onClick={(e) => e.stopPropagation()}
-          onMouseEnter={cancelCloseSubmenu}
-          onMouseLeave={scheduleCloseSubmenu}
+          onMouseEnter={() => clearTimeout(closeTimerRef.current)}
+          onMouseLeave={() => {
+            clearTimeout(closeTimerRef.current);
+            closeTimerRef.current = setTimeout(() => setSubmenu(null), 200);
+          }}
           className="z-500 rounded-lg border border-white/5 bg-surface-card p-1 shadow-xl"
           style={{
             position: "fixed",

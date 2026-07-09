@@ -2,13 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import { AnimatePresence } from "motion/react";
-import {
-  Plus,
-  PaperPlaneTilt,
-  X,
-  Prohibit,
-  Smiley,
-} from "@phosphor-icons/react";
+import { Plus, PaperPlaneTilt, Prohibit, Smiley } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import {
   sendMessage,
@@ -302,7 +296,7 @@ export default function MessageInput({
           className={twMerge(
             "flex shrink-0 items-center justify-center size-12 rounded-xl border-none transition-all duration-150",
             "font-semibold leading-none select-none",
-            "bg-surface-raised text-white hover:brightness-110 shadow-xl shadow-deep/20",
+            "bg-surface-raised text-white hover:brightness-110 shadow-xl shadow-black/20",
             hasContent ? "opacity-100" : "opacity-20 pointer-events-none",
             pending && "opacity-50 cursor-not-allowed",
           )}

@@ -1,15 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import {
-  ArrowsOut,
-  ArrowsIn,
-  PlayCircle,
-  MonitorPlay,
-  MicrophoneSlash,
-  Microphone,
-  StopCircle,
-} from "@phosphor-icons/react";
+import { PlayCircle, MonitorPlay } from "@phosphor-icons/react";
 import { twMerge } from "tailwind-merge";
 import { useVoice } from "@/context";
 
@@ -63,7 +55,9 @@ export default function ScreenShareTile({ participant }) {
     if (!track) {
       // Bei Remote: Overlay anzeigen ("Stream beitreten").
       // Bei Local: streamJoined bleibt true (wartet auf Track).
-      if (!participant.isLocal) setStreamJoined(false);
+      if (!participant.isLocal) {
+        requestAnimationFrame(() => setStreamJoined(false));
+      }
       console.log(
         `[ScreenShareTile] effect — kein Track (identity=${participant.identity} isLocal=${participant.isLocal})`,
       );
@@ -98,7 +92,7 @@ export default function ScreenShareTile({ participant }) {
       );
       track?.detach(el);
     };
-  }, [track, streamJoined, participant.isLocal]);
+  }, [track, streamJoined, participant.isLocal, participant.identity]);
 
   // iOS Rotation-Fix: Bei orientationchange/resize Video neu attachen
   useEffect(() => {

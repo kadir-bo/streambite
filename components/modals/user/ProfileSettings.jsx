@@ -1,7 +1,7 @@
 ﻿"use client";
 
-import { useState, useEffect, useRef } from "react";
-import { Warning, Key, CaretDown, Trash, Check } from "@phosphor-icons/react";
+import { useState, useRef, useReducer } from "react";
+import { Key, CaretDown, Trash, Check } from "@phosphor-icons/react";
 import { useAuth } from "@/context";
 import {
   updateUserDocument,
@@ -20,22 +20,26 @@ import {
   Input,
 } from "@/components";
 
-const STATUS_OPTIONS = [
-  { value: "online", label: "Online", color: "#4ac263" },
-  { value: "busy", label: "Beschäftigt", color: "#f5340b" },
-  { value: "idle", label: "Abwesend", color: "#f5340b" },
-  { value: "offline", label: "Offline", color: "#686868" },
-];
+import { STATUS_OPTIONS } from "@/lib";
 
 // ────────────────────────────── Component ──────────────────────────────
 
 export default function ProfileSettings({ open }) {
   const { userDoc, firebaseUser } = useAuth();
 
-  // Profile form state
-  const [displayName, setDisplayName] = useState(userDoc?.displayName ?? "");
-  const [username, setUsernameState] = useState(userDoc?.username ?? "");
-  const [status, setStatus] = useState(userDoc?.status ?? "online");
+  // Profile form state — useReducer for atomic reset on modal open
+  const formInitial = { displayName: userDoc?.displayName ?? "", username: userDoc?.username ?? "", status: userDoc?.status ?? "online" };
+  const [form, dispatchForm] = useReducer(
+    (state, action) => {
+      if (action.type === "RESET") return { ...state, ...action.payload };
+      return { ...state, [action.type]: action.value };
+    },
+    formInitial,
+  );
+  const { displayName, username, status } = form;
+  const setDisplayName = (v) => dispatchForm({ type: "displayName", value: v });
+  const setUsernameState = (v) => dispatchForm({ type: "username", value: v });
+  const setStatus = (v) => dispatchForm({ type: "status", value: v });
 
   // General UI state
   const [saving, setSaving] = useState(false);
@@ -74,18 +78,6 @@ export default function ProfileSettings({ open }) {
     displayName.trim() !== (userDoc?.displayName ?? "") ||
     username.trim() !== (userDoc?.username ?? "") ||
     status !== (userDoc?.status ?? "online");
-
-  // ── reset on modal open ──
-
-  useEffect(() => {
-    if (open) {
-      setDisplayName(userDoc?.displayName ?? "");
-      setUsernameState(userDoc?.username ?? "");
-      setStatus(userDoc?.status ?? "online");
-      setError("");
-      setSuccess(false);
-    }
-  }, [open, userDoc?.displayName, userDoc?.username, userDoc?.status]);
 
   // ── status menu items ──
 
@@ -372,25 +364,26 @@ export default function ProfileSettings({ open }) {
           />
           {deleteError && <p className="text-xs text-red-500">{deleteError}</p>}
           <div className="flex gap-2">
-            <button
-              type="button"
+            <Button
+              variant="danger"
+              size="sm"
               onClick={handleReauthAndDelete}
               disabled={reauthSaving}
-              className="rounded-xl bg-red px-4 py-2 text-sm font-medium text-white border-none cursor-pointer hover:bg-red-hover disabled:opacity-50"
+              loading={reauthSaving}
             >
               {reauthSaving ? "Lösche…" : "Account löschen"}
-            </button>
-            <button
-              type="button"
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={() => {
                 setReauthEmail(null);
                 setReauthPassword("");
                 setDeleteError("");
               }}
-              className="rounded-xl bg-transparent px-4 py-2 text-sm font-medium text-zinc-400 border border-white/10 cursor-pointer hover:bg-white/5"
             >
               Abbrechen
-            </button>
+            </Button>
           </div>
         </div>
       </div>

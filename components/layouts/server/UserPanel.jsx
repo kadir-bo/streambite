@@ -1,18 +1,6 @@
 "use client";
 import { useState } from "react";
-import {
-  Gear,
-  SignOut,
-  Microphone,
-  MicrophoneSlash,
-  Headphones,
-  PhoneDisconnect,
-  WifiHigh,
-  CaretUp,
-  BellSimple,
-  CaretDownIcon,
-  UserPlus,
-} from "@phosphor-icons/react";
+import { Gear, SignOut, WifiHigh, CaretUp, BellSimple, CaretDownIcon, UserPlus } from "@phosphor-icons/react";
 import { useAuth, useVoice } from "@/context";
 import { useFriends } from "@/hooks";
 import {

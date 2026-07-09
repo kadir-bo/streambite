@@ -40,7 +40,7 @@ export default function UserSettingsModal({ open, onClose }) {
       });
       return () => controls.stop();
     }
-  }, [tab, dragCons, x]);
+  }, [tab, dragCons, x, contentRef, maskRef]);
 
   return (
     <Modal
@@ -92,7 +92,7 @@ export default function UserSettingsModal({ open, onClose }) {
 
         {/* Content */}
         <div className="relative flex-1 overflow-y-auto py-6 sm:px-8 pb-20 md:pb-0">
-          {tab === "profile" && <ProfileSettings open={open} />}
+          {tab === "profile" && <ProfileSettings key={String(open)} open={open} />}
           {tab === "voice" && <VoiceVideoSettings />}
           {tab === "privacy" && (
             <div className="flex flex-col items-center justify-center h-full text-center">

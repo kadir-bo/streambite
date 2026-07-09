@@ -45,7 +45,7 @@ export { default as HomeTopbar } from "./dm/HomeTopbar";
 
 // Friends
 export { default as ActiveFriendRow } from "./friends/ActiveFriendRow";
-
+export { default as FriendActionModals } from "./friends/FriendActionModals";
 export { default as RequestRow } from "./friends/RequestRow";
 
 // Inputs

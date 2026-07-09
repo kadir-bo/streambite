@@ -15,6 +15,7 @@ import {
   sendMessage,
   touchDmLastMessage,
   inviteToServer,
+  copyToClipboard,
 } from "@/lib";
 import { ServerIcon, Avatar, Modal, SearchInput, Button } from "@/components";
 import { twMerge } from "tailwind-merge";
@@ -33,7 +34,7 @@ export default function InviteModal({ open, onClose, server }) {
 
   async function handleCopy() {
     if (!inviteLink || copied) return;
-    await navigator.clipboard.writeText(inviteLink);
+    await copyToClipboard(inviteLink);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
   }
