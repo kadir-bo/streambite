@@ -1,7 +1,7 @@
 export function LoadingSpinner({ label, accent, className = "" }) {
   return (
     <div
-      className={`flex h-full w-full items-center justify-center bg-surface-app ${className}`}
+      className={`flex h-full min-h-screen fixed top-0 left-0 w-screen items-center justify-center bg-surface-app ${className}`}
     >
       <div className="flex flex-col items-center gap-3">
         <div

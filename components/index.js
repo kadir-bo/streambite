@@ -48,6 +48,9 @@ export { default as ActiveFriendRow } from "./friends/ActiveFriendRow";
 export { default as FriendActionModals } from "./friends/FriendActionModals";
 export { default as RequestRow } from "./friends/RequestRow";
 
+// Landing
+export * from "./landing";
+
 // Inputs
 export { default as Input } from "./inputs/Input";
 export { default as Select } from "./inputs/Select";

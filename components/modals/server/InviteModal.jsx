@@ -15,15 +15,15 @@ import {
   sendMessage,
   touchDmLastMessage,
   inviteToServer,
-  copyToClipboard,
 } from "@/lib";
 import { ServerIcon, Avatar, Modal, SearchInput, Button } from "@/components";
+import { useCopyToClipboard } from "@/hooks";
 import { twMerge } from "tailwind-merge";
 
 export default function InviteModal({ open, onClose, server }) {
   const { firebaseUser, userDoc } = useAuth();
   const { friends } = useFriends();
-  const [copied, setCopied] = useState(false);
+  const [copied, copyInvite] = useCopyToClipboard();
   const [search, setSearch] = useState("");
   const [sentTo, setSentTo] = useState(new Set());
   const [sendingTo, setSendingTo] = useState(null);
@@ -31,13 +31,6 @@ export default function InviteModal({ open, onClose, server }) {
   const inviteLink = server?.inviteCode
     ? `${typeof window !== "undefined" ? window.location.origin : ""}/invite/${server.inviteCode}`
     : "";
-
-  async function handleCopy() {
-    if (!inviteLink || copied) return;
-    await copyToClipboard(inviteLink);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
-  }
 
   const filteredFriends = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -104,7 +97,7 @@ export default function InviteModal({ open, onClose, server }) {
           </div>
 
           <motion.button
-            onClick={handleCopy}
+            onClick={() => copyInvite(inviteLink)}
             title={inviteLink}
             className={twMerge(
               "flex items-center gap-1.5 px-3 py-1.75 rounded-lg border text-sm font-semibold shrink-0 transition-colors duration-150",

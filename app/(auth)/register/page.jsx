@@ -11,6 +11,7 @@ import {
   getInitials,
   isValidUsername,
   signInWithGoogle,
+  getAuthError,
 } from "@/lib";
 
 export default function RegisterPage() {
@@ -163,11 +164,4 @@ export default function RegisterPage() {
   );
 }
 
-function getAuthError(code) {
-  const map = {
-    "auth/email-already-in-use": "Diese E-Mail wird bereits verwendet.",
-    "auth/invalid-email": "Ungültige E-Mail-Adresse.",
-    "auth/weak-password": "Passwort zu schwach.",
-  };
-  return map[code] ?? "Ein Fehler ist aufgetreten. Bitte versuche es erneut.";
-}
+

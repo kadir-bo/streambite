@@ -21,9 +21,8 @@ import {
   uploadToCloudinary,
 } from "@/lib";
 import { Modal, Input, Button, ServerIcon, SectionLabel } from "@/components";
-import { useMediaQuery, useTabDragScroll } from "@/hooks";
+import { useMediaQuery, useTabDragScroll, useCopyToClipboard } from "@/hooks";
 import { twMerge } from "tailwind-merge";
-import { copyToClipboard } from "@/lib";
 
 const TABS = [
   { id: "general", label: "Allgemein", icon: Gear },
@@ -46,8 +45,8 @@ export default function ServerSettingsModal({ open, onClose, server }) {
   const [uploadingIcon, setUploadingIcon] = useState(false);
   const [iconPreview, setIconPreview] = useState(null);
   const [error, setError] = useState("");
-  const [copiedCode, setCopiedCode] = useState(false);
-  const [copiedLink, setCopiedLink] = useState(false);
+  const [copiedCode, copyCode] = useCopyToClipboard();
+  const [copiedLink, copyLink] = useCopyToClipboard();
   const fileInputRef = useRef(null);
 
   // server is passed in before it's loaded (mount happens ahead of the
@@ -161,13 +160,10 @@ export default function ServerSettingsModal({ open, onClose, server }) {
 
   async function handleCopy(string, type) {
     if (!string) return;
-    await copyToClipboard(string);
     if (type === "code") {
-      setCopiedCode(true);
-      setTimeout(() => setCopiedCode(false), 2500);
+      await copyCode(string);
     } else {
-      setCopiedLink(true);
-      setTimeout(() => setCopiedLink(false), 2500);
+      await copyLink(string);
     }
   }
 

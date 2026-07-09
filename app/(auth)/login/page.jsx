@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { CaretLeft } from "@phosphor-icons/react";
 import { AuthCard, Input, Button, GoogleButton } from "@/components";
-import { loginUser, signInWithGoogle } from "@/lib";
+import { loginUser, signInWithGoogle, getAuthError } from "@/lib";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -113,13 +113,4 @@ export default function LoginPage() {
   );
 }
 
-function getAuthError(code) {
-  const map = {
-    "auth/invalid-credential": "E-Mail oder Passwort falsch.",
-    "auth/user-not-found": "Kein Konto mit dieser E-Mail gefunden.",
-    "auth/wrong-password": "Falsches Passwort.",
-    "auth/too-many-requests": "Zu viele Versuche. Bitte warte kurz.",
-    "auth/user-disabled": "Dieses Konto wurde deaktiviert.",
-  };
-  return map[code] ?? "Ein Fehler ist aufgetreten. Bitte versuche es erneut.";
-}
+
